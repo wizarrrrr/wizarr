@@ -14,7 +14,10 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
-        "paths": {}
+        "paths": {
+            "@wizarrrr/wizarr-sdk": ["libs/wizarr-sdk/src/index.ts"],
+            "@wizarrrr/wizarr-types": ["libs/wizarr-types/src/index.ts"]
+        }
     },
     "exclude": ["node_modules", "tmp"]
 }

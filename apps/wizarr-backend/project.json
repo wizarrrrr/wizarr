@@ -1,79 +1,71 @@
 {
     "name": "wizarr-backend",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/wizarr-backend/src",
     "projectType": "application",
-    "sourceRoot": "apps/wizarr-backend/wizarr_backend",
     "targets": {
-        "lock": {
-            "executor": "@nxlv/python:run-commands",
-            "options": {
-                "command": "poetry lock --no-update",
-                "cwd": "apps/wizarr-backend",
-                "color": true
-            }
-        },
-        "add": {
-            "executor": "@nxlv/python:add",
-            "options": {}
-        },
-        "update": {
-            "executor": "@nxlv/python:update",
-            "options": {}
-        },
-        "remove": {
-            "executor": "@nxlv/python:remove",
-            "options": {}
-        },
         "build": {
-            "executor": "@nxlv/python:build",
+            "executor": "@nx/esbuild:esbuild",
             "outputs": [
                 "{options.outputPath}"
             ],
+            "defaultConfiguration": "production",
             "options": {
+                "platform": "node",
                 "outputPath": "dist/apps/wizarr-backend",
-                "publish": false,
-                "lockedVersions": true,
-                "bundleLocalDependencies": true
+                "format": [
+                    "cjs"
+                ],
+                "bundle": false,
+                "main": "apps/wizarr-backend/src/main.ts",
+                "tsConfig": "apps/wizarr-backend/tsconfig.app.json",
+                "assets": [
+                    "apps/wizarr-backend/src/assets"
+                ],
+                "generatePackageJson": true,
+                "esbuildOptions": {
+                    "sourcemap": true,
+                    "outExtension": {
+                        ".js": ".js"
+                    }
+                }
+            },
+            "configurations": {
+                "development": {},
+                "production": {
+                    "esbuildOptions": {
+                        "sourcemap": false,
+                        "outExtension": {
+                            ".js": ".js"
+                        }
+                    }
+                }
             }
         },
         "serve": {
-            "executor": "@nxlv/python:run-commands",
+            "executor": "@nx/js:node",
+            "defaultConfiguration": "development",
             "options": {
-                "commands": [
-                    "make-dir ../database",
-                    "poetry run flask run --debug"
-                ],
-                "cwd": "apps/wizarr-backend/wizarr_backend"
-            }
-        },
-        "install": {
-            "executor": "@nxlv/python:install",
-            "options": {
-                "silent": false,
-                "args": "",
-                "cacheDir": ".cache/pypoetry",
-                "verbose": false,
-                "debug": false
+                "buildTarget": "wizarr-backend:build"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "wizarr-backend:build:development"
+                },
+                "production": {
+                    "buildTarget": "wizarr-backend:build:production"
+                }
             }
         },
         "lint": {
-            "executor": "@nxlv/python:flake8",
+            "executor": "@nx/eslint:lint",
             "outputs": [
-                "{workspaceRoot}/reports/apps/wizarr-backend/pylint.txt"
+                "{options.outputFile}"
             ],
             "options": {
-                "outputFile": "reports/apps/wizarr-backend/pylint.txt"
-            }
-        },
-        "test": {
-            "executor": "@nxlv/python:run-commands",
-            "outputs": [
-                "{workspaceRoot}/reports/apps/wizarr-backend/unittests",
-                "{workspaceRoot}/coverage/apps/wizarr-backend"
-            ],
-            "options": {
-                "command": "poetry run pytest tests/",
-                "cwd": "apps/wizarr-backend"
+                "lintFilePatterns": [
+                    "apps/wizarr-backend/**/*.ts"
+                ]
             }
         }
     },
