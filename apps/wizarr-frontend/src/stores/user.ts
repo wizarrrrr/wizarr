@@ -1,13 +1,14 @@
-import type { Membership } from '@/types/api/membership';
-import type { APIUser as User } from '@/types/api/auth/User';
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+
+import type { Membership } from "@/types/api/membership";
+import type { Admin } from "@wizarrrr/wizarr-sdk";
 
 interface UserStoreState {
-    user: Partial<User> | null;
+    user: Partial<Admin> | null;
     membership: Membership | null;
 }
 
-export const useUserStore = defineStore('user', {
+export const useUserStore = defineStore("user", {
     state: (): UserStoreState => ({
         user: null,
         membership: null,
@@ -18,10 +19,10 @@ export const useUserStore = defineStore('user', {
         },
     },
     actions: {
-        setUser(user: Partial<User>) {
+        setUser(user: Partial<Admin>) {
             this.user = user;
         },
-        updateUser(user: Partial<User>) {
+        updateUser(user: Partial<Admin>) {
             this.user = { ...this.user, ...user };
         },
         setMembership(membership: Membership | null) {

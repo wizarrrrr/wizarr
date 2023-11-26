@@ -1,16 +1,16 @@
 import semver from "semver";
 import fs from "fs";
 
-import { latestFile } from "../configs/paths";
+import { latestFile } from "../config/paths";
 import { getLatestStableVersion as getLatestStableVersionGithub, getLatestBetaVersion as getLatestBetaVersionGithub } from "./github.helper";
 import { cache, versionCache, ONE_HOUR } from "./cache.helper";
 
 export const versionRegex = /v(\d+\.\d+\.\d+)/;
 export const versionBetaRegex = /v(\d+\.\d+\.\d+-beta\.\d+)/;
 
-export const cachedGetLatestStableVersion = () => cache(versionCache, getLatestStableVersionGithub, "latest_stable", ONE_HOUR);
-export const cachedGetLatestBetaVersion = () => cache(versionCache, getLatestBetaVersionGithub, "latest_beta", ONE_HOUR);
-export const cachedGetCurrentVersion = () => cache(versionCache, getCurrentVersion, "current_version", ONE_HOUR / 2);
+export const cachedGetLatestStableVersion = async () => await cache(versionCache, getLatestStableVersionGithub, "latest_stable", ONE_HOUR);
+export const cachedGetLatestBetaVersion = async () => await cache(versionCache, getLatestBetaVersionGithub, "latest_beta", ONE_HOUR);
+export const cachedGetCurrentVersion = async () => await cache(versionCache, getCurrentVersion, "current_version", ONE_HOUR / 2);
 
 export async function sortSemverTags(tags: string[]) {
     return tags.sort((a, b) => {

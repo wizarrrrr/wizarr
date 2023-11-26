@@ -35,13 +35,30 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
 import { useServerStore } from "@/stores/server";
+import { hasRole } from "@/ts/utils/hasRole";
 
 import SettingsTemplate from "@/templates/SettingsTemplate.vue";
 import SettingsButton from "@/components/Buttons/SettingsButton.vue";
+
+export interface SettingsSection {
+    title: string;
+    description: string;
+    roles?: string[];
+    pages: SettingsPage[];
+}
+
+export interface SettingsPage {
+    title: string;
+    description: string;
+    icon: string;
+    url: string;
+    disabled: boolean;
+    modal: boolean;
+    roles?: string[];
+}
 
 // These methods look confusing, because they are. I'm sorry ;P
 
@@ -52,6 +69,7 @@ export default defineComponent({
         SettingsButton,
     },
     methods: {
+        hasRole,
         mapSections<K>(section: K & { pages: Partial<{ title: string; description: string }>[] }) {
             return {
                 ...section,
@@ -63,18 +81,12 @@ export default defineComponent({
         filterSections<K>(section: K & { pages: Partial<{ title: string }>[] }) {
             return section.pages.length > 0;
         },
-        mapRoles<K>(
-            section: K & {
-                roles?: string[];
-                pages: Partial<{ roles?: string[] }>[];
-            },
-        ) {
+        mapRoles<K>(section: K & { roles?: string[]; pages: Partial<{ roles?: string[] }>[] }) {
             return {
                 ...section,
                 pages: section.pages.filter((page) => {
-                    if ((this.user?.role ?? "user") === "admin") return true;
-                    if (!page?.roles) return section?.roles?.includes(this.user?.role ?? "user");
-                    return page?.roles?.includes(this.user?.role ?? "user");
+                    if (hasRole("admin")) return true;
+                    return page?.roles ? hasRole(page.roles) : section.roles ? hasRole(section.roles) : false;
                 }),
             };
         },
@@ -83,13 +95,11 @@ export default defineComponent({
         },
     },
     computed: {
-        ...mapState(useUserStore, ["user"]),
         ...mapState(useSettingsStore, ["search"]),
         ...mapState(useServerStore, ["is_beta"]),
         settingsSections() {
-            const filteredSettingsSearch = this.search ? this.settings.map(this.mapSections).filter(this.filterSections) : this.settings;
-            const filteredSettingsRole = filteredSettingsSearch.map(this.mapRoles as any).filter(this.filterSections as any);
-            return filteredSettingsRole as any;
+            const searchedSections = this.search ? this.settings.map(this.mapSections).filter(this.filterSections) : this.settings;
+            return searchedSections.map(this.mapRoles).filter(this.filterSections);
         },
     },
     data() {
@@ -180,12 +190,6 @@ export default defineComponent({
                             icon: "fas fa-shield-alt",
                             url: "/admin/settings/mfa",
                         },
-                        // {
-                        //     title: this.__("Language"),
-                        //     description: this.__("Change your language"),
-                        //     icon: "fas fa-language",
-                        //     url: "/admin/settings/language",
-                        // },
                     ],
                 },
                 {
@@ -271,7 +275,7 @@ export default defineComponent({
                         },
                     ],
                 },
-            ],
+            ] as SettingsSection[],
         };
     },
 });

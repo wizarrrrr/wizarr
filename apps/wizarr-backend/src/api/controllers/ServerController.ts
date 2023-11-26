@@ -1,32 +1,18 @@
-import "reflect-metadata";
 import semver from "semver";
 
-import { JsonController, Get } from "routing-controllers";
-import { cachedGetCurrentVersion, getCurrentVersion, getLatestBetaVersion, getLatestStableVersion, getLatestVersion, isBeta, isLatest } from "../utils/versions.helper";
-import { ContainerInstance, Service } from "typedi";
-
-import ServerRepository from "../repositories/server.repository";
+import { JsonController, Get, Ctx, UseBefore, Authorized, CurrentUser } from "routing-controllers";
+import { cachedGetCurrentVersion, getCurrentVersion, getLatestBetaVersion, getLatestStableVersion, getLatestVersion, isBeta, isLatest } from "@/utils/versions.helper";
+import { Service } from "typedi";
+import { Context } from "vm";
+import { AuthenticationCheck } from "@/middlewares/Authentication/AuthenticationCheck";
 
 import type { Version, Health } from "@wizarrrr/wizarr-sdk";
-
-import { Connection } from "../data-source";
-import { Admins } from "../entities/admins.entity";
+import { HasRole } from "@/middlewares/Authentication/HasRole";
+import { Admin } from "../models/AdminModel";
 
 @Service()
 @JsonController()
 export class ServerController {
-    //  Define the server repository
-    private serverRepository: ServerRepository;
-
-    /**
-     * Creates an instance of ServerController.
-     * @param containers
-     * @returns
-     */
-    constructor(readonly containers: ContainerInstance) {
-        this.serverRepository = this.containers.get(ServerRepository);
-    }
-
     /**
      * @api {get} /server Server Information
      * @apiName Server Information
@@ -42,13 +28,10 @@ export class ServerController {
         };
     }
 
-    /**
-     * test
-     */
+    @Authorized("admin")
     @Get("/test")
-    public async test() {
-        // return this.serverRepository.findAll();
-        return Connection.getRepository(Admins).find();
+    public async test(@CurrentUser() user: Admin) {
+        return typeof user.createdAt;
     }
 
     /**

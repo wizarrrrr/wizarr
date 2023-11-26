@@ -8,9 +8,34 @@
         },
     ],
     "compilerOptions": {
+        "module": "CommonJS",
         "esModuleInterop": true,
+        "target": "ES6",
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "./dist",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ],
+            "@root/*": [
+                "../../*"
+            ],
+            "@base/*": [
+                "./src/*"
+            ],
+            "@api/*": [
+                "./src/api/*"
+            ],
+            "@config/*": [
+                "src/config/*"
+            ],
+        },
+        "strict": false,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "forceConsistentCasingInFileNames": true
+        "forceConsistentCasingInFileNames": true,
     }
 }

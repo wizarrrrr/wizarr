@@ -198,22 +198,16 @@ class Auth {
             this.remember_me = false;
         }
 
-        // Create a form data object
-        const formData = new FormData();
-
-        // Add the username, password and remember_me to the form data
-        formData.append("username", this.username);
-        formData.append("password", this.password);
-        formData.append("remember", this.remember_me);
-
         // Send the request to the server
-        const response = await this.axios.post("/api/auth/login", formData);
+        const response = await this.axios.post("/api/auth/login", {
+            username: this.username,
+            password: this.password,
+        });
 
         // Check if the response is successful
         if (response.status != 200 || !response.data.auth) {
             this.errorToast(response.data.message || "Failed to login, please try again");
-            console.error(response.data.message || "Failed to login, please try again");
-            return;
+            throw new Error(response.data.message || "Failed to login, please try again");
         }
 
         // Handle the authenticated data
@@ -259,7 +253,7 @@ class Auth {
      *
      * @returns The boolean value of whether the user has MFA enabled
      */
-    async isMFAEnabled(username?: string) {
+    async isPasskeyEnabled(username?: string) {
         // Check if the username is set
         if (username) this.username = username;
 
@@ -286,7 +280,7 @@ class Auth {
      * Handle MFA registration
      * This method is used to handle MFA registration
      */
-    async mfaRegistration(mfaName?: string) {
+    async passkeyRegistration(mfaName?: string) {
         // Check if the mfaName is set
         if (mfaName) this.mfaName = mfaName;
 
@@ -350,7 +344,7 @@ class Auth {
      *
      * @param username The username of the user
      */
-    async mfaAuthentication(username?: string, autofill: boolean = false) {
+    async passkeyAuthentication(username?: string, autofill: boolean = false) {
         // Check if the username is set
         if (username) this.username = username;
 
@@ -378,6 +372,7 @@ class Auth {
 
         // Check if the response is successful
         if (authResp.status != 200) {
+            this.errorToast(authResp.data.message || "Failed to authenticate, please try again");
             throw new Error(authResp.data.message || "Failed to authenticate, please try again");
         }
 
@@ -402,6 +397,7 @@ class Auth {
 
         // Send the authentication to the server
         const authResp2 = await this.axios.post("/api/mfa/authentication", data).catch((e: any) => {
+            this.errorToast(e.data.message || "Failed to authenticate, please try again");
             throw new Error(e.data.message || "Failed to authenticate, please try again");
         });
 
@@ -416,7 +412,7 @@ class Auth {
      * MFA de-registration
      * This method is used to remove MFA from the user
      */
-    async mfaDeregistration() {
+    async passkeyDeregistration() {
         // Check if the username is set
         if (!this.username) {
             this.errorToast("Username not provided");

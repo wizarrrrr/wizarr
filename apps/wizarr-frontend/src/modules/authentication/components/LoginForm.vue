@@ -53,7 +53,7 @@ export default defineComponent({
         },
         passkeyLogin() {
             if (!this.username) {
-                this.$toast.error("Please enter your username");
+                this.$toast.warning("Please enter your username");
                 return;
             }
 

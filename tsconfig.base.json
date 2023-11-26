@@ -10,14 +10,25 @@
         "importHelpers": true,
         "target": "es2015",
         "module": "esnext",
-        "lib": ["es2020", "dom"],
+        "lib": [
+            "es2020",
+            "dom"
+        ],
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@wizarrrr/wizarr-sdk": ["libs/wizarr-sdk/src/index.ts"],
-            "@wizarrrr/wizarr-types": ["libs/wizarr-types/src/index.ts"]
-        }
+            "@wizarrrr/wizarr-sdk": [
+                "libs/wizarr-sdk/src/index.ts"
+            ],
+            "@wizarrrr/wizarr-types": [
+                "libs/wizarr-types/src/index.ts"
+            ]
+        },
+        "forceConsistentCasingInFileNames": true,
     },
-    "exclude": ["node_modules", "tmp"]
+    "exclude": [
+        "node_modules",
+        "tmp"
+    ]
 }
