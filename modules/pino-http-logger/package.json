@@ -1,0 +1,31 @@
+{
+    "name": "@wizarrrr/pino-http-logger",
+    "version": "3.1.0",
+    "description": "Debug HTTP printer for pino",
+    "main": "index.js",
+    "bin": {
+        "pino-http-logger": "./cmd.js"
+    },
+    "scripts": {
+        "lint:fix": "standard --fix",
+        "test": "standard && tap --no-coverage --color test/*.test.js"
+    },
+    "author": "Ashley Bailey",
+    "license": "MIT",
+    "devDependencies": {
+        "pino": "^8.0.0",
+        "standard": "^17.0.0",
+        "strip-ansi": "^6.0.0",
+        "tap": "^16.3.0"
+    },
+    "dependencies": {
+        "args": "^5.0.1",
+        "colorette": "^2.0.14",
+        "ndjson": "^2.0.0",
+        "pino-abstract-transport": "^1.0.0",
+        "pino-pretty": "^8.1.0",
+        "pretty-ms": "^7.0.0",
+        "sonic-boom": "^3.2.0",
+        "through2": "^4.0.0"
+    }
+}

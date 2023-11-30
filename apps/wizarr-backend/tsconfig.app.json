@@ -6,9 +6,10 @@
         "module": "commonjs",
         "types": [
             "node"
-        ]
+        ],
     },
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
+        "types/**/*.d.ts"
     ]
 }

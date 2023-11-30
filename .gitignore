@@ -446,3 +446,5 @@ testing/core
 .next
 apps/wizarr-backend-old/database/*
 database/*
+# Sentry Config File
+.sentryclirc

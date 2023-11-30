@@ -1,0 +1,13 @@
+{
+    "ignore": [
+        "**/*.test.ts",
+        "**/*.spec.ts",
+        "node_modules",
+        "**/*.json"
+    ],
+    "watch": [
+        "./apps/wizarr-backend/**/*.ts"
+    ],
+    "exec": "npm start",
+    "ext": "ts"
+}
