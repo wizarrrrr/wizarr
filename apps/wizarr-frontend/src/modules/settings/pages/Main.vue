@@ -4,7 +4,7 @@
             <template v-for="(section, index) in settingsSections">
                 <div :id="`settingsContainer${index}`">
                     <!-- Sections Title -->
-                    <div class="settings-section" v-if="!(sectionDisabled(section) && !is_beta)">
+                    <div class="settings-section" v-if="!(sectionDisabled(section) && !isBeta)">
                         <div class="flex flex-col">
                             <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                                 {{ __(section.title) }}
@@ -18,7 +18,7 @@
                     <!-- Settings Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         <template v-for="page in section.pages">
-                            <template v-if="!(page.disabled && !is_beta)">
+                            <template v-if="!(page.disabled && !isBeta)">
                                 <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
                             </template>
                         </template>
@@ -37,7 +37,7 @@
 import { defineComponent } from "vue";
 import { mapState } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
-import { useServerStore } from "@/stores/server";
+import { useVersionStore } from "@/stores/version";
 import { hasRole } from "@/ts/utils/hasRole";
 
 import SettingsTemplate from "@/templates/SettingsTemplate.vue";
@@ -96,7 +96,7 @@ export default defineComponent({
     },
     computed: {
         ...mapState(useSettingsStore, ["search"]),
-        ...mapState(useServerStore, ["is_beta"]),
+        ...mapState(useVersionStore, ["isBeta"]),
         settingsSections() {
             const searchedSections = this.search ? this.settings.map(this.mapSections).filter(this.filterSections) : this.settings;
             return searchedSections.map(this.mapRoles).filter(this.filterSections);

@@ -50,15 +50,15 @@ export default defineConfig({
                 changeOrigin: true,
                 xfwd: true,
             },
+            "/socket.io": {
+                target: "ws://127.0.0.1:5001",
+                changeOrigin: true,
+                ws: true,
+                xfwd: true,
+            },
             "/swaggerui": {
                 target: "http://127.0.0.1:5000",
                 changeOrigin: true,
-                xfwd: true,
-            },
-            "/socket.io": {
-                target: "ws://127.0.0.1:5000",
-                changeOrigin: true,
-                ws: true,
                 xfwd: true,
             },
         },

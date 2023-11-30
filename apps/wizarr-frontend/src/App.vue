@@ -14,10 +14,9 @@ import { useThemeStore } from "@/stores/theme";
 import { useServerStore } from "./stores/server";
 import { useLanguageStore } from "@/stores/language";
 import { useProgressStore } from "./stores/progress";
+import { useVersionStore } from "./stores/version";
 import { useGettext, type Language } from "vue3-gettext";
 import { container as WidgetModalContainer } from "jenesius-vue-modal";
-
-import type { ToastID } from "vue-toastification/dist/types/types";
 
 import Offline from "@/components/Offline.vue";
 import FullPageLoading from "@/components/Loading/FullPageLoading.vue";
@@ -25,6 +24,10 @@ import BadBackend from "@/components/Toasts/BadBackend.vue";
 import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
 import DefaultToast from "@/components/Toasts/DefaultToast.vue";
 import ReloadPrompt from "@/components/ReloadPrompt.vue";
+
+import type { ToastID } from "vue-toastification/dist/types/types";
+import type { CustomAxiosRequestConfig } from "./ts/utils/axios";
+import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
 
 export default defineComponent({
     name: "App",
@@ -49,20 +52,19 @@ export default defineComponent({
         ...mapActions(useThemeStore, ["updateTheme"]),
         ...mapActions(useLanguageStore, ["updateLanguage", "updateAvailableLanguages"]),
         ...mapActions(useServerStore, ["setServerData"]),
-        async backendTest() {
-            while (true) {
-                const serverData = await this.$axios
-                    .get("/api/server")
-                    .then((response) => response.data)
-                    .catch(() => undefined);
-                if (serverData) {
-                    this.$toast.dismiss(this.connectionToast as ToastID);
-                    this.$toast.success(DefaultToast("Connection Online", "Connection to backend established."));
-                    this.setServerData(serverData);
-                    break;
-                }
-                await new Promise((resolve) => setTimeout(resolve, 5000));
-            }
+        ...mapActions(useVersionStore, ["setVersionData"]),
+        async axiosRetry<T>(url: string, config?: CustomAxiosRequestConfig): Promise<T> {
+            return await this.$axios
+                .get(url, config)
+                .then((response) => response.data)
+                .catch(async () => {
+                    if (this.connectionToast == null) this.connectionToast = this.$toast.error(BadBackend, { timeout: false, closeButton: false, draggable: false, closeOnClick: false });
+                    return new Promise((resolve) => setTimeout(resolve, 5000)).then(async () => await this.axiosRetry(url));
+                });
+        },
+        async setVersionStore() {
+            const versionData = await this.$axios.get("/api/version").then((response) => response.data);
+            this.setVersionData(versionData);
         },
     },
     watch: {
@@ -88,11 +90,9 @@ export default defineComponent({
             },
         },
     },
-    beforeCreate() {
-        // Start the progress bar before the app is created
-        this.$Progress.start();
-    },
     async mounted() {
+        this.$Progress.start();
+
         // Initialize gettext
         this.gettext = useGettext();
 
@@ -104,28 +104,23 @@ export default defineComponent({
         this.updateTheme(this.theme);
 
         // Get the server data
-        const serverData = await this.$axios
-            .get("/api/server")
-            .then((response) => response.data)
-            .catch(() => undefined);
+        const serverData = await this.axiosRetry<IInformation>("/api/information", {
+            disableErrorToast: true,
+            disableInfoToast: true,
+        });
 
-        // If health data or server data is undefined, show error toast
-        if (!serverData) {
-            this.connectionToast = this.$toast.error(BadBackend, {
-                timeout: false,
-                closeButton: false,
-                draggable: false,
-                closeOnClick: false /* onClick: this.showServerURLModal */,
-            });
-            this.backendTest();
+        // If there was a connection toast, dismiss it and show a success toast
+        if (this.connectionToast !== null) {
+            this.$toast.dismiss(this.connectionToast);
+            this.$toast.success(DefaultToast("Connection Online", "Connection to backend established."));
         }
 
         // If setup is required, redirect to setup page if current route is not setup page
-        if (serverData?.setup_required && this.$router.currentRoute.value.name !== "setup") this.$router.push("/setup");
-        if (!serverData?.setup_required && this.$router.currentRoute.value.name === "setup") this.$router.push("/");
+        if (serverData.setupRequired && this.$router.currentRoute.value.name !== "setup") this.$router.push("/setup");
+        if (!serverData.setupRequired && this.$router.currentRoute.value.name === "setup") this.$router.push("/");
 
         // If update is available, open update message
-        if (serverData?.update_available) {
+        if (serverData.updateAvailable) {
             this.$toast.info(UpdateAvailable, {
                 timeout: false,
                 closeButton: false,
@@ -136,6 +131,7 @@ export default defineComponent({
 
         // Set the server data
         this.setServerData(serverData);
+        this.setVersionStore();
 
         // Finish the progress bar
         this.$Progress.finish();
