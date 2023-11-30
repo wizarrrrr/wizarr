@@ -68,11 +68,7 @@ class AxiosInterceptor {
         try {
             const authStore = useAuthStore();
 
-            if (config.refresh_header && (authStore.refresh_token?.length ?? 0) > 0) {
-                config.headers["Authorization"] = `Bearer ${authStore.refresh_token}`;
-            }
-
-            if ((authStore.token?.length ?? 0) > 0 && !config.refresh_header && (authStore.refresh_token?.length ?? 0) > 0) {
+            if ((authStore.token?.length ?? 0) > 0) {
                 config.headers["Authorization"] = `Bearer ${authStore.token}`;
             }
         } catch (e) {

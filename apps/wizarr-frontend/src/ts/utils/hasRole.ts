@@ -5,8 +5,6 @@ export const hasRole = (role: string | string[], user?: Admin) => {
     // Get the current user from the store or the parameter
     const currentUser = user ?? useUserStore().user;
 
-    console.log(currentUser?.roles);
-
     // If there is no current user, return false
     if (!currentUser?.roles) return false;
 

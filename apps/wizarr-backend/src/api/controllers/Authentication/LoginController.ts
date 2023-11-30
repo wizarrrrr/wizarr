@@ -1,12 +1,14 @@
-import { JsonController, Post, Body, Get, Ctx } from "routing-controllers";
+import { JsonController, Post, Body, Get, Ctx, CurrentUser, Authorized } from "routing-controllers";
 import { LoginRequest } from "@/api/requests/Authentication/LoginRequest";
 import { OpenAPI } from "routing-controllers-openapi";
 import { Service } from "typedi";
 import { LoginService } from "@/api/services/Authentication/LoginService";
 import { ControllerBase } from "../BaseController";
 import { Context } from "koa";
+import { Admin } from "@/api/models/Account/AdminModel";
 
 @Service()
+@OpenAPI({ tags: ["Authentication"] })
 @JsonController("/auth")
 export class LoginController extends ControllerBase {
     /**
@@ -42,7 +44,18 @@ export class LoginController extends ControllerBase {
      */
     @Get("/refresh")
     @OpenAPI({ summary: "Refresh JWT Token" })
-    public async refresh() {
-        // return this.loginService.refresh();
+    public async refresh(@Ctx() context: Context) {
+        return this.loginService.refresh(context);
+    }
+
+    /**
+     * @api {get} /me Get the current user
+     * @apiName Get the current user
+     */
+    @Get("/me")
+    @OpenAPI({ summary: "Get the current user" })
+    @Authorized()
+    public async me(@CurrentUser() user: Admin) {
+        return user;
     }
 }

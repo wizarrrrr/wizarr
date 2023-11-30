@@ -1,5 +1,6 @@
 export * from "./health";
 export * from "./version";
-export * from "./server";
+export * from "./information";
 export * from "./health";
 export * from "./authentication";
+export * from "./server";

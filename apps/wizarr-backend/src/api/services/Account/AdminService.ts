@@ -1,6 +1,6 @@
 import { UserNotFoundException } from "@/api/exceptions/UserNotFoundException";
-import { Admin } from "@/api/models/AdminModel";
-import { AdminRepository } from "@/api/repositories/AdminRepository";
+import { Admin } from "@/api/models/Account/AdminModel";
+import { AdminRepository } from "@/api/repositories/Account/AdminRepository";
 import { InjectRepository } from "@/decorators";
 import { StripPassword } from "@/decorators/password-stripper.decorator";
 import { Service } from "typedi";
@@ -40,7 +40,7 @@ export class AdminService {
      */
     private async getRequestdUserOrFail(id: string, resourceOptions?: object) {
         const admin = await this.adminRepository.getOneById(id as any, resourceOptions);
-        if (!admin) throw new UserNotFoundException(`User with id ${id} not found`);
+        if (!admin) throw new UserNotFoundException(`User with id '${id}' not found`);
         return admin;
     }
 }

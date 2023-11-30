@@ -1,5 +1,5 @@
-import { RepositoryBase } from "./base.repository";
-import { Admin } from "@/api/models/AdminModel";
+import { RepositoryBase } from "../base.repository";
+import { Admin } from "@/api/models/Account/AdminModel";
 import { EntityRepository } from "@/decorators/entity-repository.decorator";
 
 @EntityRepository(Admin)

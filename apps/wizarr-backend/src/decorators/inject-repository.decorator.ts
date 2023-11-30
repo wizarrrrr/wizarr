@@ -1,13 +1,11 @@
-import { Repository, TreeRepository, MongoRepository, EntityTarget, ObjectType, AbstractRepository, getMetadataArgsStorage } from "typeorm";
+import { Repository, TreeRepository, MongoRepository, EntityTarget, ObjectType } from "typeorm";
 import { Constructable, Container } from "typedi";
-import { Connection } from "@/data-source";
+import { connection } from "@/data-source";
 
 /**
  * Helper to avoid V8 compilation of anonymous function on each call of decorator.
  */
 function getRepositoryHelper(repositoryType: ObjectType<unknown>, entityType: EntityTarget<unknown>) {
-    const connection = Connection;
-
     switch (repositoryType) {
         case Repository:
             return connection.getRepository(entityType);

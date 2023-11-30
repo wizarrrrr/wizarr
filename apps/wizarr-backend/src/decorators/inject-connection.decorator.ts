@@ -1,4 +1,4 @@
-import { Connection } from "@/data-source";
+import { connection } from "@/data-source";
 import { Container, Constructable, ContainerInstance } from "typedi";
 
 /**
@@ -13,7 +13,7 @@ export function InjectConnection(): CallableFunction {
             index: index,
             propertyName: propertyKey as string,
             value: (containerInstance: ContainerInstance) => {
-                return Connection;
+                return connection;
             },
         });
     };

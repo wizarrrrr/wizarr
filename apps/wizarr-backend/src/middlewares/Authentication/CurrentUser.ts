@@ -1,9 +1,14 @@
 import { Action } from "routing-controllers";
 import { localAuthorizationCheck } from "./AuthenticationCheck";
-import { Admin } from "../../api/models/AdminModel";
+import { Admin } from "../../api/models/Account/AdminModel";
 import { plainToClass } from "class-transformer";
+import { connection } from "../../data-source";
 
 export const currentUser = async (action: Action) => {
-    const payload = await localAuthorizationCheck<{ user: Admin }>(action.request.headers.authorization);
-    return plainToClass(Admin, payload.user);
+    const payload = await localAuthorizationCheck<{ sub: string }>(action.request.headers.authorization ?? action.context.cookies.get("token"));
+    return plainToClass(Admin, connection.getRepository(Admin).findOneOrFail({ where: { id: payload.sub } }), { excludePrefixes: ["password"] });
+};
+
+export const getCurrentUser = async (sub: string) => {
+    return plainToClass(Admin, connection.getRepository(Admin).findOneOrFail({ where: { id: sub } }), { excludePrefixes: ["password"] });
 };

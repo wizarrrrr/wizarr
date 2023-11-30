@@ -1,7 +1,4 @@
-import { InvalidCredentials } from "../../api/exceptions/InvalidCredentials";
-import { InvalidRoles } from "../../api/exceptions/InvalidRoles";
-import { Admin } from "@/api/models/AdminModel";
-import { Context } from "vm";
+import { Admin } from "@/api/models/Account/AdminModel";
 
 export const rolesCheck = (roles: string | string[], user: Admin): boolean => {
     // If the roles are not set, return true
@@ -17,22 +14,4 @@ export const rolesCheck = (roles: string | string[], user: Admin): boolean => {
 
     // Return false
     return false;
-};
-
-export const HasRole = (roles: string | string[]): any => {
-    return async function (ctx: Context, next: (err?: any) => Promise<any>): Promise<any> {
-        // Get the logged in user from the context
-        const user = ctx.state.currentUser as Admin;
-
-        // If the user is not set, throw an error
-        if (!user) throw new InvalidCredentials("You are not logged in");
-
-        // Verify if the user has the required role and continue to the next middleware if it does
-        if (rolesCheck(roles, user)) {
-            return next();
-        }
-
-        // If the user does not have the required role, throw an error
-        throw new InvalidRoles("You do not have the required role(s) to access this resource");
-    };
 };

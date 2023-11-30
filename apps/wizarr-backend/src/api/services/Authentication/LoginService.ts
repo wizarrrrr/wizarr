@@ -1,15 +1,14 @@
 import { InvalidCredentials } from "@/api/exceptions/InvalidCredentials";
-import { AdminRepository } from "@/api/repositories/AdminRepository";
+import { AdminRepository } from "@/api/repositories/Account/AdminRepository";
 import { LoginRequest } from "@/api/requests/Authentication/LoginRequest";
 import { InjectRepository } from "@/decorators";
 import { checkPassword } from "@/utils/password.helper";
 import { Service } from "typedi";
-import { Session } from "@/api/models/SessionsModel";
-import { Admin } from "@/api/models/AdminModel";
+import { Session } from "@/api/models/Account/SessionsModel";
+import { Admin } from "@/api/models/Account/AdminModel";
 import { Context } from "koa";
-import { SignOptions, sign, decode } from "jsonwebtoken";
-import { privateKey } from "@/utils/secret.helper";
-import { randomBytes } from "crypto";
+import { createAccessToken, createRefreshToken, getJTI } from "@/utils/jwt.helper";
+import { StripPassword } from "@/decorators/password-stripper.decorator";
 
 @Service()
 export class LoginService {
@@ -25,85 +24,95 @@ export class LoginService {
      * @param data The login data
      * @returns The admin object
      */
+    @StripPassword()
     public async login(data: LoginRequest, context?: Context) {
-        // Get the admin from the database by username
+        // Get the admin from the database by username, throw an error if it doesn't exist
         const admin = await this.adminRepository.findOne({ where: { username: data.username } });
-
-        // Check if the admin exists
         if (!admin) throw new InvalidCredentials();
 
-        // Check if the password matches
+        // Check if the password matches and throw an error if it doesn't
         if (!(await checkPassword(data.password, admin.password))) throw new InvalidCredentials();
 
         // Create a JWT Token for the admin
-        const token = await this.createToken(admin);
+        const accessToken = await createAccessToken(admin.id);
+        const refreshToken = await createRefreshToken(admin.id);
 
-        // Get the JTI from the JWT Token
-        const jti = await this.getJTI(token);
+        // Get the JTI from the Access Token & Refresh Token
+        const accessJTI = await getJTI(accessToken);
+        const refreshJTI = await getJTI(refreshToken);
 
         // Create a session for the admin
-        await this.createSession(admin, jti, context);
-
-        // Remove the password from the admin object
-        delete admin.password;
+        await this.createSession(admin, { access: accessJTI, refresh: refreshJTI }, context);
 
         // Set the token to the cookie
-        context?.cookies.set("token", token, { httpOnly: true, sameSite: "strict" });
+        context?.cookies.set("refresh", refreshToken, { httpOnly: true, sameSite: "strict" });
 
         // Return the admin
-        return { message: "Successfully logged in", auth: { user: admin, token, refresh_token: token } };
+        return { message: "Successfully logged in", user: admin, token: accessToken };
     }
 
     /**
      * Logout of the server
      * @returns
      */
-    public async logout(context?: Context) {
-        // TODO: Implement logout
-        context?.cookies.set("token", "", { httpOnly: true, sameSite: "strict" });
+    public async logout(context: Context) {
+        // Check if the refresh token is set in the cookies
+        if (!context.cookies.get("refresh")) throw new InvalidCredentials();
+
+        // Get the refresh token from the cookies
+        const refreshToken = context.cookies.get("refresh");
+
+        // Get the JTI from the refresh token
+        const refreshJTI = await getJTI(refreshToken);
+
+        // Delete the session from the database by the refresh token
+        await Session.delete({ refreshJti: refreshJTI });
+
+        // Remove the refresh token from the cookies
+        context.cookies.set("refresh", "", { httpOnly: true, sameSite: "strict" });
+
+        // Return the message
+        return { message: "Successfully logged out" };
     }
 
     /**
      * Refresh JWT Token
      * @returns
      */
-    public async refresh() {}
+    public async refresh(context: Context) {
+        // Check if the refresh token is set in the cookies
+        if (!context.cookies.get("refresh")) throw new InvalidCredentials();
 
-    /**
-     * Create a new JWT Token for the User
-     * @param user The user to create a token for
-     * @returns The JWT Token
-     */
-    public async createToken(user: Admin) {
-        // Create a JWT options object
-        const options: SignOptions = {
-            expiresIn: "1h",
-            issuer: "wizarr",
-            jwtid: randomBytes(16).toString("hex"),
-            algorithm: "RS256",
-        };
+        // Get the refresh token from the cookies
+        const refreshToken = context.cookies.get("refresh");
 
-        // Remove the password from the user object
-        delete user.password;
+        // Get the JTI from the refresh token
+        const refreshJTI = await getJTI(refreshToken);
 
-        // Create a JWT Token
-        return sign({ user }, await privateKey(), options);
-    }
+        // Get the session from the database
+        const session = await Session.findOne({ where: { refreshJti: refreshJTI }, relations: ["user"] });
 
-    /**
-     * Get the JTI from the JWT Token
-     * @param token The JWT Token
-     * @returns The JTI
-     */
-    public async getJTI(token: string) {
-        // Decode the JWT Token
-        const decoded = decode(token);
+        // Check if the session exists
+        if (!session) throw new InvalidCredentials();
 
-        // Check if the JWT Token is valid
-        if (typeof decoded === "string") throw new Error("Invalid JWT Token");
+        // Create a new JWT Token for the user
+        const accessToken = await createAccessToken(session.user.id);
+        const newRefreshToken = await createRefreshToken(session.user.id);
 
-        // Return the JTI
-        return decoded?.jti;
+        // Get the JTI from the Access Token
+        const accessJTI = await getJTI(accessToken);
+        const newRefreshJTI = await getJTI(newRefreshToken);
+
+        // Update the cookies with the new refresh token
+        context.cookies.set("refresh", newRefreshToken, { httpOnly: true, sameSite: "strict" });
+
+        // Update the session
+        session.accessJti = accessJTI;
+        session.refreshJti = newRefreshJTI;
+        await session.save();
+
+        // Return the new access token
+        return { token: accessToken };
     }
 
     /**
@@ -111,7 +120,7 @@ export class LoginService {
      * @param user The user to create a session for
      * @returns The session
      */
-    public async createSession(user: Admin, jti?: string, context?: Context) {
+    public async createSession(user: Admin, jti?: { access: string; refresh: string }, context?: Context) {
         // Create a new session
         const session = new Session();
 
@@ -119,7 +128,8 @@ export class LoginService {
         session.user = user;
         session.ip = context?.ip;
         session.userAgent = context?.header["user-agent"];
-        session.accessJti = jti;
+        session.accessJti = jti?.access;
+        session.refreshJti = jti?.refresh;
 
         // Return the session
         return session.save();

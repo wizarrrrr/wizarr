@@ -1,8 +1,10 @@
+import DefaultToast from "@/components/Toasts/DefaultToast.vue";
+
 import { BrowserTracing, Replay, init, vueRouterInstrumentation } from "@sentry/vue";
-import type { Options, TracingOptions } from "@sentry/vue/types/types";
 
 import type { App } from "vue";
-import DefaultToast from "@/components/Toasts/DefaultToast.vue";
+import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
+import type { Options, TracingOptions } from "@sentry/vue/types/types";
 
 type SentryOptions = Partial<
     Omit<Options, "tracingOptions"> & {
@@ -14,8 +16,8 @@ const isBugReporting = () => {
     const localStorage = window.localStorage.getItem("server");
 
     if (localStorage !== null) {
-        const server = JSON.parse(localStorage);
-        return server.settings.bug_reporting === "false";
+        const server: IInformation = JSON.parse(localStorage);
+        return server.bugReporting === false;
     }
 
     return true;

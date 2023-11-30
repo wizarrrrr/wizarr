@@ -11,7 +11,7 @@ const children: RouteRecordRaw[] = [
         path: "media",
         name: "admin-settings-media",
         component: () => import("../pages/Media.vue"),
-        meta: { header: "Manage Media", subheader: "Configure media server" },
+        meta: { header: "Manage Media Servers", subheader: "Configure media servers" },
     },
     {
         path: "requests",

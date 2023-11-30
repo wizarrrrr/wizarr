@@ -1,3 +1,7 @@
+import { databasePath } from "../config/paths";
+import { readFileSync, writeFileSync } from "fs";
+import { resolve } from "path";
+
 import nodeCache from "node-cache";
 
 //  Time constants
@@ -8,6 +12,36 @@ export const ONE_DAY = ONE_HOUR * 24;
 export const ONE_WEEK = ONE_DAY * 7;
 export const ONE_MONTH = ONE_WEEK * 4;
 export const ONE_YEAR = ONE_MONTH * 12;
+
+/**
+ * persistCache - Persists the cache to disk so it can be loaded later
+ * @param cache The cache to persist
+ * @param path The path to persist the cache to
+ * @returns The cache that was persisted
+ */
+export const persistCache = (cache: nodeCache, path: string) => {
+    // Read the file from disk if it exists
+    const file = JSON.parse(readFileSync(path, "utf8"));
+    // Merge the cache with the file
+    const mergedCache = { ...file, ...cache.data };
+    // Write the cache to disk
+    writeFileSync(path, JSON.stringify(mergedCache, null, 4));
+};
+
+/**
+ * restoreCache - Restores the cache from disk so it can be used
+ * @param cache The cache to restore
+ * @param path The path to restore the cache from
+ * @returns The cache that was restored
+ */
+export const restoreCache = (cache: nodeCache, path: string) => {
+    // Read the file from disk if it exists
+    const file = JSON.parse(readFileSync(path, "utf8"));
+    // Merge the cache with the file
+    const mergedCache = { ...cache.data, ...file };
+    // Write the cache to disk
+    cache.data = mergedCache;
+};
 
 /**
  * cache - A function that caches the result of a function
@@ -38,6 +72,7 @@ export const cache = async (cache: nodeCache, fn: Function, key: string, ttl?: n
  */
 export const setValue = (cache: nodeCache, key: string, value: any, ttl?: number) => {
     cache.set(key, value, ttl);
+    persistCache(cache, resolve(databasePath, "cache.json"));
     return value;
 };
 
@@ -48,6 +83,7 @@ export const setValue = (cache: nodeCache, key: string, value: any, ttl?: number
  * @returns True if the cache has a value for the specified key, false otherwise
  */
 export const hasValue = (cache: nodeCache, key: string) => {
+    restoreCache(cache, resolve(databasePath, "cache.json"));
     return cache.has(key);
 };
 
@@ -58,8 +94,10 @@ export const hasValue = (cache: nodeCache, key: string) => {
  * @returns The value for the specified key
  */
 export const getValue = (cache: nodeCache, key: string) => {
+    restoreCache(cache, resolve(databasePath, "cache.json"));
     return cache.get(key);
 };
 
 export const versionCache = new nodeCache({ stdTTL: ONE_HOUR });
 export const secretCache = new nodeCache({ stdTTL: ONE_HOUR / 2 });
+export const githubCache = new nodeCache({ stdTTL: ONE_DAY });
