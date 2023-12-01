@@ -33,6 +33,7 @@ export declare interface CustomModalOptions extends Partial<ModalOptions> {
     buttons?: CustomModalOptionsButtons[];
     actions?: CustomModalOptionsActions[];
     props?: any;
+    size?: "sm" | "md" | "lg" | "xl" | "full";
 }
 
 const localOpenModal = async <P extends WrapComponent>(component: P | string, options?: Partial<CustomModalOptions>, props?: any): Promise<Modal> => {

@@ -5,7 +5,7 @@ import { Admin } from "./AdminModel";
 import type { Role as IRole } from "@wizarrrr/wizarr-sdk";
 
 @Entity("roles")
-export class Role extends EntityBase implements IRole {
+export class Role extends EntityBase {
     @PrimaryGeneratedColumn()
     id: number;
 

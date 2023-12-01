@@ -69,6 +69,9 @@ export default defineComponent({
                     name: "join",
                     title: this.__("Please enter your invite code"),
                     component: () => import("../pages/JoinForm.vue"),
+                    props: {
+                        eventBus: eventBus,
+                    },
                 },
                 // {
                 //     name: "payment",

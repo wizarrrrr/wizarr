@@ -64,6 +64,7 @@ export class App {
                         all: true,
                         prettyOptions: {
                             hideObject: true,
+                            ignore: "pid,hostname",
                         },
                     },
                 },
@@ -98,7 +99,7 @@ export class App {
 
     // Define the logger for the application
     private logger = pinoHttp(this.loggerOptions);
-    private log = this.logger.logger;
+    public log = this.logger.logger;
 
     /**
      * Constructor
@@ -107,9 +108,21 @@ export class App {
     constructor(options?: typeof koa.arguments) {
         // Merge the default options with the options passed in
         this.serverOptions = { ...this.serverOptions, ...options };
+    }
 
-        // Initialize the server
-        this.initialize();
+    /**
+     * Initialize the server
+     */
+    public async initialize() {
+        // Initialize the server dependencies
+        this.addProcessListeners();
+        this.setupSentry();
+        this.registerMiddlewares();
+        this.useContainers();
+        await this.createTypeORMConnection();
+        this.registerSocketControllers();
+        this.registerRoutingController();
+        this.setupSwagger();
 
         // Start the server
         this.httpServer.listen(this.port, async () => {
@@ -119,20 +132,6 @@ export class App {
             // Print the server table
             table.printTable();
         });
-    }
-
-    /**
-     * Initialize the server
-     */
-    public async initialize() {
-        this.addProcessListeners();
-        this.setupSentry();
-        this.registerMiddlewares();
-        this.useContainers();
-        await this.createTypeORMConnection();
-        this.registerSocketControllers();
-        this.registerRoutingController();
-        this.setupSwagger();
     }
 
     /**
@@ -165,7 +164,7 @@ export class App {
      */
     private async createTypeORMConnection() {
         await connection.initialize().catch((err) => {
-            console.error(err);
+            this.log.error(err, "Failed to connect to database");
             process.exit(1);
         });
     }
@@ -295,3 +294,6 @@ export class App {
 }
 
 const app = new App();
+app.initialize();
+
+export default app;

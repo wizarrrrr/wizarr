@@ -6,7 +6,7 @@ import { errorToast, infoToast } from "./toasts";
 import { useAuthStore } from "@/stores/auth";
 import { useToast } from "@/plugins/toasts";
 
-export interface CustomAxiosResponse<D = any> extends AxiosResponse {
+export interface CustomAxiosResponse<T = any, D = any> extends AxiosResponse<T, D> {
     config: CustomAxiosRequestConfig<D> & InternalAxiosRequestConfig;
 }
 
@@ -63,11 +63,30 @@ class AxiosInterceptor {
      * @param config
      * @returns {any}
      */
-    public req(config: InternalAxiosRequestConfig & CustomAxiosRequestConfig) {
+    public async req(config: InternalAxiosRequestConfig & CustomAxiosRequestConfig) {
         // Try to add the authorization header to the request
         try {
+            // Get the auth store
             const authStore = useAuthStore();
 
+            // If the request is a refresh request, return the config
+            if (config.refresh_header) {
+                if ((authStore.token?.length ?? 0) > 0) {
+                    config.headers["Authorization"] = `Bearer ${authStore.token}`;
+                }
+                return config;
+            }
+
+            // Check if the JWT token is expired and refresh it if it is
+            if (authStore.isAccessTokenExpired()) {
+                const authentication = new Auth();
+                console.log("Refreshing token because it is expired");
+                await authentication.refreshToken().catch(() => {
+                    authStore.removeAccessToken();
+                });
+            }
+
+            // Add the authorization header to the request
             if ((authStore.token?.length ?? 0) > 0) {
                 config.headers["Authorization"] = `Bearer ${authStore.token}`;
             }

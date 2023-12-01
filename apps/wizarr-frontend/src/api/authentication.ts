@@ -144,17 +144,16 @@ class Auth {
         // Get auth store from pinia
         const authStore = useAuthStore();
 
-        console.log(authStore.token);
         // Check if the access token and refresh token are set
         if (!authStore.token || authStore.token === null) return false;
 
         // Send the request to the server to refresh the JWT token
-        const response = await this.axios.get("/api/auth/refresh", { disableErrorToast: true }).catch(() => null);
+        const response = await this.axios.get("/api/auth/refresh", { disableErrorToast: true, refresh_header: true }).catch(() => null);
 
         // Check if the response is null
         if (response == null || response.status != 200) {
-            this.errorToast("Failed to refresh token, please login again.");
-            authStore.removeAccessToken();
+            // this.errorToast("Session expired, please login again");
+            // authStore.removeAccessToken();
             return false;
         }
 
@@ -224,7 +223,7 @@ class Auth {
         const username = userStore.user?.name ?? userStore.user?.username;
 
         // Send the request to the server to logout the user
-        await this.axios.post("/api/auth/logout", {}, { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
+        await this.axios.get("/api/auth/logout", { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
 
         // Remove the auth token and refresh token
         authStore.removeAccessToken();

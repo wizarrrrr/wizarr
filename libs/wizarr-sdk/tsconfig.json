@@ -1,13 +1,20 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
+        "target": "ES5",
         "module": "commonjs",
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true,
         "noImplicitReturns": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "composite": true,
+        "declaration": true,
+        "typeRoots": [
+            "./types",
+            "../../node_modules/@types"
+        ]
     },
     "files": [],
     "include": [],
@@ -15,5 +22,5 @@
         {
             "path": "./tsconfig.lib.json"
         }
-    ]
+    ],
 }

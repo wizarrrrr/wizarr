@@ -13,7 +13,7 @@ export interface Server {
     type: string;
     host: string;
     apiKey: string;
-    libraries: Maybe<ServerLibraries>;
+    libraries?: ServerLibraries;
 }
 
 /**
@@ -27,7 +27,7 @@ export type ServerLibraries = ServerLibrary[];
 export interface ServerLibrary {
     id: string;
     name: string;
-    server: MediaServer;
+    server: Server;
 }
 
 export interface ServerRequest {

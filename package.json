@@ -38,6 +38,7 @@
         "@koa/router": "^12.0.1",
         "@nanogiants/vue3-longpress": "^1.0.8",
         "@noble/hashes": "^1.3.2",
+        "@openapitools/openapi-generator-cli": "^2.7.0",
         "@passwordless-id/webauthn": "^1.2.6",
         "@popperjs/core": "^2.11.8",
         "@segment/analytics-next": "^1.55.0",

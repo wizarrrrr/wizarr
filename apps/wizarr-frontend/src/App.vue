@@ -11,8 +11,9 @@
 import { defineComponent } from "vue";
 import { mapWritableState, mapState, mapActions } from "pinia";
 import { useThemeStore } from "@/stores/theme";
-import { useServerStore } from "./stores/server";
+import { useServerStore } from "@/stores/server";
 import { useLanguageStore } from "@/stores/language";
+import { useAuthStore } from "@/stores/auth";
 import { useProgressStore } from "./stores/progress";
 import { useVersionStore } from "./stores/version";
 import { useGettext, type Language } from "vue3-gettext";
@@ -29,6 +30,9 @@ import type { ToastID } from "vue-toastification/dist/types/types";
 import type { CustomAxiosRequestConfig } from "./ts/utils/axios";
 import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
 
+import WizarrSDK from "@wizarrrr/wizarr-sdk";
+import type { AxiosInstance } from "axios";
+
 export default defineComponent({
     name: "App",
     components: {
@@ -44,6 +48,7 @@ export default defineComponent({
         };
     },
     computed: {
+        ...mapState(useAuthStore, ["token"]),
         ...mapState(useThemeStore, ["theme"]),
         ...mapState(useLanguageStore, ["language"]),
         ...mapWritableState(useProgressStore, ["progress", "fullPageLoading"]),
@@ -68,6 +73,12 @@ export default defineComponent({
         },
     },
     watch: {
+        token: {
+            immediate: true,
+            handler(token) {
+                if (token === null) this.$router.push("/login");
+            },
+        },
         theme: {
             immediate: true,
             handler(theme) {

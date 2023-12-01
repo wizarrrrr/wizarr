@@ -6,13 +6,11 @@
 import { defineComponent } from "vue";
 
 import Carousel from "@/modules/core/components/Carousel.vue";
-import mitt from "mitt";
-
-const eventBus = mitt<EventRecords>();
+import type { Emitter } from "mitt";
 
 export type EventRecords = {
     updateServer: Record<any, any>;
-    pleaseWait: boolean;
+    getServer: (payload: Record<string, string>) => void;
 };
 
 export default defineComponent({
@@ -20,9 +18,14 @@ export default defineComponent({
     components: {
         Carousel,
     },
+    props: {
+        eventBus: {
+            type: Object as () => Emitter<EventRecords>,
+            required: true,
+        },
+    },
     data() {
         return {
-            eventBus: eventBus,
             currentView: 1,
             activeStep: 0,
             pleaseWait: false,
@@ -38,26 +41,26 @@ export default defineComponent({
                     name: "join",
                     component: () => import("./pages/MediaServerSelect.vue"),
                     props: {
-                        eventBus: eventBus,
+                        eventBus: this.eventBus,
                     },
                 },
                 {
                     name: "settings",
                     component: () => import("./pages/MediaServerAuthentication.vue"),
                     props: {
-                        eventBus: eventBus,
+                        eventBus: this.eventBus,
                     },
                 },
             ],
         };
     },
-    async beforeCreate() {
-        eventBus.on("updateServer", (data) => {
-            console.log(data);
-            this.server = { ...this.server, ...data };
+    async beforeMount() {
+        this.eventBus.on("updateServer", (payload) => {
+            this.server = { ...this.server, ...payload };
         });
-        eventBus.on("*", (type, data) => {
-            console.log(type, data);
+
+        this.eventBus.on("getServer", (callback: (payload: typeof this.server) => void) => {
+            callback(this.server);
         });
     },
 });

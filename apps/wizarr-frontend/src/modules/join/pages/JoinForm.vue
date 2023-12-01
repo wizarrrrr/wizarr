@@ -11,6 +11,12 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
     name: "JoinForm",
+    props: {
+        eventBus: {
+            type: Object,
+            required: true,
+        },
+    },
     data() {
         return {
             code: String(this.$route.params.invite || ""),
@@ -50,6 +56,9 @@ export default defineComponent({
             this.$emit("pleaseWait", false);
             this.$emit("nextStep");
         },
+    },
+    mounted() {
+        console.log(this.eventBus.all);
     },
 });
 </script>

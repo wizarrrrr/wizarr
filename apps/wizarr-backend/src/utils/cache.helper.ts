@@ -1,8 +1,9 @@
 import { databasePath } from "../config/paths";
-import { readFileSync, writeFileSync } from "fs";
+import { existsSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
 import nodeCache from "node-cache";
+import app from "@/main";
 
 //  Time constants
 //  These are not exact, but they are close enough for our purposes
@@ -14,6 +15,15 @@ export const ONE_MONTH = ONE_WEEK * 4;
 export const ONE_YEAR = ONE_MONTH * 12;
 
 /**
+ * readJsonFile - Reads a file from disk safely or returns an empty object if it fails
+ * @param path The path to read the file from
+ * @returns The file contents or an empty object
+ */
+export const readJSONFile = (path: string, encoding: BufferEncoding) => {
+    if (existsSync(path)) return JSON.parse(readFileSync(path, encoding)) || {};
+};
+
+/**
  * persistCache - Persists the cache to disk so it can be loaded later
  * @param cache The cache to persist
  * @param path The path to persist the cache to
@@ -21,11 +31,11 @@ export const ONE_YEAR = ONE_MONTH * 12;
  */
 export const persistCache = (cache: nodeCache, path: string) => {
     // Read the file from disk if it exists
-    const file = JSON.parse(readFileSync(path, "utf8"));
+    const file = readJSONFile(path, "utf8");
     // Merge the cache with the file
     const mergedCache = { ...file, ...cache.data };
     // Write the cache to disk
-    writeFileSync(path, JSON.stringify(mergedCache, null, 4));
+    writeFileSync(path, JSON.stringify(mergedCache, null, 4), "utf8");
 };
 
 /**
@@ -36,7 +46,7 @@ export const persistCache = (cache: nodeCache, path: string) => {
  */
 export const restoreCache = (cache: nodeCache, path: string) => {
     // Read the file from disk if it exists
-    const file = JSON.parse(readFileSync(path, "utf8"));
+    const file = readJSONFile(path, "utf8");
     // Merge the cache with the file
     const mergedCache = { ...cache.data, ...file };
     // Write the cache to disk
@@ -58,6 +68,8 @@ export const cache = async (cache: nodeCache, fn: Function, key: string, ttl?: n
     const value = await fn();
     // Set the value in the cache
     setValue(cache, key, value, ttl);
+    // Log that the cache was updated
+    app.log.info(`Updated cache for '${key}'` + (ttl ? ` with a TTL of '${ttl}'` : ""));
     // Return the value
     return value;
 };

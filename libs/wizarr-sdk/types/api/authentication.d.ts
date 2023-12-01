@@ -11,13 +11,26 @@ export interface Admin {
     name: string;
     username: string;
     email: string;
-    createdAt: Date;
     roles: Role[];
+    sessions: Session[];
+    createdAt: Date;
 }
 
 export interface Role {
     id: number;
     name: string;
+}
+
+export interface Session {
+    id: string;
+    ip: string;
+    userAgent: string;
+    accessJti: string;
+    refreshJti: string;
+    user: Admin;
+    userId: string;
+    lastUsedAt: Date;
+    createdAt: Date;
 }
 
 export interface LoginRequest {

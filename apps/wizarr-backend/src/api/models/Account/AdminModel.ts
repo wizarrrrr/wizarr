@@ -8,7 +8,7 @@ import { DateTimeNow } from "../../../data-source";
 import type { Admin as IAdmin } from "@wizarrrr/wizarr-sdk";
 
 @Entity("admins")
-export class Admin extends EntityBase implements IAdmin {
+export class Admin extends EntityBase {
     @PrimaryGeneratedColumn("uuid")
     id: string;
 

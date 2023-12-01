@@ -1,7 +1,7 @@
 import { IsBoolean, IsOptional, IsString } from "class-validator";
-import type { InformationRequest as IInformationRequest } from "@wizarrrr/wizarr-sdk";
+import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
 
-export class InformationRequest implements IInformationRequest {
+export class InformationGET implements Partial<IInformation> {
     @IsString()
     name: string;
 
@@ -12,7 +12,7 @@ export class InformationRequest implements IInformationRequest {
     bugReporting: boolean;
 }
 
-export class InformationPUT implements InformationRequest {
+export class InformationPUT implements InformationGET {
     @IsString()
     @IsOptional()
     name: string;

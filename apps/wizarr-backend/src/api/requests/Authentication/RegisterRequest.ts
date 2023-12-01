@@ -1,6 +1,5 @@
 import { IsPassword } from "@/validators/IsPassword";
-import { IsType } from "@/validators/IsType";
-import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsArray, IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 
 export class RegisterRequest {
     @IsNotEmpty()
@@ -22,6 +21,6 @@ export class RegisterRequest {
     password: string;
 
     @IsNotEmpty()
-    @IsType(["string", "array"])
+    @IsArray()
     roles: string | string[];
 }

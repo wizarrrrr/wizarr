@@ -1,6 +1,6 @@
 import { privateKey } from "../../utils/secret.helper";
-import { verify } from "jsonwebtoken";
-import { Action } from "routing-controllers";
+import { JwtPayload, verify } from "jsonwebtoken";
+import { Action, BadRequestError } from "routing-controllers";
 import { Context } from "vm";
 import { rolesCheck } from "./HasRole";
 import { getCurrentUser } from "./CurrentUser";
@@ -39,19 +39,27 @@ export const authorizationCheck = async (action: Action, roles: any[]): Promise<
 
 export const localAuthorizationCheck = async <T>(authorization: string): Promise<T> => {
     // If the authorization header is not set, throw an error
-    if (!authorization) throw new Error("No authorization header set");
+    if (!authorization) throw new Error("No authorization header set, please login");
 
     // Get the token from the authorization header
     const token = RegExp(/Bearer\s(\S+)/).exec(authorization)?.[1] ?? authorization;
 
     // If the token is not set, throw an error
-    if (!token) throw new Error("No token set");
+    if (!token) throw new InvalidCredentials("Missing authorization token, please login");
 
     // Verify the token and get the payload
-    const payload = verify(token, await privateKey(), { algorithms: ["RS256"] });
+    const payload = await new Promise<JwtPayload | string>(async (resolve, reject) => {
+        try {
+            resolve(verify(token, await privateKey(), { algorithms: ["RS256"] }));
+        } catch (error) {
+            reject(new InvalidCredentials("Invalid authorization token, try logging in again"));
+        }
+    });
+
+    // verify(token, await privateKey(), { algorithms: ["RS256"] })
 
     // If the payload is not set, throw an error
-    if (!payload) throw new Error("No payload set");
+    if (!payload) throw new BadRequestError("Malformed authorization token payload, please login again");
 
     // Check if the payload is fresh
     if (process.env.NODE_ENV === "production" && (payload as Record<string, boolean>).fresh === false) throw new Error("Token is not fresh");

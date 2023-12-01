@@ -3,6 +3,7 @@ import { existsSync, writeFileSync, readFileSync } from "fs";
 import { resolve } from "path";
 import { KeyObject, createPrivateKey, createPublicKey, generateKeyPair } from "crypto";
 import { cache, secretCache } from "./cache.helper";
+import app from "@/main";
 
 // Global variables for this helper
 export const privateKeyFile = resolve(databasePath, "private.key");
@@ -34,6 +35,7 @@ export const createKeyPair = async (): Promise<{ publicKey: KeyObject; privateKe
             if (err) reject(err);
             writeFileSync(privateKeyFile, privateKey.export({ format: "pem", type: "pkcs1" }), "utf8");
             writeFileSync(publicKeyFile, publicKey.export({ format: "pem", type: "pkcs1" }), "utf8");
+            app.log.info("Created new key pair for the application");
             resolve({ publicKey, privateKey });
         });
     });

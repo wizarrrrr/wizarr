@@ -34,6 +34,7 @@ export default defineComponent({
             await this.$modal.openModal(MediaServerForm, {
                 title: this.__("Add Media Server"),
                 disableFooter: true,
+                size: "md",
             });
         },
     },

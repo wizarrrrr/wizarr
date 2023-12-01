@@ -6,9 +6,9 @@ import { Inject, Service } from "typedi";
 import { OpenAPI } from "routing-controllers-openapi";
 import { InformationService } from "../services/InformationService";
 import { Logger, LoggerInterface } from "@/decorators/LoggerDecorator";
+import { InformationPUT } from "../requests/InformationRequest";
 
 import type { Version as IVersion, Health as IHealth, Information as IInformation } from "@wizarrrr/wizarr-sdk";
-import type { InformationPUT } from "../requests/InformationRequest";
 
 @Service()
 @JsonController()
@@ -42,6 +42,7 @@ export abstract class ControllerBase {
     @OpenAPI({ tags: ["General"] })
     @Authorized(["admin"])
     public async updateInformation(@Body() body: InformationPUT): Promise<Partial<IInformation>> {
+        this.logger.info("Updating server information");
         return this.informationService.update(body);
     }
 

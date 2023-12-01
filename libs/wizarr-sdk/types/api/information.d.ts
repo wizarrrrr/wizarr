@@ -7,9 +7,3 @@ export interface Information {
     bugReporting: boolean;
     debug: boolean;
 }
-
-export interface InformationRequest {
-    name: string;
-    description: string;
-    bugReporting: boolean;
-}
