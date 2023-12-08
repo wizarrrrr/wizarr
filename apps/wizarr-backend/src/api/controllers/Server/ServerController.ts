@@ -7,7 +7,7 @@ import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
 import { ServerRequest } from "@/api/requests/Server/ServerPostRequest";
 import { Admin } from "@/api/models/Account/AdminModel";
 import { LoggerInterface } from "@/decorators/LoggerDecorator";
-import { getUsers } from "@/media/jellyfin";
+import { AdminService } from "@/api/services/Account/AdminService";
 
 @Service()
 @OpenAPI({ security: [{ bearerAuth: [] }], tags: ["Media Servers"] })
@@ -17,7 +17,7 @@ export class ServerController extends ControllerBase {
     /**
      * Creates an instance of MediaServerController.
      */
-    constructor(private serverService: ServerService) {
+    constructor(@Inject() private serverService: ServerService) {
         super();
     }
 

@@ -2,7 +2,7 @@
     <ListItem>
         <template #icon>
             <div class="flex-shrink-0 h-[60px] w-[60px] rounded overflow-hidden">
-                <img :src="user.avatar" class="w-full h-full object-cover object-center" alt="Profile Picture" />
+                <img :src="user.avatar" class="w-full h-full object-cover object-center" alt="Profile Picture" :onerror="`this.src='${avatar}'`" />
             </div>
         </template>
         <template #title>
@@ -43,9 +43,9 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions, mapState } from "pinia";
+import { mapActions } from "pinia";
 import { useUsersStore } from "@/stores/users";
-import { useInformationStore } from "@/stores/information";
+import { url } from "gravatar";
 
 import type { User as IUser } from "@wizarrrr/wizarr-sdk";
 import type { CustomModalOptions } from "@/plugins/modal";
@@ -72,6 +72,13 @@ export default defineComponent({
         };
     },
     computed: {
+        avatar(): string {
+            return url(this.user.email ?? this.user.username, {
+                protocol: "https",
+                s: "200",
+                d: "mp",
+            });
+        },
         expired(): string {
             if (this.$filter("isPast", this.user.expiresAt!)) {
                 return this.__("Expired %{s}", {

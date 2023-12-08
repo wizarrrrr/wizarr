@@ -24,21 +24,20 @@ import { Server as socketIO, ServerOptions } from "socket.io";
 import { CorsOptions } from "cors";
 import { databasePath } from "./config/paths";
 import { PrettyOptions } from "pino-pretty";
-import { TransportTargetOptions } from "pino";
+import { Logger, TransportTargetOptions } from "pino";
 import { pino } from "./utils/logger.helper";
 import { KoaAdapter } from "@bull-board/koa";
 import { createBullBoard } from "@bull-board/api";
-import { Job, Queue, QueueOptions, Worker } from "bullmq";
+import { Queue, Worker } from "bullmq";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
+import { Server } from "./api/models/Server/ServerModel";
+import { BullMQ } from "./bull";
 
 import koa from "koa";
 import path from "path";
 import colors from "colors";
 import cors from "@koa/cors";
 import pinoHttp, { Options } from "pino-http";
-import { Server } from "./api/models/Server/ServerModel";
-import { getUsers } from "./media";
-import { User } from "./api/models/User/UserModel";
 
 export class App {
     // Define the Koa app and port
@@ -51,15 +50,10 @@ export class App {
         // Default options
     };
 
-    // BullMQ options and queues
-    private bullMQQueue: Queue;
-    private bullMQWorker: Worker;
-    private bullMQOptions: QueueOptions = {
-        connection: {
-            host: "localhost",
-            port: 6379,
-        },
-    };
+    // BullMQ Queues and Workers and Class
+    private bullMQ: BullMQ;
+    private bullMQQueues: Queue[];
+    private bullMQWorkers: Worker[];
 
     // Define the logger options for the application
     private loggerOptions: Options & { transport: { targets: (TransportTargetOptions | { options: { prettyOptions: PrettyOptions } })[] } } = {
@@ -116,7 +110,7 @@ export class App {
 
     // Define the logger for the application
     private logger = pinoHttp(this.loggerOptions);
-    public log = this.logger.logger;
+    public log: Logger = this.logger.logger;
 
     /**
      * Constructor
@@ -140,7 +134,7 @@ export class App {
         this.registerSocketControllers();
         this.registerRoutingController();
         this.setupSwagger();
-        await this.setupBullMQProcessor("default");
+        await this.setupBullMQProcessor();
         this.setupBullBoard();
 
         // Start the server
@@ -151,8 +145,6 @@ export class App {
             // Print the server table
             table.printTable();
         });
-
-        this.bullMQQueue.add("test", { test: "test" });
     }
 
     /**
@@ -186,17 +178,9 @@ export class App {
     private async createTypeORMConnection() {
         await connection.initialize().catch((err) => {
             this.log.error(err, "Failed to connect to database");
+            console.error(err);
             process.exit(1);
         });
-
-        (async () => {
-            const testServer2 = await connection.getRepository(Server).findOne({ where: { id: "4ed4454b-1a04-4885-8a25-750ce4a6b64f" } });
-
-            getUsers(testServer2).then((users) => {
-                console.log(users);
-                connection.getRepository(User).save(users);
-            });
-        })();
     }
 
     /**
@@ -210,7 +194,7 @@ export class App {
      * Register the middlewares
      */
     private registerMiddlewares() {
-        this.app.use(pino(this.logger));
+        this.app.use(pino(this.logger, Container));
         this.app.use(cors(this.corsOptions));
     }
 
@@ -237,32 +221,16 @@ export class App {
      * Setup BullMQ for the server
      */
 
-    private async setupBullMQProcessor(queueName: string) {
-        // Create a new QueueScheduler to process the queue
-        this.bullMQQueue = new Queue(queueName, this.bullMQOptions);
+    private async setupBullMQProcessor() {
+        // Create the BullMQ queues and workers instances
+        this.bullMQ = new BullMQ(this.log);
 
-        // Wait until the queue is ready
-        await this.bullMQQueue.waitUntilReady();
-        this.log.info(`Queue ${queueName} is ready`);
+        // Initialize the BullMQ queues and workers
+        await this.bullMQ.initialize();
 
-        // Create a new Queue handler to process the queue
-        const queueHandler = async (job: Job) => {
-            for (let i = 0; i <= 100; i++) {
-                await job.updateProgress(i);
-                await job.log(`Processing job at interval ${i}`);
-                await new Promise((resolve) => setTimeout(resolve, 1500));
-
-                if ((i = 10)) throw new Error(`Random error ${i}`);
-            }
-
-            return { jobId: `This is the return value of job (${job.id})` };
-        };
-
-        // Create a new Worker to process the queue
-        this.bullMQWorker = new Worker(queueName, queueHandler, this.bullMQOptions);
-
-        // Wait until the worker is ready
-        await this.bullMQWorker.waitUntilReady();
+        // Set the BullMQ queues and workers
+        this.bullMQQueues = Object.values(this.bullMQ.queues);
+        this.bullMQWorkers = Object.values(this.bullMQ.workers);
     }
 
     /**
@@ -274,7 +242,7 @@ export class App {
 
         // Create the BullBoard server
         createBullBoard({
-            queues: [new BullMQAdapter(this.bullMQQueue)],
+            queues: this.bullMQQueues.map((queue) => new BullMQAdapter(queue)),
             serverAdapter: serverAdapter,
         });
 

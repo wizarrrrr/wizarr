@@ -14,23 +14,10 @@ export const useUsersStore = defineStore("users", {
             });
 
             // If the users are null, return
-            if (users === null) return;
+            if (!users?.data.rows) return;
 
             // Update the users that are already in the store
-            this.users.forEach((user, index) => {
-                const new_user = users.data.rows.find((new_user: IUser) => new_user.id === user.id);
-                if (new_user) this.users[index] = new_user;
-            });
-
-            // Add the new users to the store if they don't exist
-            users.data.rows.forEach((user: IUser) => {
-                if (!this.users.find((old_user) => old_user.id === user.id)) this.users.push(user);
-            });
-
-            // Remove the users that were not in the response
-            this.users.forEach((user, index) => {
-                if (!users.data.rows.find((new_user: IUser) => new_user.id === user.id)) this.users.splice(index, 1);
-            });
+            this.users = users.data.rows;
 
             // Return the users
             return users.data;
@@ -43,7 +30,7 @@ export const useUsersStore = defineStore("users", {
             });
 
             // If the response is null, return
-            if (response === null) return;
+            if (!response) return;
 
             // Remove the user from the store
             const index = this.users.findIndex((user: IUser) => user.id === id);

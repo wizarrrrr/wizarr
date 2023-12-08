@@ -1,4 +1,4 @@
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { EntityBase } from "../BaseModel";
 import { ServerLibrary } from "./ServerLibraryModel";
 import { Admin } from "../Account/AdminModel";
@@ -27,24 +27,15 @@ export class Server extends EntityBase implements IServer {
     @Column("text", { unique: true })
     apiKey: string;
 
-    @OneToMany(() => ServerLibrary, (library) => library.server, { cascade: true, eager: true, nullable: true })
+    @OneToMany(() => ServerLibrary, (library) => library.server, { cascade: true, orphanedRowAction: "delete", onDelete: "CASCADE" })
     libraries: ServerLibrary[];
 
-    @OneToMany(() => User, (user) => user.server, { cascade: true, eager: true, nullable: true })
+    @OneToMany(() => User, (user) => user.server, { cascade: true, orphanedRowAction: "delete", onDelete: "CASCADE" })
     users: User[];
 
-    @ManyToOne(() => Admin, (admin) => admin.servers, { eager: true })
+    @ManyToOne(() => Admin, (admin) => admin.servers)
     admin: Admin;
-
-    @Column("text")
-    adminId: string;
 
     @CreateDateColumn(DateTimeNow())
     createdAt: Date;
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    setAdminId() {
-        this.adminId = this.admin.id;
-    }
 }

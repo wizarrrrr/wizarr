@@ -30,8 +30,8 @@ import type { ToastID } from "vue-toastification/dist/types/types";
 import type { CustomAxiosRequestConfig } from "./ts/utils/axios";
 import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
 
-import WizarrSDK from "@wizarrrr/wizarr-sdk";
-import type { AxiosInstance } from "axios";
+import type { Toasts } from "./ts/utils/toasts";
+import type { Socket } from "socket.io-client";
 
 export default defineComponent({
     name: "App",
@@ -45,6 +45,8 @@ export default defineComponent({
         return {
             gettext: null as Language | null,
             connectionToast: null as ToastID | null,
+            notificationSocket: null as Socket | null,
+            notificationBuffer: [],
         };
     },
     computed: {
@@ -59,6 +61,7 @@ export default defineComponent({
         ...mapActions(useLanguageStore, ["updateLanguage", "updateAvailableLanguages"]),
         ...mapActions(useInformationStore, ["setServerData"]),
         ...mapActions(useVersionStore, ["setVersionData"]),
+        ...mapActions(useAuthStore, ["isAuthenticated"]),
         async axiosRetry<T>(url: string, config?: CustomAxiosRequestConfig): Promise<T> {
             return await this.$axios
                 .get(url, config)
@@ -72,12 +75,35 @@ export default defineComponent({
             const versionData = await this.$axios.get("/api/version").then((response) => response.data);
             this.setVersionData(versionData);
         },
+        async notificationService() {
+            // Connect to the socket notifications service
+            if (this.isAuthenticated()) {
+                this.notificationSocket = this.$io("/notifications", {
+                    auth: {
+                        token: this.token,
+                    },
+                });
+
+                this.notificationSocket.on("notification", (notification: { type?: keyof Toasts; message: string }) => {
+                    if (notification.message) {
+                        this.$toast[notification.type ?? "info"](notification.message);
+                    }
+                });
+            }
+        },
     },
     watch: {
         token: {
             immediate: true,
-            handler(token) {
-                if (token === null) this.$router.push("/login");
+            handler(token, oldToken) {
+                if (token === null) {
+                    this.$router.push("/login");
+                    this.notificationSocket?.disconnect();
+                }
+
+                if (token !== null && oldToken === null) {
+                    this.notificationService();
+                }
             },
         },
         theme: {
@@ -148,6 +174,9 @@ export default defineComponent({
                 if (!this.setupRequired && guard.name === "setup") this.$router.push("/");
             });
         });
+
+        // Connect to the socket notifications service
+        this.notificationService();
 
         // Finish the progress bar
         this.$Progress.finish();

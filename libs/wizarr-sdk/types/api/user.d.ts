@@ -1,5 +1,16 @@
 import { ListResponse } from "..";
-import { User as UserModel } from "../../../../apps/wizarr-backend/src/api/models/User/UserModel";
+
+export interface User {
+    id: string;
+    name: string;
+    avatar: string;
+    username: string;
+    email: string;
+    expiresAt: Date | null;
+    server: Server;
+    invitation: Invitation;
+    createdAt: Date;
+}
 
 export type User = UserModel;
 export type Users = User[];

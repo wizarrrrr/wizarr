@@ -32,7 +32,7 @@ export class Admin extends EntityBase {
     @OneToMany(() => Session, (session) => session.user, { nullable: true, cascade: true })
     sessions: Session[];
 
-    @OneToMany(() => Server, (server) => server.admin, { nullable: true, cascade: true })
+    @OneToMany(() => Server, (server) => server.admin, { nullable: true })
     servers: Server[];
 
     @CreateDateColumn(DateTimeNow())

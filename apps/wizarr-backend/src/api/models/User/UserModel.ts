@@ -27,18 +27,9 @@ export class User extends EntityBase {
     @ManyToOne(() => Server, (server) => server.users)
     server: Server;
 
-    @Column("text")
-    serverId: string;
-
     @ManyToOne(() => Invitation, (invitation) => invitation.users, { nullable: true })
     invitation: Invitation;
 
     @CreateDateColumn(DateTimeNow())
     createdAt: Date;
-
-    @BeforeInsert()
-    @BeforeUpdate()
-    setServerId() {
-        this.serverId = this.server.id;
-    }
 }

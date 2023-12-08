@@ -1,6 +1,5 @@
 import Container, { Constructable } from "typedi";
-import { CustomLogger } from "../../types/koa";
-import { Logger } from "pino";
+import { Logger, LoggerOptions } from "pino";
 
 export function Logger(): CallableFunction {
     return function (object: Object, propertyName: string, index?: number) {
@@ -15,4 +14,4 @@ export function Logger(): CallableFunction {
     };
 }
 
-export type LoggerInterface = CustomLogger & Logger;
+export type LoggerInterface = Logger<LoggerOptions>;

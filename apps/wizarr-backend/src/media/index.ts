@@ -3,11 +3,12 @@ import { Server } from "@/api/models/Server/ServerModel";
 
 import { getJellyfinUser, getJellyfinUsers } from "./jellyfin";
 import { getPlexUser, getPlexUsers } from "./plex/users";
+import { CreateAxiosDefaults } from "axios";
 
-export const getUsers = async (server: Server): Promise<User[]> => {
+export const getUsers = async (server: Server, config?: CreateAxiosDefaults): Promise<User[]> => {
     switch (server.type) {
         case "jellyfin":
-            return await getJellyfinUsers(server, true);
+            return await getJellyfinUsers(server, true, config);
         case "emby":
             return [];
         case "plex":
@@ -17,10 +18,10 @@ export const getUsers = async (server: Server): Promise<User[]> => {
     }
 };
 
-export const getUser = async (server: Server, id: string): Promise<User> => {
+export const getUser = async (server: Server, id: string, config?: CreateAxiosDefaults): Promise<User> => {
     switch (server.type) {
         case "jellyfin":
-            return await getJellyfinUser(server, id, true);
+            return await getJellyfinUser(server, id, true, config);
         case "emby":
             return null;
         case "plex":

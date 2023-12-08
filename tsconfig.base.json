@@ -21,6 +21,9 @@
             "@wizarrrr/wizarr-sdk": [
                 "libs/wizarr-sdk/src/index.ts"
             ],
+            "@wizarrrr/plex-sdk/src": [
+                "libs/plex-sdk/src"
+            ],
             "@wizarrrr/plex-sdk": [
                 "libs/plex-sdk/src/index.ts"
             ],

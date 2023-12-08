@@ -33,9 +33,9 @@ export default defineComponent({
     },
     methods: {
         async localScanUsers() {
-            this.buttonWait = true;
-            // await this.scanUsers();
-            this.buttonWait = false;
+            this.$axios.get("/api/users/scan").then(() => {
+                this.$toast.info(this.__("Dispatched scan users task"));
+            });
         },
         // ...mapActions(useUsersStore, ["scanUsers"]),
     },

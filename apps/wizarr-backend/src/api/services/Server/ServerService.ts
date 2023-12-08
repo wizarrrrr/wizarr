@@ -9,6 +9,8 @@ import { InjectRepository } from "../../../decorators/InjectRepository";
 import { verifyServerType } from "../../../utils/server.helper";
 import { plainToClass } from "class-transformer";
 import { Service } from "typedi";
+import { AdminRepository } from "@/api/repositories/Account/AdminRepository";
+import { UserRepository } from "@/api/repositories/User/UserRepository";
 
 @Service()
 export class ServerService {
@@ -18,7 +20,11 @@ export class ServerService {
      * @constructor
      */
     // @InjectRepository() private serverRepository: ServerRepository;
-    constructor(@InjectRepository() private serverRepository: ServerRepository) {}
+    constructor(
+        @InjectRepository() private serverRepository: ServerRepository,
+        @InjectRepository() private adminRepository: AdminRepository,
+        @InjectRepository() private userRepository: UserRepository,
+    ) {}
 
     /**
      * Gets all servers.
@@ -27,7 +33,7 @@ export class ServerService {
      */
     public async getAll(resourceOptions?: object, currentUser?: Admin): Promise<{ total_data: number; rows: Server[] }> {
         return await this.serverRepository.getManyAndCount(resourceOptions, {
-            where: "adminId = :adminId",
+            where: "admin.id = :adminId",
             parameters: {
                 adminId: currentUser?.id,
             },
@@ -74,6 +80,9 @@ export class ServerService {
      */
     public async delete(id: string, currentUser: Admin): Promise<Server> {
         const server = await this.getRequestedServerOrFail(id, undefined, currentUser);
+        server.users = [];
+        server.libraries = [];
+        await server.save();
         return await this.serverRepository.remove(server);
     }
 
@@ -81,7 +90,7 @@ export class ServerService {
      * Helper function to get a server by id or throw an exception.
      */
     private async getRequestedServerOrFail(id: string, resourceOptions?: object, currentUser?: Admin) {
-        const userQuery = currentUser ? { where: "adminId = :adminId", parameters: { adminId: currentUser.id } } : undefined;
+        const userQuery = currentUser ? { where: "admin.id = :adminId", parameters: { adminId: currentUser.id } } : undefined;
         const mediaServer = await this.serverRepository.getOneById(id as any, resourceOptions, userQuery);
         if (!mediaServer) throw new Error(`MediaServer with id '${id}' not found`);
         return mediaServer;

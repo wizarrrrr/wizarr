@@ -47,17 +47,7 @@ const piniaPluginSocketIO = (context: PiniaPluginContext) => {
 
 const vuePluginSocketIO = {
     install: (app: App, options: { uri?: string; opts?: Partial<ManagerOptions & SocketOptions> }) => {
-        // const uri = options.uri ?? localStorage.getItem("base_url") ?? window.location.origin;
-        // app.config.globalProperties.$socket = SocketIO(uri, options.opts);
         app.config.globalProperties.$io = SocketIO;
-        // app.config.globalProperties.sockets = {
-        //     subscribe<Ev extends ReservedOrUserEventNames<EventsMap, EventsMap>>(eventName: Ev, handler: ReservedOrUserListener<EventsMap, EventsMap, Ev>) {
-        //         socket.on(eventName, handler);
-        //     },
-        //     unsubscribe<Ev extends ReservedOrUserEventNames<EventsMap, EventsMap>>(eventName: Ev) {
-        //         socket.off(eventName);
-        //     },
-        // };
     },
 };
 

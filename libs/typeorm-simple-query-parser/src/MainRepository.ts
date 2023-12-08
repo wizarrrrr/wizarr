@@ -114,10 +114,12 @@ export abstract class MainRepository<T extends ObjectLiteral> extends Repository
 
                     queryBuilder.leftJoinAndSelect(property, alias);
                 }
+
+                return queryBuilder;
             });
         }
 
-        if (options.filters && options.filters.length) {
+        if (options?.filters?.length) {
             this.applyFilter(options.filters, options.filtersByOr, queryBuilder, mainAlias);
         }
 

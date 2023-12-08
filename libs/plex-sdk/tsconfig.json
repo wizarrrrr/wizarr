@@ -11,6 +11,8 @@
         "noFallthroughCasesInSwitch": true,
         "composite": true,
         "declaration": true,
+        "emitDeclarationOnly": true,
+        "allowImportingTsExtensions": true,
         "downlevelIteration": true
     },
     "files": [],

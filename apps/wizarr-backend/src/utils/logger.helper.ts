@@ -12,7 +12,7 @@ interface Middleware extends Partial<BaseMiddleware> {
     logger: Logger;
 }
 
-export function pino(wrap: HttpLogger<IncomingMessage, ServerResponse<IncomingMessage>, Options<IncomingMessage, ServerResponse<IncomingMessage>>>): Middleware | any {
+export function pino(wrap: HttpLogger<IncomingMessage, ServerResponse<IncomingMessage>, Options<IncomingMessage, ServerResponse<IncomingMessage>>>, container: typeof Container): Middleware | any {
     async function pino(ctx: Context, next: Next) {
         wrap(ctx.req, ctx.res);
         // @ts-ignore
@@ -26,7 +26,7 @@ export function pino(wrap: HttpLogger<IncomingMessage, ServerResponse<IncomingMe
         }
     }
 
-    Container.set("Logger", wrap.logger);
+    container.set("Logger", wrap.logger);
     pino.logger = wrap.logger;
     return pino;
 }

@@ -157,6 +157,14 @@ const theme: Record<string, Record<string, string>> = {
         data-[theme=transparent]:bg-transparent data-[theme=transparent]:hover:bg-gray-100 data-[theme=transparent]:text-gray-900 data-[theme=transparent]:dark:text-white data-[theme=transparent]:border data-[theme=transparent]:border-gray-300 data-[theme=transparent]:hover:bg-gray-100 data-[theme=transparent]:dark:border-gray-700
         data-[theme=none]:bg-transparent data-[theme=none]:text-gray-900 dark:text-white data-[theme=none]:hover:bg-gray-100 dark:hover:bg-gray-700
 
+        data-[size=xs]:px-2.5 data-[size=xs]:py-1.5 data-[size=xs]:text-xs
+        data-[size=sm]:px-3 data-[size=sm]:py-2 data-[size=sm]:text-sm
+        data-[size=md]:px-4 data-[size=md]:py-2.5 data-[size=md]:text-sm
+        data-[size=lg]:px-5 data-[size=lg]:py-3 data-[size=lg]:text-sm
+        data-[size=xl]:px-6 data-[size=xl]:py-3.5 data-[size=xl]:text-sm
+
+        data-[size=square]:px-3.5 h-[36px]
+
         inline-flex items-center focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm
         `,
         prefixIcon: "$reset block w-4 mr-2 stretch",

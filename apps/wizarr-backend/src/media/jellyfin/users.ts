@@ -3,14 +3,15 @@ import { createClient } from ".";
 import { User } from "@/api/models/User/UserModel";
 import { UserDto } from "@jellyfin/sdk/lib/generated-client/models";
 import { plainToInstance } from "class-transformer";
+import { CreateAxiosDefaults } from "axios";
 
-export const getUsers = async <B extends boolean>(server: Server, translate?: B): Promise<B extends true ? User[] : UserDto[]> => {
-    const api = await createClient(server.host, server.apiKey);
+export const getUsers = async <B extends boolean>(server: Server, translate?: B, config?: CreateAxiosDefaults): Promise<B extends true ? User[] : UserDto[]> => {
+    const api = await createClient(server.host, server.apiKey, config);
     return translate ? translateUsers(server, (await api.get<UserDto[]>("/Users")).data) : ((await api.get<UserDto[]>("/Users")).data as any);
 };
 
-export const getUser = async <B extends boolean>(server: Server, id: string, translate?: B): Promise<B extends true ? User : UserDto> => {
-    const api = await createClient(server.host, server.apiKey);
+export const getUser = async <B extends boolean>(server: Server, id: string, translate?: B, config?: CreateAxiosDefaults): Promise<B extends true ? User : UserDto> => {
+    const api = await createClient(server.host, server.apiKey, config);
     return translate ? translateUser(server, (await api.get<UserDto>(`/Users/${id}`)).data) : ((await api.get<UserDto>(`/Users/${id}`)).data as any);
 };
 

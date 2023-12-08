@@ -2,20 +2,16 @@ import koa from "koa";
 import type { Logger, LogFn, LoggerOptions } from "pino";
 import type { Server } from "socket.io";
 
-interface CustomLogger extends Logger {
-    request: LogFn;
-}
-
 declare module "koa" {
     interface Context {
         io: Server;
-        log: CustomLogger;
+        log: Logger<LoggerOptions>;
     }
     interface Request {
-        log: CustomLogger;
+        log: Logger<LoggerOptions>;
     }
     interface Response {
-        log: CustomLogger;
+        log: Logger<LoggerOptions>;
     }
 }
 
