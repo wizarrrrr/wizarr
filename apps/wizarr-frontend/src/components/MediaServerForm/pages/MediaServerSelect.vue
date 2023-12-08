@@ -48,7 +48,14 @@ export default defineComponent({
             }));
 
             // Set the selected option
-            this.selected = this.options[0].value;
+            if (this.selected === undefined) {
+                this.selected = this.options[0].value;
+            }
+
+            this.eventBus.emit("getServer", (payload?: Record<string, string>) => {
+                if (!payload?.type) return;
+                this.selected = payload.type;
+            });
 
             // Stop the please wait
             this.$emit("pleaseWait", false);

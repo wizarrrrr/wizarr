@@ -56,8 +56,8 @@ export default defineConfig({
                 ws: true,
                 xfwd: true,
             },
-            "/swaggerui": {
-                target: "http://127.0.0.1:5000",
+            "/bull": {
+                target: "http://127.0.0.1:5001",
                 changeOrigin: true,
                 xfwd: true,
             },

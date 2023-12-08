@@ -1,30 +1,24 @@
-import {
-    createMemoryHistory,
-    createRouter,
-    createWebHistory,
-} from 'vue-router';
-import { useProgressStore } from '@/stores/progress';
-import { useAuthStore } from '@/stores/auth';
+import { createMemoryHistory, createRouter, createWebHistory } from "vue-router";
+import { useProgressStore } from "@/stores/progress";
+import { useAuthStore } from "@/stores/auth";
 
 // Import the middleware pipeline
-import middlewarePipeline from './middlewarePipeline';
+import middlewarePipeline from "./middlewarePipeline";
 
 // Import all Routes from the modules
-import homeRoutes from '@/modules/home/router';
-import authenticationRoutes from '@/modules/authentication/router';
-import joinRoutes from '@/modules/join/router';
-import adminRoutes from '@/modules/admin/router';
-import settingsRoutes from '@/modules/settings/router';
-import helpRoutes from '@/modules/help/router';
-import requestRoutes from '@/modules/requests/router';
-import setupRoutes from '@/modules/setup/router';
-import coreRoutes from '@/modules/core/router';
+import homeRoutes from "@/modules/home/router";
+import authenticationRoutes from "@/modules/authentication/router";
+import joinRoutes from "@/modules/join/router";
+import adminRoutes from "@/modules/admin/router";
+import settingsRoutes from "@/modules/settings/router";
+import helpRoutes from "@/modules/help/router";
+import requestRoutes from "@/modules/requests/router";
+import setupRoutes from "@/modules/setup/router";
+import coreRoutes from "@/modules/core/router";
+import { useInformationStore } from "@/stores/information";
 
 const router = createRouter({
-    history:
-        typeof window !== 'undefined'
-            ? createWebHistory()
-            : createMemoryHistory(),
+    history: typeof window !== "undefined" ? createWebHistory() : createMemoryHistory(),
     routes: [
         ...homeRoutes, // Homepage routes ["/"]
         ...authenticationRoutes, // Authentication routes ["/login", "/register", "/forgot-password", "/reset-password"]

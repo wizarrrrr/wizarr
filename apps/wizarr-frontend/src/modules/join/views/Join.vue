@@ -1,9 +1,8 @@
 <template>
-    <div class="flex flex-row-reverse flex-column m-3">
-        <LanguageSelector iconClasses="text-base h-8 w-8" />
-        <ThemeToggle iconClasses="text-base h-6 w-6" />
+    <div class="flex flex-column space-x-1 absolute top-0 right-0 mt-2 mr-2">
+        <ThemeToggle />
+        <LanguageSelector />
     </div>
-
     <div>
         <div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-6">
             <WizarrLogo rounded class="w-[150px] h-[150px]" />
@@ -32,7 +31,7 @@
 <script lang="ts">
 import { mapState } from "pinia";
 import { defineComponent } from "vue";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 import { Collapse } from "vue-collapsed";
 
 import Carousel from "../../core/components/Carousel.vue";
@@ -218,3 +217,4 @@ export default defineComponent({
     },
 });
 </script>
+@/stores/information

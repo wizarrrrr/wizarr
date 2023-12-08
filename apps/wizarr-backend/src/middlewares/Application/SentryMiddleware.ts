@@ -1,5 +1,5 @@
 import { KoaMiddlewareInterface, Middleware } from "routing-controllers";
-import { Context, HttpError } from "koa";
+import { Context, HttpError, Request } from "koa";
 import { getCurrentHub, runWithAsyncContext } from "@sentry/node";
 import { addRequestDataToEvent } from "@sentry/utils";
 import { Service } from "typedi";
@@ -22,7 +22,7 @@ export class SentryMiddleware implements KoaMiddlewareInterface {
             runWithAsyncContext(async () => {
                 const hub = getCurrentHub();
                 hub.configureScope((scope) => {
-                    scope.addEventProcessor((event) => addRequestDataToEvent(event, context.request));
+                    scope.addEventProcessor((event) => addRequestDataToEvent(event, context.request as any));
                 });
                 try {
                     await next();
@@ -30,7 +30,8 @@ export class SentryMiddleware implements KoaMiddlewareInterface {
                     const response = this.handleErrorResponse(error);
                     this.setContextResponse(context, response);
                     context.log.error(error);
-                    process.stderr.write(pe.render(error));
+                    // process.stderr.write(pe.render(error));
+                    console.log(error);
                 }
                 resolve(void 0);
             });

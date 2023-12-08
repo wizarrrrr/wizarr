@@ -1,10 +1,13 @@
-import { Authorized, Body, Delete, Get, HttpCode, JsonController, Param, Post, Put, QueryParams } from "routing-controllers";
+import { Authorized, Body, CurrentUser, Delete, Get, HttpCode, JsonController, Param, Post, Put, QueryParams } from "routing-controllers";
 import { OpenAPI } from "routing-controllers-openapi";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { ControllerBase } from "../BaseController";
 import { ServerService } from "@/api/services/Server/ServerService";
-import { RequestQueryParser } from "typeorm-simple-query-parser";
+import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
 import { ServerRequest } from "@/api/requests/Server/ServerPostRequest";
+import { Admin } from "@/api/models/Account/AdminModel";
+import { LoggerInterface } from "@/decorators/LoggerDecorator";
+import { getUsers } from "@/media/jellyfin";
 
 @Service()
 @OpenAPI({ security: [{ bearerAuth: [] }], tags: ["Media Servers"] })
@@ -18,6 +21,8 @@ export class ServerController extends ControllerBase {
         super();
     }
 
+    @Inject("Logger") private logger: LoggerInterface;
+
     /**
      * @api /server Server
      * @apiName Server
@@ -26,9 +31,9 @@ export class ServerController extends ControllerBase {
     @Get()
     @OpenAPI({ summary: "Get all servers" })
     @Authorized()
-    public async getAll(@QueryParams() parseResourceOptions: RequestQueryParser) {
+    public async getAll(@QueryParams() parseResourceOptions: RequestQueryParser, @CurrentUser() currentUser: Admin) {
         const resourceOptions = parseResourceOptions.getAll();
-        return this.serverService.getAll(resourceOptions);
+        return this.serverService.getAll(resourceOptions, currentUser);
     }
 
     /**
@@ -39,9 +44,9 @@ export class ServerController extends ControllerBase {
     @Get("/:id([A-Za-z0-9-]+)")
     @OpenAPI({ summary: "Get one server" })
     @Authorized()
-    public async getOne(@Param("id") id: string, @QueryParams() parseResourceOptions: RequestQueryParser) {
+    public async getOne(@Param("id") id: string, @QueryParams() parseResourceOptions: RequestQueryParser, @CurrentUser() currentUser: Admin) {
         const resourceOptions = parseResourceOptions.getAll();
-        return this.serverService.findOneById(id, resourceOptions);
+        return this.serverService.findOneById(id, resourceOptions, currentUser);
     }
 
     /**
@@ -53,8 +58,9 @@ export class ServerController extends ControllerBase {
     @OpenAPI({ summary: "Create a new server" })
     @HttpCode(201)
     @Authorized(["admin"])
-    public async create(@Body() server: ServerRequest) {
-        return this.serverService.create(server);
+    public async create(@Body() server: ServerRequest, @CurrentUser() currentUser: Admin) {
+        this.logger.info("Creating a new server");
+        return this.serverService.create(server, currentUser);
     }
 
     /**
@@ -65,8 +71,9 @@ export class ServerController extends ControllerBase {
     @Put("/:id([A-Za-z0-9-]+)")
     @OpenAPI({ summary: "Update a server" })
     @Authorized(["admin"])
-    public async update(@Param("id") id: string, @Body() server: Partial<ServerRequest>) {
-        return this.serverService.update(id, server);
+    public async update(@Param("id") id: string, @Body() server: Partial<ServerRequest>, @CurrentUser() currentUser: Admin) {
+        this.logger.info("Updating server with id: " + id);
+        return this.serverService.update(id, server, currentUser);
     }
 
     /**
@@ -77,7 +84,7 @@ export class ServerController extends ControllerBase {
     @Delete("/:id([A-Za-z0-9-]+)")
     @OpenAPI({ summary: "Delete a server" })
     @Authorized(["admin"])
-    public async delete(@Param("id") id: string) {
-        return this.serverService.delete(id);
+    public async delete(@Param("id") id: string, @CurrentUser() currentUser: Admin) {
+        return this.serverService.delete(id, currentUser);
     }
 }

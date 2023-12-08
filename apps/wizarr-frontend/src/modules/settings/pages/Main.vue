@@ -111,8 +111,8 @@ export default defineComponent({
                     roles: ["moderator", "user"],
                     pages: [
                         {
-                            title: this.__("Media Server"),
-                            description: this.__("Configure your media server settings"),
+                            title: this.__("Media Servers"),
+                            description: this.__("Configure your media servers settings"),
                             icon: "fas fa-server",
                             url: "/admin/settings/media",
                         },

@@ -1,7 +1,7 @@
 import { UserNotFoundException } from "@/api/exceptions/UserNotFoundException";
 import { Admin } from "@/api/models/Account/AdminModel";
 import { AdminRepository } from "@/api/repositories/Account/AdminRepository";
-import { InjectRepository } from "@/decorators";
+import { InjectRepository } from "@/decorators/InjectRepository";
 import { StripPassword } from "@/decorators/password-stripper.decorator";
 import { Service } from "typedi";
 

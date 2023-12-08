@@ -1,6 +1,6 @@
 import { RegisterService } from "@/api/services/Authentication/RegisterService";
 import { Body, JsonController, Post } from "routing-controllers";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { ControllerBase } from "../BaseController";
 import { OpenAPI } from "routing-controllers-openapi";
 import { RegisterRequest } from "@/api/requests/Authentication/RegisterRequest";

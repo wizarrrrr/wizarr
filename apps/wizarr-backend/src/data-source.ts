@@ -11,3 +11,9 @@ export const DateTimeNow = (): ColumnOptions => {
         default: () => ((config.type as string) === "sqlite" ? "CURRENT_TIMESTAMP" : "now()"),
     };
 };
+
+export const DateTime: ColumnOptions = {
+    type: (config.type as string) === "sqlite" ? "datetime" : "timestamp",
+};
+
+export const DateTimeType = (config.type as string) === "sqlite" ? "datetime" : "timestamp";

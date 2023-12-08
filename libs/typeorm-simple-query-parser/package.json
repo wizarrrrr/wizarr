@@ -1,0 +1,22 @@
+{
+    "name": "@wizarrrr/typeorm-simple-query-parser",
+    "version": "1.0.17",
+    "description": "TypeORM Query Parser",
+    "main": "./src/index.ts",
+    "scripts": {
+        "build": "tsc"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^18.17.5",
+        "class-validator": "^0.14.0",
+        "prettier": "3.0.2",
+        "typescript": "~5.1.6"
+    },
+    "dependencies": {
+        "typeorm": "^0.3.17"
+    },
+    "files": [
+        "lib/**/*"
+    ]
+}

@@ -30,23 +30,37 @@ export default defineComponent({
             activeStep: 0,
             pleaseWait: false,
             server: {
+                name: "",
+                description: "",
                 type: "",
                 host: "",
-                port: "",
-                username: "",
-                password: "",
+                apiKey: "",
             },
             views: [
                 {
-                    name: "join",
+                    name: "select",
                     component: () => import("./pages/MediaServerSelect.vue"),
                     props: {
                         eventBus: this.eventBus,
                     },
                 },
                 {
-                    name: "settings",
+                    name: "information",
+                    component: () => import("./pages/MediaServerInformation.vue"),
+                    props: {
+                        eventBus: this.eventBus,
+                    },
+                },
+                {
+                    name: "authentication",
                     component: () => import("./pages/MediaServerAuthentication.vue"),
+                    props: {
+                        eventBus: this.eventBus,
+                    },
+                },
+                {
+                    name: "complete",
+                    component: () => import("./pages/MediaServerComplete.vue"),
                     props: {
                         eventBus: this.eventBus,
                     },

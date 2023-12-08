@@ -1,13 +1,16 @@
 <template>
     <div>
-        <div v-if="carouselTitle" class="px-6 pt-6 sm:px-8 sm:pt-8">
-            <h1 class="relative text-lg md:text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
-                <Transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 200 }">
-                    <div :key="carouselTitle">
+        <div v-if="hasTitle || hasDescription" class="px-6 pt-6 sm:px-8 sm:pt-8">
+            <Transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 200 }">
+                <div class="flex flex-col">
+                    <h1 class="relative text-lg md:text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white" :key="carouselTitle" v-if="hasTitle">
                         {{ carouselTitle }}
+                    </h1>
+                    <div class="flex flex-col w-full text-sm text-gray-800 dark:text-gray-200" :key="carouselDescription" v-if="hasDescription">
+                        {{ carouselDescription }}
                     </div>
-                </Transition>
-            </h1>
+                </div>
+            </Transition>
         </div>
         <div ref="carousel" class="relative overflow-hidden rounded h-screen" style="transition: max-height 0.5s ease-in-out" :style="{ maxHeight: carouselHeight }">
             <template v-for="(view, index) in carouselViews" :key="index + 1">
@@ -51,6 +54,7 @@ export interface CarouselView {
     props?: Record<string, any>;
     name?: string;
     title?: string;
+    description?: string;
 }
 
 export interface CarouselConfig {
@@ -67,6 +71,7 @@ export default defineComponent({
             carouselViews: [] as CarouselView[],
             carouselWait: true,
             carouselTitle: this.pageTitle,
+            carouselDescription: this.pageDescription,
             stopObserver: null as UseResizeObserverReturn["stop"] | null,
         };
     },
@@ -87,6 +92,11 @@ export default defineComponent({
         },
         pageTitle: {
             type: String as () => CarouselView["title"],
+            default: undefined,
+            required: false,
+        },
+        pageDescription: {
+            type: String as () => CarouselView["description"],
             default: undefined,
             required: false,
         },
@@ -173,6 +183,7 @@ export default defineComponent({
                 // Update the page title
                 const view = this.carouselViews[index - 1];
                 this.carouselTitle = view?.title ? view.title : undefined;
+                this.carouselDescription = view?.description ? view.description : undefined;
             },
             immediate: false,
         },
@@ -193,6 +204,9 @@ export default defineComponent({
         hasTitle(): boolean {
             return !!this.carouselTitle;
         },
+        hasDescription(): boolean {
+            return !!this.carouselDescription;
+        },
         attrs(): Record<string, any> {
             return {
                 ...this.$attrs,
@@ -200,6 +214,7 @@ export default defineComponent({
                 onPrevStep: () => this.currentComponent--,
                 onPleaseWait: (value: boolean) => (this.carouselWait = value),
                 onUpdateTitle: (title: string) => (this.carouselTitle = title),
+                onUpdateDescription: (description: string) => (this.carouselDescription = description),
                 onHeight: () => this.updateHeight(),
             };
         },
@@ -220,6 +235,7 @@ export default defineComponent({
 
         const view = this.carouselViews[this.currentView - 1];
         this.carouselTitle = view?.title ? view.title : undefined;
+        this.carouselDescription = view?.description ? view.description : undefined;
 
         this.carouselWait = this.pleaseWait ?? false;
     },

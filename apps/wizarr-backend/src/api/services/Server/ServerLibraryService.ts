@@ -1,6 +1,6 @@
 import { ServerLibrary } from "@/api/models/Server/ServerLibraryModel";
 import { ServerLibraryRepository } from "@/api/repositories/Server/ServerLibraryRepository";
-import { InjectRepository } from "@/decorators";
+import { InjectRepository } from "@/decorators/InjectRepository";
 import { Service } from "typedi";
 
 @Service()

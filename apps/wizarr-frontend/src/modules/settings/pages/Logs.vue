@@ -18,7 +18,7 @@ import { defineComponent } from "vue";
 import { FitAddon } from "xterm-addon-fit";
 import { useThemeStore } from "@/stores/theme";
 import { useDebounceFn } from "@vueuse/core";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 
 import type { ITheme, ITerminalOptions } from "xterm";
 import type { Socket } from "socket.io-client";
@@ -60,7 +60,7 @@ export default defineComponent({
         bordered() {
             return !this.boxView && !this.isModal ? "border border-gray-200 dark:border-gray-700 rounded-md p-6" : "";
         },
-        ...mapState(useServerStore, ["settings"]),
+        ...mapState(useInformationStore, ["settings"]),
         ...mapState(useThemeStore, ["boxView"]),
         ...mapState(useThemeStore, ["currentTheme"]),
         ...mapState(useAuthStore, ["token"]),
@@ -132,3 +132,4 @@ export default defineComponent({
     },
 });
 </script>
+@/stores/information

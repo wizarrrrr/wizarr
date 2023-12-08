@@ -1,7 +1,10 @@
+import { ListResponse } from "../index.d";
+
 /**
  * @api /media-server MediaServer
  */
 export type Servers = Server[];
+export type ServerResponse = ListResponse<Server>;
 
 /**
  * @api /media-server/:id MediaServer
@@ -14,6 +17,7 @@ export interface Server {
     host: string;
     apiKey: string;
     libraries?: ServerLibraries;
+    createdAt: Date;
 }
 
 /**

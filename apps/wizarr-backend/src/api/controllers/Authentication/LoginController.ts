@@ -1,7 +1,7 @@
 import { JsonController, Post, Body, Get, Ctx, CurrentUser, Authorized } from "routing-controllers";
 import { LoginRequest } from "@/api/requests/Authentication/LoginRequest";
 import { OpenAPI } from "routing-controllers-openapi";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { LoginService } from "@/api/services/Authentication/LoginService";
 import { ControllerBase } from "../BaseController";
 import { Context } from "koa";

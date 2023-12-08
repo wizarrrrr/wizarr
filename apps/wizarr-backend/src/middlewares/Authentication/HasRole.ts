@@ -1,4 +1,4 @@
-import { Admin } from "@/api/models/Account/AdminModel";
+import { Admin } from "../../api/models/Account/AdminModel";
 
 export const rolesCheck = (roles: string | string[], user: Admin): boolean => {
     // If the roles are not set, return true

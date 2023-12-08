@@ -21,11 +21,14 @@
             "@wizarrrr/wizarr-sdk": [
                 "libs/wizarr-sdk/src/index.ts"
             ],
-            "@wizarrrr/wizarr-types": [
-                "libs/wizarr-types/src/index.ts"
-            ]
+            "@wizarrrr/plex-sdk": [
+                "libs/plex-sdk/src/index.ts"
+            ],
+            "@wizarrrr/typeorm-simple-query-parser": [
+                "libs/typeorm-simple-query-parser/src/index.ts"
+            ],
         },
-        "forceConsistentCasingInFileNames": true,
+        "forceConsistentCasingInFileNames": true
     },
     "exclude": [
         "node_modules",

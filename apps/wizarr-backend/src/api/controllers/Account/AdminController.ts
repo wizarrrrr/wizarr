@@ -1,8 +1,10 @@
+import "reflect-metadata";
+
 import { Authorized, Get, JsonController, Param, QueryParams } from "routing-controllers";
 import { Service } from "typedi";
 import { ControllerBase } from "../BaseController";
 import { AdminService } from "../../../api/services/Account/AdminService";
-import { RequestQueryParser } from "typeorm-simple-query-parser";
+import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
 import { OpenAPI } from "routing-controllers-openapi";
 
 @Service()

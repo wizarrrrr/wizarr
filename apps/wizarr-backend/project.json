@@ -19,9 +19,6 @@
                 "bundle": false,
                 "main": "apps/wizarr-backend/src/main.ts",
                 "tsConfig": "apps/wizarr-backend/tsconfig.app.json",
-                "assets": [
-                    "apps/wizarr-backend/src/assets"
-                ],
                 "generatePackageJson": true,
                 "esbuildOptions": {
                     "sourcemap": true,

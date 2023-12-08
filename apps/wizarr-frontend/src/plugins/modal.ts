@@ -1,12 +1,12 @@
-import type { EventType, Handler } from "mitt";
 import { Modal, closeById, closeModal, config, getComponentFromStore, getCurrentModal, modalQueue, onBeforeModalClose, openModal, popModal, promptModal, pushModal, useModalRouter } from "jenesius-vue-modal";
 
 import type { App } from "vue";
-import type { ConfigInterface } from "jenesius-vue-modal/dist/types/utils/config";
 import type { FormKitClasses } from "@formkit/core";
+import type { ConfigInterface } from "jenesius-vue-modal/dist/types/utils/state";
 import type { ModalOptions } from "jenesius-vue-modal/dist/types/utils/Modal";
+import type { WrapComponent } from "jenesius-vue-modal/dist/types/utils/types";
+
 import ModalWrapper from "./ModalWrapper";
-import type { WrapComponent } from "jenesius-vue-modal/dist/types/types/types";
 
 export declare interface CustomModalOptionsButtons {
     text: string;

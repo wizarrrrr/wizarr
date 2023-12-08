@@ -16,7 +16,7 @@ export const cachedGetLicense = async () => await cache(githubCache, getLicense,
  * getLatestStableVersion - Gets the latest stable version of Wizarr
  * @returns {Promise<string>} The current version of Wizarr
  */
-export const getLatestStableVersion = async (): Promise<string> => {
+export const getLatestStableVersion = async (): Promise<string | undefined> => {
     try {
         // Retrieve all tags for the repo
         const response = await octokit.rest.repos.listTags({ owner, repo });
@@ -35,7 +35,7 @@ export const getLatestStableVersion = async (): Promise<string> => {
  * getLatestBetaVersion - Gets the latest beta version of Wizarr
  * @returns {Promise<string>} The current version of Wizarr
  */
-export const getLatestBetaVersion = async (): Promise<string> => {
+export const getLatestBetaVersion = async (): Promise<string | undefined> => {
     try {
         // Retrieve all tags for the repo
         const response = await octokit.rest.repos.listTags({ owner, repo });

@@ -1,12 +1,10 @@
 {
+    "files": [],
     "extends": "./tsconfig.json",
     "compilerOptions": {
         "baseUrl": "./",
-        "outDir": "../../dist/out-tsc",
-        "module": "commonjs",
-        "types": [
-            "node"
-        ],
+        "composite": true,
+        "declaration": true,
     },
     "include": [
         "src/**/*.ts",

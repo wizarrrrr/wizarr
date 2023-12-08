@@ -6,7 +6,7 @@
 <script lang="ts">
 import { mapState } from "pinia";
 import { defineComponent, defineAsyncComponent } from "vue";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 
 export default defineComponent({
     name: "Download",
@@ -15,7 +15,8 @@ export default defineComponent({
         JellyfinDownload: defineAsyncComponent(() => import("./Jellyfin/Download.vue")),
     },
     computed: {
-        ...mapState(useServerStore, ["settings"]),
+        ...mapState(useInformationStore, ["settings"]),
     },
 });
 </script>
+@/stores/information

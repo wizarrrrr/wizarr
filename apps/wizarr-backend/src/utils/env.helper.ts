@@ -7,7 +7,7 @@ if (process.env.NODE_ENV === "development") {
     dotenv.config({ path: env("DOTENV_FILE", resolve(databasePath, ".env")) });
 }
 
-export function env<T>(key: string, defaultValue?: T): T {
+export function env<T>(key: string, defaultValue?: T): T | undefined {
     return (process.env[key] as T) ?? defaultValue;
 }
 
@@ -19,7 +19,7 @@ export function booleanConverter(value: string | boolean): boolean {
     return value === "true" || value === "1" || value === "yes" || value === "y" || value === "on" || value === "enabled";
 }
 
-export function envOrFail(key: string): string {
+export function envOrFail(key: string): string | undefined {
     if (typeof process.env[key] === "undefined") {
         throw new Error(`Environment variable ${key} is not set.`);
     }

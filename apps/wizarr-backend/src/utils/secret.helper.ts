@@ -3,7 +3,7 @@ import { existsSync, writeFileSync, readFileSync } from "fs";
 import { resolve } from "path";
 import { KeyObject, createPrivateKey, createPublicKey, generateKeyPair } from "crypto";
 import { cache, secretCache } from "./cache.helper";
-import app from "@/main";
+import app from "../main";
 
 // Global variables for this helper
 export const privateKeyFile = resolve(databasePath, "private.key");

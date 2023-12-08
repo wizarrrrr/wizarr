@@ -8,11 +8,11 @@ import Container from "typedi";
 
 const pe = new PrettyError();
 
-interface Middleware extends BaseMiddleware {
+interface Middleware extends Partial<BaseMiddleware> {
     logger: Logger;
 }
 
-export function pino(wrap: HttpLogger<IncomingMessage, ServerResponse<IncomingMessage>, Options<IncomingMessage, ServerResponse<IncomingMessage>>>): Middleware {
+export function pino(wrap: HttpLogger<IncomingMessage, ServerResponse<IncomingMessage>, Options<IncomingMessage, ServerResponse<IncomingMessage>>>): Middleware | any {
     async function pino(ctx: Context, next: Next) {
         wrap(ctx.req, ctx.res);
         // @ts-ignore
@@ -26,7 +26,7 @@ export function pino(wrap: HttpLogger<IncomingMessage, ServerResponse<IncomingMe
         }
     }
 
-    Container.set("logger", wrap.logger);
+    Container.set("Logger", wrap.logger);
     pino.logger = wrap.logger;
     return pino;
 }

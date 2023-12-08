@@ -34,7 +34,7 @@ export class Session extends EntityBase {
 
     @BeforeInsert()
     @BeforeUpdate()
-    setUserId() {
+    setAdminId() {
         this.userId = this.user.id;
     }
 

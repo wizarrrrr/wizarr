@@ -1,0 +1,35 @@
+{
+    "name": "typeorm-simple-query-parser",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/typeorm-simple-query-parser/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "options": {
+                "outputPath": "dist/libs/typeorm-simple-query-parser",
+                "main": "libs/typeorm-simple-query-parser/src/index.ts",
+                "tsConfig": "libs/typeorm-simple-query-parser/tsconfig.lib.json",
+                "assets": [
+                    "libs/typeorm-simple-query-parser/*.md"
+                ]
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": [
+                "{options.outputFile}"
+            ],
+            "options": {
+                "lintFilePatterns": [
+                    "libs/typeorm-simple-query-parser/**/*.ts",
+                    "libs/typeorm-simple-query-parser/package.json"
+                ]
+            }
+        }
+    },
+    "tags": []
+}

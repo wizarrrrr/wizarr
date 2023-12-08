@@ -66,14 +66,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState, mapActions } from "pinia";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 import { useLibrariesStore } from "@/stores/libraries";
 import { useInvitationStore } from "@/stores/invitations";
 import { Collapse } from "vue-collapsed";
 import { customAlphabet } from "nanoid";
 import { useClipboard, useResizeObserver } from "@vueuse/core";
 
-import DateInput from "@/components/Inputs/DateInput.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
 
 import type { ToastID } from "vue-toastification/dist/types/types";
@@ -82,7 +81,6 @@ import type { Emitter, EventType } from "mitt";
 export default defineComponent({
     name: "InvitationForm",
     components: {
-        DateInput,
         Collapse,
         DefaultButton,
     },
@@ -309,7 +307,7 @@ export default defineComponent({
             return `${window.location.origin}/j/${this.inviteCode}`;
         },
         ...mapState(useLibrariesStore, ["libraries"]),
-        ...mapState(useServerStore, ["settings"]),
+        ...mapState(useInformationStore, ["settings"]),
     },
     watch: {
         "invitationData.inviteCode": {
@@ -357,3 +355,4 @@ export default defineComponent({
     },
 });
 </script>
+@/stores/information

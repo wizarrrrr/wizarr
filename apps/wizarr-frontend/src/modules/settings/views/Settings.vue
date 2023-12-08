@@ -12,14 +12,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import AdminNavBar from '@/components/NavBars/AdminNavBar.vue';
-import AdminFooter from '@/components/Footers/AdminFooter.vue';
-import Setttings from '@/modules/admin/pages/Settings.vue';
+import AdminNavBar from "@/templates/Navbars/AdminNavBar.vue";
+import AdminFooter from "@/templates/Footers/AdminFooter.vue";
+import Setttings from "@/modules/admin/pages/Settings.vue";
 
 export default defineComponent({
-    name: 'SettingsView',
+    name: "SettingsView",
     components: {
         AdminNavBar,
         AdminFooter,

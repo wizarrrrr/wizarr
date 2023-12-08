@@ -6,19 +6,28 @@
     "targets": {
         "build": {
             "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
+            "outputs": [
+                "{options.outputPath}"
+            ],
             "options": {
                 "outputPath": "dist/libs/wizarr-sdk",
                 "main": "libs/wizarr-sdk/src/index.ts",
                 "tsConfig": "libs/wizarr-sdk/tsconfig.lib.json",
-                "assets": ["libs/wizarr-sdk/*.md"]
+                "assets": [
+                    "libs/wizarr-sdk/*.md"
+                ]
             }
         },
         "lint": {
             "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"],
+            "outputs": [
+                "{options.outputFile}"
+            ],
             "options": {
-                "lintFilePatterns": ["libs/wizarr-sdk/**/*.ts", "libs/wizarr-sdk/package.json"]
+                "lintFilePatterns": [
+                    "libs/wizarr-sdk/**/*.ts",
+                    "libs/wizarr-sdk/package.json"
+                ]
             }
         }
     },

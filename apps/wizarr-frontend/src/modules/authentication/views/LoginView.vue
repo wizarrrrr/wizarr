@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import DefaultNavBar from "@/components/NavBars/DefaultNavBar.vue";
+import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
 import DefaultLoading from "@/components/Loading/DefaultLoading.vue";
 
 import LoginForm from "../components/LoginForm.vue";

@@ -34,10 +34,10 @@ export default defineComponent({
     methods: {
         async localScanUsers() {
             this.buttonWait = true;
-            await this.scanUsers();
+            // await this.scanUsers();
             this.buttonWait = false;
         },
-        ...mapActions(useUsersStore, ["scanUsers"]),
+        // ...mapActions(useUsersStore, ["scanUsers"]),
     },
     computed: {
         ...mapState(useThemeStore, ["boxView"]),

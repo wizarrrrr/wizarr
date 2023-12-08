@@ -1,5 +1,5 @@
 import Container, { Constructable } from "typedi";
-import { CustomLogger } from "types/koa";
+import { CustomLogger } from "../../types/koa";
 import { Logger } from "pino";
 
 export function Logger(): CallableFunction {
@@ -9,7 +9,7 @@ export function Logger(): CallableFunction {
             index: index,
             propertyName: propertyName,
             value: (containerInstance) => {
-                return containerInstance.get("logger");
+                return containerInstance.get("Logger");
             },
         });
     };

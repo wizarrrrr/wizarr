@@ -1,0 +1,38 @@
+{
+    "name": "@wizarrrr/plex-sdk",
+    "version": "0.0.1",
+    "dependencies": {
+        "@ctrl/mac-address": "^3.0.2",
+        "got": "^12.1.0",
+        "p-any": "^4.0.0",
+        "type-fest": "^2.13.1",
+        "ws": "^8.8.0",
+        "xml2js": "^0.4.23"
+    },
+    "devDependencies": {
+        "@sindresorhus/tsconfig": "3.0.1",
+        "@ctrl/eslint-config": "3.4.6",
+        "@types/lodash": "4.14.182",
+        "@types/micromatch": "4.0.2",
+        "@types/node": "18.0.0",
+        "@types/ws": "8.5.3",
+        "@types/xml2js": "0.4.11",
+        "@types/yargs": "17.0.10",
+        "c8": "7.11.3",
+        "delay": "5.0.0",
+        "execa": "6.1.0",
+        "glob": "8.0.3",
+        "globby": "13.1.2",
+        "lodash": "4.17.21",
+        "make-dir": "3.1.0",
+        "ora": "6.1.0",
+        "p-retry": "5.1.1",
+        "ts-node": "10.8.1",
+        "typedoc": "0.22.17",
+        "typescript": "4.7.4",
+        "vitest": "0.15.1",
+        "yargs": "17.5.1"
+    },
+    "type": "commonjs",
+    "main": "./index.ts"
+}

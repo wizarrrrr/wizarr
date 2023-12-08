@@ -16,15 +16,16 @@
 <script lang="ts">
 import { mapState } from "pinia";
 import { defineComponent } from "vue";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 
 export default defineComponent({
     name: "JoinCompleteView",
     computed: {
-        ...mapState(useServerStore, ["settings"]),
+        ...mapState(useInformationStore, ["settings"]),
     },
     mounted() {
         console.log("mounted join complete view");
     },
 });
 </script>
+@/stores/information

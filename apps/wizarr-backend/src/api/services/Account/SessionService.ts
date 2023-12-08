@@ -1,6 +1,6 @@
 import { UserNotFoundException } from "@/api/exceptions/UserNotFoundException";
 import { SessionRepository } from "@/api/repositories/Account/SessionRepository";
-import { InjectRepository } from "@/decorators";
+import { InjectRepository } from "@/decorators/InjectRepository";
 import { Session } from "@/api/models/Account/SessionsModel";
 import { Service } from "typedi";
 import { StripPassword } from "@/decorators/password-stripper.decorator";

@@ -1,8 +1,8 @@
 import { Authorized, Get, JsonController, Param, QueryParams } from "routing-controllers";
 import { OpenAPI } from "routing-controllers-openapi";
-import { Service } from "typedi";
+import { Inject, Service } from "typedi";
 import { ControllerBase } from "../BaseController";
-import { RequestQueryParser } from "typeorm-simple-query-parser";
+import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
 import { ServerLibraryService } from "../../services/Server/ServerLibraryService";
 
 @Service()
@@ -13,7 +13,7 @@ export class ServerLibraryController extends ControllerBase {
     /**
      * Creates an instance of MediaServerController.
      */
-    constructor(private mediaServerLibraryService: ServerLibraryService) {
+    constructor(private serverLibraryService: ServerLibraryService) {
         super();
     }
 
@@ -25,7 +25,7 @@ export class ServerLibraryController extends ControllerBase {
     @Authorized()
     public async getAll(@QueryParams() parseResourceOptions: RequestQueryParser) {
         const resourceOptions = parseResourceOptions.getAll();
-        return this.mediaServerLibraryService.getAll(resourceOptions);
+        return this.serverLibraryService.getAll(resourceOptions);
     }
 
     /**
@@ -36,6 +36,6 @@ export class ServerLibraryController extends ControllerBase {
     @Authorized()
     public async getOneLibrary(@Param("id") id: string, @QueryParams() parseResourceOptions: RequestQueryParser) {
         const resourceOptions = parseResourceOptions.getAll();
-        return this.mediaServerLibraryService.findOneById(id, resourceOptions);
+        return this.serverLibraryService.findOneById(id, resourceOptions);
     }
 }

@@ -1,7 +1,7 @@
 import { InvalidCredentials } from "@/api/exceptions/InvalidCredentials";
 import { AdminRepository } from "@/api/repositories/Account/AdminRepository";
 import { LoginRequest } from "@/api/requests/Authentication/LoginRequest";
-import { InjectRepository } from "@/decorators";
+import { InjectRepository } from "@/decorators/InjectRepository";
 import { checkPassword } from "@/utils/password.helper";
 import { Service } from "typedi";
 import { Session } from "@/api/models/Account/SessionsModel";

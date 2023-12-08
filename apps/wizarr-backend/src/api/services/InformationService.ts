@@ -1,10 +1,13 @@
-import { InjectRepository } from "@/decorators";
+import "reflect-metadata";
+
+import { InjectRepository } from "@/decorators/InjectRepository";
 import { Service } from "typedi";
 import { InformationRepository } from "../repositories/InformationRepository";
 import { Information } from "../models/InformationModel";
 import { booleanConverter, env } from "@/utils/env.helper";
 
 import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
+import { AdminRepository } from "../repositories/Account/AdminRepository";
 
 @Service()
 export class InformationService {
@@ -13,7 +16,10 @@ export class InformationService {
      * @param informationRepository
      * @constructor
      */
-    constructor(@InjectRepository() private informationRepository: InformationRepository) {}
+    constructor(
+        @InjectRepository() private informationRepository: InformationRepository,
+        @InjectRepository() private adminRepository: AdminRepository,
+    ) {}
 
     /**
      * Gets all information.
@@ -31,7 +37,7 @@ export class InformationService {
         const response = {
             name: "Wizarr",
             description: "Wizarr is a media server",
-            setupRequired: booleanConverter(env("SETUP_REQUIRED", true)),
+            setupRequired: (await this.adminRepository.count()) === 0,
             bugReporting: booleanConverter(env("BUG_REPORTING", true)),
             ...(await data),
         };

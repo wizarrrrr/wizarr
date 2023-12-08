@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 import { mapState } from "pinia";
 import { useClipboard } from "@vueuse/core";
 
@@ -112,7 +112,8 @@ export default defineComponent({
         isWindows(): boolean {
             return this.browser.os?.toLowerCase().includes("windows") ?? false;
         },
-        ...mapState(useServerStore, ["settings"]),
+        ...mapState(useInformationStore, ["settings"]),
     },
 });
 </script>
+@/stores/information

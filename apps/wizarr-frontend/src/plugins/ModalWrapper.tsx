@@ -5,7 +5,7 @@ import { Modal } from "jenesius-vue-modal";
 import { defineComponent } from "vue";
 
 import type { CustomModalOptions, CustomModalOptionsButtons } from "./modal";
-import type { WrapComponent } from "jenesius-vue-modal/dist/types/types/types";
+import type { WrapComponent } from "jenesius-vue-modal/dist/types/utils/types";
 
 const ModalWrapper = <P extends WrapComponent>(component: P | string, props?: any, options?: Partial<CustomModalOptions>) => {
     return defineComponent({

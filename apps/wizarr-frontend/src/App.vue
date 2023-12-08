@@ -11,7 +11,7 @@
 import { defineComponent } from "vue";
 import { mapWritableState, mapState, mapActions } from "pinia";
 import { useThemeStore } from "@/stores/theme";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 import { useLanguageStore } from "@/stores/language";
 import { useAuthStore } from "@/stores/auth";
 import { useProgressStore } from "./stores/progress";
@@ -48,6 +48,7 @@ export default defineComponent({
         };
     },
     computed: {
+        ...mapState(useInformationStore, ["setupRequired"]),
         ...mapState(useAuthStore, ["token"]),
         ...mapState(useThemeStore, ["theme"]),
         ...mapState(useLanguageStore, ["language"]),
@@ -56,7 +57,7 @@ export default defineComponent({
     methods: {
         ...mapActions(useThemeStore, ["updateTheme"]),
         ...mapActions(useLanguageStore, ["updateLanguage", "updateAvailableLanguages"]),
-        ...mapActions(useServerStore, ["setServerData"]),
+        ...mapActions(useInformationStore, ["setServerData"]),
         ...mapActions(useVersionStore, ["setVersionData"]),
         async axiosRetry<T>(url: string, config?: CustomAxiosRequestConfig): Promise<T> {
             return await this.$axios
@@ -115,34 +116,38 @@ export default defineComponent({
         this.updateTheme(this.theme);
 
         // Get the server data
-        const serverData = await this.axiosRetry<IInformation>("/api/information", {
+        const serverData = this.axiosRetry<IInformation>("/api/information", {
             disableErrorToast: true,
             disableInfoToast: true,
         });
 
-        // If there was a connection toast, dismiss it and show a success toast
-        if (this.connectionToast !== null) {
-            this.$toast.dismiss(this.connectionToast);
-            this.$toast.success(DefaultToast("Connection Online", "Connection to backend established."));
-        }
+        // Background task that will run a function once the serverData promise resolves
+        serverData.then(async (serverData) => {
+            // If there was a connection toast, dismiss it and show a success toast
+            if (this.connectionToast !== null) {
+                this.$toast.dismiss(this.connectionToast);
+                this.$toast.success(DefaultToast("Connection Online", "Connection to backend established."));
+            }
 
-        // If setup is required, redirect to setup page if current route is not setup page
-        if (serverData.setupRequired && this.$router.currentRoute.value.name !== "setup") this.$router.push("/setup");
-        if (!serverData.setupRequired && this.$router.currentRoute.value.name === "setup") this.$router.push("/");
+            // If update is available, open update message
+            if (serverData.updateAvailable) {
+                this.$toast.info(UpdateAvailable, {
+                    timeout: false,
+                    closeButton: false,
+                    draggable: false,
+                    closeOnClick: false,
+                });
+            }
 
-        // If update is available, open update message
-        if (serverData.updateAvailable) {
-            this.$toast.info(UpdateAvailable, {
-                timeout: false,
-                closeButton: false,
-                draggable: false,
-                closeOnClick: false,
+            // Set the server data
+            this.setServerData(serverData);
+            this.setVersionStore();
+
+            this.$router.afterEach((guard) => {
+                if (this.setupRequired && guard.name !== "setup") this.$router.push("/setup");
+                if (!this.setupRequired && guard.name === "setup") this.$router.push("/");
             });
-        }
-
-        // Set the server data
-        this.setServerData(serverData);
-        this.setVersionStore();
+        });
 
         // Finish the progress bar
         this.$Progress.finish();
@@ -150,3 +155,4 @@ export default defineComponent({
     },
 });
 </script>
+@/stores/information

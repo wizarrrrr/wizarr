@@ -2,7 +2,7 @@
     <ListItem>
         <template #icon>
             <div class="flex-shrink-0 h-[60px] w-[60px] rounded overflow-hidden">
-                <img :src="profilePicture" :onerror="`this.src='${backupPicture}'`" class="w-full h-full object-cover object-center" alt="Profile Picture" />
+                <img :src="user.avatar" class="w-full h-full object-cover object-center" alt="Profile Picture" />
             </div>
         </template>
         <template #title>
@@ -12,19 +12,19 @@
                     {{ user.email }}
                 </p>
                 <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">No email</p>
-                <p v-if="user.expires" class="text-xs truncate w-full" :class="color">
+                <p v-if="user.expiresAt" class="text-xs truncate w-full" :class="color">
                     {{ expired }}
                 </p>
                 <p v-else class="text-xs truncate text-gray-500 dark:text-gray-400 w-full">
-                    {{ $filter("timeAgo", user.created) }}
+                    {{ $filter("timeAgo", user.createdAt) }}
                 </p>
             </div>
         </template>
         <template #buttons>
             <div class="flex flex-row space-x-2">
-                <div v-if="user.code" class="border border-gray-200 dark:border-gray-700 rounded p-2 text-xs text-gray-500 dark:text-gray-400">
+                <!-- <div v-if="user.code" class="border border-gray-200 dark:border-gray-700 rounded p-2 text-xs text-gray-500 dark:text-gray-400">
                     <span>{{ user.code }}</span>
-                </div>
+                </div> -->
                 <FormKit type="button" data-theme="secondary" @click="viewUser" :classes="{ input: '!bg-secondary !px-3.5 h-[36px]' }">
                     <i class="fa-solid fa-eye"></i>
                 </FormKit>
@@ -45,9 +45,9 @@
 import { defineComponent } from "vue";
 import { mapActions, mapState } from "pinia";
 import { useUsersStore } from "@/stores/users";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 
-import type { User } from "@/types/api/users";
+import type { User as IUser } from "@wizarrrr/wizarr-sdk";
 import type { CustomModalOptions } from "@/plugins/modal";
 
 import ListItem from "@/components/ListItem.vue";
@@ -60,14 +60,12 @@ export default defineComponent({
     },
     props: {
         user: {
-            type: Object as () => User,
+            type: Object as () => IUser,
             required: true,
         },
     },
     data() {
         return {
-            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username[0],
-            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username[0],
             disabled: {
                 delete: false,
             },
@@ -75,13 +73,13 @@ export default defineComponent({
     },
     computed: {
         expired(): string {
-            if (this.$filter("isPast", this.user.expires!)) {
+            if (this.$filter("isPast", this.user.expiresAt!)) {
                 return this.__("Expired %{s}", {
-                    s: this.$filter("timeAgo", this.user.expires!),
+                    s: this.$filter("timeAgo", this.user.expiresAt!),
                 });
             } else {
                 return this.__("Expires %{s}", {
-                    s: this.$filter("timeAgo", this.user.expires!),
+                    s: this.$filter("timeAgo", this.user.expiresAt!),
                 });
             }
         },
@@ -89,26 +87,19 @@ export default defineComponent({
             const inHalfDay = new Date();
             inHalfDay.setHours(inHalfDay.getHours() + 12);
 
-            if (this.$filter("isPast", this.user.expires!)) {
+            if (this.$filter("isPast", this.user.expiresAt!)) {
                 return "text-red-600 dark:text-red-500";
             }
 
-            if (this.$filter("dateLess", this.user.expires!, inHalfDay)) {
+            if (this.$filter("dateLess", this.user.expiresAt!, inHalfDay)) {
                 return "text-yellow-500 dark:text-yellow-400";
             }
 
             return "text-gray-500 dark:text-gray-400";
         },
-        ...mapState(useServerStore, ["settings"]),
+        // ...mapState(useInformationStore, ["settings"]),
     },
     methods: {
-        async getProfilePicture() {
-            const response = this.$axios.get(`/api/users/${this.user.token}/profile-picture`, {
-                responseType: "blob",
-            });
-
-            this.profilePicture = URL.createObjectURL((await response).data);
-        },
         async manageUser() {
             const modal_options: CustomModalOptions = {
                 title: this.__(`Managing %{user}`, {
@@ -133,18 +124,17 @@ export default defineComponent({
             this.$modal.openModal(UserManager, modal_options, modal_props);
         },
         async viewUser() {
-            // Url for server
-            const server_url = this.settings.server_url_override ?? this.settings.server_url;
-
-            // Switch statement to determine which server type is being used and its respective URL
-            switch (this.settings.server_type) {
-                case "jellyfin":
-                    window.open(`${server_url}/web/index.html#!/useredit.html?userId=${this.user.token}`, "_blank");
-                    break;
-                case "plex":
-                    window.open(`${server_url}/web/index.html#!/settings/manage-library-access/sharing/${this.user.token}`, "_blank");
-                    break;
-            }
+            // // Url for server
+            // const server_url = this.settings.server_url_override ?? this.settings.server_url;
+            // // Switch statement to determine which server type is being used and its respective URL
+            // switch (this.settings.server_type) {
+            //     case "jellyfin":
+            //         window.open(`${server_url}/web/index.html#!/useredit.html?userId=${this.user.token}`, "_blank");
+            //         break;
+            //     case "plex":
+            //         window.open(`${server_url}/web/index.html#!/settings/manage-library-access/sharing/${this.user.token}`, "_blank");
+            //         break;
+            // }
         },
         async localDeleteUser() {
             // Confirm the user wants to delete the user
@@ -163,7 +153,8 @@ export default defineComponent({
         ...mapActions(useUsersStore, ["deleteUser"]),
     },
     mounted() {
-        this.getProfilePicture();
+        // this.getProfilePicture();
     },
 });
 </script>
+@/stores/information

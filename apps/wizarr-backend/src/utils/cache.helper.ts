@@ -3,7 +3,7 @@ import { existsSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
 import nodeCache from "node-cache";
-import app from "@/main";
+import app from "../main";
 
 //  Time constants
 //  These are not exact, but they are close enough for our purposes
@@ -83,7 +83,7 @@ export const cache = async (cache: nodeCache, fn: Function, key: string, ttl?: n
  * @returns The value that was set
  */
 export const setValue = (cache: nodeCache, key: string, value: any, ttl?: number) => {
-    cache.set(key, value, ttl);
+    cache.set(key, value, ttl || ONE_HOUR);
     persistCache(cache, resolve(databasePath, "cache.json"));
     return value;
 };

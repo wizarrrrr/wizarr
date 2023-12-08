@@ -1,5 +1,6 @@
 import koa from "koa";
-import type { Logger, LogFn } from "pino";
+import type { Logger, LogFn, LoggerOptions } from "pino";
+import type { Server } from "socket.io";
 
 interface CustomLogger extends Logger {
     request: LogFn;
@@ -7,7 +8,7 @@ interface CustomLogger extends Logger {
 
 declare module "koa" {
     interface Context {
-        io: sockerIO;
+        io: Server;
         log: CustomLogger;
     }
     interface Request {
@@ -20,6 +21,6 @@ declare module "koa" {
 
 declare module "http" {
     interface IncomingMessage {
-        log: CustomLogger;
+        log: Logger<LoggerOptions>;
     }
 }

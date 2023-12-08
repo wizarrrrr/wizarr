@@ -13,7 +13,7 @@ export const createAccessToken = async (identity: string) => {
 
     // Create a JWT options object
     const options: SignOptions = {
-        expiresIn: "10s",
+        expiresIn: "10m",
         issuer: "wizarr",
         jwtid: randomBytes(16).toString("hex"),
         algorithm: "RS256",

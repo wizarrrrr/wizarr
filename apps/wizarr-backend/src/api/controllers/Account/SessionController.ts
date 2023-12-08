@@ -3,7 +3,7 @@ import { OpenAPI } from "routing-controllers-openapi";
 import { Service } from "typedi";
 import { ControllerBase } from "../BaseController";
 import { SessionService } from "../../../api/services/Account/SessionService";
-import { RequestQueryParser } from "typeorm-simple-query-parser";
+import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
 
 @Service()
 @OpenAPI({ security: [{ bearerAuth: [] }] })

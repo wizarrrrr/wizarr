@@ -1,0 +1,35 @@
+{
+    "name": "plex-sdk",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/plex-sdk/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "options": {
+                "outputPath": "dist/libs/plex-sdk",
+                "main": "libs/plex-sdk/src/index.ts",
+                "tsConfig": "libs/plex-sdk/tsconfig.lib.json",
+                "assets": [
+                    "libs/plex-sdk/*.md"
+                ]
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": [
+                "{options.outputFile}"
+            ],
+            "options": {
+                "lintFilePatterns": [
+                    "libs/plex-sdk/**/*.ts",
+                    "libs/plex-sdk/package.json"
+                ]
+            }
+        }
+    },
+    "tags": []
+}

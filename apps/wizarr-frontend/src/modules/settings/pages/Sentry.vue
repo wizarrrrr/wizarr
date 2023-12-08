@@ -27,7 +27,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useThemeStore } from "@/stores/theme";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 import { mapState, mapWritableState } from "pinia";
 
 export default defineComponent({
@@ -41,7 +41,7 @@ export default defineComponent({
         bordered() {
             return !this.boxView ? "border border-gray-200 dark:border-gray-700 rounded-md p-6" : "";
         },
-        ...mapWritableState(useServerStore, ["bugReporting"]),
+        ...mapWritableState(useInformationStore, ["bugReporting"]),
         ...mapState(useThemeStore, ["boxView"]),
     },
     methods: {
@@ -61,3 +61,4 @@ export default defineComponent({
     },
 });
 </script>
+@/stores/information
