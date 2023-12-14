@@ -84,7 +84,7 @@ export default defineComponent({
                 description: "",
                 type: "",
                 host: "",
-                hostOverride: null as string | null,
+                hostOverride: undefined as string | undefined,
                 apiKey: "",
             },
         };
@@ -99,8 +99,12 @@ export default defineComponent({
                 apiKey: this.server.apiKey,
             });
 
+            // If no hostOverride is set, remove it from the server object
+            const request = this.server;
+            if (request.hostOverride == "") delete request.hostOverride;
+
             // Create the server on the backend
-            const response = await this.$axios.post("/api/servers", this.server).catch((err) => {
+            const response = await this.$axios.post("/api/servers", request).catch((err) => {
                 return null;
             });
 

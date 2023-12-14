@@ -1,9 +1,9 @@
 <template>
     <div>
-        <FormKit type="form" :actions="false" v-model="localInvitationData" :disabled="disabled">
+        <FormKit type="form" :actions="false" v-model="localInvitationData" :disabled="servers.length <= 0">
             <div class="space-y-4">
                 <!-- Select Server -->
-                <FormKit type="select" :label="__('Select Server')" name="serverId" :options="serverOptions" />
+                <FormKit type="select" :label="__('Select Server')" name="serverId" :options="serverOptions" :placeholder="servers.length <= 0 ? __('No servers available') : __('Select a server')" :validation="[['required']]" :validation-messages="{ required: __('Please select a server') }" />
 
                 <!-- Invite Code -->
                 <FormKit
@@ -67,7 +67,6 @@ export default defineComponent({
         return {
             inviteCode: "",
             localInvitationData: this.invitationData,
-            disabled: false,
             expirationOptions: [
                 {
                     label: "1 Day",

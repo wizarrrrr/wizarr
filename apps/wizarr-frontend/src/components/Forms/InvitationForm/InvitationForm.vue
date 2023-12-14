@@ -12,6 +12,7 @@ import { customAlphabet } from "nanoid";
 import { mapState, mapActions } from "pinia";
 import { useServerStore } from "@/stores/servers";
 import { useLibrariesStore } from "@/stores/libraries";
+import { useInvitationStore } from "@/stores/invitations";
 
 import moment from "moment";
 
@@ -21,8 +22,6 @@ import InvitationComplete from "./pages/InvitationComplete.vue";
 
 import type { Emitter } from "mitt";
 import type { Invitation as IInvitation, InvitationRequest as IInvitationRequest } from "@wizarrrr/wizarr-sdk";
-import type { CustomAxiosResponse } from "@/ts/utils/axios";
-import { useInvitationStore } from "@/stores/invitations";
 
 export interface InvitationData {
     serverId: string;
@@ -149,6 +148,9 @@ export default defineComponent({
                                 onClick: () => {
                                     this.localCreateInvitation();
                                 },
+                                attrs: {
+                                    disabled: this.servers.length === 0,
+                                },
                             },
                         ],
                     });
@@ -186,6 +188,11 @@ export default defineComponent({
         },
     },
     async beforeMount() {
+        if (this.servers.length <= 0) {
+            this.$toast.error(this.__("You need to add a server before you can create an invitation"));
+            return;
+        }
+
         this.invitationData.serverId = this.servers[0].id;
         await this.getLibraries();
     },

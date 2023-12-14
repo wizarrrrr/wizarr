@@ -1,6 +1,6 @@
 <template>
     <div id="invitationPermissions" ref="invitationPermissions" class="w-full">
-        <FormKit type="form" :actions="false" v-model="localInvitationData" :disabled="disabled">
+        <FormKit type="form" :actions="false" v-model="localInvitationData" :disabled="servers.length <= 0">
             <!-- Select Duration -->
             <FormKit type="select" :label="__('User Account Duration')" :help="__('Duration the invitees account exists for')" name="duration" :options="durationOptions" />
 
@@ -10,7 +10,7 @@
             <!-- SELECT SPECIFIC LIBRARIES -->
             <FormKit type="dropdown" :label="__('Select Libraries')" :placeholder="__('Select Libraries')" :help="__('Leave empty to use all libraries')" name="libraries" :options="libraryOptions" multiple selection-appearance="tags" wrapper-class="mb-2" />
 
-            <hr class="border-gray-200 dark:border-gray-700 py-2 mt-3" />
+            <hr class="border-gray-200 dark:border-gray-700 py-2 mt-3" v-if="servers.length > 0" />
 
             <!-- Select Options -->
             <FormKit type="checkbox" name="options" :options="checkboxOptions" />
@@ -23,10 +23,10 @@ import { defineComponent } from "vue";
 import { mapState } from "pinia";
 import { useServerStore } from "@/stores/servers";
 import { useLibrariesStore } from "@/stores/libraries";
+import { useResizeObserver } from "@vueuse/core";
 
 import type { InvitationData } from "../InvitationForm.vue";
 import type { Emitter, EventType } from "mitt";
-import { useResizeObserver } from "@vueuse/core";
 
 export default defineComponent({
     name: "InvitationPermissions",
@@ -43,7 +43,6 @@ export default defineComponent({
     data() {
         return {
             localInvitationData: this.invitationData,
-            disabled: false,
             durationOptions: [
                 {
                     label: "Unlimited",
