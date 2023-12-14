@@ -6,7 +6,7 @@ import os from "os";
 // const CONFIG = PlexConfig(CONFIG_PATH);
 
 // PlexAPI Settings
-export const PROJECT = "PlexAPI";
+export const PROJECT = "Wizarr Plex SDK";
 export const VERSION = "3.3.0";
 export const TIMEOUT = 30000;
 export const X_PLEX_CONTAINER_SIZE = 100 as const;

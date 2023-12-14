@@ -6,6 +6,12 @@ export interface WhereExpression {
 }
 
 export abstract class MainRepository<T extends ObjectLiteral> extends Repository<T> {
+    /**
+     * getOne - Get one entity
+     * @param {object} resourceOptions - Resource options
+     * @param {WhereExpression} where - Where expression
+     * @returns {Promise<T>}
+     */
     public async getOne(resourceOptions?: object, where?: WhereExpression) {
         const alias: string = this.generateAliasName();
         const queryBuilder = this.createQueryBuilder(alias);
@@ -16,6 +22,13 @@ export abstract class MainRepository<T extends ObjectLiteral> extends Repository
         return queryBuilder.getOne();
     }
 
+    /**
+     * getOneById - Get one entity by id
+     * @param {number} id - Entity id
+     * @param {object} resourceOptions - Resource options
+     * @param {WhereExpression} where - Where expression
+     * @returns {Promise<T>}
+     */
     public async getOneById(id: number, resourceOptions?: object, where?: WhereExpression) {
         const alias: string = this.generateAliasName();
         const queryBuilder = this.createQueryBuilder(alias);
@@ -28,6 +41,12 @@ export abstract class MainRepository<T extends ObjectLiteral> extends Repository
         return queryBuilder.getOne();
     }
 
+    /**
+     * getManyAndCount - Get many entities and count
+     * @param {object} resourceOptions - Resource options
+     * @param {WhereExpression} where - Where expression
+     * @returns {Promise<{ total_data: number, rows: T[] }>}
+     */
     public async getManyAndCount(resourceOptions?: object, where?: WhereExpression) {
         const alias: string = this.generateAliasName();
 
@@ -43,6 +62,12 @@ export abstract class MainRepository<T extends ObjectLiteral> extends Repository
         };
     }
 
+    /**
+     * getMany - Get many entities
+     * @param {object} resourceOptions - Resource options
+     * @param {WhereExpression} where - Where expression
+     * @returns {Promise<T[]>}
+     */
     public async getMany(resourceOptions?: object, where?: WhereExpression) {
         const alias: string = this.generateAliasName();
 
@@ -54,6 +79,13 @@ export abstract class MainRepository<T extends ObjectLiteral> extends Repository
         return queryBuilder.getMany();
     }
 
+    /**
+     * getManyByIds - Get many entities by ids
+     * @param {number[]} ids - Entity ids
+     * @param {object} resourceOptions - Resource options
+     * @param {WhereExpression} where - Where expression
+     * @returns {Promise<T[]>}
+     */
     private applyWhere(alias: string, where: WhereExpression, queryBuilder: SelectQueryBuilder<T>) {
         // If there is a dot in the where clause, we need to join the table first
         if (where.where.includes(".")) {
@@ -66,6 +98,13 @@ export abstract class MainRepository<T extends ObjectLiteral> extends Repository
         return queryBuilder;
     }
 
+    /**
+     * getManyByIds - Get many entities by ids
+     * @param {number[]} ids - Entity ids
+     * @param {object} resourceOptions - Resource options
+     * @param {WhereExpression} where - Where expression
+     * @returns {Promise<T[]>}
+     */
     public applyResourceOptions(mainAlias: string, options: any, queryBuilder: SelectQueryBuilder<T>) {
         if (!options) {
             return;

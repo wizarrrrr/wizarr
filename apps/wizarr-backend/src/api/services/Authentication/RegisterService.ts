@@ -1,9 +1,9 @@
-import { Admin } from "@/api/models/Account/AdminModel";
-import { AdminRepository } from "@/api/repositories/Account/AdminRepository";
-import { RoleRepository } from "@/api/repositories/Account/RoleRepository";
-import { RegisterRequest } from "@/api/requests/Authentication/RegisterRequest";
-import { InjectRepository } from "@/decorators/InjectRepository";
-import { StripPassword } from "@/decorators/password-stripper.decorator";
+import { Admin } from "../../models/Account/AdminModel";
+import { AdminRepository } from "../../repositories/Account/AdminRepository";
+import { RoleRepository } from "../../repositories/Account/RoleRepository";
+import { RegisterRequest } from "../../requests/Authentication/RegisterRequest";
+import { InjectRepository } from "../../../decorators/InjectRepository";
+import { StripPassword } from "../../../decorators/StripPasswordDecorator";
 import { plainToClass } from "class-transformer";
 import { Service } from "typedi";
 

@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
-import { EntityBase } from "@/api/models/BaseModel";
+import { EntityBase } from "../models/BaseModel";
 
 import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
 

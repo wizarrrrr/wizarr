@@ -1,4 +1,4 @@
-import { reddisConfig } from "@/config/bull";
+import { reddisConfig } from "../../config/bull";
 import { Job, Worker } from "bullmq";
 
 export interface Notifications {

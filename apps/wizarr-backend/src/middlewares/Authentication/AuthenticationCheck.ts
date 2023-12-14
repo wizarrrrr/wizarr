@@ -1,10 +1,12 @@
 import { privateKey } from "../../utils/secret.helper";
-import { JwtPayload, verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 import { Action, BadRequestError } from "routing-controllers";
 import { Context } from "vm";
 import { rolesCheck } from "./HasRole";
 import { getCurrentUser } from "./CurrentUser";
 import { InvalidCredentials } from "../../api/exceptions/InvalidCredentials";
+
+import type { JwtPayload as IJwtPayload } from "jsonwebtoken";
 
 export const authorizationCheck = async (action: Action, roles: any[]): Promise<boolean> => {
     // Get the context from the action
@@ -48,7 +50,7 @@ export const localAuthorizationCheck = async <T>(authorization: string): Promise
     if (!token) throw new InvalidCredentials("Missing authorization token, please login");
 
     // Verify the token and get the payload
-    const payload = await new Promise<JwtPayload | string>(async (resolve, reject) => {
+    const payload = await new Promise<IJwtPayload | string>(async (resolve, reject) => {
         try {
             resolve(verify(token, await privateKey(), { algorithms: ["RS256"] }));
         } catch (error) {

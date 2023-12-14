@@ -19,6 +19,10 @@ export class ServerRequest implements IServerRequest {
     @IsUrl({ require_tld: false })
     host: string;
 
+    @IsOptional()
+    @IsUrl({ require_tld: false })
+    hostOverride?: string;
+
     @IsNotEmpty()
     @IsString()
     apiKey: string;

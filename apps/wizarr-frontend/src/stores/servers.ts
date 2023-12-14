@@ -1,25 +1,23 @@
 import { defineStore } from "pinia";
-import type { Server as IServer, ServerResponse as IServerResponse } from "@wizarrrr/wizarr-sdk";
+import type { Servers as IServers, Server as IServer, ServerResponse as IServerResponse } from "@wizarrrr/wizarr-sdk";
 
 export const useServerStore = defineStore("server", {
-    state: (): { servers: IServer[] } => ({
+    state: (): { servers: IServers } => ({
         servers: [],
     }),
     actions: {
         async getServers() {
             // Get servers from API
-            const servers = await this.$axios.get<IServerResponse>("/api/servers").catch(() => {
+            const servers = await this.$axios.get<IServerResponse>("/api/servers");
+
+            // Check if the response is valid
+            if (!servers?.data?.rows) {
                 this.$toast.error("Could not get servers");
-                return null;
-            });
+                return;
+            }
 
-            // If the servers are null, return
-            if (!servers?.data.rows) return;
-
+            // Update the servers in the store
             this.servers = servers.data.rows;
-
-            // Return the servers
-            return servers.data;
         },
         addServer(server: IServer) {
             this.servers.push(server);
@@ -36,6 +34,11 @@ export const useServerStore = defineStore("server", {
 
             const index = this.servers.findIndex((server: IServer) => server.id === id);
             if (index !== -1) this.servers.splice(index, 1);
+        },
+    },
+    getters: {
+        getServerById: (state) => (id: string) => {
+            return state.servers.find((server: IServer) => server.id === id);
         },
     },
     persist: true,

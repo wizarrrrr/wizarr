@@ -1,12 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, CreateDateColumn, BeforeInsert, BeforeUpdate, OneToMany, JoinTable, OneToOne, ManyToOne } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, CreateDateColumn, BeforeInsert, BeforeUpdate, OneToMany, JoinTable } from "typeorm";
 import { Role } from "./RoleModel";
 import { hashPassword } from "../../../utils/password.helper";
 import { EntityBase } from "../BaseModel";
 import { Session } from "./SessionsModel";
 import { DateTimeNow } from "../../../data-source";
-
-import type { Admin as IAdmin } from "@wizarrrr/wizarr-sdk";
 import { Server } from "../Server/ServerModel";
+import { Invitation } from "../Invitation/InvitationModel";
 
 @Entity("admins")
 export class Admin extends EntityBase {
@@ -34,6 +33,9 @@ export class Admin extends EntityBase {
 
     @OneToMany(() => Server, (server) => server.admin, { nullable: true })
     servers: Server[];
+
+    @OneToMany(() => Invitation, (invitation) => invitation.admin, { nullable: true })
+    invitations: Invitation[];
 
     @CreateDateColumn(DateTimeNow())
     createdAt: Date;

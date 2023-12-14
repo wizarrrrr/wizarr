@@ -13,6 +13,7 @@ import { SearchResult } from "./search.types";
 import type { PlexServer } from "./server";
 import { MediaContainer } from "./util";
 import { Movie, Show, VideoType } from "./video";
+import { plainToInstance } from "class-transformer";
 
 export type Section = MovieSection | ShowSection;
 
@@ -44,8 +45,8 @@ export class Library {
         for (const elem of elems.MediaContainer.Directory) {
             for (const cls of [MovieSection, ShowSection]) {
                 if (cls.TYPE === elem.type) {
-                    // eslint-disable-next-line new-cap
                     const instance = new cls(this.server, elem, key);
+                    Object.assign(instance, elem);
                     sections.push(instance);
                 }
             }

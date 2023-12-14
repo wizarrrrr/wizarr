@@ -1,8 +1,8 @@
-import { Server } from "@/api/models/Server/ServerModel";
-import { User } from "@/api/models/User/UserModel";
-import { reddisConfig } from "@/config/bull";
-import { connection } from "@/data-source";
-import { getUsers } from "@/media";
+import { Server } from "../../api/models/Server/ServerModel";
+import { User } from "../../api/models/User/UserModel";
+import { reddisConfig } from "../../config/bull";
+import { connection } from "../../data-source";
+import { getUsers } from "../../media/index";
 import { AxiosProgressEvent } from "axios";
 import { Job, Worker } from "bullmq";
 import { nanoid } from "nanoid";
@@ -75,6 +75,7 @@ const UserWorkerHandler = async (job: Job<UserWorkerData, UserWorkerResult>) => 
 
 const UserWorker = new Worker("user", UserWorkerHandler, {
     connection: reddisConfig(),
+    concurrency: 1,
 });
 
 UserWorker.on("completed", (job) => {

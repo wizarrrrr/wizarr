@@ -5,6 +5,7 @@
     <Offline />
     <ReloadPrompt />
     <WidgetModalContainer />
+    <Help />
 </template>
 
 <script lang="ts">
@@ -25,6 +26,7 @@ import BadBackend from "@/components/Toasts/BadBackend.vue";
 import UpdateAvailable from "@/components/Toasts/UpdateAvailable.vue";
 import DefaultToast from "@/components/Toasts/DefaultToast.vue";
 import ReloadPrompt from "@/components/ReloadPrompt.vue";
+import Help from "@/components/Help/Help.vue";
 
 import type { ToastID } from "vue-toastification/dist/types/types";
 import type { CustomAxiosRequestConfig } from "./ts/utils/axios";
@@ -40,6 +42,7 @@ export default defineComponent({
         FullPageLoading,
         ReloadPrompt,
         WidgetModalContainer,
+        Help,
     },
     data() {
         return {
@@ -47,6 +50,7 @@ export default defineComponent({
             connectionToast: null as ToastID | null,
             notificationSocket: null as Socket | null,
             notificationBuffer: [],
+            retryCount: 0,
         };
     },
     computed: {
@@ -63,13 +67,24 @@ export default defineComponent({
         ...mapActions(useVersionStore, ["setVersionData"]),
         ...mapActions(useAuthStore, ["isAuthenticated"]),
         async axiosRetry<T>(url: string, config?: CustomAxiosRequestConfig): Promise<T> {
-            return await this.$axios
-                .get(url, config)
-                .then((response) => response.data)
-                .catch(async () => {
-                    if (this.connectionToast == null) this.connectionToast = this.$toast.error(BadBackend, { timeout: false, closeButton: false, draggable: false, closeOnClick: false });
-                    return new Promise((resolve) => setTimeout(resolve, 5000)).then(async () => await this.axiosRetry(url));
-                });
+            return new Promise(async (resolve, reject) => {
+                this.$axios
+                    .get(url, config)
+                    .then((response) => resolve(response.data))
+                    .catch(() => {
+                        // If we have retried 5 times, show a toast and stop retrying
+                        if (this.retryCount >= 2) {
+                            return reject(new Error("Retried 5 times, giving up. Please reload the page."));
+                        }
+
+                        // Increment the retry count
+                        this.retryCount++;
+
+                        // If there is no connection toast, show one
+                        if (this.connectionToast == null) this.connectionToast = this.$toast.error(BadBackend, { timeout: false, closeButton: false, draggable: false, closeOnClick: false });
+                        return new Promise((resolve) => setTimeout(resolve, 5000)).then(async () => resolve(await this.axiosRetry(url, config)));
+                    });
+            });
         },
         async setVersionStore() {
             const versionData = await this.$axios.get("/api/version").then((response) => response.data);
@@ -148,7 +163,7 @@ export default defineComponent({
         });
 
         // Background task that will run a function once the serverData promise resolves
-        serverData.then(async (serverData) => {
+        serverData.then((serverData) => {
             // If there was a connection toast, dismiss it and show a success toast
             if (this.connectionToast !== null) {
                 this.$toast.dismiss(this.connectionToast);
@@ -173,6 +188,12 @@ export default defineComponent({
                 if (this.setupRequired && guard.name !== "setup") this.$router.push("/setup");
                 if (!this.setupRequired && guard.name === "setup") this.$router.push("/");
             });
+        });
+
+        // If the serverData promise rejects, show a toast and retry
+        serverData.catch((error: Error) => {
+            this.$toast.error(error.message, { timeout: false, closeButton: false, draggable: false, closeOnClick: false });
+            console.log(error);
         });
 
         // Connect to the socket notifications service

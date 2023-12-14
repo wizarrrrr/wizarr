@@ -1,20 +1,9 @@
 <template>
-    <div
-        class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700"
-    >
+    <div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
         <ul class="flex flex-wrap -mb-px">
             <template v-for="(tab, index) in tabbedTabs">
                 <template v-if="!tab.hidden">
-                    <button
-                        @click="currentTab = index"
-                        class="first:pl-[1.5rem] last:pr-[1.5rem] cursor-pointer"
-                        :class="
-                            currentTab === index
-                                ? tabClasses.active
-                                : tabClasses.inactive
-                        "
-                        :disabled="tab.disabled"
-                    >
+                    <button @click="currentTab = index" class="first:pl-[1.5rem] last:pr-[1.5rem] cursor-pointer" :class="currentTab === index ? tabClasses.active : tabClasses.inactive" :disabled="tab.disabled">
                         <i :class="`fa-solid ${tab.icon} mr-2`"></i>
                         <span>{{ tab.name }}</span>
                     </button>
@@ -33,11 +22,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent } from 'vue';
+import { defineComponent, defineAsyncComponent } from "vue";
 
-import type { Component } from 'vue';
+import type { Component } from "vue";
 
-type Tab = {
+export type Tab = {
     name: string;
     icon: string;
     props?: Record<string, any>;
@@ -48,7 +37,7 @@ type Tab = {
 };
 
 export default defineComponent({
-    name: 'UserManager',
+    name: "UserManager",
     props: {
         tabs: {
             type: Array as () => Tab[],
@@ -60,14 +49,13 @@ export default defineComponent({
             currentTab: 0,
             tabbedTabs: [] as Tab[],
             tabClasses: {
-                active: 'inline-block p-4 text-gray-600 border-b-2 border-gray-600 rounded-t-lg active dark:text-gray-300 dark:border-gray-300',
-                inactive:
-                    'inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-300 hover:border-gray-300 dark:hover:text-gray-300',
+                active: "inline-block p-4 text-gray-600 border-b-2 border-gray-600 rounded-t-lg active dark:text-gray-300 dark:border-gray-300",
+                inactive: "inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-300 hover:border-gray-300 dark:hover:text-gray-300",
             },
         };
     },
     methods: {
-        asyncComponent(component: Tab['component']) {
+        asyncComponent(component: Tab["component"]) {
             return defineAsyncComponent({
                 loader: component,
             });

@@ -1,4 +1,4 @@
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { EntityBase } from "../BaseModel";
 import { ServerLibrary } from "./ServerLibraryModel";
 import { Admin } from "../Account/AdminModel";
@@ -6,6 +6,7 @@ import { Admin } from "../Account/AdminModel";
 import type { Server as IServer } from "@wizarrrr/wizarr-sdk";
 import { DateTimeNow } from "../../../data-source";
 import { User } from "../User/UserModel";
+import { Invitation } from "../Invitation/InvitationModel";
 
 @Entity("media_servers")
 export class Server extends EntityBase implements IServer {
@@ -24,6 +25,9 @@ export class Server extends EntityBase implements IServer {
     @Column("text", { unique: true })
     host: string;
 
+    @Column("text", { nullable: true })
+    hostOverride: string;
+
     @Column("text", { unique: true })
     apiKey: string;
 
@@ -32,6 +36,9 @@ export class Server extends EntityBase implements IServer {
 
     @OneToMany(() => User, (user) => user.server, { cascade: true, orphanedRowAction: "delete", onDelete: "CASCADE" })
     users: User[];
+
+    @OneToMany(() => Invitation, (invitation) => invitation.server, { nullable: true })
+    invitations: Invitation[];
 
     @ManyToOne(() => Admin, (admin) => admin.servers)
     admin: Admin;

@@ -23,8 +23,8 @@
         <template v-else>
             <ServersEmpty />
         </template>
-        <div class="fixed right-6 bottom-6 group">
-            <FormKit type="button" :classes="{ input: '!w-14 !h-14' }" @click="openMediaServerForm">
+        <div class="fixed right-6 bottom-6 group" v-if="!hideAddButton">
+            <FormKit type="button" :classes="{ input: '!w-14 !h-14' }" @click="openServerForm">
                 <i class="fas fa-plus text-xl transition-transform group-hover:rotate-45"></i>
             </FormKit>
         </div>
@@ -39,7 +39,7 @@ import { mapActions, mapWritableState } from "pinia";
 import Draggable from "vuedraggable";
 import ServerItem from "./components/ServerItem.vue";
 import ServersEmpty from "./components/ServersEmpty.vue";
-import MediaServerForm from "@/components/MediaServerForm/MediaServerForm.vue";
+import ServerForm from "@/components/Forms/ServerForm/ServerForm.vue";
 
 export default defineComponent({
     name: "ServerList",
@@ -48,13 +48,19 @@ export default defineComponent({
         ServerItem,
         ServersEmpty,
     },
+    props: {
+        hideAddButton: {
+            type: Boolean,
+            default: false,
+        },
+    },
     computed: {
         ...mapWritableState(useServerStore, ["servers"]),
     },
     methods: {
         ...mapActions(useServerStore, ["getServers"]),
-        async openMediaServerForm() {
-            await this.$modal.openModal(MediaServerForm, {
+        async openServerForm() {
+            await this.$modal.openModal(ServerForm, {
                 title: this.__("Add Media Server"),
                 disableFooter: true,
                 size: "md",

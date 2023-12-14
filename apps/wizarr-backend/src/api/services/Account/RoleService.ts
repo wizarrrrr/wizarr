@@ -1,7 +1,7 @@
-import { RoleNotFoundException } from "@/api/exceptions/RoleNotFoundException";
-import { Role } from "@/api/models/Account/RoleModel";
-import { RoleRepository } from "@/api/repositories/Account/RoleRepository";
-import { InjectRepository } from "@/decorators/InjectRepository";
+import { RoleNotFoundException } from "../../../api/exceptions/RoleNotFoundException";
+import { Role } from "../../../api/models/Account/RoleModel";
+import { RoleRepository } from "../../../api/repositories/Account/RoleRepository";
+import { InjectRepository } from "../../../decorators/InjectRepository";
 import { Service } from "typedi";
 
 @Service()

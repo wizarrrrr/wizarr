@@ -1,13 +1,14 @@
-import type { App } from 'vue';
-import filters from '@/ts/filters';
-import type { PiniaPluginContext } from 'pinia';
+import filters from "@/ts/filters";
+
+import type { App } from "vue";
+import type { PiniaPluginContext } from "pinia";
 
 type FilterFunctions = typeof filters;
 
 type FilterNames = keyof FilterFunctions;
 type FilterArgs<T extends FilterNames> = Parameters<FilterFunctions[T]>;
 
-declare module 'pinia' {
+declare module "pinia" {
     export interface PiniaCustomProperties {
         /**
          * $filter - A function that takes a filter name and arguments and returns the result of the filter
@@ -16,10 +17,7 @@ declare module 'pinia' {
          * @param args - The arguments to pass to the filter
          * @returns The result of the filter
          */
-        $filter: <T extends FilterNames>(
-            name: T,
-            ...args: FilterArgs<T>
-        ) => ReturnType<FilterFunctions[T]>;
+        $filter: <T extends FilterNames>(name: T, ...args: FilterArgs<T>) => ReturnType<FilterFunctions[T]>;
 
         /**
          * $filters - A function that takes an array of filter names and arguments and returns the result of the filters chained together
@@ -28,14 +26,11 @@ declare module 'pinia' {
          * @param {FilterArgs} args - The arguments to pass to the filters
          * @returns The result of the filters chained together
          */
-        $filters: <T extends FilterNames[]>(
-            names: T,
-            ...args: FilterArgs<T[number]>
-        ) => ReturnType<FilterFunctions[T[number]]>;
+        $filters: <T extends FilterNames[]>(names: T, ...args: FilterArgs<T[number]>) => ReturnType<FilterFunctions[T[number]]>;
     }
 }
 
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         /**
          * $filter - A function that takes a filter name and arguments and returns the result of the filter
@@ -44,10 +39,7 @@ declare module '@vue/runtime-core' {
          * @param args - The arguments to pass to the filter
          * @returns The result of the filter
          */
-        $filter: <T extends FilterNames>(
-            name: T,
-            ...args: FilterArgs<T>
-        ) => ReturnType<FilterFunctions[T]>;
+        $filter: <T extends FilterNames>(name: T, ...args: FilterArgs<T>) => ReturnType<FilterFunctions[T]>;
 
         /**
          * $filters - A function that takes an array of filter names and arguments and returns the result of the filters chained together
@@ -56,36 +48,22 @@ declare module '@vue/runtime-core' {
          * @param {FilterArgs} args - The arguments to pass to the filters
          * @returns The result of the filters chained together
          */
-        $filters: <T extends FilterNames[]>(
-            names: T,
-            ...args: FilterArgs<T[number]>
-        ) => ReturnType<FilterFunctions[T[number]]>;
+        $filters: <T extends FilterNames[]>(names: T, ...args: FilterArgs<T[number]>) => ReturnType<FilterFunctions[T[number]]>;
     }
 }
 
-const getFilterFunction = <T extends FilterNames>(
-    name: T,
-): FilterFunctions[T] => {
+const getFilterFunction = <T extends FilterNames>(name: T): FilterFunctions[T] => {
     return filters[name];
 };
 
-const filter = <T extends FilterNames>(
-    name: T,
-    ...args: FilterArgs<T>
-): ReturnType<FilterFunctions[T]> => {
+const filter = <T extends FilterNames>(name: T, ...args: FilterArgs<T>): ReturnType<FilterFunctions[T]> => {
     // @ts-ignore
     return getFilterFunction(name)(...args) as ReturnType<FilterFunctions[T]>;
 };
 
-const filtersChained = <T extends FilterNames[]>(
-    names: T,
-    ...args: FilterArgs<T[number]>
-): ReturnType<FilterFunctions[T[number]]> => {
+const filtersChained = <T extends FilterNames[]>(names: T, ...args: FilterArgs<T[number]>): ReturnType<FilterFunctions[T[number]]> => {
     // @ts-ignore
-    return names.reduce(
-        (acc, name) => getFilterFunction(name)(acc, ...args),
-        args[0],
-    ) as ReturnType<FilterFunctions[T[number]]>;
+    return names.reduce((acc, name) => getFilterFunction(name)(acc, ...args), args[0]) as ReturnType<FilterFunctions[T[number]]>;
 };
 
 const useFilters = () => {

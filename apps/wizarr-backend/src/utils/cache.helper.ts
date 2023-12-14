@@ -84,7 +84,7 @@ export const cache = async (cache: nodeCache, fn: Function, key: string, ttl?: n
  */
 export const setValue = (cache: nodeCache, key: string, value: any, ttl?: number) => {
     cache.set(key, value, ttl || ONE_HOUR);
-    persistCache(cache, resolve(databasePath, "cache.json"));
+    persistCache(cache, resolve(databasePath, "cacheon"));
     return value;
 };
 
@@ -95,7 +95,7 @@ export const setValue = (cache: nodeCache, key: string, value: any, ttl?: number
  * @returns True if the cache has a value for the specified key, false otherwise
  */
 export const hasValue = (cache: nodeCache, key: string) => {
-    restoreCache(cache, resolve(databasePath, "cache.json"));
+    restoreCache(cache, resolve(databasePath, "cacheon"));
     return cache.has(key);
 };
 
@@ -106,7 +106,7 @@ export const hasValue = (cache: nodeCache, key: string) => {
  * @returns The value for the specified key
  */
 export const getValue = (cache: nodeCache, key: string) => {
-    restoreCache(cache, resolve(databasePath, "cache.json"));
+    restoreCache(cache, resolve(databasePath, "cacheon"));
     return cache.get(key);
 };
 

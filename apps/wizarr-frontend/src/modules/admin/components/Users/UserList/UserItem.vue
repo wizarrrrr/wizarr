@@ -159,9 +159,6 @@ export default defineComponent({
         },
         ...mapActions(useUsersStore, ["deleteUser"]),
     },
-    mounted() {
-        // this.getProfilePicture();
-    },
 });
 </script>
 @/stores/information

@@ -1,4 +1,4 @@
-import { reddisConfig } from "@/config/bull";
+import { reddisConfig } from "../../config/bull";
 import { Queue } from "bullmq";
 import { NotificationWorkerData, NotificationWorkerResult } from "../workers/NotificationWorker";
 

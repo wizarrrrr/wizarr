@@ -9,7 +9,7 @@
         <template #buttons>
             <div class="flex flex-row space-x-2">
                 <!-- Edit Button -->
-                <FormKit type="button" data-size="square" data-theme="secondary" :disabled="true">
+                <FormKit type="button" data-size="square" data-theme="secondary" @click="editServer">
                     <i class="fa-solid fa-edit"></i>
                 </FormKit>
                 <FormKit type="button" data-size="square" data-theme="danger" @click="localDeleteServer">
@@ -26,6 +26,8 @@ import { useServerStore } from "@/stores/servers";
 import { mapActions } from "pinia";
 
 import ItemTemplate from "../../ItemTemplate.vue";
+import ServerEditForm from "@/components/Forms/ServerEditForm/ServerEditForm.vue";
+
 import type { Server as IServer } from "@wizarrrr/wizarr-sdk";
 
 export default defineComponent({
@@ -49,6 +51,16 @@ export default defineComponent({
         async localDeleteServer() {
             const response = await this.$modal.confirmModal(this.__("Delete Server"), this.__("Are you sure you want to delete this server?"));
             if (response) await this.deleteServer(this.server.id);
+        },
+        async editServer() {
+            await this.$modal.openModal(ServerEditForm, {
+                title: this.__(`Managing ${this.server.name}`),
+                disableFooter: true,
+                size: "lg",
+                props: {
+                    server: this.server,
+                },
+            });
         },
     },
     async beforeCreate() {

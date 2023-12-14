@@ -1,6 +1,6 @@
-import { Server } from "@/api/models/Server/ServerModel";
-import { createClient } from ".";
-import { User } from "@/api/models/User/UserModel";
+import { Server } from "../../api/models/Server/ServerModel";
+import { createClient } from "./index";
+import { User } from "../../api/models/User/UserModel";
 import { MyPlexAccount } from "@wizarrrr/plex-sdk/src/index";
 import { plainToInstance } from "class-transformer";
 

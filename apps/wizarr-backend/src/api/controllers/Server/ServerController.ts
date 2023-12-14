@@ -2,12 +2,11 @@ import { Authorized, Body, CurrentUser, Delete, Get, HttpCode, JsonController, P
 import { OpenAPI } from "routing-controllers-openapi";
 import { Inject, Service } from "typedi";
 import { ControllerBase } from "../BaseController";
-import { ServerService } from "@/api/services/Server/ServerService";
+import { ServerService } from "../../services/Server/ServerService";
 import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
-import { ServerRequest } from "@/api/requests/Server/ServerPostRequest";
-import { Admin } from "@/api/models/Account/AdminModel";
-import { LoggerInterface } from "@/decorators/LoggerDecorator";
-import { AdminService } from "@/api/services/Account/AdminService";
+import { ServerRequest } from "../../requests/Server/ServerPostRequest";
+import { Admin } from "../../models/Account/AdminModel";
+import { LoggerInterface } from "../../../decorators/LoggerDecorator";
 
 @Service()
 @OpenAPI({ security: [{ bearerAuth: [] }], tags: ["Media Servers"] })

@@ -1,25 +1,30 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from "vue-router";
 
 const children: RouteRecordRaw[] = [
     {
-        path: '',
-        name: 'admin-home',
-        component: () => import('../pages/Home.vue'),
+        path: "",
+        name: "admin-home",
+        component: () => import("../pages/Home.vue"),
     },
     {
-        path: 'invitations',
-        name: 'admin-invitations',
-        component: () => import('../pages/Invitations.vue'),
+        path: "invitations",
+        name: "admin-invitations",
+        component: () => import("../pages/Invitations.vue"),
     },
     {
-        path: 'users',
-        name: 'admin-users',
-        component: () => import('../pages/Users.vue'),
+        path: "servers",
+        name: "admin-servers",
+        component: () => import("../pages/Servers.vue"),
     },
     {
-        path: 'flow-editor',
-        name: 'admin-flow-editor',
-        component: () => import('../pages/FlowEditor.vue'),
+        path: "users",
+        name: "admin-users",
+        component: () => import("../pages/Users.vue"),
+    },
+    {
+        path: "flow-editor",
+        name: "admin-flow-editor",
+        component: () => import("../pages/FlowEditor.vue"),
     },
 ];
 

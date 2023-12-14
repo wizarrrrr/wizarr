@@ -1,6 +1,6 @@
-import { RepositoryBase } from "../base.repository";
-import { Role } from "@/api/models/Account/RoleModel";
-import { EntityRepository } from "@/decorators/entity-repository.decorator";
+import { RepositoryBase } from "../BaseRepository";
+import { Role } from "../../models/Account/RoleModel";
+import { EntityRepository } from "../../../decorators/entity-repository.decorator";
 import { plainToClass } from "class-transformer";
 
 @EntityRepository(Role)

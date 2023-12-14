@@ -9,8 +9,9 @@ import { InjectRepository } from "../../../decorators/InjectRepository";
 import { verifyServerType } from "../../../utils/server.helper";
 import { plainToClass } from "class-transformer";
 import { Service } from "typedi";
-import { AdminRepository } from "@/api/repositories/Account/AdminRepository";
-import { UserRepository } from "@/api/repositories/User/UserRepository";
+import { scanLibraries, scanUsers } from "../../../media/jobs";
+import { InjectQueue } from "../../../decorators/InjectQueue";
+import { BullMQ } from "../../../bull";
 
 @Service()
 export class ServerService {
@@ -22,8 +23,8 @@ export class ServerService {
     // @InjectRepository() private serverRepository: ServerRepository;
     constructor(
         @InjectRepository() private serverRepository: ServerRepository,
-        @InjectRepository() private adminRepository: AdminRepository,
-        @InjectRepository() private userRepository: UserRepository,
+        @InjectQueue("user") private userQueue: BullMQ["queues"]["user"],
+        @InjectQueue("library") private libraryQueue: BullMQ["queues"]["library"],
     ) {}
 
     /**
@@ -52,13 +53,18 @@ export class ServerService {
 
     /**
      * Creates a server.
+     * @param {object} data
+     * @param {Admin} currentUser
      * @returns {Promise<Server>}
      */
-    public async create(data: ServerRequest, currentUser: Admin): Promise<Server> {
+    public async create(data: any, currentUser: Admin): Promise<Server> {
         if (!(await verifyServerType(data.host, data.type, data.apiKey))) throw new InvalidServer("Server could not be verified");
         const server = plainToClass(Server, data);
         server.admin = currentUser;
-        return await this.serverRepository.save(server);
+        const newServer = await this.serverRepository.save(server);
+        await scanLibraries(newServer.id, this.libraryQueue);
+        await scanUsers(newServer.id, this.userQueue);
+        return newServer;
     }
 
     /**
@@ -95,8 +101,4 @@ export class ServerService {
         if (!mediaServer) throw new Error(`MediaServer with id '${id}' not found`);
         return mediaServer;
     }
-
-    /**
-     * Helper function to verify if a server exists and is online.
-     */
 }

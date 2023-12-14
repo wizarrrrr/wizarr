@@ -8,12 +8,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import LanguageModal from "@/components/Modals/LanguageModal.vue";
+import LanguageForm from "@/components/Forms/LanguageForm/LanguageForm.vue";
 
 export default defineComponent({
     name: "LanguageSelector",
     components: {
-        LanguageModal,
+        LanguageForm,
     },
     props: {
         iconClasses: {
@@ -28,9 +28,10 @@ export default defineComponent({
     },
     methods: {
         createModal() {
-            this.$modal.openModal(LanguageModal, {
+            this.$modal.openModal(LanguageForm, {
                 title: this.__("Select Language"),
                 disableFooter: true,
+                size: "sm",
             });
         },
     },

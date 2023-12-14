@@ -31,13 +31,15 @@ import { createBullBoard } from "@bull-board/api";
 import { Queue, Worker } from "bullmq";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
 import { Server } from "./api/models/Server/ServerModel";
-import { BullMQ } from "./bull";
+import { BullMQ } from "./bull/index";
+import { createKeyPair, existsKeyPair } from "./utils/secret.helper";
 
 import koa from "koa";
 import path from "path";
 import colors from "colors";
 import cors from "@koa/cors";
 import pinoHttp, { Options } from "pino-http";
+import { scanLibrariesJobs, scanUsersJobs } from "./media/jobs";
 
 export class App {
     // Define the Koa app and port
@@ -125,6 +127,9 @@ export class App {
      * Initialize the server
      */
     public async initialize() {
+        // Create a KeyPair for the server if one does not exist
+        if (!existsKeyPair()) await createKeyPair();
+
         // Initialize the server dependencies
         this.addProcessListeners();
         this.setupSentry();
@@ -136,6 +141,7 @@ export class App {
         this.setupSwagger();
         await this.setupBullMQProcessor();
         this.setupBullBoard();
+        this.registerRepeatableJobs();
 
         // Start the server
         this.httpServer.listen(this.port, async () => {
@@ -252,6 +258,28 @@ export class App {
     }
 
     /**
+     * Register the repeatable jobs
+     */
+    private async registerRepeatableJobs() {
+        // // Get the repeatable jobs
+        // const scanUsers = await scanUsersJobs();
+        // const scanLibraries = await scanLibrariesJobs();
+        // // Add the repeatable jobs to the queues
+        // scanUsers.forEach((job) => {
+        //     this.bullMQ.queues.user.add(job.name, job.data, {
+        //         repeat: { pattern: "0 * * * *" },
+        //         ...job.opts,
+        //     });
+        // });
+        // scanLibraries.forEach((job) => {
+        //     this.bullMQ.queues.library.add(job.name, job.data, {
+        //         repeat: { pattern: "0 * * * *" },
+        //         ...job.opts,
+        //     });
+        // });
+    }
+
+    /**
      * Setup Swagger for the server
      */
     private async setupSwagger() {
@@ -270,7 +298,7 @@ export class App {
 
         // Render spec on route
         this.app.use((ctx, next) => {
-            if (ctx.request.path === `${routePrefix}/openapi.json`) {
+            if (ctx.request.path === `${routePrefix}/openapion`) {
                 ctx.body = spec;
             }
             return next();
@@ -289,7 +317,7 @@ export class App {
             dsn: "https://2213de43d3adb70847691c680ea2e0de@sentry.wizarr.dev/5",
             tracesSampleRate: 1.0,
             integrations: [
-                // Automatically instrument Node.js libraries and frameworks
+                // Automatically instrument Node libraries and frameworks
                 ...autoDiscoverNodePerformanceMonitoringIntegrations(),
             ],
             environment: process.env.NODE_ENV,

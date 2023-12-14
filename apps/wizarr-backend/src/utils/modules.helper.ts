@@ -1,12 +1,15 @@
-import { addAliases } from "module-alias";
-import { rootPath } from "../config/paths";
+import { resolve } from "path";
+import { register } from "tsconfig-paths";
 
-export const registerModuleAlias = (dirName: string) => {
-    addAliases({
-        "@": dirName,
-        "@root": rootPath,
-        "@base": dirName,
-        "@config": `${dirName}/config`,
-        "@api": `${dirName}/api`,
+export const registerModuleAlias = (src: string) => {
+    register({
+        baseUrl: resolve(src, "../"),
+        paths: {
+            "@decorators/*": ["./src/decorators/*"],
+            "@media/*": ["./src/media/*"],
+            "@config/*": ["./src/config/*"],
+            "@utils/*": ["./src/utils/*"],
+            "@api/*": ["./src/api/*"],
+        },
     });
 };

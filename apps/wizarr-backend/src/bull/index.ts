@@ -1,19 +1,25 @@
-import { Inject, Service } from "typedi";
-import { Logger, LoggerInterface } from "@/decorators/LoggerDecorator";
+import { Service } from "typedi";
+import { Logger, LoggerInterface } from "../decorators/LoggerDecorator";
 
 import UserQueue from "./queues/UserQueue";
 import UserWorker from "./workers/UserWorker";
+
 import NotificationQueue from "./queues/NotificationQueue";
 import NotificationWorker from "./workers/NotificationWorker";
+
+import LibraryQueue from "./queues/LibraryQueue";
+import LibraryWorker from "./workers/LibraryWorker";
 
 const queues = {
     user: UserQueue,
     notifications: NotificationQueue,
+    library: LibraryQueue,
 };
 
 const workers = {
     user: UserWorker,
     notifications: NotificationWorker,
+    library: LibraryWorker,
 };
 
 export type Queues = keyof typeof queues;

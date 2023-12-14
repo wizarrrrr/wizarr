@@ -1,5 +1,5 @@
 import axios from "axios";
-import { cachedGetCurrentVersion } from "@/utils/versions.helper";
+import { cachedGetCurrentVersion } from "../../utils/versions.helper";
 
 export const createClient = async (baseUrl: string, apiKey?: string) => {
     return axios.create({

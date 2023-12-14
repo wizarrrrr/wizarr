@@ -448,3 +448,4 @@ apps/wizarr-backend-old/database/*
 database/*
 # Sentry Config File
 .sentryclirc
+dump.rdb

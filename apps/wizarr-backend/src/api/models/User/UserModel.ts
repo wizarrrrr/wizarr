@@ -1,12 +1,12 @@
-import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { EntityBase } from "../BaseModel";
-import { Invitation } from "../Invitation/Invitation";
-import { DateTimeNow, DateTimeType } from "@/data-source";
+import { Invitation } from "../Invitation/InvitationModel";
+import { DateTimeNow, DateTimeType } from "../../../data-source";
 import { Server } from "../Server/ServerModel";
 
 @Entity("users")
 export class User extends EntityBase {
-    @PrimaryColumn()
+    @PrimaryColumn("text")
     id: string;
 
     @Column("text", { nullable: true })
@@ -29,6 +29,12 @@ export class User extends EntityBase {
 
     @ManyToOne(() => Invitation, (invitation) => invitation.users, { nullable: true })
     invitation: Invitation;
+
+    @Column("datetime", { nullable: true })
+    lastLoginAt: Date | null;
+
+    @Column("datetime", { nullable: true })
+    lastActivityAt: Date | null;
 
     @CreateDateColumn(DateTimeNow())
     createdAt: Date;

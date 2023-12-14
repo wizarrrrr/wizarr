@@ -1,7 +1,11 @@
-import { ServerLibrary } from "@/api/models/Server/ServerLibraryModel";
-import { ServerLibraryRepository } from "@/api/repositories/Server/ServerLibraryRepository";
-import { InjectRepository } from "@/decorators/InjectRepository";
+import { InjectQueue } from "../../../decorators/InjectQueue";
+import { ServerLibrary } from "../../../api/models/Server/ServerLibraryModel";
+import { ServerLibraryRepository } from "../../../api/repositories/Server/ServerLibraryRepository";
+import { InjectRepository } from "../../../decorators/InjectRepository";
 import { Service } from "typedi";
+import { BullMQ } from "../../../bull";
+import { scanLibraries } from "../../../media/jobs";
+import { ServerRepository } from "../../repositories/Server/ServerRepository";
 
 @Service()
 export class ServerLibraryService {
@@ -10,7 +14,11 @@ export class ServerLibraryService {
      * @param serverLibraryRepository
      * @constructor
      */
-    constructor(@InjectRepository() private serverLibraryRepository: ServerLibraryRepository) {}
+    constructor(
+        @InjectRepository() private serverLibraryRepository: ServerLibraryRepository,
+        @InjectRepository() private serverRepository: ServerRepository,
+        @InjectQueue("library") private libraryQueue: BullMQ["queues"]["library"],
+    ) {}
 
     /**
      * Gets all serverLibraries.
@@ -38,5 +46,16 @@ export class ServerLibraryService {
         const mediaServer = await this.serverLibraryRepository.getOneById(id as any, resourceOptions);
         if (!mediaServer) throw new Error(`MediaServer with id '${id}' not found`);
         return mediaServer;
+    }
+
+    /**
+     * Scan for libraries.
+     * @returns
+     */
+    public async scan(serverId?: string) {
+        // return await this.serverRepository.findOneBy({
+        //     id: "eb060f6c-aff7-43f8-a9d4-63a3c6481918",
+        // });
+        return await scanLibraries(serverId, this.libraryQueue);
     }
 }

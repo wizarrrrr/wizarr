@@ -32,7 +32,8 @@
             "executor": "@nx/vite:dev-server",
             "defaultConfiguration": "development",
             "options": {
-                "buildTarget": "wizarr-frontend:build"
+                "buildTarget": "wizarr-frontend:build",
+                "proxyConfig": "apps/wizarr-frontend/proxy.conf.json"
             },
             "configurations": {
                 "development": {

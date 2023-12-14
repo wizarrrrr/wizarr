@@ -1,11 +1,11 @@
 import { JsonController, Post, Body, Get, Ctx, CurrentUser, Authorized } from "routing-controllers";
-import { LoginRequest } from "@/api/requests/Authentication/LoginRequest";
+import { LoginRequest } from "../../requests/Authentication/LoginRequest";
 import { OpenAPI } from "routing-controllers-openapi";
-import { Inject, Service } from "typedi";
-import { LoginService } from "@/api/services/Authentication/LoginService";
+import { Service } from "typedi";
+import { LoginService } from "../../services/Authentication/LoginService";
 import { ControllerBase } from "../BaseController";
 import { Context } from "koa";
-import { Admin } from "@/api/models/Account/AdminModel";
+import { Admin } from "../../models/Account/AdminModel";
 
 @Service()
 @OpenAPI({ tags: ["Authentication"] })

@@ -1,4 +1,4 @@
-import { IsPassword } from "@/validators/IsPassword";
+import { IsPassword } from "../../../validators/IsPassword";
 import { IsArray, IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 
 export class RegisterRequest {

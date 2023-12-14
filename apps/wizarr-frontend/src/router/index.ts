@@ -14,8 +14,8 @@ import settingsRoutes from "@/modules/settings/router";
 import helpRoutes from "@/modules/help/router";
 import requestRoutes from "@/modules/requests/router";
 import setupRoutes from "@/modules/setup/router";
+import docsRoutes from "@/modules/docs/router";
 import coreRoutes from "@/modules/core/router";
-import { useInformationStore } from "@/stores/information";
 
 const router = createRouter({
     history: typeof window !== "undefined" ? createWebHistory() : createMemoryHistory(),
@@ -28,6 +28,7 @@ const router = createRouter({
         ...helpRoutes, // Help routes ["/help", "/open"]
         ...requestRoutes, // Request routes ["/request"]
         ...setupRoutes, // Setup routes ["/setup", "/setup/:step"]
+        ...docsRoutes, // Docs routes ["/docs", "/docs/:id"]
         ...coreRoutes, // Core routes ["/:pathMatch(.*)*"]
     ],
 });

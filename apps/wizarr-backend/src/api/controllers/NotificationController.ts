@@ -1,21 +1,22 @@
-import { BullMQ } from "@/bull";
-import { Logger, LoggerInterface } from "@/decorators/LoggerDecorator";
-import { ConnectedSocket, MessageBody, OnConnect, SocketController } from "socket-controllers";
-import { Socket } from "socket.io";
+import { InjectWorker } from "../../decorators/InjectQueue";
+import { ConnectedSocket, OnConnect, SocketController } from "socket-controllers";
 import { Service } from "typedi";
+
+import type { BullMQ } from "../../bull";
+import type { Socket } from "socket.io";
 
 @Service()
 @SocketController("/notifications")
 export class NotificationController {
-    // Inject the logger.
-    @Logger() private logger: LoggerInterface;
-
-    constructor(private bullmq: BullMQ) {}
+    /**
+     * Create a new instance of the NotificationController class.
+     */
+    constructor(@InjectWorker("notifications") private notificationsWorker: BullMQ["workers"]["notifications"]) {}
 
     @OnConnect()
     public connection(@ConnectedSocket() socket: Socket) {
         // Listen for the completed event from the notification worker.
-        this.bullmq.getWorker("notifications").on("completed", (job) => {
+        this.notificationsWorker.on("completed", (job) => {
             socket.emit("notification", {
                 ...job.data,
             });

@@ -1,4 +1,4 @@
-import { connection } from "@/data-source";
+import { connection } from "../data-source";
 import { Container, Constructable, ContainerInstance } from "typedi";
 
 /**

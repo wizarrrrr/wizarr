@@ -1,9 +1,10 @@
-import { Server } from "@/api/models/Server/ServerModel";
-import { createClient } from ".";
-import { User } from "@/api/models/User/UserModel";
-import { UserDto } from "@jellyfin/sdk/lib/generated-client/models";
+import { Server } from "../../api/models/Server/ServerModel";
+import { createClient } from "./index";
+import { User } from "../../api/models/User/UserModel";
 import { plainToInstance } from "class-transformer";
 import { CreateAxiosDefaults } from "axios";
+
+import type { UserDto } from "@jellyfin/sdk/lib/generated-client/models";
 
 export const getUsers = async <B extends boolean>(server: Server, translate?: B, config?: CreateAxiosDefaults): Promise<B extends true ? User[] : UserDto[]> => {
     const api = await createClient(server.host, server.apiKey, config);
@@ -21,6 +22,8 @@ export function translateUser(server: Server, jellyfinUser: UserDto): User {
         avatar: `${server.host}/Users/${jellyfinUser.Id}/Images/Primary`,
         username: jellyfinUser.Name,
         server: server,
+        lastLoginAt: new Date(jellyfinUser.LastLoginDate),
+        lastActivityAt: new Date(jellyfinUser.LastActivityDate),
     } as User);
 }
 

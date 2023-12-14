@@ -11,10 +11,6 @@
         "noFallthroughCasesInSwitch": true,
         "composite": true,
         "declaration": true,
-        "typeRoots": [
-            "./types",
-            "../../node_modules/@types"
-        ]
     },
     "files": [],
     "include": [],

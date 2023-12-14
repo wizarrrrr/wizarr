@@ -1,14 +1,11 @@
-import { Admin } from "@/api/models/Account/AdminModel";
-import { User } from "@/api/models/User/UserModel";
-import { ServerRepository } from "@/api/repositories/Server/ServerRepository";
-import { UserRepository } from "@/api/repositories/User/UserRepository";
-import { BullMQ } from "@/bull";
-import { UserWorkerData } from "@/bull/workers/UserWorker";
-import { InjectRepository } from "@/decorators";
-import { InjectQueue } from "@/decorators/InjectQueue";
-import { scanUsers } from "@/media/jobs";
-import { BulkJobOptions } from "bullmq";
-import { Inject, Service } from "typedi";
+import { Admin } from "../../models/Account/AdminModel";
+import { User } from "../../models/User/UserModel";
+import { UserRepository } from "../../repositories/User/UserRepository";
+import { BullMQ } from "../../../bull";
+import { InjectRepository } from "../../../decorators/InjectRepository";
+import { InjectQueue } from "../../../decorators/InjectQueue";
+import { scanUsers } from "../../../media/jobs";
+import { Service } from "typedi";
 
 @Service()
 export class UserService {

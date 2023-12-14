@@ -1,12 +1,9 @@
 import { WizarrAPI } from "./api";
 
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import type { AxiosInstance, AxiosRequestConfig } from "axios";
+import type { Information as IInformation, Version as IVersion, Health as IHealth, Admin as IAdmin, Server as IServer } from "./types/index.types";
 
-import type { Information as IInformation } from "../types/api/information";
-import type { Version as IVersion } from "../types/api/version";
-import type { Health as IHealth } from "../types/api/health";
-import type { Admin as IAdmin } from "../types/api/authentication";
-import type { Server as IServer } from "../types/api/server";
+export * from "./types/index.types";
 
 // Define a conditional type to filter out non-object keys
 type ObjectKeys<T> = {

@@ -1,48 +1,13 @@
 {
     "extends": "../../tsconfig.base.json",
     "files": [],
-    "include": [
-        "./src/**/*.ts",
-        "./types/**/*.d.ts"
-    ],
+    "include": [],
     "references": [
         {
-            "path": "./tsconfig.app.json",
+            "path": "./tsconfig.app.json"
         }
     ],
     "compilerOptions": {
-        "target": "ES6",
-        "module": "CommonJS",
-        "esModuleInterop": true,
-        "noImplicitAny": true,
-        "moduleResolution": "node",
-        "sourceMap": true,
-        "baseUrl": ".",
-        "outDir": "../../dist/apps/wizarr-backend",
-        "paths": {
-            "@/*": [
-                "./src/*"
-            ],
-            "@root/*": [
-                "../../*"
-            ],
-            "@base/*": [
-                "./src/*"
-            ],
-            "@api/*": [
-                "./src/api/*"
-            ],
-            "@config/*": [
-                "src/config/*"
-            ],
-        },
-        "strict": false,
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "forceConsistentCasingInFileNames": true,
-        "types": [
-            "node",
-            "reflect-metadata"
-        ],
+        "esModuleInterop": true
     }
 }

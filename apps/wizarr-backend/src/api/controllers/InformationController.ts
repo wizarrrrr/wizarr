@@ -8,7 +8,7 @@ import { OpenAPI } from "routing-controllers-openapi";
 import { InformationService } from "../services/InformationService";
 import { InformationPUT } from "../requests/InformationRequest";
 import { LoggerInterface } from "../../decorators/LoggerDecorator";
-import { cachedGetCurrentVersion, getCurrentVersion, getLatestBetaVersion, getLatestStableVersion, getLatestVersion, isBeta, isLatest } from "@/utils/versions.helper";
+import { cachedGetCurrentVersion, getCurrentVersion, getLatestBetaVersion, getLatestStableVersion, getLatestVersion, isBeta, isLatest } from "../../utils/versions.helper";
 
 import type { Version as IVersion, Health as IHealth, Information as IInformation } from "@wizarrrr/wizarr-sdk";
 

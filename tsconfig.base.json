@@ -10,31 +10,16 @@
         "importHelpers": true,
         "target": "es2015",
         "module": "esnext",
-        "lib": [
-            "es2020",
-            "dom"
-        ],
+        "lib": ["es2020", "dom"],
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@wizarrrr/wizarr-sdk": [
-                "libs/wizarr-sdk/src/index.ts"
-            ],
-            "@wizarrrr/plex-sdk/src": [
-                "libs/plex-sdk/src"
-            ],
-            "@wizarrrr/plex-sdk": [
-                "libs/plex-sdk/src/index.ts"
-            ],
-            "@wizarrrr/typeorm-simple-query-parser": [
-                "libs/typeorm-simple-query-parser/src/index.ts"
-            ],
+            "@wizarrrr/plex-sdk": ["libs/plex-sdk/src/index.ts"],
+            "@wizarrrr/typeorm-simple-query-parser": ["libs/typeorm-simple-query-parser/src/index.ts"],
+            "@wizarrrr/wizarr-sdk": ["libs/wizarr-sdk/src/index.ts"]
         },
         "forceConsistentCasingInFileNames": true
     },
-    "exclude": [
-        "node_modules",
-        "tmp"
-    ]
+    "exclude": ["node_modules", "tmp"]
 }

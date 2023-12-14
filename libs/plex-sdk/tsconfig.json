@@ -1,6 +1,7 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
+        "rootDir": "./src",
         "target": "ES5",
         "module": "commonjs",
         "forceConsistentCasingInFileNames": true,
@@ -11,9 +12,7 @@
         "noFallthroughCasesInSwitch": true,
         "composite": true,
         "declaration": true,
-        "emitDeclarationOnly": true,
-        "allowImportingTsExtensions": true,
-        "downlevelIteration": true
+        "downlevelIteration": true,
     },
     "files": [],
     "include": [],

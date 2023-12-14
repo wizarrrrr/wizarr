@@ -5,21 +5,24 @@
     "projectType": "application",
     "targets": {
         "build": {
-            "executor": "@nx/esbuild:esbuild",
+            "executor": "@nx/js:tsc",
             "outputs": [
                 "{options.outputPath}"
             ],
             "defaultConfiguration": "production",
             "options": {
+                "target": "esnext",
                 "platform": "node",
+                "minify": false,
                 "outputPath": "dist/apps/wizarr-backend",
-                "format": [
-                    "cjs"
-                ],
+                "metafile": true,
                 "bundle": false,
+                "inspect": false,
                 "main": "apps/wizarr-backend/src/main.ts",
                 "tsConfig": "apps/wizarr-backend/tsconfig.app.json",
                 "generatePackageJson": true,
+                "generateLockfile": true,
+                "external": "none",
                 "esbuildOptions": {
                     "sourcemap": true,
                     "outExtension": {
@@ -43,7 +46,7 @@
             "executor": "@nx/js:node",
             "defaultConfiguration": "development",
             "options": {
-                "buildTarget": "wizarr-backend:build"
+                "inspect": "inspect"
             },
             "configurations": {
                 "development": {
@@ -52,17 +55,6 @@
                 "production": {
                     "buildTarget": "wizarr-backend:build:production"
                 }
-            }
-        },
-        "lint": {
-            "executor": "@nx/eslint:lint",
-            "outputs": [
-                "{options.outputFile}"
-            ],
-            "options": {
-                "lintFilePatterns": [
-                    "apps/wizarr-backend/**/*.ts"
-                ]
             }
         }
     },

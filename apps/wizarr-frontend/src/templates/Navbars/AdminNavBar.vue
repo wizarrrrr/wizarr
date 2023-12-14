@@ -29,7 +29,8 @@
                                 <AccountButton />
                                 <LanguageSelector />
                                 <ThemeToggle />
-                                <ViewToggle />
+                                <!-- <ViewToggle /> -->
+                                <HelpButton />
                             </div>
                             <span class="inline-flex hidden md:block w-px h-6 bg-gray-200 dark:bg-gray-700"></span>
                             <LogoutButton />
@@ -52,6 +53,7 @@ import AccountButton from "@/components/Buttons/AccountButton.vue";
 import LanguageSelector from "@/components/Buttons/LanguageSelector.vue";
 import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
 import ViewToggle from "@/components/Buttons/ViewToggle.vue";
+import HelpButton from "@/components/Buttons/HelpButton.vue";
 import LogoutButton from "@/components/Buttons/LogoutButton.vue";
 
 export default defineComponent({
@@ -62,6 +64,7 @@ export default defineComponent({
         LanguageSelector,
         ThemeToggle,
         ViewToggle,
+        HelpButton,
         LogoutButton,
     },
     computed: {

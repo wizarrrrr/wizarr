@@ -1,4 +1,4 @@
-import { env } from "@/utils/env.helper";
+import { env } from "../utils/env.helper";
 import { ConnectionOptions } from "bullmq";
 
 export const reddisConfig = (): ConnectionOptions => {

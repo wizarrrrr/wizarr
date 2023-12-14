@@ -45,11 +45,11 @@ function getCustomRepository<T>(customRepository: ObjectType<T> | EntityTarget<T
 function getRepositoryHelper<T>(repositoryType: ObjectType<T>, entityType?: EntityTarget<ObjectLiteral>) {
     switch (repositoryType) {
         case Repository:
-            return connection.getRepository(entityType!);
+            return connection.getRepository(entityType);
         case MongoRepository:
-            return connection.getMongoRepository(entityType!);
+            return connection.getMongoRepository(entityType);
         case TreeRepository:
-            return connection.getTreeRepository(entityType!);
+            return connection.getTreeRepository(entityType);
         default:
             /** If the requested type is not well-known, then it must be a custom repository. */
             return getCustomRepository(repositoryType);

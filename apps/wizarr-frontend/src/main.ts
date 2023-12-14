@@ -71,6 +71,16 @@ declare module "@vue/runtime-core" {
     }
 }
 
+app.config.globalProperties.$help = async (id: string) => {
+    window.open(`/docs/${id}`, "_blank", "width=600, height=700, toolbar=no, menubar=no");
+};
+
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        $help: (id: string) => void;
+    }
+}
+
 pinia.use(piniaPluginPersistedstate);
 pinia.use(piniaPluginToast);
 pinia.use(piniaPluginAxios);

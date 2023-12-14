@@ -1,6 +1,6 @@
 import { URLSearchParams } from "url";
 
-import type { PlexServer } from "../server.js";
+import type { PlexServer } from "../server";
 
 class WeakRef<T> {
     constructor(public readonly target: T) {}
@@ -77,14 +77,8 @@ export abstract class PlexObject {
         let detailsKey = this.key;
         if (detailsKey && this._INCLUDES !== undefined) {
             const params = new URLSearchParams();
-            for (const [k, v] of Object.entries(this._INCLUDES)) {
-                const value = args[k] ?? v;
-                if (![false, 0, "0"].includes(value)) {
-                    params.set(k, (value === true ? 1 : value).toString());
-                }
-            }
-
-            if ([...params.keys()].length) {
+            const keys = Array.from(params.keys());
+            if (keys.length) {
                 detailsKey += "?" + params.toString();
             }
         }

@@ -1,5 +1,5 @@
 import axios, { CreateAxiosDefaults } from "axios";
-import { cachedGetCurrentVersion } from "@/utils/versions.helper";
+import { cachedGetCurrentVersion } from "../../utils/versions.helper";
 
 export const getAuthorizationHeader = async (apiKey?: string) => {
     return [
