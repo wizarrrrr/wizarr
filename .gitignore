@@ -97,7 +97,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -448,4 +447,4 @@ apps/wizarr-backend-old/database/*
 database/*
 # Sentry Config File
 .sentryclirc
-dump.rdb
+/dump.rdb
