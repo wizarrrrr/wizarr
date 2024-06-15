@@ -190,6 +190,12 @@ export default defineComponent({
                             icon: "fas fa-shield-alt",
                             url: "/admin/settings/mfa",
                         },
+                        // {
+                        //     title: this.__("Language"),
+                        //     description: this.__("Change your language"),
+                        //     icon: "fas fa-language",
+                        //     url: "/admin/settings/language",
+                        // },
                     ],
                 },
                 {

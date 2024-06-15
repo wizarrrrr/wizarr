@@ -41,6 +41,12 @@ const children: RouteRecordRaw[] = [
         meta: { header: "Manage Account", subheader: "Configure your account" },
     },
     {
+        path: "smtp",
+        name: "admin-settings-media",
+        component: () => import("../pages/Email.vue"),
+        meta: { header: "Email Server", subheader: "Configure Email Service" },
+    },
+    {
         path: "sessions",
         name: "admin-settings-sessions",
         component: () => import("../pages/Sessions.vue"),

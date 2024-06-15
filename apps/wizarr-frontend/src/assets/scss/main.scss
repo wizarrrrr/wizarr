@@ -189,3 +189,11 @@ button[disabled],
         margin-bottom: 0px !important;
     }
 }
+
+.debug {
+    box-shadow: inset 0px 0px 1px 1px lime;
+}
+
+.debug * {
+    box-shadow: inset 0px 0px 1px 1px magenta;
+}
