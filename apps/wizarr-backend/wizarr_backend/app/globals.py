@@ -7,8 +7,8 @@ def create_globals(app: Flask):
     globals_config = {}
     globals_config["APP_NAME"] = "Wizarr"
     globals_config["APP_VERSION"] = get_current_version()
-    globals_config["APP_GITHUB_URL"] = "https://github.com/wizarrrrrr/wizarr"
-    globals_config["GITHUB_SHEBANG"] = "wizarrrrrr/wizarr"
+    globals_config["APP_GITHUB_URL"] = "https://github.com/wizarrrrr/wizarr"
+    globals_config["GITHUB_SHEBANG"] = "wizarrrrr/wizarr"
     globals_config["DOCS_URL"] = "https://docs.wizarr.dev"
     globals_config["DISCORD_INVITE"] = "wsSTsHGsqu"
     globals_config["APP_RELEASED"] = is_stable()

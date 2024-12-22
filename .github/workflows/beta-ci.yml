@@ -13,7 +13,7 @@ permissions:
 env:
     GHCR_REGISTRY: ghcr.io
     DH_REGISTRY: docker.io
-    IMAGE_NAME: wizarrrrrr/wizarr
+    IMAGE_NAME: wizarrrrr/wizarr
     # IMAGE_TAG: beta
 
 jobs:

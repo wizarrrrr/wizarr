@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set your GitHub repository details
-USERNAME="wizarrrrrr"
+USERNAME="wizarrrrr"
 REPO="wizarr"
 
 # Get your GitHub Personal Access Token

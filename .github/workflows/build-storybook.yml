@@ -45,7 +45,7 @@ jobs:
             - name: Deploy Storybook
               uses: peaceiris/actions-gh-pages@v3
               with:
-                  external_repository: wizarrrrrr/storybook.wizarr.dev
+                  external_repository: wizarrrrr/storybook.wizarr.dev
                   personal_token: ${{ steps.gh_app.outputs.token }}
                   publish_dir: ./dist/storybook/wizarr-frontend
                   cname: storybook.wizarr.dev

@@ -50,7 +50,7 @@ export default defineComponent({
             DATA_DIRECTORY: "test",
             TIMEZONE: "test",
             DOCS_URL: "test",
-            GITHUB_SHEBANG: "wizarrrrrr/wizarr",
+            GITHUB_SHEBANG: "wizarrrrr/wizarr",
             DISCORD_INVITE: "test",
         };
     },
