@@ -6,7 +6,7 @@ import { InformationRepository } from "../repositories/InformationRepository";
 import { Information } from "../models/InformationModel";
 import { booleanConverter, env } from "../../utils/env.helper";
 
-import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
+import type { Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 import { AdminRepository } from "../repositories/Account/AdminRepository";
 
 @Service()

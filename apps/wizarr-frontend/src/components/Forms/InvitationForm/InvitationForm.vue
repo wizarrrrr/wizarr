@@ -21,7 +21,7 @@ import InvitationPermissions from "./pages/InvitationPermissions.vue";
 import InvitationComplete from "./pages/InvitationComplete.vue";
 
 import type { Emitter } from "mitt";
-import type { Invitation as IInvitation, InvitationRequest as IInvitationRequest } from "@wizarrrr/wizarr-sdk";
+import type { Invitation as IInvitation, InvitationRequest as IInvitationRequest } from "@wizarrrrr/wizarr-sdk";
 
 export interface InvitationData {
     serverId: string;

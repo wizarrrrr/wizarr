@@ -42,7 +42,7 @@ import { useUsersStore } from "@/stores/users";
 import { mapActions, mapState } from "pinia";
 import { useClipboard } from "@vueuse/core";
 
-import type { Invitation as IInvitation } from "@wizarrrr/wizarr-sdk";
+import type { Invitation as IInvitation } from "@wizarrrrr/wizarr-sdk";
 import type { CustomModalOptions } from "@/plugins/modal";
 
 import ListItem from "@/components/ListItem.vue";

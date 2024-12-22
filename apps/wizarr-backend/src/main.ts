@@ -72,7 +72,7 @@ export class App {
                 },
                 {
                     level: "info",
-                    target: "@wizarrrr/pino-http-logger",
+                    target: "@wizarrrrr/pino-http-logger",
                     options: {
                         all: true,
                         prettyOptions: {
@@ -314,7 +314,7 @@ export class App {
     private async setupSentry() {
         // Initialize Sentry for error reporting
         useSentry({
-            dsn: "https://2213de43d3adb70847691c680ea2e0de@sentry.wizarr.dev/5",
+            dsn: "https://2213de43d3adb70847691c680ea2e0de@sentry.wizarr.org/5",
             tracesSampleRate: 1.0,
             integrations: [
                 // Automatically instrument Node libraries and frameworks

@@ -80,7 +80,7 @@ jobs:
                   GITHUB_TOKEN: ${{ steps.gh_app.outputs.token }}
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
                   SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-                  SENTRY_URL: https://sentry.wizarr.dev
+                  SENTRY_URL: https://sentry.wizarr.org
                   SENTRY_ENVIRONMENT: ${{ steps.release-branch.outputs.release_branch }}
                   SENTRY_PROJECT: wizarr-frontend wizarr-backend
                   DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

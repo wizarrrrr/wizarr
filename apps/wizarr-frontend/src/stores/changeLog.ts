@@ -24,7 +24,7 @@ export const useChangeLogStore = defineStore("changeLog", {
             this.fixCachedAxios(this);
 
             // Get the change logs from the API
-            const reponse = await cachedAxios.get("https://api.github.com/repos/wizarrrr/wizarr/releases", {
+            const reponse = await cachedAxios.get("https://api.github.com/repos/wizarrrrr/wizarr/releases", {
                 params: { per_page, page },
                 transformRequest: [
                     (data, headers) => {

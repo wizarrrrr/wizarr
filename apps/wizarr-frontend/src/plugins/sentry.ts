@@ -3,7 +3,7 @@ import DefaultToast from "@/components/Toasts/DefaultToast.vue";
 import { BrowserTracing, Replay, init, vueRouterInstrumentation } from "@sentry/vue";
 
 import type { App } from "vue";
-import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
+import type { Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 import type { Options, TracingOptions } from "@sentry/vue/types/types";
 
 type SentryOptions = Partial<
@@ -34,7 +34,7 @@ const vuePluginSentry = {
 
         init({
             app: app,
-            dsn: "https://4034e578d899247f5121cbae3466e637@sentry.wizarr.dev/2",
+            dsn: "https://4034e578d899247f5121cbae3466e637@sentry.wizarr.org/2",
             integrations: [
                 new BrowserTracing({
                     tracePropagationTargets: [location.origin],

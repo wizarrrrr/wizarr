@@ -5,7 +5,7 @@ import { ControllerBase } from "../BaseController";
 import { UserService } from "../../services/User/UserService";
 import { LoggerInterface } from "../../../decorators/LoggerDecorator";
 import { Admin } from "../../models/Account/AdminModel";
-import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
+import { RequestQueryParser } from "@wizarrrrr/typeorm-simple-query-parser";
 
 @Service()
 @OpenAPI({ security: [{ bearerAuth: [] }], tags: ["Users"] })

@@ -47,7 +47,7 @@ import { mapActions } from "pinia";
 import { useUsersStore } from "@/stores/users";
 import { url } from "gravatar";
 
-import type { User as IUser } from "@wizarrrr/wizarr-sdk";
+import type { User as IUser } from "@wizarrrrr/wizarr-sdk";
 import type { CustomModalOptions } from "@/plugins/modal";
 
 import ListItem from "@/components/ListItem.vue";

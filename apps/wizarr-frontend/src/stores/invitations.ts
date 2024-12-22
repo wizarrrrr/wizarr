@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Invitation as IInvitation, Invitations as IInvitations, InvitationRequest as IInvitationRequest, InvitationResponse as IInvitationResponse } from "@wizarrrr/wizarr-sdk";
+import type { Invitation as IInvitation, Invitations as IInvitations, InvitationRequest as IInvitationRequest, InvitationResponse as IInvitationResponse } from "@wizarrrrr/wizarr-sdk";
 
 export const useInvitationStore = defineStore("invitations", {
     state: (): { invitations: IInvitations } => ({

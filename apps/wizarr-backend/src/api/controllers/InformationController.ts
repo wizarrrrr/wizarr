@@ -10,7 +10,7 @@ import { InformationPUT } from "../requests/InformationRequest";
 import { LoggerInterface } from "../../decorators/LoggerDecorator";
 import { cachedGetCurrentVersion, getCurrentVersion, getLatestBetaVersion, getLatestStableVersion, getLatestVersion, isBeta, isLatest } from "../../utils/versions.helper";
 
-import type { Version as IVersion, Health as IHealth, Information as IInformation } from "@wizarrrr/wizarr-sdk";
+import type { Version as IVersion, Health as IHealth, Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 
 @Service()
 @JsonController()

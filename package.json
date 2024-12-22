@@ -1,5 +1,5 @@
 {
-    "name": "@wizarrrr/source",
+    "name": "@wizarrrrr/source",
     "version": "3.5.0",
     "license": "MIT",
     "scripts": {
@@ -11,7 +11,7 @@
         "test:e2e": "nx e2e wizarr-e2e",
         "prepare": "husky install",
         "commit": "commit",
-        "sentry:sourcemaps": "sentry-cli sourcemaps inject --org wizarr --project wizarr-backend-jg ./dist/apps/wizarr-backend/apps/wizarr-backend && sentry-cli --url https://sentry.wizarr.dev sourcemaps upload --org wizarr --project wizarr-backend-jg ./dist/apps/wizarr-backend/apps/wizarr-backend"
+        "sentry:sourcemaps": "sentry-cli sourcemaps inject --org wizarr --project wizarr-backend-jg ./dist/apps/wizarr-backend/apps/wizarr-backend && sentry-cli --url https://sentry.wizarr.org sourcemaps upload --org wizarr --project wizarr-backend-jg ./dist/apps/wizarr-backend/apps/wizarr-backend"
     },
     "private": true,
     "workspaces": [
@@ -70,10 +70,10 @@
         "@vueform/multiselect": "^2.6.2",
         "@vueuse/core": "^10.4.0",
         "@vueuse/integrations": "^10.4.0",
-        "@wizarrrr/pino-http-logger": "^3.1.0",
-        "@wizarrrr/plex-sdk": "file:libs/plex-sdk",
-        "@wizarrrr/typeorm-simple-query-parser": "file:libs/typeorm-simple-query-parser",
-        "@wizarrrr/wizarr-sdk": "file:libs/wizarr-sdk",
+        "@wizarrrrr/pino-http-logger": "^3.1.0",
+        "@wizarrrrr/plex-sdk": "file:libs/plex-sdk",
+        "@wizarrrrr/typeorm-simple-query-parser": "file:libs/typeorm-simple-query-parser",
+        "@wizarrrrr/wizarr-sdk": "file:libs/wizarr-sdk",
         "async-validator": "^4.2.5",
         "axios": "^1.5.0",
         "axios-cache-interceptor": "^1.2.0",
@@ -247,8 +247,8 @@
         "@vue/eslint-config-typescript": "^11.0.3",
         "@vue/test-utils": "^2.4.1",
         "@vue/tsconfig": "^0.4.0",
-        "@wizarrrr/semantic-release-discord": "^1.0.0",
-        "@wizarrrr/semantic-release-sentry-releases": "^1.0.0",
+        "@wizarrrrr/semantic-release-discord": "^1.0.0",
+        "@wizarrrrr/semantic-release-sentry-releases": "^1.0.0",
         "autoprefixer": "^10.4.15",
         "babel-jest": "^29.4.1",
         "chromatic": "^9.0.0",

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Version as IVersion } from "@wizarrrr/wizarr-sdk";
+import type { Version as IVersion } from "@wizarrrrr/wizarr-sdk";
 
 export const useVersionStore = defineStore("version", {
     state: (): IVersion => ({

@@ -1,5 +1,5 @@
 import { useUserStore } from "@/stores/user";
-import type { Admin } from "@wizarrrr/wizarr-sdk";
+import type { Admin } from "@wizarrrrr/wizarr-sdk";
 
 export const hasRole = (role: string | string[], user?: Admin) => {
     // Get the current user from the store or the parameter

@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, MinLength } from "class-validator";
-import type { LoginRequest as ILoginRequest } from "@wizarrrr/wizarr-sdk";
+import type { LoginRequest as ILoginRequest } from "@wizarrrrr/wizarr-sdk";
 
 export class LoginRequest implements ILoginRequest {
     @IsNotEmpty()

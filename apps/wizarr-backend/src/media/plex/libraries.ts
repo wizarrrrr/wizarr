@@ -3,7 +3,7 @@ import { createClient } from "./index";
 import { plainToInstance } from "class-transformer";
 import { ServerLibrary } from "../../api/models/Server/ServerLibraryModel";
 
-import type { Section } from "@wizarrrr/plex-sdk";
+import type { Section } from "@wizarrrrr/plex-sdk";
 
 import { connection } from "../../data-source";
 

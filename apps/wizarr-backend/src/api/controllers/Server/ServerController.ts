@@ -3,7 +3,7 @@ import { OpenAPI } from "routing-controllers-openapi";
 import { Inject, Service } from "typedi";
 import { ControllerBase } from "../BaseController";
 import { ServerService } from "../../services/Server/ServerService";
-import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
+import { RequestQueryParser } from "@wizarrrrr/typeorm-simple-query-parser";
 import { ServerRequest } from "../../requests/Server/ServerPostRequest";
 import { Admin } from "../../models/Account/AdminModel";
 import { LoggerInterface } from "../../../decorators/LoggerDecorator";

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 
 import type { Membership } from "@/types/api/membership";
-import type { Admin } from "@wizarrrr/wizarr-sdk";
+import type { Admin } from "@wizarrrrr/wizarr-sdk";
 
 interface UserStoreState {
     user: Partial<Admin> | null;

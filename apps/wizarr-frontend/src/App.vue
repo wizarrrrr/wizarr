@@ -30,7 +30,7 @@ import Help from "@/components/Help/Help.vue";
 
 import type { ToastID } from "vue-toastification/dist/types/types";
 import type { CustomAxiosRequestConfig } from "./ts/utils/axios";
-import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
+import type { Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 
 import type { Toasts } from "./ts/utils/toasts";
 import type { Socket } from "socket.io-client";

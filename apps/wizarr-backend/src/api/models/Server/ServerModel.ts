@@ -3,7 +3,7 @@ import { EntityBase } from "../BaseModel";
 import { ServerLibrary } from "./ServerLibraryModel";
 import { Admin } from "../Account/AdminModel";
 
-import type { Server as IServer } from "@wizarrrr/wizarr-sdk";
+import type { Server as IServer } from "@wizarrrrr/wizarr-sdk";
 import { DateTimeNow } from "../../../data-source";
 import { User } from "../User/UserModel";
 import { Invitation } from "../Invitation/InvitationModel";

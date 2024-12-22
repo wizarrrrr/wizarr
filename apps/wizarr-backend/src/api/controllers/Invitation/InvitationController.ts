@@ -3,7 +3,7 @@ import { Inject, Service } from "typedi";
 import { ControllerBase } from "../BaseController";
 import { Authorized, Body, CurrentUser, Delete, Get, JsonController, Param, Post, Put, QueryParams } from "routing-controllers";
 import { InvitationService } from "../../services/Invitation/InvitationService";
-import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
+import { RequestQueryParser } from "@wizarrrrr/typeorm-simple-query-parser";
 import { Admin } from "../../models/Account/AdminModel";
 import { InvitationRequest } from "../../requests/Invitation/InvitationRequest";
 

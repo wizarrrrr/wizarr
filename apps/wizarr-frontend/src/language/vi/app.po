@@ -784,7 +784,7 @@ msgid "Marvin"
 msgstr ""
 
 #: src/modules/settings/pages/Account.vue:76
-msgid "marvin@wizarr.dev"
+msgid "marvin@wizarr.org"
 msgstr ""
 
 #: src/modules/settings/pages/Main.vue:102

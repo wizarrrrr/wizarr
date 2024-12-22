@@ -9,7 +9,7 @@ import { useAxios } from "@/plugins/axios";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
 
-import type { Admin as IAdmin } from "@wizarrrr/wizarr-sdk";
+import type { Admin as IAdmin } from "@wizarrrrr/wizarr-sdk";
 
 class Auth {
     // Local toast functions

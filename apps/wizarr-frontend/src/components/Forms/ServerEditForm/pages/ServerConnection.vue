@@ -69,7 +69,7 @@ import { defineComponent } from "vue";
 
 import WarningAlert from "@/components/Alerts/WarningAlert.vue";
 
-import type { Server as IServer } from "@wizarrrr/wizarr-sdk";
+import type { Server as IServer } from "@wizarrrrr/wizarr-sdk";
 
 export default defineComponent({
     name: "ServerConnection",

@@ -1,5 +1,5 @@
 import { IsBoolean, IsOptional, IsString } from "class-validator";
-import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
+import type { Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 
 export class InformationGET implements Partial<IInformation> {
     @IsString()

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { UsersResponse as IUsersResponse, User as IUser, UserStore as UserStoreState } from "@wizarrrr/wizarr-sdk";
+import type { UsersResponse as IUsersResponse, User as IUser, UserStore as UserStoreState } from "@wizarrrrr/wizarr-sdk";
 
 export const useUsersStore = defineStore("users", {
     state: (): UserStoreState => ({

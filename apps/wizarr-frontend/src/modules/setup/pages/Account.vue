@@ -7,7 +7,7 @@
         <FormKit type="text" :label="__('Username')" name="username" placeholder="marvin" validation="alpha:latin|lowercase" required autocomplete="username" :restrictions="{ alpha_numeric: true }" />
 
         <!-- Email -->
-        <FormKit type="email" :label="__('Email')" name="email" placeholder="marvin@wizarr.dev" validation="email" required autocomplete="email" />
+        <FormKit type="email" :label="__('Email')" name="email" placeholder="marvin@wizarr.org" validation="email" required autocomplete="email" />
 
         <!-- Password -->
         <FormKit type="password" :label="__('Password')" name="password" placeholder="••••••••" required autocomplete="new-password" />

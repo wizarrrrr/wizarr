@@ -13,7 +13,7 @@
             <FormKit type="text" name="username" :value="user?.username" :label="__('Username')" :placeholder="__('marvin')" />
 
             <!-- Email -->
-            <FormKit type="email" name="email" :value="user?.email" :label="__('Email')" :placeholder="__('marvin@wizarr.dev')" />
+            <FormKit type="email" name="email" :value="user?.email" :label="__('Email')" :placeholder="__('marvin@wizarr.org')" />
         </FormKit>
     </div>
 </template>

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Servers as IServers, Server as IServer, ServerResponse as IServerResponse } from "@wizarrrr/wizarr-sdk";
+import type { Servers as IServers, Server as IServer, ServerResponse as IServerResponse } from "@wizarrrrr/wizarr-sdk";
 
 export const useServerStore = defineStore("server", {
     state: (): { servers: IServers } => ({

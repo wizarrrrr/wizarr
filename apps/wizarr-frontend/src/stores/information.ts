@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Information as IInformation } from "@wizarrrr/wizarr-sdk";
+import type { Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 
 export const useInformationStore = defineStore("information", {
     state: (): IInformation => ({

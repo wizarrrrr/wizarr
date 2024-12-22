@@ -3,7 +3,7 @@ import { Service } from "typedi";
 import { ControllerBase } from "../BaseController";
 import { OpenAPI } from "routing-controllers-openapi";
 
-import type { SupportedServers as ISupportedServers } from "@wizarrrr/wizarr-sdk";
+import type { SupportedServers as ISupportedServers } from "@wizarrrrr/wizarr-sdk";
 
 @Service()
 @JsonController()

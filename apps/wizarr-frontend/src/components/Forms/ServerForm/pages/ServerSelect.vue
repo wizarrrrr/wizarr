@@ -9,7 +9,7 @@
 import { defineComponent } from "vue";
 import type { EventRecords } from "../ServerForm.vue";
 import type { Emitter } from "mitt";
-import type { SupportedServers } from "@wizarrrr/wizarr-sdk";
+import type { SupportedServers } from "@wizarrrrr/wizarr-sdk";
 
 export default defineComponent({
     name: "MediaServerSelect",

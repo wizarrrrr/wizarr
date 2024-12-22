@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import type { Libraries as ILibraries, Library as ILibrary, LibraryResponse as ILibraryResponse } from "@wizarrrr/wizarr-sdk";
+import type { Libraries as ILibraries, Library as ILibrary, LibraryResponse as ILibraryResponse } from "@wizarrrrr/wizarr-sdk";
 
 export const useLibrariesStore = defineStore("libraries", {
     state: (): { libraries: ILibraries } => ({

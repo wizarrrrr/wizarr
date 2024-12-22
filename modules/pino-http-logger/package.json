@@ -1,5 +1,5 @@
 {
-    "name": "@wizarrrr/pino-http-logger",
+    "name": "@wizarrrrr/pino-http-logger",
     "version": "3.1.0",
     "description": "Debug HTTP printer for pino",
     "main": "index.js",

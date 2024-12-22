@@ -2,7 +2,7 @@ import { Authorized, Get, JsonController, Param, QueryParams } from "routing-con
 import { OpenAPI } from "routing-controllers-openapi";
 import { Service } from "typedi";
 import { ControllerBase } from "../BaseController";
-import { RequestQueryParser } from "@wizarrrr/typeorm-simple-query-parser";
+import { RequestQueryParser } from "@wizarrrrr/typeorm-simple-query-parser";
 import { ServerLibraryService } from "../../services/Server/ServerLibraryService";
 
 @Service()

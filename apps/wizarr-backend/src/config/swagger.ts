@@ -14,7 +14,7 @@ export const swaggerConfig = async (schemas: Record<string, SchemaObject>): Prom
             version: currentVersion,
             contact: {
                 name: "Wizarr Support",
-                email: "support@wizarr.dev",
+                email: "support@wizarr.org",
             },
             license: {
                 name: license.name,
@@ -33,7 +33,7 @@ export const swaggerConfig = async (schemas: Record<string, SchemaObject>): Prom
         },
         externalDocs: {
             description: "Find out more about Wizarr",
-            url: "https://wizarr.dev",
+            url: "https://wizarr.org",
         },
     };
 };

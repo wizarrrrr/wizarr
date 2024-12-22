@@ -51,7 +51,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import type { Server as IServer } from "@wizarrrr/wizarr-sdk";
+import type { Server as IServer } from "@wizarrrrr/wizarr-sdk";
 
 export default defineComponent({
     name: "ServerInformation",

@@ -7,7 +7,7 @@ const auth = env("GITHUB_TOKEN");
 const octokit = new Octokit({ auth: auth });
 
 const repo = "wizarr";
-const owner = "wizarrrr";
+const owner = "wizarrrrr";
 
 export const cachedGetDescription = async () => await cache(githubCache, getDescription, "description", ONE_DAY);
 export const cachedGetLicense = async () => await cache(githubCache, getLicense, "license", ONE_DAY);

@@ -2,7 +2,7 @@ import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from 
 import { EntityBase } from "../BaseModel";
 import { Server } from "./ServerModel";
 
-import { ServerLibrary as IServerLibrary } from "@wizarrrr/wizarr-sdk";
+import { ServerLibrary as IServerLibrary } from "@wizarrrrr/wizarr-sdk";
 import { Invitation } from "../Invitation/InvitationModel";
 
 @Entity("server_libraries")

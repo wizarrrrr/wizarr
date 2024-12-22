@@ -28,7 +28,7 @@ import { mapActions } from "pinia";
 import ItemTemplate from "../../ItemTemplate.vue";
 import ServerEditForm from "@/components/Forms/ServerEditForm/ServerEditForm.vue";
 
-import type { Server as IServer } from "@wizarrrr/wizarr-sdk";
+import type { Server as IServer } from "@wizarrrrr/wizarr-sdk";
 
 export default defineComponent({
     name: "ServerItem",
