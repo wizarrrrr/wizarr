@@ -44,7 +44,7 @@
                 <a
                     class="text-primary font-bold hover:underline"
                     target="_blank"
-                    href="https://github.com/wizarrrr/wizarr"
+                    href="https://github.com/wizarrrrr/wizarr"
                     >Wizarr</a
                 >
             </p>

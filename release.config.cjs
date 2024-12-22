@@ -31,18 +31,15 @@ const config = {
             prepareCmd: "echo \"${nextRelease.version}\" > latest",
         }],
         ["@semantic-release/git", {
-            message: "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
-        }],
-        ["@semantic-release/git", {
             assets: [
                 "CHANGELOG.md",
                 "CHANGELOG-beta.md",
                 "latest"
             ],
-            message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+            message: "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
         }],
-        "@wizarrrr/semantic-release-discord",
-        ["@wizarrrr/semantic-release-sentry-releases", {
+        "@wizarrrrr/semantic-release-discord",
+        ["@wizarrrrr/semantic-release-sentry-releases", {
             sourcemaps: "dist/apps/wizarr-frontend"
         }]
     ]

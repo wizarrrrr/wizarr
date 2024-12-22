@@ -1,12 +1,12 @@
 {
-    "name": "@wizarrrr/semantic-release-sentry-releases",
+    "name": "@wizarrrrr/semantic-release-sentry-releases",
     "version": "1.0.0",
     "description": "",
     "main": "index.cjs",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "homepage": "https://github.com/wizarrrr/semantic-release-sentry-releases#readme",
+    "homepage": "https://github.com/wizarrrrr/semantic-release-sentry-releases#readme",
     "dependencies": {
         "@semantic-release/error": "^3.0.0",
         "aggregate-error": "^3.1.0",
