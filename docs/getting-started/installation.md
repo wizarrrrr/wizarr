@@ -7,7 +7,7 @@ description: Install Wizarr using Docker or Compose
 {% hint style="info" %}
 We have recently updated from V2 to V3, this has many improvements and features however V2 will always be available, however we won't be able to provide updates and support for V2, to use V2 visit it below.
 
-[View Documentation](https://github.com/Wizarrrr/wizarr/tree/v2)
+[View Documentation](https://github.com/wizarrrrr/wizarr/tree/v2)
 {% endhint %}
 
 ### Docker
@@ -30,7 +30,7 @@ version: "3.8"
 services:
   wizarr:
     container_name: wizarr
-    image: ghcr.io/wizarrrr/wizarr
+    image: ghcr.io/wizarrrrr/wizarr
     ports:
       - 5690:5690
     volumes:
@@ -60,7 +60,7 @@ Then, restart all services defined in the Compose file:
   -p 5690:5690 \
   -v /path/to/appdata/config:/data/database \
   --restart unless-stopped \
-  ghcr.io/wizarrrr/wizarr
+  ghcr.io/wizarrrrr/wizarr
 </code></pre>
 
 **Updating**
@@ -74,7 +74,7 @@ docker stop wizarr && docker rm wizarr
 Pull the latest image:
 
 ```bash
-docker pull ghcr.io/wizarrrr/wizarr
+docker pull ghcr.io/wizarrrrr/wizarr
 ```
 
 Finally, run the container with the same parameters originally used to create the container:

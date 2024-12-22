@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the name and tag for the image
-IMAGE_NAME="wizarrrr/wizarr"
+IMAGE_NAME="wizarrrrr/wizarr"
 IMAGE_TAG="v3-beta"
 
 # Create a buildx environment

@@ -26,7 +26,7 @@ version: "3.8"
 services:
   wizarr:
     container_name: wizarr
-    image: ghcr.io/wizarrrr/wizarr:dev
+    image: ghcr.io/wizarrrrr/wizarr:dev
     [...]
     environment:
       - FORCE_LANGUAGE=en
@@ -38,7 +38,7 @@ services:
 docker run -d \
   -e FORCE_LANGUAGE=en
   [...]
-  ghcr.io/wizarrrr/wizarr:dev
+  ghcr.io/wizarrrrr/wizarr:dev
 ```
 {% endtab %}
 {% endtabs %}

@@ -20,7 +20,7 @@ const success = (pluginConfig, context) => {
     const version = nextRelease.name;
     const webhookUrl = config.webhookUrl;
     const notes = nextRelease.notes;
-    const url = `https://github.com/Wizarrrr/wizarr/releases/tag/${version}`;
+    const url = `https://github.com/wizarrrrr/wizarr/releases/tag/${version}`;
 
     const parseNotes = (markdownText) => {
         const headerIndex = markdownText.search(/#+\s/);
@@ -43,7 +43,7 @@ const success = (pluginConfig, context) => {
                 color: 16728405,
                 author: {
                     name: "Wizarr Github",
-                    url: "https://github.com/Wizarrrr/wizarr",
+                    url: "https://github.com/wizarrrrr/wizarr",
                     icon_url: "https://avatars.githubusercontent.com/u/113373916"
                 },
                 footer: {
