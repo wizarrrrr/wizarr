@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <Container version="2">
   <Name>wizarr</Name>
-  <Repository>ghcr.io/wizarrrr/wizarr</Repository>
-  <Registry>https://github.com/wizarrrr/wizarr/pkgs/container/wizarr</Registry>
-  <TemplateURL>https://github.com/wizarrrr/wizarr/blob/master/unraid.xml</TemplateURL>
+  <Repository>ghcr.io/wizarrrrr/wizarr</Repository>
+  <Registry>https://github.com/wizarrrrr/wizarr/pkgs/container/wizarr</Registry>
+  <TemplateURL>https://github.com/wizarrrrr/wizarr/blob/master/unraid.xml</TemplateURL>
   <Network>bridge</Network>
   <Privileged>false</Privileged>
   <Shell>bash</Shell>
-  <Support>https://github.com/Wizarrrr/wizarr/discussions</Support>
-  <Project>https://github.com/wizarrrr/wizarr</Project>
+  <Support>https://github.com/wizarrrrr/wizarr/discussions</Support>
+  <Project>https://github.com/wizarrrrr/wizarr</Project>
   <Overview>The official Wizarr Container. Wizarr is a automatic user invitation system for Plex. Create a unique link and share it to a user and they will automatically be invited to your Plex Server!</Overview>
   <Category>MediaServer:Other</Category>
   <WebUI>http://[IP]:[PORT:5690]/</WebUI>
-  <Icon>https://raw.githubusercontent.com/Wizarrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png</Icon>
+  <Icon>https://raw.githubusercontent.com/wizarrrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png</Icon>
   <ExtraParams>--restart unless-stopped</ExtraParams>
   <DonateText>If you like our work please consider Donating.</DonateText>
   <DonateLink>https://opencollective.com/wizarr</DonateLink>

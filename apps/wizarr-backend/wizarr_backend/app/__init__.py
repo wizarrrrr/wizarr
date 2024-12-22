@@ -22,7 +22,7 @@ load_dotenv()
 app = Flask(__name__)
 
 sentry_init(
-    dsn="https://468da33a790d883eb6bc61096bcf56d5@sentry.wizarr.dev/4",
+    dsn="https://468da33a790d883eb6bc61096bcf56d5@sentry.wizarr.org/4",
     enable_tracing=True,
     traces_sample_rate=1.0,
     environment=app.debug and "development" or "production",

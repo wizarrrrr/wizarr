@@ -45,10 +45,10 @@ jobs:
             - name: Deploy Storybook
               uses: peaceiris/actions-gh-pages@v3
               with:
-                  external_repository: wizarrrr/storybook.wizarr.dev
+                  external_repository: wizarrrrr/storybook.wizarr.org
                   personal_token: ${{ steps.gh_app.outputs.token }}
                   publish_dir: ./dist/storybook/wizarr-frontend
-                  cname: storybook.wizarr.dev
+                  cname: storybook.wizarr.org
 
             - name: Deploy Storybook to Chromatic
               run: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes --storybook-build-dir ./dist/storybook/wizarr-frontend

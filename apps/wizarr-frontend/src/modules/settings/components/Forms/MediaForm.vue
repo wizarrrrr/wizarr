@@ -6,12 +6,12 @@
             <FormKit type="text" :label="__('Display Name')" :help="__('Display Name for your media servers')" name="server_name" placeholder="Wizarr" validation="required:trim|alpha_spaces:latin" required autocomplete="text" />
 
             <!-- Server URL -->
-            <FormKit type="inputButton" :label="__('Media Server Address')" :help="__('Server IP or Address of your media server')" name="server_url" validation="required" prefix-icon="fas text-gray-400 fa-arrow-up-right-from-square" placeholder="https://plex.wizarr.dev" @button="detectServer" autocomplete="url" :classes="{ prefixIcon: 'hidden' }">
+            <FormKit type="inputButton" :label="__('Media Server Address')" :help="__('Server IP or Address of your media server')" name="server_url" validation="required" prefix-icon="fas text-gray-400 fa-arrow-up-right-from-square" placeholder="https://plex.wizarr.org" @button="detectServer" autocomplete="url" :classes="{ prefixIcon: 'hidden' }">
                 {{ __("Detect Server") }}
             </FormKit>
 
             <!-- Server URL Override -->
-            <FormKit type="text" :label="__('Media Server Override')" :help="__('Optional if your server address does not match your external address')" name="server_url_override" placeholder="https://plex.wizarr.dev" validation="trim|url" autocomplete="url" />
+            <FormKit type="text" :label="__('Media Server Override')" :help="__('Optional if your server address does not match your external address')" name="server_url_override" placeholder="https://plex.wizarr.org" validation="trim|url" autocomplete="url" />
 
             <!-- Server Type -->
             <FormKit type="select" disabled :label="__('Server Type')" :help="__('Detected Media Server')" name="server_type" placeholder="Choose a server" prefix-icon="fas fa-server" :options="serverOptions" validation="required" />

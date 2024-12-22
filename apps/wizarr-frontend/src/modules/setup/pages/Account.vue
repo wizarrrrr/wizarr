@@ -40,7 +40,7 @@
                 type="email"
                 label="Email"
                 name="email"
-                placeholder="marvin@wizarr.dev"
+                placeholder="marvin@wizarr.org"
                 validation="email"
                 required
                 autocomplete="email"
