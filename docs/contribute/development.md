@@ -8,7 +8,7 @@ If you want to contribute to Wizarr, here is how
 
 ### Development Environment
 
-1. Clone the repository with `git clone git@github.com:wizarrrrr/wizarr.git`
+1. Clone the repository with `git clone git@github.com:wizarrrrrr/wizarr.git`
 2. Move into the directory `cd wizarr`
 3. Please use VSCode and open the `wizarr.code-workspace` file under File->Open Worspace from File
 4. Then inside the Run and Debug panel of VSCode run the `Run All (workspace)`

@@ -1,5 +1,5 @@
 {
-    "name": "@wizarrrrr/wizarr-frontend",
+    "name": "@wizarrrrrr/wizarr-frontend",
     "license": "MIT",
     "scripts": {
         "dev": "nx exec -- vite",

@@ -13,7 +13,7 @@ def compare_versions(version1, version2):
 
 def get_latest_version():
     try:
-        url = "https://api.github.com/repos/wizarrrrr/wizarr/tags"
+        url = "https://api.github.com/repos/wizarrrrrr/wizarr/tags"
         response = session.get(url, timeout=5)
         if response.status_code != 200: return None
         latest = None
@@ -27,7 +27,7 @@ def get_latest_version():
 
 def get_latest_beta_version():
     try:
-        url = "https://api.github.com/repos/wizarrrrr/wizarr/tags"
+        url = "https://api.github.com/repos/wizarrrrrr/wizarr/tags"
         response = session.get(url, timeout=5)
         if response.status_code != 200: return None
         latest_beta = None

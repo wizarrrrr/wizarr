@@ -38,8 +38,8 @@ const config = {
             ],
             message: "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
         }],
-        "@wizarrrrr/semantic-release-discord",
-        ["@wizarrrrr/semantic-release-sentry-releases", {
+        "@wizarrrrrr/semantic-release-discord",
+        ["@wizarrrrrr/semantic-release-sentry-releases", {
             sourcemaps: "dist/apps/wizarr-frontend"
         }]
     ]

@@ -36,7 +36,7 @@ ENDCOLOR="\e[0m"
 
 # Get latest version
 WIZARR_VERSION=$(< /latest)
-WIZARR_LATEST=$(curl -s --max-time 5 https://api.github.com/repos/wizarrrrr/wizarr/releases/latest | grep tag_name | cut -d '"' -f 4 || echo "${WIZARR_VERSION}")
+WIZARR_LATEST=$(curl -s --max-time 5 https://api.github.com/repos/wizarrrrrr/wizarr/releases/latest | grep tag_name | cut -d '"' -f 4 || echo "${WIZARR_VERSION}")
 read -r WIZARR_VERSION_MIN _ <<< "$WIZARR_VERSION"
 
 # Function to print a header

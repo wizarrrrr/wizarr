@@ -4,14 +4,14 @@
 ---
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/wizarrrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png" height="200">
+<img src="https://raw.githubusercontent.com/wizarrrrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png" height="200">
 <br/>
 <br/>
-<a href="https://github.com/wizarrrrr/wizarr">
-<img alt="GPL 2.0 License" src="https://img.shields.io/github/license/wizarrrrr/wizarr.svg"/>
+<a href="https://github.com/wizarrrrrr/wizarr">
+<img alt="GPL 2.0 License" src="https://img.shields.io/github/license/wizarrrrrr/wizarr.svg"/>
 </a>
 <a href="https://github.com/jellyfin/jellyfin/releases">
-<img alt="Current Release" src="https://img.shields.io/github/release/wizarrrrr/wizarr.svg"/>
+<img alt="Current Release" src="https://img.shields.io/github/release/wizarrrrrr/wizarr.svg"/>
 </a>
 <a href="https://hosted.weblate.org/engage/wizarr/">
 <img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" />
@@ -28,14 +28,14 @@
 <a href="https://www.reddit.com/r/wizarr">
 <img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fwizarr-%23FF5700.svg"/>
 </a>
-<a href="https://github.com/wizarrrrr/wizarr/issues">
-<img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrrr/wizarr"/>
+<a href="https://github.com/wizarrrrrr/wizarr/issues">
+<img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrrrr/wizarr"/>
 </a>
 <a href="https://features.wizarr.dev">
 <img alt="Submit Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
 </a>
-<a href="https://github.com/wizarrrrr/wizarr/actions/workflows/release.yml">
-<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrrr/wizarr/release.yml"/>
+<a href="https://github.com/wizarrrrrr/wizarr/actions/workflows/release.yml">
+<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrrrr/wizarr/release.yml"/>
 </a>
 </p>
 
@@ -43,7 +43,7 @@
 
 # WIZARR NOTICE
 
-We have recently moved Wizarr V2 to its new home at `ghcr.io/wizarrrrr/wizarr:v2` if your container was automatically upgraded recently and you received breaking changes, please change your image to `ghcr.io/wizarrrrr/wizarr:v2` to resolve this
+We have recently moved Wizarr V2 to its new home at `ghcr.io/wizarrrrrr/wizarr:v2` if your container was automatically upgraded recently and you received breaking changes, please change your image to `ghcr.io/wizarrrrrr/wizarr:v2` to resolve this
 
 ---
 
@@ -51,7 +51,7 @@ Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a uni
 
 ## Where is V2?
 
-Wizarr V2 has moved to the v2 branch [here](https://github.com/wizarrrrr/wizarr/tree/v2), your still more than welcome to use v2 however it will no longer be supported, we recommend using our new version, trust us it's 🔥.
+Wizarr V2 has moved to the v2 branch [here](https://github.com/wizarrrrrr/wizarr/tree/v2), your still more than welcome to use v2 however it will no longer be supported, we recommend using our new version, trust us it's 🔥.
 
 ## V3 upgradable from V2?
 
@@ -96,7 +96,7 @@ docker run -d \
     --name wizarr \
     -p 5690:5690 \
     -v ./wizarr/database:/data/database \
-    ghcr.io/wizarrrrr/wizarr:latest
+    ghcr.io/wizarrrrrr/wizarr:latest
 ```
 
 ```
@@ -105,7 +105,7 @@ version: "3.5"
 services:
   wizarr:
     container_name: wizarr
-    image: ghcr.io/wizarrrrr/wizarr:latest
+    image: ghcr.io/wizarrrrrr/wizarr:latest
     ports:
       - 5690:5690
     volumes:
@@ -119,7 +119,7 @@ Any issues we welcome you to come onto our [Discord](https://discord.gg/XXCz7aM3
 If you want to help contribute to Wizarr by building V3's documentation we would really appreciate it, again join the [Discord](https://discord.gg/XXCz7aM3ak) and we can get you started.
 
 ~~Check out our documentation for instructions on how to install and run Wizarr!
-[View Documentation](https://github.com/wizarrrrr/wizarr/blob/master/docs/setup/README.md)~~
+[View Documentation](https://github.com/wizarrrrrr/wizarr/blob/master/docs/setup/README.md)~~
 
 <a href="https://discord.gg/XXCz7aM3ak">
 <img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
@@ -129,6 +129,6 @@ If you want to help contribute to Wizarr by building V3's documentation we would
 
 A big thank you ❤️ to these amazing people for contributing to this project!
 
-<a href="https://github.com/wizarrrrr/wizarr/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=wizarrrrr/wizarr" />
+<a href="https://github.com/wizarrrrrr/wizarr/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=wizarrrrrr/wizarr" />
 </a>
