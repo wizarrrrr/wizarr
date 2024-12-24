@@ -4,6 +4,7 @@ import fs from "fs";
 import { latestFile } from "../config/paths";
 import { getLatestStableVersion as getLatestStableVersionGithub, getLatestBetaVersion as getLatestBetaVersionGithub } from "./github.helper";
 import { cache, versionCache, ONE_HOUR } from "./cache.helper";
+import { tryCatchAsync } from "./catch.helper";
 
 export const versionRegex = /v(\d+\.\d+\.\d+)/;
 export const versionBetaRegex = /v(\d+\.\d+\.\d+-beta\.\d+)/;
@@ -38,7 +39,7 @@ export async function isLatest(): Promise<boolean> {
     const latestVersion = await getLatestVersion();
 
     // Check if the current version is the latest version
-    return (await compareVersions(currentVersion, latestVersion)) === 0;
+    return await tryCatchAsync(async () => await compareVersions(currentVersion, latestVersion) === 0, async () => true);
 }
 
 export async function isBeta() {

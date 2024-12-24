@@ -34,7 +34,7 @@ const vuePluginSentry = {
 
         init({
             app: app,
-            dsn: "https://4034e578d899247f5121cbae3466e637@sentry.wizarr.org/2",
+            dsn: "https://dd653f3fa050ee96fe7a35b60c1138f4@sentry.wizarr.org/2",
             integrations: [
                 new BrowserTracing({
                     tracePropagationTargets: [location.origin],

@@ -190,12 +190,12 @@ export default defineComponent({
                             icon: "fas fa-shield-alt",
                             url: "/admin/settings/mfa",
                         },
-                        {
-                            title: this.__("Email Server"),
-                            description: this.__("Configure your Email Service"),
-                            icon: "fas fa-envelope",
-                            url: "/admin/settings/smtp",
-                        },
+                        // {
+                        //     title: this.__("Email Server"),
+                        //     description: this.__("Configure your Email Service"),
+                        //     icon: "fas fa-envelope",
+                        //     url: "/admin/settings/smtp",
+                        // },
                         // {
                         //     title: this.__("Language"),
                         //     description: this.__("Change your language"),

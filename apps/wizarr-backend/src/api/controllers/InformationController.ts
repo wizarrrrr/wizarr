@@ -34,7 +34,7 @@ export class InformationController extends ControllerBase {
         return {
             ...(await this.informationService.getAll()),
             version: await getCurrentVersion(),
-            updateAvailable: !(await isLatest()),
+            updateAvailable: (await isLatest()) ? false : true,
             debug: process.env.NODE_ENV !== "production",
         };
     }

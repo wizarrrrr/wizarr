@@ -144,12 +144,20 @@ export class App {
         this.registerRepeatableJobs();
 
         // Start the server
-        this.httpServer.listen(this.port, async () => {
-            // Create the server table
-            const table = await this.createServerTable();
+        this.httpServer.listen(this.port);
 
-            // Print the server table
-            table.printTable();
+        // Handle server errors
+        this.httpServer.on("error", (err) => {
+            this.log.error(err, "Failed to start server");
+            this.httpServer.close();
+            process.exit(1);
+        });
+
+        // Handle server listening
+        this.httpServer.on("listening", async () => {
+            // Create the server table and print it
+            const table = await this.createServerTable();
+            table.printTable();        
         });
     }
 
@@ -314,7 +322,7 @@ export class App {
     private async setupSentry() {
         // Initialize Sentry for error reporting
         useSentry({
-            dsn: "https://2213de43d3adb70847691c680ea2e0de@sentry.wizarr.org/5",
+            dsn: "https://83d66cc4eebae5180f434f54e9dabae6@sentry.wizarr.org/3",
             tracesSampleRate: 1.0,
             integrations: [
                 // Automatically instrument Node libraries and frameworks
