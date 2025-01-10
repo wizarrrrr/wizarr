@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="p-6 sm:p-8">
         <h1 class="text-xl text-center font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
             {{ __("Your Done") }}
         </h1>

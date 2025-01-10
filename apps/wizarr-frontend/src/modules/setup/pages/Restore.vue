@@ -2,7 +2,7 @@
     <!-- <div class="flex flex-col w-full text-sm text-gray-800 dark:text-gray-200">
         {{ __("Restore a backup of your database and configuration from a backup file. You will need to provide the encryption password that was used to create the backup") }}
     </div> -->
-    <div class="flex flex-col w-full text-sm text-gray-800 dark:text-gray-200">
+    <div class="flex flex-col w-full text-sm text-gray-800 dark:text-gray-200 pt-2 px-6 pb-6 sm:px-8 sm:pb-8">
         {{ __("Restore is currently disabled due to a bug, please restore manually") }}
     </div>
 </template>

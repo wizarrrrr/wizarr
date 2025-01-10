@@ -157,7 +157,7 @@ export class App {
         this.httpServer.on("listening", async () => {
             // Create the server table and print it
             const table = await this.createServerTable();
-            table.printTable();        
+            table.printTable();
         });
     }
 
@@ -301,7 +301,7 @@ export class App {
 
         // Parse routing-controllers classes into OpenAPI spec:
         const storage = getMetadataArgsStorage();
-        const config = await swaggerConfig(schemas as SchemaObject);
+        const config = await swaggerConfig(schemas as Record<string, SchemaObject>);
         const spec = routingControllersToSpec(storage, { routePrefix }, config as any);
 
         // Render spec on route
@@ -381,12 +381,3 @@ const app = new App();
 app.initialize();
 
 export default app;
-
-const testServer = new Server();
-testServer.host = "https://plex.gitcloud.org";
-testServer.apiKey = "sTUvGWZx8xWLse2Zt7Hz";
-testServer.type = "plex";
-
-// getUsers(testServer).then((users) => {
-//     console.log(users);
-// });

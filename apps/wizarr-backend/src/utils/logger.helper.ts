@@ -1,7 +1,7 @@
 import type { ServerResponse, IncomingMessage } from "http";
 import type { Middleware as BaseMiddleware, Context, Next } from "koa";
 import type { Logger } from "pino";
-import type { HttpLogger, Options } from "pino-http";
+import type { HttpLogger } from "pino-http";
 
 import PrettyError from "pretty-error";
 import Container from "typedi";
@@ -12,7 +12,7 @@ interface Middleware extends Partial<BaseMiddleware> {
     logger: Logger;
 }
 
-export function pino(wrap: HttpLogger<IncomingMessage, ServerResponse<IncomingMessage>, Options<IncomingMessage, ServerResponse<IncomingMessage>>>, container: typeof Container): Middleware | any {
+export function pino(wrap: HttpLogger<IncomingMessage, ServerResponse>, container: typeof Container): Middleware | any {
     async function pino(ctx: Context, next: Next) {
         wrap(ctx.req, ctx.res);
         // @ts-ignore

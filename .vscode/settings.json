@@ -12,20 +12,13 @@
         "**/.nx": true,
         "**/.idea": true,
         "**/.husky": true,
-        "**/.github": true,
+        "**/.github": false,
         "**/node_modules": true,
         "**/reports": true,
         "**/tmp": true,
     },
     "css.customData": [
         ".vscode/tailwind.json"
-    ],
-    "python.defaultInterpreterPath": "${workspaceFolder}/apps/wizarr-backend-old/.venv",
-    "python.analysis.extraPaths": [
-        "${workspaceFolder}/apps/wizarr-backend-old/wizarr_backend"
-    ],
-    "python.linting.pylintArgs": [
-        "--rcfile=${workspaceFolder}/apps/wizarr-backend-old/.pylintrc"
     ],
     "[vue]": {
         "editor.formatOnType": true,

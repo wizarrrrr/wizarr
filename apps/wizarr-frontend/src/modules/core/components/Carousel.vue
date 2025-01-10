@@ -18,7 +18,7 @@
                 <div :id="`carousel-item-${index + 1}`" class="hidden duration-700 ease-in-out">
                     <div class="flex flex-col items-center justify-center">
                         <div class="relative w-full">
-                            <div class="text-gray-900 dark:text-white" :class="hasTitle ? 'px-6 pb-6 pt-3 sm:px-8 sm:pb-8 sm:pt-4' : config.padding">
+                            <div class="text-gray-900 dark:text-white" :class="padding">
                                 <Transition name="fade" mode="out-in">
                                     <template v-if="index + 1 == currentComponent && view.asyncComponent">
                                         <component v-bind="{ ...view.props, ...attrs }" :is="view.asyncComponent" :class="carouselWait ? 'hidden' : ''" />
@@ -31,7 +31,7 @@
             </template>
         </div>
         <Transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 200 }">
-            <div class="z-20 bg-white dark:bg-gray-800 absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center flex-col space-y-1" v-if="carouselWait">
+            <div class="z-20 bg-white dark:bg-gray-800 absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center flex-col space-y-1 p-6 sm:p-8" v-if="carouselWait">
                 <i class="fa-solid fa-spinner fa-spin text-4xl text-center text-gray-900 dark:text-white"></i>
                 <p class="text-center font-semibold text-gray-900 dark:text-white">
                     {{ __("Please wait...") }}
@@ -103,7 +103,7 @@ export default defineComponent({
         config: {
             type: Object as () => CarouselConfig,
             default: () => ({
-                padding: "p-6 sm:p-8",
+                padding: false,
             }),
             required: false,
         },
@@ -217,6 +217,9 @@ export default defineComponent({
                 onUpdateDescription: (description: string) => (this.carouselDescription = description),
                 onHeight: () => this.updateHeight(),
             };
+        },
+        padding(): string {
+            return !!this.config.padding ? (this.hasTitle ? "px-6 pb-6 pt-3 sm:px-8 sm:pb-8 sm:pt-4" : "p-6 sm:p-8") : "";
         },
     },
     async mounted() {

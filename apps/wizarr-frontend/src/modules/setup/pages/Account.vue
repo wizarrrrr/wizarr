@@ -1,21 +1,23 @@
 <template>
-    <FormKit type="form" v-model="accountForm" @submit="createAccount" :submit-label="__('Create Account')" :submit-attrs="{ wrapperClass: 'flex justify-end' }">
-        <!-- Display Name -->
-        <FormKit type="text" :label="__('Display Name')" name="display_name" placeholder="Marvin Brown" validation="alpha_spaces:latin" required autocomplete="name" />
+    <div class="pt-2 px-6 pb-6 sm:px-8 sm:pb-8">
+        <FormKit type="form" v-model="accountForm" @submit="createAccount" :submit-label="__('Create Account')" :submit-attrs="{ wrapperClass: 'flex justify-end' }">
+            <!-- Display Name -->
+            <FormKit type="text" :label="__('Display Name')" name="display_name" placeholder="Marvin Brown" validation="alpha_spaces:latin" required autocomplete="name" />
 
-        <!-- Username -->
-        <FormKit type="text" :label="__('Username')" name="username" placeholder="marvin" validation="alpha:latin|lowercase" required autocomplete="username" :restrictions="{ alpha_numeric: true }" />
+            <!-- Username -->
+            <FormKit type="text" :label="__('Username')" name="username" placeholder="marvin" validation="alpha:latin|lowercase" required autocomplete="username" :restrictions="{ alpha_numeric: true }" />
 
-        <!-- Email -->
-        <FormKit type="email" :label="__('Email')" name="email" placeholder="marvin@wizarr.org" validation="email" required autocomplete="email" />
+            <!-- Email -->
+            <FormKit type="email" :label="__('Email')" name="email" placeholder="marvin@wizarr.org" validation="email" required autocomplete="email" />
 
-        <!-- Password -->
-        <FormKit type="password" :label="__('Password')" name="password" placeholder="••••••••" required autocomplete="new-password" />
-        <PasswordMeter :password="accountForm.password" class="mb-[23px] mt-1 px-[2px]" v-if="accountForm.password" />
+            <!-- Password -->
+            <FormKit type="password" :label="__('Password')" name="password" placeholder="••••••••" required autocomplete="new-password" />
+            <PasswordMeter :password="accountForm.password" class="mb-[23px] mt-1 px-[2px]" v-if="accountForm.password" />
 
-        <!-- Confirm Password -->
-        <FormKit type="password" :label="__('Confirm Password')" name="confirm_password" placeholder="••••••••" required autocomplete="new-password" />
-    </FormKit>
+            <!-- Confirm Password -->
+            <FormKit type="password" :label="__('Confirm Password')" name="confirm_password" placeholder="••••••••" required autocomplete="new-password" />
+        </FormKit>
+    </div>
 </template>
 
 <script lang="ts">

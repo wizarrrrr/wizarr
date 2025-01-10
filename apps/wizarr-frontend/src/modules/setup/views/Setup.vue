@@ -11,7 +11,7 @@
             <div class="flex flex-col items-center justify-center md:container py-8 mx-auto">
                 <div class="w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow dark:border dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
                     <div class="relative">
-                        <Carousel :views="views" :currentView="currentView" :pleaseWait="pleaseWait" />
+                        <Carousel :views="views" :currentView="currentView" :pleaseWait="pleaseWait" :config="{ padding: false }" />
                     </div>
                 </div>
             </div>
@@ -50,6 +50,11 @@ export default defineComponent({
                 {
                     name: "welcome",
                     component: () => import("../pages/Welcome.vue"),
+                },
+                {
+                    name: "eula",
+                    title: this.__("End User License Agreement"),
+                    component: () => import("../pages/EULA.vue")
                 },
                 {
                     name: "database",
