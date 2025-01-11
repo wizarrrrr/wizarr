@@ -1,89 +1,55 @@
-# Build image for Docker Image
-FROM --platform=$TARGETPLATFORM nikolaik/python-nodejs:python3.12-nodejs18 AS base
+# web build
+FROM node:22.12.0-alpine3.20@sha256:96cc8323e25c8cc6ddcb8b965e135cfd57846e8003ec0d7bcec16c5fd5f6d39f AS web
 
-# Set directory for Wizarr Backend
-WORKDIR /wizarr-build
+WORKDIR /usr/src/
+COPY . .
+RUN npm ci
+RUN npm run build:frontend
 
-# Copy Package Files
-COPY ../../ ./
+# server build
+FROM node:22.12.0-alpine3.20@sha256:96cc8323e25c8cc6ddcb8b965e135cfd57846e8003ec0d7bcec16c5fd5f6d39f AS server
 
-# Set environment variables for NPM Version
-ENV NPM_CONFIG_LOGLEVEL=warn \
-    NODE_VERSION=18.18.2
+WORKDIR /usr/src/
+COPY . .
+RUN npm ci
+RUN npm run build:backend
 
-# Set environment variables for Poetry Version
-ENV PIP_DEFAULT_TIMEOUT=100 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_NO_CACHE_DIR=1 \
-    POETRY_VERSION=1.6.1
+# development
+FROM ghcr.io/wizarrrrr/base-server-dev:main AS dev
 
-RUN npm config set registry http://registry.npmjs.org/ --global
+RUN apt-get install --no-install-recommends -yqq tini
+ENV PATH="${PATH}:/usr/src/app/bin"
 
-# Install dependencies
-RUN pip install "poetry==$POETRY_VERSION"
+WORKDIR /usr/src/
 
-# Install dependencies
-RUN npm install -g npm@latest && \
-    npm install --ignore-scripts --unsafe-perm
+COPY ./package.json ./package-lock.json ./
+RUN npm ci
 
-# Build Wizarr Backend
-RUN npx nx build wizarr-backend
-RUN npx nx build wizarr-frontend
+COPY --from=web /usr/src/dist/apps/wizarr-frontend /usr/src/app/web
+COPY --from=server /usr/src/dist/apps/wizarr-backend /usr/src/app/server
+COPY --from=server /usr/src/dist/libs /usr/src/app/libs
 
-# Final image for Docker Image
-FROM --platform=$TARGETPLATFORM python:3.12.0 AS final
+COPY docker/scripts/*.sh /usr/src
+ENV PATH="${PATH}:/usr/src/bin"
 
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y \
-    nginx \
-    nmap \
-    toilet \
-    figlet \
-    curl \
-    && apt-get clean
+ARG BUILD_ID
+ARG BUILD_IMAGE
+ARG BUILD_SOURCE_REF
+ARG BUILD_SOURCE_COMMIT
 
-# Set directory for Wizarr Frontend
-WORKDIR /wizarr/frontend
+ENV WIZARR_BUILD=${BUILD_ID}
+ENV WIZARR_BUILD_URL=https://github.com/wizarrrrr/wizarr/actions/runs/${BUILD_ID}
+ENV WIZARR_BUILD_IMAGE=${BUILD_IMAGE}
+ENV WIZARR_BUILD_IMAGE_URL=https://github.com/wizarrrrr/wizarr/pkgs/container/wizarr
+ENV WIZARR_REPOSITORY=wizarrrrr/wizarr
+ENV WIZARR_REPOSITORY_URL=https://github.com/wizarrrrr/wizarr
+ENV WIZARR_SOURCE_REF=${BUILD_SOURCE_REF}
+ENV WIZARR_SOURCE_COMMIT=${BUILD_SOURCE_COMMIT}
+ENV WIZARR_SOURCE_URL=https://github.com/wizarrrrr/wizarr/commit/${BUILD_SOURCE_COMMIT}
 
-# Copy Wizarr Frontend
-COPY --from=base /wizarr-build/dist/apps/wizarr-frontend/ ./
+VOLUME /usr/src/app/storage
+EXPOSE 5001
+ENTRYPOINT ["tini", "--", "/bin/bash"]
+CMD ["start.sh"]
 
-# Set directory for Wizarr Backend tmp
-WORKDIR /wizarr/backend
-
-# Copy Wizarr Backend
-COPY --from=base /wizarr-build/dist/apps/wizarr-backend/ ./tmp/
-
-# Unpack Wizarr Backend wizarr_backend-x.x.x.tar file into /wizarr
-RUN tar -xvzf ./tmp/wizarr_backend-*.tar.gz -C ./tmp/ && \
-    pip install ./tmp/wizarr_backend-*.whl
-
-# Copy Wizarr Backend tmp
-RUN mv ./tmp/wizarr_backend-*/wizarr_backend/* ./
-RUN rm -rf ./tmp
-
-# Copy Docker Entrypoint
-COPY ../../dockerfiles/wizarr/docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
-
-# Copy Nginx configuration
-COPY ../../files/nginx-main.conf /etc/nginx/conf.d/wizarr.conf
-RUN rm -f /etc/nginx/conf.d/default.conf /etc/nginx/sites-enabled/default
-
-# Copy Bashrc File
-COPY ../../files/.bashrc /root/.bashrc
-RUN chmod +x /root/.bashrc
-
-# Copy latest file
-COPY ../../latest /
-
-# Environment Variables
-ENV DATABASE_DIR=/data/database
-ENV LATEST_FILE=/latest
-
-# Expose Ports
-EXPOSE 5690
-
-# Set Entrypoint
-ENTRYPOINT ["/docker-entrypoint.sh"]
+HEALTHCHECK CMD wizarr-healthcheck

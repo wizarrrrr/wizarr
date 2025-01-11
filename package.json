@@ -7,6 +7,8 @@
         "build": "nx run-many --parallel --target=build --projects=wizarr-frontend,wizarr-backend",
         "start:frontend": "nx run wizarr-frontend:serve",
         "start:backend": "nx run wizarr-backend:serve",
+        "build:frontend": "nx run wizarr-frontend:build",
+        "build:backend": "nx run wizarr-backend:build",
         "test": "start-server-and-test start:backend 5000 test:e2e",
         "test:e2e": "nx e2e wizarr-e2e",
         "prepare": "husky install",
