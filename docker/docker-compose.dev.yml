@@ -1,0 +1,120 @@
+# See:
+# - https://docs.wizarr.org/developer/setup
+# - https://docs.wizarr.org/developer/troubleshooting
+
+name: wizarr-dev
+
+services:
+    wizarr-server:
+        container_name: wizarr_server
+        # command: ["npm run start:backend"]
+        image: ghcr.io/wizarrrrr/base-server-dev:main
+        build:
+            context: ../
+            dockerfile: apps/wizarr-backend/Dockerfile
+            target: dev
+        restart: always
+        volumes:
+            - ../:/usr/src/app
+            - /usr/src/app/node_modules
+            - /etc/localtime:/etc/localtime:ro
+        env_file:
+            - .env
+        ulimits:
+            nofile:
+                soft: 1048576
+                hard: 1048576
+        ports:
+            - 5001:5001
+        depends_on:
+            - redis
+            - database
+        healthcheck:
+            disable: false
+
+    # wizarr-web:
+    #     container_name: wizarr_web
+    #     command: ["npm run start:frontend"]
+    #     image: ghcr.io/wizarrrrr/base-server-dev:main
+    #     # build:
+    #     #     context: ../
+    #     #     dockerfile: apps/wizarr-frontend/Dockerfile
+    #     #     target: dev
+    #     restart: always
+    #     volumes:
+    #         - ../:/usr/src/app
+    #         - /usr/src/app/node_modules
+    #         - /etc/localtime:/etc/localtime:ro
+    #     env_file:
+    #         - .env
+    #     ulimits:
+    #         nofile:
+    #             soft: 1048576
+    #             hard: 1048576
+    #     ports:
+    #         - 5173:5173
+    #     depends_on:
+    #         - wizarr-server
+
+    redis:
+        container_name: wizarr_redis
+        image: redis:6.2-alpine@sha256:eaba718fecd1196d88533de7ba49bf903ad33664a92debb24660a922ecd9cac8
+        healthcheck:
+            test: redis-cli ping || exit 1
+
+    database:
+        container_name: wizarr_postgres
+        image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+        env_file:
+            - .env
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_DB: ${DB_DATABASE_NAME}
+            POSTGRES_INITDB_ARGS: "--data-checksums"
+        volumes:
+            - ${UPLOAD_LOCATION}/postgres:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        healthcheck:
+            test: >-
+                pg_isready --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" || exit 1;
+                Chksum="$$(psql --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" --tuples-only --no-align
+                --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')";
+                echo "checksum failure count is $$Chksum";
+                [ "$$Chksum" = '0' ] || exit 1
+            interval: 5m
+            start_interval: 30s
+            start_period: 5m
+        command: >-
+            postgres
+            -c shared_preload_libraries=vectors.so
+            -c 'search_path="$$user", public, vectors'
+            -c logging_collector=on
+            -c max_wal_size=2GB
+            -c shared_buffers=512MB
+            -c wal_compression=on
+
+    # wizarr-prometheus:
+    #   container_name: wizarr_prometheus
+    #   ports:
+    #     - 9090:9090
+    #   image: prom/prometheus
+    #   volumes:
+    #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    #     - prometheus-data:/prometheus
+
+    # first login uses admin/admin
+    # add data source for http://wizarr-prometheus:9090 to get started
+    # wizarr-grafana:
+    #   container_name: wizarr_grafana
+    #   command: ['./run.sh', '-disable-reporting']
+    #   ports:
+    #     - 3000:3000
+    #   image: grafana/grafana:10.3.3-ubuntu
+    #   volumes:
+    #     - grafana-data:/var/lib/grafana
+
+volumes:
+    prometheus-data:
+    grafana-data:

@@ -26,7 +26,7 @@ github_token.txt
 
 /reports
 
-/dockerfiles/wizarr-backend/database
+/docker/wizarr-backend/database
 /apps/wizarr-backend/database
 
 # IDE - VSCode
@@ -64,7 +64,6 @@ data/
 **/node_modules/
 testing/cypress/screenshots
 testing/cypress/videos
-docker/
 delete/
 *.backup
 swagger.json
