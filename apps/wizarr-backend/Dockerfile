@@ -1,5 +1,5 @@
 # web build
-FROM node:22.12.0-alpine3.20@sha256:96cc8323e25c8cc6ddcb8b965e135cfd57846e8003ec0d7bcec16c5fd5f6d39f AS web
+FROM node:20.18.1-alpine3.20@sha256:96cc8323e25c8cc6ddcb8b965e135cfd57846e8003ec0d7bcec16c5fd5f6d39f AS web
 
 WORKDIR /usr/src/
 COPY . .
@@ -26,6 +26,7 @@ COPY ./package.json ./package-lock.json ./
 RUN npm ci
 
 COPY --from=web /usr/src/dist/apps/wizarr-frontend /usr/src/app/web
+COPY --from=web /usr/src/node_modules /usr/src/node_modules
 COPY --from=server /usr/src/dist/apps/wizarr-backend /usr/src/app/server
 COPY --from=server /usr/src/dist/libs /usr/src/app/libs
 

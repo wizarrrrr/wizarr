@@ -33,13 +33,13 @@ import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
 import { Server } from "./api/models/Server/ServerModel";
 import { BullMQ } from "./bull/index";
 import { createKeyPair, existsKeyPair } from "./utils/secret.helper";
+import { scanLibrariesJobs, scanUsersJobs } from "./media/jobs";
 
 import koa from "koa";
 import path from "path";
 import colors from "colors";
 import cors from "@koa/cors";
 import pinoHttp, { Options } from "pino-http";
-import { scanLibrariesJobs, scanUsersJobs } from "./media/jobs";
 
 export class App {
     // Define the Koa app and port
@@ -70,17 +70,17 @@ export class App {
                         mkdir: true,
                     },
                 },
-                {
-                    level: "info",
-                    target: "@wizarrrrr/pino-http-logger",
-                    options: {
-                        all: true,
-                        prettyOptions: {
-                            hideObject: true,
-                            ignore: "pid,hostname",
-                        },
-                    },
-                },
+                // {
+                //     level: "info",
+                //     target: "@wizarrrrr/pino-http-logger",
+                //     options: {
+                //         all: true,
+                //         prettyOptions: {
+                //             hideObject: true,
+                //             ignore: "pid,hostname",
+                //         },
+                //     },
+                // },
             ],
         },
     };
