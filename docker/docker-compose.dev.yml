@@ -5,9 +5,8 @@
 name: wizarr-dev
 
 services:
-    wizarr-server:
+    wizarr:
         container_name: wizarr_server
-        # command: ["npm run start:backend"]
         image: ghcr.io/wizarrrrr/base-server-dev:main
         build:
             context: ../
@@ -15,8 +14,8 @@ services:
             target: dev
         restart: always
         volumes:
-            - ../:/usr/src/app
-            - /usr/src/app/node_modules
+            - ${STORAGE_DIR}:/usr/src/storage
+            - ${DATABASE_DIR}:/usr/src/database
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -25,36 +24,12 @@ services:
                 soft: 1048576
                 hard: 1048576
         ports:
-            - 5001:5001
+            - 5690:5690
         depends_on:
             - redis
-            - database
+            - postgres
         healthcheck:
             disable: false
-
-    # wizarr-web:
-    #     container_name: wizarr_web
-    #     command: ["npm run start:frontend"]
-    #     image: ghcr.io/wizarrrrr/base-server-dev:main
-    #     # build:
-    #     #     context: ../
-    #     #     dockerfile: apps/wizarr-frontend/Dockerfile
-    #     #     target: dev
-    #     restart: always
-    #     volumes:
-    #         - ../:/usr/src/app
-    #         - /usr/src/app/node_modules
-    #         - /etc/localtime:/etc/localtime:ro
-    #     env_file:
-    #         - .env
-    #     ulimits:
-    #         nofile:
-    #             soft: 1048576
-    #             hard: 1048576
-    #     ports:
-    #         - 5173:5173
-    #     depends_on:
-    #         - wizarr-server
 
     redis:
         container_name: wizarr_redis
@@ -62,7 +37,7 @@ services:
         healthcheck:
             test: redis-cli ping || exit 1
 
-    database:
+    postgres:
         container_name: wizarr_postgres
         image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
         env_file:
@@ -73,7 +48,7 @@ services:
             POSTGRES_DB: ${DB_DATABASE_NAME}
             POSTGRES_INITDB_ARGS: "--data-checksums"
         volumes:
-            - ${UPLOAD_LOCATION}/postgres:/var/lib/postgresql/data
+            - ${DATABASE_DIR}:/var/lib/postgresql/data
         ports:
             - 5432:5432
         healthcheck:

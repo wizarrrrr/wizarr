@@ -28,13 +28,13 @@ export const dbConfig = (type: "sqlite" | "postgres"): DataSourceOptions => {
         });
     }
 
-    if ((options.type === "postgres" && env("DATABASE_URL")) || env("DATABASE_HOST")) {
+    if ((options.type === "postgres" && env("DB_URL")) || env("DB_HOST")) {
         Object.assign(options, {
-            url: env("DATABASE_URL"),
-            host: env("DATABASE_HOST"),
-            port: env("DATABASE_PORT", 5432),
-            username: env("DATABASE_USERNAME"),
-            password: env("DATABASE_PASSWORD"),
+            url: env("DB_URL"),
+            host: env("DB_HOST"),
+            port: env("DB_PORT", 5432),
+            username: env("DB_USERNAME"),
+            password: env("DB_PASSWORD"),
         });
     }
 
