@@ -6,10 +6,18 @@
     </div>
 </template>
 
-<style>
-.shadowbox {
-    box-shadow: inset 0 20px 20px 15px rgb(31, 41, 55);
-    z-index: 100;
+<style lang="scss">
+.dark {
+    .shadowbox {
+        box-shadow: inset 0 20px 20px 15px rgb(31, 41, 55);
+        z-index: 100;
+    }
+}
+.light {
+    .shadowbox {
+        box-shadow: inset 0 20px 20px 15px rgb(255, 255, 255);
+        z-index: 100;
+    }
 }
 </style>
 

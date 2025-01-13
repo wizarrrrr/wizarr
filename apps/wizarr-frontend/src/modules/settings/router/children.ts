@@ -1,14 +1,14 @@
 import type { RouteRecordRaw } from "vue-router";
 
 const children: RouteRecordRaw[] = [
-    // {
-    //     path: "",
-    //     name: "admin-settings",
-    //     component: () => import("../pages/Main.vue"),
-    //     meta: {
-    //         searchBar: true,
-    //     },
-    // },
+    {
+        path: "",
+        name: "admin-settings",
+        component: () => import("../pages/Main.vue"),
+        meta: {
+            searchBar: true,
+        },
+    },
     {
         path: "media",
         name: "admin-settings-media",

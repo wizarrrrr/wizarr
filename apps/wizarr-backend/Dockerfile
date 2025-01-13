@@ -15,13 +15,13 @@ RUN npm run build
 
 # Install essential packages and utilities in the container
 RUN apt-get update && \
-    apt-get install --no-install-recommends -yqq \
-    nginx  # Web server \
-    nmap   # Network scanner tool \
-    toilet # Terminal banner generator \
-    figlet # Large text generator \
-    curl   # Command-line tool for data transfer \
-    tini   # Init system to handle signals properly \
+    apt-get install -y \
+    nginx \
+    nmap \
+    toilet \
+    figlet \
+    curl \
+    tini \
     && apt-get clean
 
 # Clean up unnecessary directories and prepare directories for app files
@@ -64,14 +64,17 @@ ENV WIZARR_SOURCE_REF=${BUILD_SOURCE_REF}
 ENV WIZARR_SOURCE_COMMIT=${BUILD_SOURCE_COMMIT}
 ENV WIZARR_SOURCE_URL=https://github.com/wizarrrrr/wizarr/commit/${BUILD_SOURCE_COMMIT}
 
+# Clear up unnecessary files
+RUN rm -rf /usr/src/apps /usr/src/dist /usr/src/libs
+
 # Declare a volume for persistent storage
 VOLUME /usr/src/app/storage
 
 # Expose port 5690 for external access
 EXPOSE 5690
 
-# Set the entrypoint for the container to ensure proper signal handling
-ENTRYPOINT ["tini", "--", "/bin/bash"]
+# Use tini to ensure proper signal handling
+ENTRYPOINT ["tini", "--", "/bin/sh"]
 
 # Default command to run when the container starts
 CMD ["/usr/src/start.sh"]

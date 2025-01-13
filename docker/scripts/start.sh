@@ -2,11 +2,15 @@
 
 echo "Initializing Wizarr $WIZARR_SOURCE_REF"
 
-export CPU_CORES="${CPU_CORES:=$(/usr/src/get-cpus.sh)}"
-echo "Detected CPU Cores: $CPU_CORES"
-if [ "$CPU_CORES" -gt 4 ]; then
-  export UV_THREADPOOL_SIZE=$CPU_CORES
-fi
+# Start Nginx in the background environment
+nginx &
 
-/usr/sbin/nginx -g 'daemon off;' 2>&1
+# Wait for Nginx to start
+until $(curl --output /dev/null --silent --head --fail http://localhost:5690); do
+    printf '.'
+    sleep 5
+done
+echo "Nginx started successfully"
+
+# Start the Backend Server API
 exec node /usr/src/app/server/src/main.js "$@"
