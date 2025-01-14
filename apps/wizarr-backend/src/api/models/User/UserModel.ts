@@ -30,10 +30,10 @@ export class User extends EntityBase {
     @ManyToOne(() => Invitation, (invitation) => invitation.users, { nullable: true })
     invitation: Invitation;
 
-    @Column("datetime", { nullable: true })
+    @Column({ type: DateTimeType, nullable: true })
     lastLoginAt: Date | null;
 
-    @Column("datetime", { nullable: true })
+    @Column({ type: DateTimeType, nullable: true })
     lastActivityAt: Date | null;
 
     @CreateDateColumn(DateTimeNow())

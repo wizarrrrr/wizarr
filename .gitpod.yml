@@ -4,8 +4,19 @@
 
 # Learn more from ready-to-use templates: https://www.gitpod.io/docs/introduction/getting-started/quickstart
 
+# Commands that will run on workspace start
 tasks:
-  - init: npm install && npm run build
-    command: npm run start
+    - name: Setup, Install & Build
+      before: sudo apt install redis -y
+      init: npm install
+      command: npm run build
 
 
+# Ports to expose on workspace startup
+ports:
+    - port: 5173
+      onOpen: open-preview
+      name: Wizarr
+      description: Wizarr Preview
+      visibility: public
+      protocol: https

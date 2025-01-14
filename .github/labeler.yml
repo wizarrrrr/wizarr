@@ -1,0 +1,17 @@
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - docs/**
+
+🖥️web:
+  - changed-files:
+      - any-glob-to-any-file:
+          - apps/wizarr-frontend/src/**
+
+🗄️server:
+  - changed-files:
+      - any-glob-to-any-file:
+          - apps/wizarr-backend/src/**
+
+changelog:translation:
+  - head-branch: ['^chore/translations$']

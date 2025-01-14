@@ -22,8 +22,8 @@ export function translateUser(server: Server, jellyfinUser: UserDto): User {
         avatar: `${server.host}/Users/${jellyfinUser.Id}/Images/Primary`,
         username: jellyfinUser.Name,
         server: server,
-        lastLoginAt: new Date(jellyfinUser.LastLoginDate),
-        lastActivityAt: new Date(jellyfinUser.LastActivityDate),
+        lastLoginAt: jellyfinUser.LastLoginDate ? new Date(jellyfinUser.LastLoginDate) : null,
+        lastActivityAt: jellyfinUser.LastActivityDate ? new Date(jellyfinUser.LastActivityDate) : null,
     } as User);
 }
 
