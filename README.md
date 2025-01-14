@@ -1,138 +1,102 @@
-<h1 align="center">Wizarr</h1>
-<h3 align="center">The Free Media Invitation System</h3>
-
----
+<p align="center"> 
+  <a href="https://opensource.org/license/gpl-2.0"><img src="https://img.shields.io/badge/License-GPL_2.0-blue.svg?color=3F51B5&style=for-the-badge&label=License&logoColor=000000&labelColor=ececec" alt="License: GPL 2.0"></a>
+  <a href="https://discord.gg/XXCz7aM3ak"><img src="https://img.shields.io/discord/1020742926856372224.svg?label=Discord&logo=Discord&style=for-the-badge&logoColor=000000&labelColor=ececec" alt="Chat on Discord"></a>
+  <br/>
+  <br/>
+</p>
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/wizarrrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png" height="200">
+  <img src="https://raw.githubusercontent.com/wizarrrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png" width="300" title="Wizarr">
+</p>
+
+<h3 align="center">The Free Media Invitation System</h3>
 <br/>
-<br/>
-<a href="https://github.com/wizarrrrr/wizarr">
-<img alt="GPL 2.0 License" src="https://img.shields.io/github/license/wizarrrrr/wizarr.svg"/>
-</a>
-<a href="https://github.com/jellyfin/jellyfin/releases">
-<img alt="Current Release" src="https://img.shields.io/github/release/wizarrrrr/wizarr.svg"/>
-</a>
-<a href="https://hosted.weblate.org/engage/wizarr/">
-<img src="https://hosted.weblate.org/widgets/wizarr/-/app/svg-badge.svg" />
-</a>
-<a href="https://opencollective.com/wizarr">
-<img alt="Donate" src="https://img.shields.io/opencollective/all/wizarr.svg?label=backers"/>
-</a>
-<a href="https://features.wizarr.org">
-<img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features"/>
-</a>
-<a href="https://discord.gg/XXCz7aM3ak">
-<img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
-</a>
-<a href="https://www.reddit.com/r/wizarr">
-<img alt="Join our Subreddit" src="https://img.shields.io/badge/reddit-r%2Fwizarr-%23FF5700.svg"/>
-</a>
-<a href="https://github.com/wizarrrrr/wizarr/issues">
-<img alt="Github Issue" src="https://img.shields.io/github/issues/wizarrrrr/wizarr"/>
-</a>
-<a href="https://features.wizarr.org">
-<img alt="Submit Feature Requests" src="https://img.shields.io/badge/fider-vote%20on%20features-success.svg"/>
-</a>
-<a href="https://github.com/wizarrrrr/wizarr/actions/workflows/release.yml">
-<img alt="Github Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrrr/wizarr/release.yml"/>
-</a>
+
+<p align="center">
+  <a href="https://github.com/wizarrrrr/wizarr/releases"><img alt="Current Release" src="https://img.shields.io/github/release/wizarrrrr/wizarr.svg" /></a>
+  <a href="https://opencollective.com/wizarr"><img alt="Backers" src="https://img.shields.io/opencollective/all/wizarr.svg?label=backers" /></a>
+  <a href="https://features.wizarr.org"><img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features" /></a>
+  <a href="https://github.com/wizarrrrr/wizarr/issues"><img alt="Github Issues" src="https://img.shields.io/github/issues/wizarrrrr/wizarr" /></a>
+  <a href="https://github.com/wizarrrrr/wizarr/actions/workflows/release.yml"><img alt="GitHub Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrrr/wizarr/release.yml" /></a>
 </p>
 
 ---
 
-# WIZARR NOTICE
+## Introduction
 
-We have recently moved Wizarr V2 to its new home at `ghcr.io/wizarrrrr/wizarr:v2` if your container was automatically upgraded recently and you received breaking changes, please change your image to `ghcr.io/wizarrrrr/wizarr:v2` to resolve this
+
+Wizarr is an open-source software designed to simplify the management of media servers such as Jellyfin, Plex, and Emby. Initially created to allow users to easily invite others to their media servers, Wizarr has rapidly evolved with plans to broaden its scope. The ultimate goal is for Wizarr to become a versatile, centralized server management tool that can seamlessly interact with various APIs, allowing users to manage, configure, and deploy settings across multiple server environments.
+
+> **⚠️ Warning!**  
+> Wizarr originally was located at wizarrrr/wizarr
+> however it was stolen, to continue using Wizarr effectivly
+> please migrate over to this repository.
+
+## Features
+
+- Create User Invitations for Plex, Jellyfin & Emby
+- Multi-language support with quick switching
+- Passkey Authentication for admins
+- Advanced configuration options for Invitations
+- Auto-add users to systems like **Ombi**, **Jellyseerr**, and **Overseerr**
+- Discord Intergration
+- Custom On-Boarding Screens for new users
+- Live Log output in Web Panel
+- Session Management to Logout Remote Computers
+- Live Notification System
+- Swagger API Documentation
+- Light/Dark Mode
+- Postgres/Sqlite Supported
+- Supports Unlimited Servers
 
 ---
-
-Wizarr is a automatic user invitation system for Plex and Jellyfin. Create a unique link and share it to a user and they will be invited to your Media Server after they complete there signup proccess! They can even be guided to download the clients and read instructions on how to use your media software!
-
-## Where is V2?
-
-Wizarr V2 has moved to the v2 branch [here](https://github.com/wizarrrrr/wizarr/tree/v2), your still more than welcome to use v2 however it will no longer be supported, we recommend using our new version, trust us it's 🔥.
-
-## V3 upgradable from V2?
-
-V3 can now support upgrading from V2, please make a backup of your database.db for the safest upgrade path.
-
-## Major Features Include
-
--   Automatic Invitation to your Media Server (Plex, Jellyfin)
--   Support for Passkey authentication for Admin Users
--   Create multiple invitations with different configurations
--   Make invitations and users expire after a certain amount of time
--   Automatically add users to your Request System (Ombi, Jellyseerr, Overseerr)
--   Add users to your Discord Server
--   Create a custom HTML page
--   Multi-Language Support
--   Scheduled Tasks to keep Wizarr updated with your Media Server
--   Live logs directly from the Wizarr Web UI
--   Multiple Admin Users with different permissions
--   Notification System
--   API for Developers with Swagger UI
--   Light and Dark Mode Support
--   Session Management for Admin Users
-
-## Whats to come
-
--   Added API Endpoints
--   Multi-Server Support
--   Mass Emailing to Client Users
--   OAuth Support with custom providers
--   Use your own Database
--   2FA Support for Admin Users
--   Built in Update System
--   Full Wizard Customization with Drag and Drop Template Editor
--   Jellyfin and Plex user permissions management tool
--   Invite Request System for users to request invite
--   and much more!
 
 ## Getting Started
 
-```
-docker run -d \
-    --name wizarr \
-    -p 5690:5690 \
-    -v ./wizarr/database:/data/database \
-    ghcr.io/wizarrrrr/wizarr:latest
-```
+> **Maintenance**  
+> Currently your not able to Download Wizarr and run it without compiling the Docker yourself,
+> this can be done using the following instructions, but as of the 13/01/2025 this version is still
+> incomplete and not ready for Live Production use.
 
-```
----
-version: "3.5"
-services:
-  wizarr:
-    container_name: wizarr
-    image: ghcr.io/wizarrrrr/wizarr:latest
-    ports:
-      - 5690:5690
-    volumes:
-      - ./wizarr/database:/data/database
-```
+**JUST FOR TESTERS**
+1. Clone the repo to your local computer & then enter the root directory for Wizarr:<br>
+   `git clone https://github.com/wizarrrrr/wizarr`<br>
+   `cd ./wizarr/`<br>
+3. If you would like to run Wizarr in Developer mode please skip this step, otherwise you can build Wizarr's Docker image:<br>
+   `docker compose -f docker/docker-compose.dev.yml build`<br>
+   `docker compose -f docker/docker-compose.dev.yml up`<br>
+   **Your done, you can reach the test version of Wizarr @ http://localhost:5690**<br>
 
+**JUST FOR DEVELOPERS**:<br>
+1. Using **Node** Version **22.11.0** & **NPM** Version **10.9.0** install the dependencies required:<br>
+   `npm install`<br>
+2. Build Wizarr by running the following:<br>
+   `npm run build`<br>
+3. Install Redis to your computer and begin a Redis-Server instance:<br>
+   [https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/)<br>
+4. Now you are ready to start Wizarr's Frontend & Backend:<br>
+    - You can do this together by running:<br>
+      `npm run start`<br>
+    - or whats better for debugging is to run both Backend & Frontend in two different terminals:<br>
+      **Terminal #1:** `npm run start:backend`<br>
+      **Terminal #2:** `npm run start:frontend`<br>
 
-## CLOUDFLARE WARNING
-If Jellyfin, Plex, Emby or other service is behind Cloudflare, be sure that you add rules to Cloudflare to not inturrupt communications between Wizarr server and the Services server.
+## Repository activity
 
-## Documentation
+![Activities](https://repobeats.axiom.co/api/embed/07115294f1a67cea2134f778d59a3d335cc0af9d.svg "Repobeats analytics image")
 
-Any issues we welcome you to come onto our [Discord](https://discord.gg/XXCz7aM3ak) and ask for a member of staff, we would be happy to help.
+## Star history
 
-If you want to help contribute to Wizarr by building V3's documentation we would really appreciate it, again join the [Discord](https://discord.gg/XXCz7aM3ak) and we can get you started.
-
-~~Check out our documentation for instructions on how to install and run Wizarr!
-[View Documentation](https://github.com/wizarrrrr/wizarr/blob/master/docs/setup/README.md)~~
-
-<a href="https://discord.gg/XXCz7aM3ak">
-<img alt="Chat on Discord" src="https://img.shields.io/discord/1020742926856372224"/>
+<a href="https://star-history.com/#wizarrrrr/wizarr&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=wizarrrrr/wizarr&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=wizarrrrr/wizarr&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=wizarrrrr/wizarr&type=Date" width="100%" />
+ </picture>
 </a>
 
-## Thank you
-
-A big thank you ❤️ to these amazing people for contributing to this project!
+## Contributors
 
 <a href="https://github.com/wizarrrrr/wizarr/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=wizarrrrr/wizarr" />
+  <img src="https://contrib.rocks/image?repo=wizarrrrr/wizarr" width="100%"/>
 </a>
