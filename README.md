@@ -9,7 +9,7 @@
   <img src="https://raw.githubusercontent.com/wizarrrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png" width="300" title="Wizarr">
 </p>
 
-<h3 align="center">The Free Media Invitation System</h3>
+<h3 align="center">Server Management Wizard</h3>
 <br/>
 
 <p align="center">
