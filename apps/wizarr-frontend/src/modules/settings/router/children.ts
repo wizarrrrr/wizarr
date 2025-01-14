@@ -10,12 +10,12 @@ const children: RouteRecordRaw[] = [
         },
     },
     {
-        path: "media",
-        name: "admin-settings-media",
-        component: () => import("../pages/Media.vue"),
+        path: "servers",
+        name: "admin-settings-servers",
+        component: () => import("../pages/Servers.vue"),
         meta: {
-            header: "Media Servers",
-            subheader: "Manage your media servers",
+            header: "Manage Servers",
+            subheader: "Manage your remote servers",
         },
     },
     {

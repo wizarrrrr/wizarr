@@ -26,10 +26,8 @@
                     <li class="flex bg-gray-100 dark:bg-gray-800 md:bg-transparent md:dark:bg-transparent rounded text-center p-2 px-3 w-full mt-3 md:mt-0 md:justify-end md:px-0 md:p-0">
                         <div class="flex flex-column w-full space-x-3 justify-between">
                             <div class="flex flex-column space-x-1">
-                                <AccountButton />
                                 <LanguageSelector />
                                 <ThemeToggle />
-                                <!-- <ViewToggle /> -->
                                 <HelpButton />
                             </div>
                             <span class="inline-flex hidden md:block w-px h-6 bg-gray-200 dark:bg-gray-700"></span>

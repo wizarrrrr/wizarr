@@ -1,9 +1,4 @@
 {
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
-  "features": {
-  }
-}
-{
 	"name": "Wizarr devcontainers",
 	"build": {
 		"dockerfile": "Dockerfile",
@@ -13,9 +8,24 @@
 	},
 	"customizations": {
 		"vscode": {
-			"extensions": []
+			"extensions": [
+				[
+					"nrwl.angular-console",
+					"esbenp.prettier-vscode",
+					"dbaeumer.vscode-eslint",
+					"firsttris.vscode-jest-runner",
+					"dbaeumer.vscode-eslint",
+					"esbenp.prettier-vscode",
+					"github.copilot",
+					"github.copilot-chat",
+					"hollowtree.vue-snippets",
+					"pkief.material-icon-theme"
+				]
+			]
 		}
 	},
-	"forwardPorts": [],
+	"forwardPorts": [
+		
+	],
 	"remoteUser": "node"
 }
