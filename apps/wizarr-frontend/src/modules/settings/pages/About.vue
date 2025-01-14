@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "pinia";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 
 import ChangeLogs from "@/components/ChangeLogs/ChangeLogs.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
@@ -55,7 +55,8 @@ export default defineComponent({
         };
     },
     computed: {
-        ...mapState(useServerStore, ["version"]),
+        ...mapState(useInformationStore, ["version"]),
     },
 });
 </script>
+@/stores/information

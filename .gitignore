@@ -26,7 +26,7 @@ github_token.txt
 
 /reports
 
-/dockerfiles/wizarr-backend/database
+/docker/wizarr-backend/database
 /apps/wizarr-backend/database
 
 # IDE - VSCode
@@ -64,7 +64,6 @@ data/
 **/node_modules/
 testing/cypress/screenshots
 testing/cypress/videos
-docker/
 delete/
 *.backup
 swagger.json
@@ -97,7 +96,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -441,7 +439,11 @@ poetry.toml
 
 # End of https://www.toptal.com/developers/gitignore/api/pycharm,flask,python
 testing/core
-apps/wizarr-backend-next/
-apps/wizarr-backend-old/
-database/
+
+# Next.js
+.next
+apps/wizarr-backend-old/database/*
+database/*
+# Sentry Config File
 .sentryclirc
+/dump.rdb

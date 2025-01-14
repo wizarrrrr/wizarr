@@ -34,17 +34,17 @@ export default defineComponent({
     name: "AccountView",
     computed: {
         firstName() {
-            return this.user?.display_name?.split(" ")[0];
+            return this.user?.name?.split(" ")[0];
         },
         lastName() {
-            return this.user?.display_name?.split(" ")[1];
+            return this.user?.name?.split(" ")[1];
         },
         ...mapState(useUserStore, ["user"]),
     },
     methods: {
         saveAccount(data: SaveAccountData) {
             this.updateUser({
-                display_name: `${data.firstName} ${data.lastName}`,
+                name: `${data.firstName} ${data.lastName}`,
                 username: data.username,
                 email: data.email,
             });

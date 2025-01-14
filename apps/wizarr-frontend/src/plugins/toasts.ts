@@ -1,18 +1,16 @@
-import toasts from '@/ts/utils/toasts';
+import toasts from "@/ts/utils/toasts";
+import type { PiniaPluginContext } from "pinia";
+import type { App } from "vue";
 
-import type { Toasts } from '@/ts/utils/toasts';
-import type { PiniaPluginContext } from 'pinia';
-import type { App } from 'vue';
-
-declare module 'pinia' {
+declare module "pinia" {
     export interface PiniaCustomProperties {
-        $toast: Toasts;
+        $toast: typeof toasts;
     }
 }
 
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
-        $toast: Toasts;
+        $toast: typeof toasts;
     }
 }
 

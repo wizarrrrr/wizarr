@@ -20,45 +20,45 @@
             {{ __("We want to clarify that our bug reporting system does not collect sensitive personal data. It primarily captures technical information related to errors and performance, such as error messages, stack traces, and browser information. Rest assured, your personal information is not at risk through this service being enabled.") }}
         </p>
 
-        <FormKit type="toggle" name="toggle" off-value-label="Bug Reporting Off" on-value-label="Bug Reporting On" v-model="bugReporting" :classes="{ input: 'h-[36px]' }" />
+        <FormKit @change="toggleBugReporting" v-model="isBugReporting" type="toggle" name="toggle" off-value-label="Bug Reporting Off" on-value-label="Bug Reporting On" :classes="{ input: 'h-[36px]' }" />
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useThemeStore } from "@/stores/theme";
-import { useServerStore } from "@/stores/server";
-import { mapState } from "pinia";
+import { useInformationStore } from "@/stores/information";
+import { mapState, mapWritableState } from "pinia";
 
 export default defineComponent({
     name: "Sentry",
     data() {
         return {
-            bugReporting: true,
+            isBugReporting: true,
         };
     },
     computed: {
         bordered() {
             return !this.boxView ? "border border-gray-200 dark:border-gray-700 rounded-md p-6" : "";
         },
-        ...mapState(useServerStore, ["settings", "isBugReporting"]),
+        ...mapWritableState(useInformationStore, ["bugReporting"]),
         ...mapState(useThemeStore, ["boxView"]),
     },
-    watch: {
-        bugReporting: {
-            immediate: false,
-            handler() {
-                const formData = new FormData();
-                formData.append("bug_reporting", this.bugReporting as unknown as string);
+    methods: {
+        async toggleBugReporting() {
+            const response = await this.$axios.put("/api/information", { bugReporting: this.isBugReporting }).catch(() => {
+                this.$toast.error(this.__("Unable to save bug reporting settings."));
+            });
 
-                this.$axios.put("/api/settings", formData).catch(() => {
-                    this.$toast.error(this.__("Unable to save bug reporting settings."));
-                });
-            },
+            if (!response || response.data.bugReporting === !this.isBugReporting) return;
+
+            this.$toast.success(this.__("Bug reporting settings saved."));
+            this.isBugReporting = response.data.bugReporting;
         },
     },
-    beforeMount() {
-        this.bugReporting = this.isBugReporting ?? true;
+    beforeCreate() {
+        this.isBugReporting = this.bugReporting ?? true;
     },
 });
 </script>
+@/stores/information

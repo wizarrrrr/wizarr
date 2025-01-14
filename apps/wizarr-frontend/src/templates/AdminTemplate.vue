@@ -12,14 +12,7 @@
                             <div class="flex items-center">
                                 <div class="flex flex-col justify-start">
                                     <div class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                        <Transition
-                                            name="fade-fast"
-                                            mode="out-in"
-                                            :duration="{
-                                                enter: 300,
-                                                leave: 300,
-                                            }"
-                                            v-if="transition">
+                                        <Transition name="fade-fast" mode="out-in" :duration="{ enter: 300, leave: 300 }" v-if="transition">
                                             <span :key="header">
                                                 {{ header ?? "" }}
                                             </span>
@@ -29,14 +22,7 @@
                                         </span>
                                     </div>
                                     <div class="text-sm font-semibold leading-tight tracking-tight text-gray-900 md:text-md dark:text-gray-400">
-                                        <Transition
-                                            name="fade-fast"
-                                            mode="out-in"
-                                            :duration="{
-                                                enter: 300,
-                                                leave: 300,
-                                            }"
-                                            v-if="transition">
+                                        <Transition name="fade-fast" mode="out-in" :duration="{ enter: 300, leave: 300 }" v-if="transition">
                                             <span :key="subheader">
                                                 {{ subheader ?? "" }}
                                             </span>

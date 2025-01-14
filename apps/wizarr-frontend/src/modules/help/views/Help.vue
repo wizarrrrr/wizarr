@@ -29,14 +29,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 import { mapState } from "pinia";
 
 import Carousel from "@/components/Carousel.vue";
 import WizarrLogo from "@/components/WizarrLogo.vue";
 
-import LanguageSelector from '@/components/Buttons/LanguageSelector.vue';
-import ThemeToggle from '@/components/Buttons/ThemeToggle.vue';
+import LanguageSelector from "@/components/Buttons/LanguageSelector.vue";
+import ThemeToggle from "@/components/Buttons/ThemeToggle.vue";
 
 import Welcome from "../components/Welcome.vue";
 import Download from "../components/Download.vue";
@@ -90,7 +90,8 @@ export default defineComponent({
 
             return views;
         },
-        ...mapState(useServerStore, ["settings", "requests"]),
+        ...mapState(useInformationStore, ["settings", "requests"]),
     },
 });
 </script>
+@/stores/information

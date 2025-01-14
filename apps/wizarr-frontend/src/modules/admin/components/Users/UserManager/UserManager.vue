@@ -5,15 +5,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
 
-import type { User } from '@/types/api/users';
-import type { Emitter, EventType } from 'mitt';
+import type { User } from "@/types/api/users";
+import type { Emitter, EventType } from "mitt";
 
-import Tabbed from '@/modules/core/components/Tabbed.vue';
+import Tabbed from "@/modules/core/components/Tabbed.vue";
 
 export default defineComponent({
-    name: 'UserManager',
+    name: "UserManager",
     components: {
         Tabbed,
     },
@@ -31,67 +31,61 @@ export default defineComponent({
         return {
             tabs: [
                 {
-                    name: 'User',
-                    icon: 'fa-user',
+                    name: "User",
+                    icon: "fa-user",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
                     },
-                    component: () => import('./User.vue'),
+                    component: () => import("./User.vue"),
                 },
                 {
-                    name: 'Invitation',
-                    icon: 'fa-envelope',
+                    name: "Invitation",
+                    icon: "fa-envelope",
                     disabled: true,
-                    hidden: this.env.NODE_ENV === 'production',
+                    hidden: this.env.NODE_ENV === "production",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
                     },
-                    component: () => import('./Invitation.vue'),
+                    component: () => import("./Invitation.vue"),
                 },
                 {
-                    name: 'Schedule',
-                    icon: 'fa-calendar',
+                    name: "Schedule",
+                    icon: "fa-calendar",
                     disabled: true,
-                    hidden: this.env.NODE_ENV === 'production',
+                    hidden: this.env.NODE_ENV === "production",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
                     },
-                    component: () => import('./AccessSchedule.vue'),
+                    component: () => import("./AccessSchedule.vue"),
                 },
                 {
-                    name: 'Permissions',
-                    icon: 'fa-shield',
+                    name: "Permissions",
+                    icon: "fa-shield",
                     disabled: true,
-                    hidden: this.env.NODE_ENV === 'production',
+                    hidden: this.env.NODE_ENV === "production",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
                     },
-                    component: () => import('./Permissions.vue'),
+                    component: () => import("./Permissions.vue"),
                 },
                 {
-                    name: 'Settings',
-                    icon: 'fa-cog',
+                    name: "Settings",
+                    icon: "fa-cog",
                     disabled: true,
-                    hidden: this.env.NODE_ENV === 'production',
+                    hidden: this.env.NODE_ENV === "production",
                     props: {
                         user: this.user,
                         eventBus: this.eventBus,
                     },
-                    component: () => import('./Settings.vue'),
+                    component: () => import("./Settings.vue"),
                 },
             ],
-            profilePicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
-            backupPicture:
-                'https://ui-avatars.com/api/?uppercase=true&name=' +
-                this.user.username +
-                '&length=1',
+            profilePicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
+            backupPicture: "https://ui-avatars.com/api/?uppercase=true&name=" + this.user.username + "&length=1",
             disabled: {
                 delete: false,
             },

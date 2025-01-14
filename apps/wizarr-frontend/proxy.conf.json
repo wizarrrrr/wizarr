@@ -1,0 +1,21 @@
+{
+    "/api": {
+        "target": "http://localhost:5001",
+        "secure": false,
+        "changeOrigin": true,
+        "xfwd": true
+    },
+    "/socket.io": {
+        "target": "ws://localhost:5001",
+        "secure": false,
+        "changeOrigin": true,
+        "xfwd": true,
+        "ws": true
+    },
+    "/bull": {
+        "target": "http://localhost:5001",
+        "secure": false,
+        "changeOrigin": true,
+        "xfwd": true
+    }
+}

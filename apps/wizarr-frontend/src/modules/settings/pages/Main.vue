@@ -4,7 +4,7 @@
             <template v-for="(section, index) in settingsSections">
                 <div :id="`settingsContainer${index}`">
                     <!-- Sections Title -->
-                    <div class="settings-section" v-if="!(sectionDisabled(section) && env.NODE_ENV === 'production')">
+                    <div class="settings-section" v-if="!(sectionDisabled(section) && !isBeta)">
                         <div class="flex flex-col">
                             <div class="text-lg font-bold leading-tight tracking-tight text-gray-900 md:text-xl dark:text-white">
                                 {{ __(section.title) }}
@@ -18,7 +18,7 @@
                     <!-- Settings Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                         <template v-for="page in section.pages">
-                            <template v-if="!(page.disabled && env.NODE_ENV === 'production')">
+                            <template v-if="!(page.disabled && !isBeta)">
                                 <SettingsButton :title="page.title" :description="page.description" :icon="page.icon" :url="page.url" :disabled="page.disabled" :modal="page.modal" />
                             </template>
                         </template>
@@ -35,12 +35,30 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useUserStore } from "@/stores/user";
 import { mapState } from "pinia";
 import { useSettingsStore } from "@/stores/settings";
+import { useVersionStore } from "@/stores/version";
+import { hasRole } from "@/ts/utils/hasRole";
 
 import SettingsTemplate from "@/templates/SettingsTemplate.vue";
 import SettingsButton from "@/components/Buttons/SettingsButton.vue";
+
+export interface SettingsSection {
+    title: string;
+    description: string;
+    roles?: string[];
+    pages: SettingsPage[];
+}
+
+export interface SettingsPage {
+    title: string;
+    description: string;
+    icon: string;
+    url: string;
+    disabled: boolean;
+    modal: boolean;
+    roles?: string[];
+}
 
 // These methods look confusing, because they are. I'm sorry ;P
 
@@ -51,6 +69,7 @@ export default defineComponent({
         SettingsButton,
     },
     methods: {
+        hasRole,
         mapSections<K>(section: K & { pages: Partial<{ title: string; description: string }>[] }) {
             return {
                 ...section,
@@ -62,18 +81,12 @@ export default defineComponent({
         filterSections<K>(section: K & { pages: Partial<{ title: string }>[] }) {
             return section.pages.length > 0;
         },
-        mapRoles<K>(
-            section: K & {
-                roles?: string[];
-                pages: Partial<{ roles?: string[] }>[];
-            },
-        ) {
+        mapRoles<K>(section: K & { roles?: string[]; pages: Partial<{ roles?: string[] }>[] }) {
             return {
                 ...section,
                 pages: section.pages.filter((page) => {
-                    if ((this.user?.role ?? "user") === "admin") return true;
-                    if (!page?.roles) return section?.roles?.includes(this.user?.role ?? "user");
-                    return page?.roles?.includes(this.user?.role ?? "user");
+                    if (hasRole("admin")) return true;
+                    return page?.roles ? hasRole(page.roles) : section.roles ? hasRole(section.roles) : false;
                 }),
             };
         },
@@ -82,12 +95,11 @@ export default defineComponent({
         },
     },
     computed: {
-        ...mapState(useUserStore, ["user"]),
         ...mapState(useSettingsStore, ["search"]),
+        ...mapState(useVersionStore, ["isBeta"]),
         settingsSections() {
-            const filteredSettingsSearch = this.search ? this.settings.map(this.mapSections).filter(this.filterSections) : this.settings;
-            const filteredSettingsRole = filteredSettingsSearch.map(this.mapRoles as any).filter(this.filterSections as any);
-            return filteredSettingsRole as any;
+            const searchedSections = this.search ? this.settings.map(this.mapSections).filter(this.filterSections) : this.settings;
+            return searchedSections.map(this.mapRoles).filter(this.filterSections);
         },
     },
     data() {
@@ -99,8 +111,8 @@ export default defineComponent({
                     roles: ["moderator", "user"],
                     pages: [
                         {
-                            title: this.__("Media Server"),
-                            description: this.__("Configure your media server settings"),
+                            title: this.__("Media Servers"),
+                            description: this.__("Configure your media servers settings"),
                             icon: "fas fa-server",
                             url: "/admin/settings/media",
                         },
@@ -178,6 +190,12 @@ export default defineComponent({
                             icon: "fas fa-shield-alt",
                             url: "/admin/settings/mfa",
                         },
+                        // {
+                        //     title: this.__("Email Server"),
+                        //     description: this.__("Configure your Email Service"),
+                        //     icon: "fas fa-envelope",
+                        //     url: "/admin/settings/smtp",
+                        // },
                         // {
                         //     title: this.__("Language"),
                         //     description: this.__("Change your language"),
@@ -269,7 +287,7 @@ export default defineComponent({
                         },
                     ],
                 },
-            ],
+            ] as SettingsSection[],
         };
     },
 });

@@ -1,7 +1,6 @@
 import { errorToast, infoToast } from "../ts/utils/toasts";
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
 
-import type { APIUser } from "@/types/api/auth/User";
 import type { Membership } from "@/types/api/membership";
 import type { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
 import type { WebAuthnError } from "@simplewebauthn/browser/dist/types/helpers/webAuthnError";
@@ -9,6 +8,8 @@ import { useAuthStore } from "@/stores/auth";
 import { useAxios } from "@/plugins/axios";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/user";
+
+import type { Admin as IAdmin } from "@wizarrrrr/wizarr-sdk";
 
 class Auth {
     // Local toast functions
@@ -54,7 +55,7 @@ class Auth {
      * Handle Authenticated Data
      * This function is used to handle authenticated data to store
      */
-    async handleAuthData(user: Partial<APIUser>, token: string, refresh_token: string) {
+    async handleAuthData(user: IAdmin, token: string) {
         // Get auth store from pinia
         const authStore = useAuthStore();
         const userStore = useUserStore();
@@ -63,14 +64,11 @@ class Auth {
         this.router.push("/admin");
 
         // Show a welcome message to the display_name else username
-        this.infoToast(`Welcome ${user.display_name ?? user.username}`);
+        this.infoToast(`Welcome ${user.name ?? user.username}`);
 
-        // Set the user data
+        // Set the store data
         userStore.setUser(user);
-
-        // Set the auth token and refresh token
         authStore.setAccessToken(token);
-        authStore.setRefreshToken(refresh_token);
 
         // Handle membership update
         const membership = await this.handleMembershipUpdate();
@@ -125,7 +123,7 @@ class Auth {
      * Check if the user is authenticated
      * This method is used to check if the user is authenticated
      */
-    async isAuthenticated() {
+    async isAuthenticated(): Promise<boolean> {
         // Get auth store from pinia
         const authStore = useAuthStore();
 
@@ -147,24 +145,20 @@ class Auth {
         const authStore = useAuthStore();
 
         // Check if the access token and refresh token are set
-        if (!authStore.token || !authStore.refresh_token) {
-            return false;
-        }
+        if (!authStore.token || authStore.token === null) return false;
 
         // Send the request to the server to refresh the JWT token
-        const response = await this.axios.post("/api/auth/refresh", undefined, {
-            refresh_header: true,
-            disableErrorToast: true,
-        });
+        const response = await this.axios.get("/api/auth/refresh", { disableErrorToast: true, refresh_header: true }).catch(() => null);
 
         // Check if the response is null
-        if (!response || response.status != 200) {
-            this.errorToast("Failed to refresh token, please login again.");
+        if (response == null || response.status != 200) {
+            // this.errorToast("Session expired, please login again");
+            // authStore.removeAccessToken();
             return false;
         }
 
         // Set the new JWT token
-        authStore.setAccessToken(response.data.access_token);
+        authStore.setAccessToken(response.data.token);
 
         // Return the response
         return true;
@@ -198,26 +192,20 @@ class Auth {
             this.remember_me = false;
         }
 
-        // Create a form data object
-        const formData = new FormData();
-
-        // Add the username, password and remember_me to the form data
-        formData.append("username", this.username);
-        formData.append("password", this.password);
-        formData.append("remember", this.remember_me);
-
         // Send the request to the server
-        const response = await this.axios.post("/api/auth/login", formData);
+        const response = await this.axios.post("/api/auth/login", {
+            username: this.username,
+            password: this.password,
+        });
 
         // Check if the response is successful
-        if (response.status != 200 || !response.data.auth) {
+        if (response.status != 200 || !response.data) {
             this.errorToast(response.data.message || "Failed to login, please try again");
-            console.error(response.data.message || "Failed to login, please try again");
-            return;
+            throw new Error(response.data.message || "Failed to login, please try again");
         }
 
         // Handle the authenticated data
-        return this.handleAuthData(response.data.auth.user, response.data.auth.token, response.data.auth.refresh_token);
+        return this.handleAuthData(response.data.user, response.data.token);
     }
 
     /**
@@ -232,14 +220,13 @@ class Auth {
         const userStore = useUserStore();
 
         // Get the current user username or display_name
-        const username = userStore.user?.display_name || userStore.user?.username;
+        const username = userStore.user?.name ?? userStore.user?.username;
 
         // Send the request to the server to logout the user
-        await this.axios.post("/api/auth/logout", {}, { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
+        await this.axios.get("/api/auth/logout", { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
 
         // Remove the auth token and refresh token
         authStore.removeAccessToken();
-        authStore.removeRefreshToken();
 
         try {
             // Redirect the user to the login page
@@ -250,7 +237,7 @@ class Auth {
         }
 
         // Show a goodbye message to the username else username
-        this.infoToast(`Goodbye ${username || "User"}`);
+        this.infoToast(`Goodbye ${username ?? "User"}`);
     }
 
     /**
@@ -259,7 +246,7 @@ class Auth {
      *
      * @returns The boolean value of whether the user has MFA enabled
      */
-    async isMFAEnabled(username?: string) {
+    async isPasskeyEnabled(username?: string) {
         // Check if the username is set
         if (username) this.username = username;
 
@@ -286,7 +273,7 @@ class Auth {
      * Handle MFA registration
      * This method is used to handle MFA registration
      */
-    async mfaRegistration(mfaName?: string) {
+    async passkeyRegistration(mfaName?: string) {
         // Check if the mfaName is set
         if (mfaName) this.mfaName = mfaName;
 
@@ -350,7 +337,7 @@ class Auth {
      *
      * @param username The username of the user
      */
-    async mfaAuthentication(username?: string, autofill: boolean = false) {
+    async passkeyAuthentication(username?: string, autofill: boolean = false) {
         // Check if the username is set
         if (username) this.username = username;
 
@@ -378,6 +365,7 @@ class Auth {
 
         // Check if the response is successful
         if (authResp.status != 200) {
+            this.errorToast(authResp.data.message || "Failed to authenticate, please try again");
             throw new Error(authResp.data.message || "Failed to authenticate, please try again");
         }
 
@@ -402,6 +390,7 @@ class Auth {
 
         // Send the authentication to the server
         const authResp2 = await this.axios.post("/api/mfa/authentication", data).catch((e: any) => {
+            this.errorToast(e.data.message || "Failed to authenticate, please try again");
             throw new Error(e.data.message || "Failed to authenticate, please try again");
         });
 
@@ -409,14 +398,14 @@ class Auth {
         if (!authResp2) return;
 
         // Handle the authenticated data
-        return this.handleAuthData(authResp2.data.auth.user, authResp2.data.auth.token, authResp2.data.auth.refresh_token);
+        return this.handleAuthData(authResp2.data.auth.user, authResp2.data.auth.token);
     }
 
     /**
      * MFA de-registration
      * This method is used to remove MFA from the user
      */
-    async mfaDeregistration() {
+    async passkeyDeregistration() {
         // Check if the username is set
         if (!this.username) {
             this.errorToast("Username not provided");

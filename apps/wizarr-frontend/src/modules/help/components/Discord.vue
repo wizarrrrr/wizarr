@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 import { mapState } from "pinia";
 
 import DiscordLogo from "@/assets/img/discord.svg?component";
@@ -68,7 +68,7 @@ export default defineComponent({
         totalMembersOnline() {
             return this.members.filter((member) => member.status === "online").length;
         },
-        ...mapState(useServerStore, ["settings"]),
+        ...mapState(useInformationStore, ["settings"]),
     },
     methods: {
         async loadWidgetAPI(guild: string) {
@@ -104,3 +104,4 @@ export default defineComponent({
     },
 });
 </script>
+@/stores/information

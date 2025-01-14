@@ -1,56 +1,27 @@
 <template>
     <div>
-        <div v-if="carouselTitle" class="px-6 pt-6 sm:px-8 sm:pt-8">
-            <h1
-                class="relative text-lg md:text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white"
-            >
-                <Transition
-                    name="fade"
-                    mode="out-in"
-                    :duration="{ enter: 200, leave: 200 }"
-                >
-                    <div :key="carouselTitle">
+        <div v-if="hasTitle || hasDescription" class="px-6 pt-6 sm:px-8 sm:pt-8">
+            <Transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 200 }">
+                <div class="flex flex-col">
+                    <h1 class="relative text-lg md:text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white" :key="carouselTitle" v-if="hasTitle">
                         {{ carouselTitle }}
+                    </h1>
+                    <div class="flex flex-col w-full text-sm text-gray-800 dark:text-gray-200" :key="carouselDescription" v-if="hasDescription">
+                        {{ carouselDescription }}
                     </div>
-                </Transition>
-            </h1>
+                </div>
+            </Transition>
         </div>
-        <div
-            ref="carousel"
-            class="relative overflow-hidden rounded h-screen"
-            style="transition: max-height 0.5s ease-in-out"
-            :style="{ maxHeight: carouselHeight }"
-        >
+        <div ref="carousel" class="relative overflow-hidden rounded h-screen" style="transition: max-height 0.5s ease-in-out" :style="{ maxHeight: carouselHeight }">
             <template v-for="(view, index) in carouselViews" :key="index + 1">
                 <div v-if="index == 0" :id="`carousel-item-${index}`"></div>
-                <div
-                    :id="`carousel-item-${index + 1}`"
-                    class="hidden duration-700 ease-in-out"
-                >
+                <div :id="`carousel-item-${index + 1}`" class="hidden duration-700 ease-in-out">
                     <div class="flex flex-col items-center justify-center">
                         <div class="relative w-full">
-                            <div
-                                class="text-gray-900 dark:text-white"
-                                :class="
-                                    hasTitle
-                                        ? 'px-6 pb-6 pt-3 sm:px-8 sm:pb-8 sm:pt-4'
-                                        : 'p-6 sm:p-8'
-                                "
-                            >
+                            <div class="text-gray-900 dark:text-white" :class="padding">
                                 <Transition name="fade" mode="out-in">
-                                    <template
-                                        v-if="
-                                            index + 1 == currentComponent &&
-                                            view.asyncComponent
-                                        "
-                                    >
-                                        <component
-                                            v-bind="{ ...view.props, ...attrs }"
-                                            :is="view.asyncComponent"
-                                            :class="
-                                                carouselWait ? 'hidden' : ''
-                                            "
-                                        />
+                                    <template v-if="index + 1 == currentComponent && view.asyncComponent">
+                                        <component v-bind="{ ...view.props, ...attrs }" :is="view.asyncComponent" :class="carouselWait ? 'hidden' : ''" />
                                     </template>
                                 </Transition>
                             </div>
@@ -59,22 +30,11 @@
                 </div>
             </template>
         </div>
-        <Transition
-            name="fade"
-            mode="out-in"
-            :duration="{ enter: 200, leave: 200 }"
-        >
-            <div
-                class="z-20 bg-white dark:bg-gray-800 absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center flex-col space-y-1"
-                v-if="carouselWait"
-            >
-                <i
-                    class="fa-solid fa-spinner fa-spin text-4xl text-center text-gray-900 dark:text-white"
-                ></i>
-                <p
-                    class="text-center font-semibold text-gray-900 dark:text-white"
-                >
-                    {{ __('Please wait...') }}
+        <Transition name="fade" mode="out-in" :duration="{ enter: 200, leave: 200 }">
+            <div class="z-20 bg-white dark:bg-gray-800 absolute top-0 right-0 bottom-0 left-0 flex justify-center items-center flex-col space-y-1 p-6 sm:p-8" v-if="carouselWait">
+                <i class="fa-solid fa-spinner fa-spin text-4xl text-center text-gray-900 dark:text-white"></i>
+                <p class="text-center font-semibold text-gray-900 dark:text-white">
+                    {{ __("Please wait...") }}
                 </p>
             </div>
         </Transition>
@@ -82,11 +42,11 @@
 </template>
 
 <script lang="ts">
-import { Carousel, type CarouselInterface, type CarouselItem } from 'flowbite';
-import { defineAsyncComponent, defineComponent } from 'vue';
-import { useResizeObserver, type UseResizeObserverReturn } from '@vueuse/core';
+import { Carousel, type CarouselInterface, type CarouselItem } from "flowbite";
+import { defineAsyncComponent, defineComponent } from "vue";
+import { useResizeObserver, type UseResizeObserverReturn } from "@vueuse/core";
 
-import type { Component } from 'vue';
+import type { Component } from "vue";
 
 export interface CarouselView {
     component: () => Promise<Component>;
@@ -94,19 +54,25 @@ export interface CarouselView {
     props?: Record<string, any>;
     name?: string;
     title?: string;
+    description?: string;
+}
+
+export interface CarouselConfig {
+    padding?: string;
 }
 
 export default defineComponent({
-    name: 'Carousel',
+    name: "Carousel",
     data() {
         return {
             carousel: null as CarouselInterface | null,
-            carouselHeight: '100px',
+            carouselHeight: "100px",
             currentComponent: this.currentView,
             carouselViews: [] as CarouselView[],
             carouselWait: true,
             carouselTitle: this.pageTitle,
-            stopObserver: null as UseResizeObserverReturn['stop'] | null,
+            carouselDescription: this.pageDescription,
+            stopObserver: null as UseResizeObserverReturn["stop"] | null,
         };
     },
     props: {
@@ -125,19 +91,30 @@ export default defineComponent({
             required: false,
         },
         pageTitle: {
-            type: String as () => CarouselView['title'],
+            type: String as () => CarouselView["title"],
             default: undefined,
+            required: false,
+        },
+        pageDescription: {
+            type: String as () => CarouselView["description"],
+            default: undefined,
+            required: false,
+        },
+        config: {
+            type: Object as () => CarouselConfig,
+            default: () => ({
+                padding: false,
+            }),
             required: false,
         },
     },
     methods: {
         getCarouselHeight(): string {
             const activeItem = this.carousel?._activeItem?.el;
-            if (!activeItem) return '0px';
+            if (!activeItem) return "0px";
 
-            const activeItemChild = activeItem.firstChild
-                ?.firstChild as HTMLElement | null;
-            if (!activeItemChild) return '0px';
+            const activeItemChild = activeItem.firstChild?.firstChild as HTMLElement | null;
+            if (!activeItemChild) return "0px";
 
             return `${activeItemChild.offsetHeight}px`;
         },
@@ -146,12 +123,9 @@ export default defineComponent({
             if (!carouselRef) return;
 
             const carouselTransition = carouselRef.style.transition;
-            carouselRef.style.transition = 'none';
+            carouselRef.style.transition = "none";
             carouselRef.style.maxHeight = this.getCarouselHeight();
-            setTimeout(
-                () => (carouselRef.style.transition = carouselTransition),
-                500,
-            );
+            setTimeout(() => (carouselRef.style.transition = carouselTransition), 500);
         },
         awaitReference(ref: unknown): Promise<HTMLElement> {
             return new Promise((resolve) => {
@@ -164,9 +138,7 @@ export default defineComponent({
             });
         },
         carouselElements(carousel: HTMLElement): CarouselItem[] {
-            const carouselElements = carousel.querySelectorAll(
-                'div[id^="carousel-item"]',
-            );
+            const carouselElements = carousel.querySelectorAll('div[id^="carousel-item"]');
             return Array.from(carouselElements).map((element, index) => {
                 return {
                     el: element,
@@ -174,7 +146,7 @@ export default defineComponent({
                 } as CarouselItem;
             });
         },
-        asyncComponent(component: CarouselView['component']) {
+        asyncComponent(component: CarouselView["component"]) {
             return defineAsyncComponent({
                 loader: component,
             });
@@ -193,17 +165,12 @@ export default defineComponent({
 
             // Update the carousel height to match the current view
             if (carousel?._activeItem?.el?.firstChild) {
-                this.stopObserver = useResizeObserver(
-                    carousel._activeItem.el.firstChild as HTMLElement,
-                    (entry) => {
-                        if (entry[0].target) {
-                            if (this.carouselWait) return;
-                            this.carouselHeight = `${
-                                (entry[0].target as HTMLElement).offsetHeight
-                            }px`;
-                        }
-                    },
-                ).stop;
+                this.stopObserver = useResizeObserver(carousel._activeItem.el.firstChild as HTMLElement, (entry) => {
+                    if (entry[0].target) {
+                        if (this.carouselWait) return;
+                        this.carouselHeight = `${(entry[0].target as HTMLElement).offsetHeight}px`;
+                    }
+                }).stop;
             }
         },
     },
@@ -216,6 +183,7 @@ export default defineComponent({
                 // Update the page title
                 const view = this.carouselViews[index - 1];
                 this.carouselTitle = view?.title ? view.title : undefined;
+                this.carouselDescription = view?.description ? view.description : undefined;
             },
             immediate: false,
         },
@@ -236,6 +204,9 @@ export default defineComponent({
         hasTitle(): boolean {
             return !!this.carouselTitle;
         },
+        hasDescription(): boolean {
+            return !!this.carouselDescription;
+        },
         attrs(): Record<string, any> {
             return {
                 ...this.$attrs,
@@ -243,8 +214,12 @@ export default defineComponent({
                 onPrevStep: () => this.currentComponent--,
                 onPleaseWait: (value: boolean) => (this.carouselWait = value),
                 onUpdateTitle: (title: string) => (this.carouselTitle = title),
+                onUpdateDescription: (description: string) => (this.carouselDescription = description),
                 onHeight: () => this.updateHeight(),
             };
+        },
+        padding(): string {
+            return !!this.config.padding ? (this.hasTitle ? "px-6 pb-6 pt-3 sm:px-8 sm:pb-8 sm:pt-4" : "p-6 sm:p-8") : "";
         },
     },
     async mounted() {
@@ -263,6 +238,7 @@ export default defineComponent({
 
         const view = this.carouselViews[this.currentView - 1];
         this.carouselTitle = view?.title ? view.title : undefined;
+        this.carouselDescription = view?.description ? view.description : undefined;
 
         this.carouselWait = this.pleaseWait ?? false;
     },

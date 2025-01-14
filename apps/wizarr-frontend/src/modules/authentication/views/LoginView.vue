@@ -31,7 +31,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import DefaultNavBar from "@/components/NavBars/DefaultNavBar.vue";
+import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
 import DefaultLoading from "@/components/Loading/DefaultLoading.vue";
 
 import LoginForm from "../components/LoginForm.vue";
@@ -66,8 +66,7 @@ export default defineComponent({
         },
         async passkeyLogin({ username }: { username: string }) {
             this.step = STEP.LOADING;
-            await this.auth.mfaAuthentication(username).catch((e) => {
-                this.$toast.error(e.message);
+            await this.auth.passkeyAuthentication(username).catch((e) => {
                 this.step = STEP.USERNAME;
             });
         },
@@ -92,7 +91,11 @@ export default defineComponent({
 
         // If WebAuthn autofill is supported, allow user to login with MFA autofill
         if (browserSupportsWebAuthn && browserSupportsWebAuthnAutofill) {
-            this.auth.mfaAuthentication("", true);
+            try {
+                await this.auth.passkeyAuthentication("", true);
+            } catch (e) {
+                console.warn(e);
+            }
         }
     },
 });

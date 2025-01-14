@@ -29,7 +29,7 @@ import { defineComponent } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { mapActions } from "pinia";
 
-import DefaultNavBar from "@/components/NavBars/DefaultNavBar.vue";
+import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
 
 export default defineComponent({

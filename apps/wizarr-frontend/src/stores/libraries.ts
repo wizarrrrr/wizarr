@@ -1,110 +1,51 @@
-import { defineStore } from 'pinia';
+import { defineStore } from "pinia";
+import type { Libraries as ILibraries, Library as ILibrary, LibraryResponse as ILibraryResponse } from "@wizarrrrr/wizarr-sdk";
 
-export const useLibrariesStore = defineStore('libraries', {
-    state: () => ({
-        libraries: [] as Array<{ id: string; name: string; created: Date }>,
+export const useLibrariesStore = defineStore("libraries", {
+    state: (): { libraries: ILibraries } => ({
+        libraries: [],
     }),
     actions: {
         async getLibraries() {
             // Get the libraries from the API
-            const response = await this.$axios.get('/api/libraries');
-
-            // Check if the response is valid
-            if (!response?.data) {
-                this.$toast.error('Could not get libraries');
-                return;
-            }
-
-            // Map the libraries to the correct format
-            this.libraries = response.data.map(
-                (library: { id: string; name: string; created: string }) => {
-                    return {
-                        id: library.id,
-                        name: library.name,
-                        created: new Date(library.created),
-                    };
+            const response = await this.$axios.get<ILibraryResponse>("/api/libraries", {
+                params: {
+                    relations: "server",
                 },
-            );
-        },
-        async saveLibraries(
-            libraries: Array<{ id: string; name: string; selected: boolean }>,
-        ) {
-            const formData = new FormData();
-            const newLibraries: string[] = [];
-
-            libraries.forEach((library) => {
-                if (library.selected) {
-                    newLibraries.push(library.id);
-                }
             });
 
-            formData.append('libraries', JSON.stringify(newLibraries));
-
-            const response = await this.$axios
-                .post('/api/libraries', formData, { disableInfoToast: true })
-                .catch(() => {
-                    return;
-                });
-
-            if (!response?.data?.message) {
-                this.$toast.error('Could not save libraries');
-                return;
-            }
-
-            this.$toast.info('Successfully saved libraries');
-        },
-        async scanLibraries() {
-            // Get the libraries from the API
-            const libResponse = await this.$axios.get('/api/libraries');
-
             // Check if the response is valid
-            if (!libResponse?.data) {
-                this.$toast.error('Could not get libraries');
+            if (!response?.data?.rows) {
+                this.$toast.error("Could not get libraries");
                 return;
             }
-
-            // Map the libraries to the correct format
-            const allLibraries = libResponse.data.map(
-                (library: { id: string; name: string; created: string }) => {
-                    return {
-                        id: library.id,
-                        name: library.name,
-                        created: new Date(library.created),
-                    };
-                },
-            ) as Array<{ id: string; name: string; created: Date }>;
 
             // Update the libraries in the store
-            this.libraries = allLibraries;
+            this.libraries = response.data.rows;
+        },
+        addLibrary(library: ILibrary) {
+            this.libraries.push(library);
+        },
+        async deleteLibrary(id: string) {
+            // Remove the library from the database
+            const response = await this.$axios.delete<ILibrary>(`/api/libraries/${id}`, { disableInfoToast: true }).catch(() => {
+                this.$toast.error("Could not delete library");
+                return null;
+            });
 
-            // Get the libraries from the media server
-            const scanResponse = await this.$axios.get('/api/scan-libraries');
+            // Check if the library is null
+            if (!response) return;
 
-            // Check if the response is valid
-            if (!scanResponse?.data?.libraries) {
-                this.$toast.error('Could not get libraries');
-                return;
-            }
-
-            // Map the libraries to the correct format
-            const libraries: [string, string][] = Object.entries(
-                scanResponse.data.libraries,
-            );
-            const newLibraries: Array<{
-                id: string;
-                name: string;
-                selected: boolean;
-            }> = [];
-
-            // Check if the library is selected
-            for (const [name, id] of libraries) {
-                const selected =
-                    allLibraries.find((library) => library.id === id) !==
-                    undefined;
-                newLibraries.push({ id: id, name: name, selected: selected });
-            }
-
-            return newLibraries;
+            const index = this.libraries.findIndex((library: ILibrary) => library.id === id);
+            if (index !== -1) this.libraries.splice(index, 1);
+        },
+    },
+    getters: {
+        getLibraryById: (state) => (id: string) => {
+            return state.libraries.find((library: ILibrary) => library.id === id);
+        },
+        getLibrariesByServerId: (state) => (serverId: string) => {
+            return state.libraries.filter((library: ILibrary) => library.server?.id === serverId);
         },
     },
     persist: true,

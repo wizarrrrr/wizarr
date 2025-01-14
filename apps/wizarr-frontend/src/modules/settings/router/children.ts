@@ -5,13 +5,18 @@ const children: RouteRecordRaw[] = [
         path: "",
         name: "admin-settings",
         component: () => import("../pages/Main.vue"),
-        meta: { searchBar: true },
+        meta: {
+            searchBar: true,
+        },
     },
     {
         path: "media",
         name: "admin-settings-media",
         component: () => import("../pages/Media.vue"),
-        meta: { header: "Manage Media", subheader: "Configure media server" },
+        meta: {
+            header: "Media Servers",
+            subheader: "Manage your media servers",
+        },
     },
     {
         path: "requests",
@@ -26,19 +31,37 @@ const children: RouteRecordRaw[] = [
         path: "apikeys",
         name: "admin-settings-apikeys",
         component: () => import("../pages/APIKeys.vue"),
-        meta: { header: "Manage API Keys", subheader: "Configure API keys" },
+        meta: {
+            header: "Manage API Keys",
+            subheader: "Configure API keys",
+        },
     },
     {
         path: "webhooks",
         name: "admin-settings-webhooks",
         component: () => import("../pages/Webhooks.vue"),
-        meta: { header: "Manage Webhooks", subheader: "Configure webhooks" },
+        meta: {
+            header: "Manage Webhooks",
+            subheader: "Configure webhooks",
+        },
     },
     {
         path: "account",
         name: "admin-settings-account",
         component: () => import("../pages/Account.vue"),
-        meta: { header: "Manage Account", subheader: "Configure your account" },
+        meta: {
+            header: "Manage Account",
+            subheader: "Configure your account",
+        },
+    },
+    {
+        path: "smtp",
+        name: "admin-settings-media",
+        component: () => import("../pages/Email.vue"),
+        meta: {
+            header: "Email Server",
+            subheader: "Configure Email Service",
+        },
     },
     {
         path: "sessions",
@@ -53,13 +76,19 @@ const children: RouteRecordRaw[] = [
         path: "discord",
         name: "admin-settings-discord",
         component: () => import("../pages/Discord.vue"),
-        meta: { header: "Manage Discord", subheader: "Configure Discord" },
+        meta: {
+            header: "Manage Discord",
+            subheader: "Configure Discord",
+        },
     },
     {
         path: "logs",
         name: "admin-settings-logs",
         component: () => import("../pages/Logs.vue"),
-        meta: { header: "View Logs", subheader: "View server logs" },
+        meta: {
+            header: "View Logs",
+            subheader: "View server logs",
+        },
     },
     {
         path: "mfa",

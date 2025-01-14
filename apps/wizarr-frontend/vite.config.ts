@@ -13,6 +13,7 @@ import tailwindConfig from "./tailwind.config";
 import tailwindcss from "tailwindcss";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
+import markdownRawPlugin from "vite-raw-plugin";
 
 export default defineConfig({
     cacheDir: "../../node_modules/.vite/wizarr",
@@ -23,6 +24,9 @@ export default defineConfig({
         VitePWA(VitePWAConfig), // Initialize Vite PWA Plugin
         babel(), // Initialize Babel Plugin
         svgLoader(), // Initialize SVG Loader Plugin
+        markdownRawPlugin({
+            fileRegex: /\.md$/, // Initizalize Markdown Raw Plugin
+        }),
     ],
     build: {
         sourcemap: true,
@@ -43,24 +47,6 @@ export default defineConfig({
                 "../", // Allow Root
                 "./", // Allow Root
             ],
-        },
-        proxy: {
-            "/api": {
-                target: "http://127.0.0.1:5000",
-                changeOrigin: true,
-                xfwd: true,
-            },
-            "/swaggerui": {
-                target: "http://127.0.0.1:5000",
-                changeOrigin: true,
-                xfwd: true,
-            },
-            "/socket.io": {
-                target: "ws://127.0.0.1:5000",
-                changeOrigin: true,
-                ws: true,
-                xfwd: true,
-            },
         },
     },
     preview: {

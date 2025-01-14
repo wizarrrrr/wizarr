@@ -1,22 +1,16 @@
-import mainAxios, {
-    Axios,
-    type AxiosRequestConfig,
-    type AxiosResponse,
-    type InternalAxiosRequestConfig,
-} from 'axios';
-import cookie from 'js-cookie';
-import Auth from '@/api/authentication';
+import mainAxios, { Axios, type AxiosRequestConfig, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
+import cookie from "js-cookie";
+import Auth from "@/api/authentication";
 
-import { errorToast, infoToast } from './toasts';
-import { useAuthStore } from '@/stores/auth';
-import { useToast } from '@/plugins/toasts';
+import { errorToast, infoToast } from "./toasts";
+import { useAuthStore } from "@/stores/auth";
+import { useToast } from "@/plugins/toasts";
 
-export interface CustomAxiosResponse<D = any> extends AxiosResponse {
+export interface CustomAxiosResponse<T = any, D = any> extends AxiosResponse<T, D> {
     config: CustomAxiosRequestConfig<D> & InternalAxiosRequestConfig;
 }
 
-export interface CustomAxiosRequestConfig<D = any>
-    extends AxiosRequestConfig<D> {
+export interface CustomAxiosRequestConfig<D = any> extends AxiosRequestConfig<D> {
     disableInfoToast?: boolean;
     disableErrorToast?: boolean;
     refresh_header?: boolean;
@@ -27,55 +21,17 @@ export interface CustomAxiosInstance extends Axios {
     disableErrorToast?: boolean;
     refresh_header?: boolean;
     getUri(config?: CustomAxiosRequestConfig): string;
-    request<T = any, R = CustomAxiosResponse<T>, D = any>(
-        config: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    get<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    delete<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    head<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    options<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    post<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        data?: D,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    put<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        data?: D,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    patch<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        data?: D,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    postForm<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        data?: D,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    putForm<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        data?: D,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
-    patchForm<T = any, R = CustomAxiosResponse<T>, D = any>(
-        url: string,
-        data?: D,
-        config?: CustomAxiosRequestConfig<D>,
-    ): Promise<R>;
+    request<T = any, R = CustomAxiosResponse<T>, D = any>(config: CustomAxiosRequestConfig<D>): Promise<R>;
+    get<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    delete<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    head<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    options<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    post<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    put<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    patch<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    postForm<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    putForm<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+    patchForm<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
 }
 
 class AxiosInterceptor {
@@ -87,23 +43,14 @@ class AxiosInterceptor {
      */
     constructor(axios: CustomAxiosInstance) {
         // Apply interceptors
-        axios.interceptors.response.use(
-            this.resp.bind(this),
-            this.error.bind(this),
-        );
-        axios.interceptors.request.use(
-            this.req.bind(this),
-            this.error.bind(this),
-        );
-        axios.defaults.headers.common['X-CSRF-TOKEN'] =
-            cookie.get('csrf_access_token');
+        axios.interceptors.response.use(this.resp.bind(this), this.error.bind(this));
+        axios.interceptors.request.use(this.req.bind(this), this.error.bind(this));
+        axios.defaults.headers.common["X-CSRF-TOKEN"] = cookie.get("csrf_access_token");
 
         // If localstorage has a base url, set it
-        if (typeof window !== 'undefined') {
-            if (localStorage.getItem('base_url')) {
-                axios.defaults.baseURL = localStorage.getItem(
-                    'base_url',
-                ) as string;
+        if (typeof window !== "undefined") {
+            if (localStorage.getItem("base_url")) {
+                axios.defaults.baseURL = localStorage.getItem("base_url") as string;
             }
         }
 
@@ -116,26 +63,32 @@ class AxiosInterceptor {
      * @param config
      * @returns {any}
      */
-    public req(config: InternalAxiosRequestConfig & CustomAxiosRequestConfig) {
+    public async req(config: InternalAxiosRequestConfig & CustomAxiosRequestConfig) {
         // Try to add the authorization header to the request
         try {
+            // Get the auth store
             const authStore = useAuthStore();
 
-            if (
-                config.refresh_header &&
-                (authStore.refresh_token?.length ?? 0) > 0
-            ) {
-                config.headers[
-                    'Authorization'
-                ] = `Bearer ${authStore.refresh_token}`;
+            // If the request is a refresh request, return the config
+            if (config.refresh_header) {
+                if ((authStore.token?.length ?? 0) > 0) {
+                    config.headers["Authorization"] = `Bearer ${authStore.token}`;
+                }
+                return config;
             }
 
-            if (
-                (authStore.token?.length ?? 0) > 0 &&
-                !config.refresh_header &&
-                (authStore.refresh_token?.length ?? 0) > 0
-            ) {
-                config.headers['Authorization'] = `Bearer ${authStore.token}`;
+            // Check if the JWT token is expired and refresh it if it is
+            if (authStore.isAccessTokenExpired()) {
+                const authentication = new Auth();
+                console.log("Refreshing token because it is expired");
+                await authentication.refreshToken().catch(() => {
+                    authStore.removeAccessToken();
+                });
+            }
+
+            // Add the authorization header to the request
+            if ((authStore.token?.length ?? 0) > 0) {
+                config.headers["Authorization"] = `Bearer ${authStore.token}`;
             }
         } catch (e) {
             // Do nothing
@@ -179,17 +132,15 @@ class AxiosInterceptor {
                 message?: string;
             };
             if (errors) {
-                Object.values(errors).forEach(
-                    (errorMessages: string[] | string) => {
-                        if (Array.isArray(errorMessages)) {
-                            errorMessages.forEach((errorMessage: string) => {
-                                showErrorToast(errorMessage);
-                            });
-                        } else if (typeof errorMessages === 'string') {
-                            showErrorToast(errorMessages);
-                        }
-                    },
-                );
+                Object.values(errors).forEach((errorMessages: string[] | string) => {
+                    if (Array.isArray(errorMessages)) {
+                        errorMessages.forEach((errorMessage: string) => {
+                            showErrorToast(errorMessage);
+                        });
+                    } else if (typeof errorMessages === "string") {
+                        showErrorToast(errorMessages);
+                    }
+                });
             } else if (message) {
                 showErrorToast(message);
             }
@@ -200,9 +151,7 @@ class AxiosInterceptor {
                 const auth = new Auth();
                 auth.logout();
             } catch (e) {
-                useToast().error(
-                    'An unauthenticated request was made, but we failed to log you out. Please refresh the page.',
-                );
+                useToast().error("An unauthenticated request was made, but we failed to log you out. Please refresh the page.");
             }
         }
 

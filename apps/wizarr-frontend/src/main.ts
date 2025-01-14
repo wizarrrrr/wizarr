@@ -53,7 +53,7 @@ app.use(VueProgressBar, ProgressOptions);
 app.use(OpenLayersMap, { debug: true });
 app.use(FloatingVue);
 app.use(plugin, defaultConfig(formkitConfig));
-app.use(Socket, { uri: window.location.origin });
+app.use(Socket, { uri: window.location.origin, opts: { path: "/api/socket.io" } });
 app.use(Filters);
 app.use(Sentry);
 app.use(Analytics);
@@ -68,6 +68,16 @@ app.component("VueFeather", VueFeather);
 declare module "@vue/runtime-core" {
     interface GlobalComponents {
         VueFeather: typeof VueFeather;
+    }
+}
+
+app.config.globalProperties.$help = async (id: string) => {
+    window.open(`/docs/${id}`, "_blank", "width=600, height=700, toolbar=no, menubar=no");
+};
+
+declare module "@vue/runtime-core" {
+    interface ComponentCustomProperties {
+        $help: (id: string) => void;
     }
 }
 

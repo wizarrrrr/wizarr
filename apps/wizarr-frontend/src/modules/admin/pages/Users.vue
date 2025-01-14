@@ -13,9 +13,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useUsersStore } from "@/stores/users";
 import { useThemeStore } from "@/stores/theme";
-import { mapActions, mapState } from "pinia";
+import { mapState } from "pinia";
 
 import AdminTemplate from "@/templates/AdminTemplate.vue";
 import UserList from "../components/Users/UserList/UserList.vue";
@@ -33,11 +32,10 @@ export default defineComponent({
     },
     methods: {
         async localScanUsers() {
-            this.buttonWait = true;
-            await this.scanUsers();
-            this.buttonWait = false;
+            this.$axios.get("/api/users/scan").then(() => {
+                this.$toast.info(this.__("Dispatched scan users task"));
+            });
         },
-        ...mapActions(useUsersStore, ["scanUsers"]),
     },
     computed: {
         ...mapState(useThemeStore, ["boxView"]),

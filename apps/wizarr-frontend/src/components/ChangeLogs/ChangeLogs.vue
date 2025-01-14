@@ -13,7 +13,7 @@
 import { mapActions, mapState } from "pinia";
 import { defineComponent } from "vue";
 import { useChangeLogStore } from "@/stores/changeLog";
-import { useServerStore } from "@/stores/server";
+import { useInformationStore } from "@/stores/information";
 
 import ChangeLogItem from "./ChangeLogItem.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
@@ -42,10 +42,11 @@ export default defineComponent({
             return this.getSortedChangeLogs.slice(0, this.size * this.page);
         },
         ...mapState(useChangeLogStore, ["getSortedChangeLogs"]),
-        ...mapState(useServerStore, ["version"]),
+        ...mapState(useInformationStore, ["version"]),
     },
     async mounted() {
         this.getChangeLogs(this.size, this.page);
     },
 });
 </script>
+@/stores/information

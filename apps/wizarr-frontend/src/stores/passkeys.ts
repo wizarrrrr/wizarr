@@ -1,14 +1,14 @@
-import type { MFA, MFAList } from '@/types/api/auth/MFA';
+import type { MFA, MFAList } from "@/types/api/auth/MFA";
 
-import Auth from '@/api/authentication';
-import browser from 'browser-detect';
-import { defineStore } from 'pinia';
+import Auth from "@/api/authentication";
+import browser from "browser-detect";
+import { defineStore } from "pinia";
 
 interface PasskeysStoreState {
     mfas: MFAList;
 }
 
-export const usePasskeysStore = defineStore('passkeys', {
+export const usePasskeysStore = defineStore("passkeys", {
     state: (): PasskeysStoreState => ({
         mfas: [],
     }),
@@ -17,11 +17,11 @@ export const usePasskeysStore = defineStore('passkeys', {
             return string.charAt(0).toUpperCase() + string.slice(1);
         },
         removeVersion(string: string) {
-            return string.replace(/ \d+(\.\d+)*\s*/g, '');
+            return string.replace(/ \d+(\.\d+)*\s*/g, "");
         },
         async getMfas() {
             // Get the mfas from the API
-            const mfa = await this.$axios.get('/api/mfa').catch((err) => {
+            const mfa = await this.$axios.get("/api/mfa").catch((err) => {
                 console.error(err);
                 return null;
             });
@@ -43,18 +43,14 @@ export const usePasskeysStore = defineStore('passkeys', {
             const browser_info = browser();
 
             // Get the browser name and os name
-            const browser_name = this.firstLetterUppercase(
-                browser_info.name ?? 'Unknown',
-            );
-            const os_name = this.firstLetterUppercase(
-                this.removeVersion(browser_info.os ?? 'Unknown'),
-            );
+            const browser_name = this.firstLetterUppercase(browser_info.name ?? "Unknown");
+            const os_name = this.firstLetterUppercase(this.removeVersion(browser_info.os ?? "Unknown"));
 
             // Create name for the new MFA
             const name = `${browser_name} on ${os_name}`;
 
             // Create the new MFA
-            const response = await auth.mfaRegistration(name);
+            const response = await auth.passkeyRegistration(name);
 
             // If the response is null, return
             if (response === null || response === undefined) return;
@@ -63,11 +59,10 @@ export const usePasskeysStore = defineStore('passkeys', {
             const mfa = response.data as MFA;
 
             // Add the new MFA to the store
-            if (!this.mfas.find((old_mfa: MFA) => old_mfa.id === mfa.id))
-                this.mfas.push(mfa);
+            if (!this.mfas.find((old_mfa: MFA) => old_mfa.id === mfa.id)) this.mfas.push(mfa);
 
             // Show message to user
-            this.$toast.info('Successfully created new Passkey');
+            this.$toast.info("Successfully created new Passkey");
         },
         async deleteMfa(id: string | number) {
             // Delete the MFA from the API

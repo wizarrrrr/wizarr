@@ -17,8 +17,9 @@ import { mapState } from "pinia";
 import { useThemeStore } from "@/stores/theme";
 
 import AdminTemplate from "@/templates/AdminTemplate.vue";
+import InvitationForm from "@/components/Forms/InvitationForm/InvitationForm.vue";
+
 import InvitationList from "../components/Invitations/InvitationList/InvitationList.vue";
-import InvitationForm from "../components/Forms/InvitationForm.vue";
 
 export default defineComponent({
     name: "InvitationView",
@@ -36,6 +37,7 @@ export default defineComponent({
         openInviteModal() {
             this.$modal.openModal(InvitationForm, {
                 title: this.__("Create Invitation"),
+                size: "md",
                 buttons: [
                     {
                         text: this.__("Create Invitation"),

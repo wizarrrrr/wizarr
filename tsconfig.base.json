@@ -14,7 +14,12 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
-        "paths": {}
+        "paths": {
+            "@wizarrrrr/plex-sdk": ["libs/plex-sdk/src/index.ts"],
+            "@wizarrrrr/typeorm-simple-query-parser": ["libs/typeorm-simple-query-parser/src/index.ts"],
+            "@wizarrrrr/wizarr-sdk": ["libs/wizarr-sdk/src/index.ts"]
+        },
+        "forceConsistentCasingInFileNames": true
     },
     "exclude": ["node_modules", "tmp"]
 }

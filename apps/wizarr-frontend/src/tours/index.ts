@@ -66,15 +66,15 @@ const loadRouterTour = (router: Router, options: CustomTourGuideOptions) => {
     });
 
     // Load the tour when the route is loaded
-    router.afterEach(async (to) => {
-        const userStore = useUserStore(options.app.config.globalProperties.$pinia);
-        if (!userStore.user?.tutorial && checkTourAvailability(to.name as string)) {
-            await loadTour(to.name as RouteRecordName, tourGuide, {
-                ...options,
-                userStore: userStore,
-            });
-        }
-    });
+    // router.afterEach(async (to) => {
+    //     const userStore = useUserStore(options.app.config.globalProperties.$pinia);
+    //     if (!userStore.user?.tutorial && checkTourAvailability(to.name as string)) {
+    //         await loadTour(to.name as RouteRecordName, tourGuide, {
+    //             ...options,
+    //             userStore: userStore,
+    //         });
+    //     }
+    // });
 };
 
 /**

@@ -15,6 +15,24 @@ const theme: Record<string, Record<string, string>> = {
         suffixIcon: "peer absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none bg-gray-50 dark:bg-gray-700 rounded-r border-r border-t border-b border-gray-300 dark:border-gray-600",
     },
 
+    textarea: {
+        input: "peer-[.formkit-prefix-icon]:pl-9 peer-[.formkit-suffix-icon]:pr-9 mb-1 w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white sm:text-sm border border-gray-300 dark:border-gray-600 rounded block w-full dark:placeholder-gray-400 focus:ring-primary focus:border-primary",
+        label: "block mb-2 text-sm font-medium text-gray-900 dark:text-white",
+        inner: "w-full relative",
+        outer: "mb-4 formkit-disabled:opacity-50",
+        prefixIcon: "peer absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none bg-gray-50 dark:bg-gray-700 rounded-l border-l border-t border-b border-gray-300 dark:border-gray-600",
+        suffixIcon: "peer absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none bg-gray-50 dark:bg-gray-700 rounded-r border-r border-t border-b border-gray-300 dark:border-gray-600",
+    },
+
+    url: {
+        input: "peer-[.formkit-prefix-icon]:pl-9 peer-[.formkit-suffix-icon]:pr-9 mb-1 w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white sm:text-sm border border-gray-300 dark:border-gray-600 rounded block w-full dark:placeholder-gray-400 focus:ring-primary focus:border-primary",
+        label: "block mb-2 text-sm font-medium text-gray-900 dark:text-white",
+        inner: "w-full relative",
+        outer: "mb-4 formkit-disabled:opacity-50",
+        prefixIcon: "peer absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none bg-gray-50 dark:bg-gray-700 rounded-l border-l border-t border-b border-gray-300 dark:border-gray-600",
+        suffixIcon: "peer absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none bg-gray-50 dark:bg-gray-700 rounded-r border-r border-t border-b border-gray-300 dark:border-gray-600",
+    },
+
     inputButton: {
         input: "peer-[.formkit-prefix-icon]:pl-9 peer-[.formkit-suffix-icon]:pr-9 mb-1 w-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white sm:text-sm border border-gray-300 dark:border-gray-600 rounded block w-full dark:placeholder-gray-400 focus:ring-primary focus:border-primary",
         label: "block mb-2 text-sm font-medium text-gray-900 dark:text-white",
@@ -138,6 +156,14 @@ const theme: Record<string, Record<string, string>> = {
         data-[theme=warning]:bg-yellow-500 data-[theme=warning]:hover:bg-yellow-600
         data-[theme=transparent]:bg-transparent data-[theme=transparent]:hover:bg-gray-100 data-[theme=transparent]:text-gray-900 data-[theme=transparent]:dark:text-white data-[theme=transparent]:border data-[theme=transparent]:border-gray-300 data-[theme=transparent]:hover:bg-gray-100 data-[theme=transparent]:dark:border-gray-700
         data-[theme=none]:bg-transparent data-[theme=none]:text-gray-900 dark:text-white data-[theme=none]:hover:bg-gray-100 dark:hover:bg-gray-700
+
+        data-[size=xs]:px-2.5 data-[size=xs]:py-1.5 data-[size=xs]:text-xs
+        data-[size=sm]:px-3 data-[size=sm]:py-2 data-[size=sm]:text-sm
+        data-[size=md]:px-4 data-[size=md]:py-2.5 data-[size=md]:text-sm
+        data-[size=lg]:px-5 data-[size=lg]:py-3 data-[size=lg]:text-sm
+        data-[size=xl]:px-6 data-[size=xl]:py-3.5 data-[size=xl]:text-sm
+
+        data-[size=square]:px-3.5 h-[36px]
 
         inline-flex items-center focus:outline-none text-white font-medium rounded px-5 py-2.5 text-sm
         `,

@@ -5,7 +5,7 @@ import requireAuth from '@/router/middleware/requireAuth';
 const routes: Readonly<RouteRecordRaw[]> = [
     {
         path: '/admin/settings',
-        name: 'admin-settings',
+        name: 'admin-settings-main',
         component: () => import('../views/Settings.vue'),
         meta: {
             middleware: [requireAuth],

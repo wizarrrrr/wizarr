@@ -1,0 +1,31 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "include": [
+        "./src/**/*.ts",
+        "./types/**/*.d.ts"
+    ],
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "CommonJS",
+        "outDir": "../../dist/apps/wizarr-backend",
+        "moduleResolution": "node",
+        "baseUrl": ".",
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "declaration": false,
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "strict": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "forceConsistentCasingInFileNames": true,
+        "strictPropertyInitialization": false,
+        "types": [
+            "node",
+            "reflect-metadata"
+        ]
+    },
+    "ts-node": {
+        "esm": false
+    }
+}

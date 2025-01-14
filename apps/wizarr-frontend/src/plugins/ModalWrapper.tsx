@@ -1,10 +1,11 @@
-import type { CustomModalOptions, CustomModalOptionsButtons } from "./modal";
+import mitt from "mitt";
 
 import { FormKit } from "@formkit/vue";
 import { Modal } from "jenesius-vue-modal";
-import type { WrapComponent } from "jenesius-vue-modal/dist/types/types/types";
 import { defineComponent } from "vue";
-import mitt from "mitt";
+
+import type { CustomModalOptions, CustomModalOptionsButtons } from "./modal";
+import type { WrapComponent } from "jenesius-vue-modal/dist/types/utils/types";
 
 const ModalWrapper = <P extends WrapComponent>(component: P | string, props?: any, options?: Partial<CustomModalOptions>) => {
     return defineComponent({
@@ -13,6 +14,13 @@ const ModalWrapper = <P extends WrapComponent>(component: P | string, props?: an
             return {
                 eventBus: mitt(),
                 options: options ?? {},
+                sizes: {
+                    sm: "md:min-w-[30%] lg:min-w-[20%] md:max-w-2xl",
+                    md: "md:min-w-[40%] md:max-w-3xl",
+                    lg: "md:min-w-[50%] md:max-w-4xl",
+                    xl: "md:min-w-[60%] md:max-w-5xl",
+                    full: "md:min-w-[100%] md:max-w-full",
+                },
             };
         },
         computed: {
@@ -52,7 +60,7 @@ const ModalWrapper = <P extends WrapComponent>(component: P | string, props?: an
         },
         render() {
             return (
-                <div class="flex flex-col fixed top-0 bottom-0 left-0 right-0 h-full w-full md:h-auto md:w-auto transform text-left shadow-xl transition-all md:relative md:min-w-[30%] md:max-w-2xl md:shadow-none md:transform-none sm:align-middle text-gray-900 dark:text-white">
+                <div class={`flex flex-col fixed top-0 bottom-0 left-0 right-0 h-full w-full md:h-auto md:w-auto transform text-left shadow-xl transition-all md:relative md:shadow-none md:transform-none sm:align-middle text-gray-900 dark:text-white ${this.sizes[this.options?.size ?? "sm"]}`}>
                     {/* Header */}
                     {!this.options?.disableHeader ? (
                         <div class="flex items-center bg-white pl-6 p-3 dark:bg-gray-800 justify-between p-4 border-b dark:border-gray-600 rounded-t">

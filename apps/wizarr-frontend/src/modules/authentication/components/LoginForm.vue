@@ -23,15 +23,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import DefaultInput from "@/components/Inputs/DefaultInput.vue";
-import DefaultButton from "@/components/Buttons/DefaultButton.vue";
-
 export default defineComponent({
     name: "PasswordForm",
-    components: {
-        DefaultInput,
-        DefaultButton,
-    },
     props: {
         passkeySupported: {
             type: Boolean,
@@ -53,7 +46,7 @@ export default defineComponent({
         },
         passkeyLogin() {
             if (!this.username) {
-                this.$toast.error("Please enter your username");
+                this.$toast.warning("Please enter your username");
                 return;
             }
 

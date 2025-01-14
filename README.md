@@ -112,6 +112,10 @@ services:
       - ./wizarr/database:/data/database
 ```
 
+
+## CLOUDFLARE WARNING
+If Jellyfin, Plex, Emby or other service is behind Cloudflare, be sure that you add rules to Cloudflare to not inturrupt communications between Wizarr server and the Services server.
+
 ## Documentation
 
 Any issues we welcome you to come onto our [Discord](https://discord.gg/XXCz7aM3ak) and ask for a member of staff, we would be happy to help.

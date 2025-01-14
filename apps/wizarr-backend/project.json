@@ -1,79 +1,60 @@
 {
     "name": "wizarr-backend",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/wizarr-backend/src",
     "projectType": "application",
-    "sourceRoot": "apps/wizarr-backend/wizarr_backend",
     "targets": {
-        "lock": {
-            "executor": "@nxlv/python:run-commands",
-            "options": {
-                "command": "poetry lock --no-update",
-                "cwd": "apps/wizarr-backend",
-                "color": true
-            }
-        },
-        "add": {
-            "executor": "@nxlv/python:add",
-            "options": {}
-        },
-        "update": {
-            "executor": "@nxlv/python:update",
-            "options": {}
-        },
-        "remove": {
-            "executor": "@nxlv/python:remove",
-            "options": {}
-        },
         "build": {
-            "executor": "@nxlv/python:build",
+            "executor": "@nx/js:tsc",
             "outputs": [
                 "{options.outputPath}"
             ],
+            "defaultConfiguration": "production",
             "options": {
+                "target": "esnext",
+                "platform": "node",
+                "minify": false,
                 "outputPath": "dist/apps/wizarr-backend",
-                "publish": false,
-                "lockedVersions": true,
-                "bundleLocalDependencies": true
+                "metafile": true,
+                "bundle": false,
+                "inspect": false,
+                "main": "apps/wizarr-backend/src/main.ts",
+                "tsConfig": "apps/wizarr-backend/tsconfig.app.json",
+                "generatePackageJson": true,
+                "generateLockfile": true,
+                "external": "none",
+                "esbuildOptions": {
+                    "sourcemap": true,
+                    "outExtension": {
+                        ".js": ".js"
+                    }
+                }
+            },
+            "configurations": {
+                "development": {},
+                "production": {
+                    "esbuildOptions": {
+                        "sourcemap": false,
+                        "outExtension": {
+                            ".js": ".js"
+                        }
+                    }
+                }
             }
         },
         "serve": {
-            "executor": "@nxlv/python:run-commands",
+            "executor": "@nx/js:node",
+            "defaultConfiguration": "development",
             "options": {
-                "commands": [
-                    "make-dir ../database",
-                    "poetry run flask run --debug"
-                ],
-                "cwd": "apps/wizarr-backend/wizarr_backend"
-            }
-        },
-        "install": {
-            "executor": "@nxlv/python:install",
-            "options": {
-                "silent": false,
-                "args": "",
-                "cacheDir": ".cache/pypoetry",
-                "verbose": false,
-                "debug": false
-            }
-        },
-        "lint": {
-            "executor": "@nxlv/python:flake8",
-            "outputs": [
-                "{workspaceRoot}/reports/apps/wizarr-backend/pylint.txt"
-            ],
-            "options": {
-                "outputFile": "reports/apps/wizarr-backend/pylint.txt"
-            }
-        },
-        "test": {
-            "executor": "@nxlv/python:run-commands",
-            "outputs": [
-                "{workspaceRoot}/reports/apps/wizarr-backend/unittests",
-                "{workspaceRoot}/coverage/apps/wizarr-backend"
-            ],
-            "options": {
-                "command": "poetry run pytest tests/",
-                "cwd": "apps/wizarr-backend"
+                "inspect": "inspect"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "wizarr-backend:build:development"
+                },
+                "production": {
+                    "buildTarget": "wizarr-backend:build:production"
+                }
             }
         }
     },

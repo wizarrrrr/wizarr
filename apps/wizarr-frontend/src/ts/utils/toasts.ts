@@ -1,11 +1,5 @@
-import { useToast } from 'vue-toastification';
-import type {
-    CommonOptions,
-    PluginOptions,
-    ToastContent,
-    ToastID,
-    ToastOptions,
-} from 'vue-toastification/dist/types/types';
+import { useToast } from "vue-toastification";
+import type { CommonOptions, PluginOptions, ToastContent, ToastID, ToastOptions } from "vue-toastification/dist/types/types";
 
 export const infoToast = (message: ToastContent, options?: ToastOptions) => {
     const toast = useToast();
@@ -47,11 +41,7 @@ export const dismissToast = (id: ToastID) => {
     toast.dismiss(id);
 };
 
-export const updateToast = (
-    id: ToastID,
-    content: ToastContent,
-    options?: ToastOptions,
-) => {
+export const updateToast = (id: ToastID, content: ToastContent, options?: ToastOptions) => {
     const toast = useToast();
     toast.update(id, { content, options });
 };
@@ -74,8 +64,4 @@ export declare type Toasts = {
     error: typeof errorToast;
     warning: typeof warningToast;
     default: typeof defaultToast;
-    clear: typeof clearToasts;
-    updateDefaults: typeof updateDefaultOptions;
-    dismiss: typeof dismissToast;
-    update: typeof updateToast;
 };

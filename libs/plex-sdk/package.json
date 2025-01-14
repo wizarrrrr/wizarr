@@ -1,0 +1,5 @@
+{
+    "name": "@wizarrrrr/plex-sdk",
+    "type": "commonjs",
+    "main": "./src/index.ts"
+}

@@ -10,6 +10,7 @@
 @import "./modal.scss";
 @import "./map.scss";
 @import "./tour.scss";
+@import "./markdown.scss";
 
 // External libraries
 @import "floating-vue/dist/style.css";
@@ -26,6 +27,11 @@
 //         color 1s ease,
 //         border-color 1s ease;
 // }
+
+html,
+body {
+    overflow: overlay;
+}
 
 .dark {
     input {
@@ -182,4 +188,12 @@ button[disabled],
     .Vue-Toastification__toast {
         margin-bottom: 0px !important;
     }
+}
+
+.debug {
+    box-shadow: inset 0px 0px 1px 1px lime;
+}
+
+.debug * {
+    box-shadow: inset 0px 0px 1px 1px magenta;
 }
