@@ -1,6 +1,6 @@
 {
     "name": "@wizarrrrr/source",
-    "version": "3.5.1",
+    "version": "3.5.2",
     "license": "MIT",
     "scripts": {
         "start": "nx run-many --parallel --target=serve --projects=wizarr-frontend,wizarr-backend",
