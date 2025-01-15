@@ -54,7 +54,7 @@ jobs:
         run: |
           REGISTRY_NAME="ghcr.io"
           REPOSITORY=${{ github.repository_owner }}/wizarr
-          TAG_OLD=main${{ matrix.suffix }}
+          TAG_OLD=master${{ matrix.suffix }}
           TAG_NEW=${{ github.event.number == 0 && github.ref_name ||  format('pr-{0}', github.event.number)  }}${{ matrix.suffix }}
           docker buildx imagetools create -t $REGISTRY_NAME/$REPOSITORY:$TAG_NEW $REGISTRY_NAME/$REPOSITORY:$TAG_OLD
 
