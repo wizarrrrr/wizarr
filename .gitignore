@@ -447,3 +447,5 @@ database/*
 # Sentry Config File
 .sentryclirc
 /dump.rdb
+.docusaurus/
+/docs/build/

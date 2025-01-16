@@ -11,8 +11,8 @@ docker ps -a                      # see a list of running and stopped containers
 
 ```bash
 docker exec -it <id or name> <command>          # attach to a container with a command
-docker exec -it immich_server bash
-docker exec -it immich_machine_learning bash
+docker exec -it wizarr_server bash
+docker exec -it wizarr_machine_learning bash
 ```
 
 ## Logs
@@ -20,8 +20,8 @@ docker exec -it immich_machine_learning bash
 ```bash
 docker logs <id or name>          # see the logs for a specific container (by id or name)
 
-docker logs immich_server
-docker logs immich_machine_learning
+docker logs wizarr_server
+docker logs wizarr_machine_learning
 ```
 
 :::tip Follow a log

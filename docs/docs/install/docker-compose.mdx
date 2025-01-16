@@ -2,8 +2,8 @@
 sidebar_position: 30
 ---
 
-import CodeBlock from '@theme/CodeBlock';
-import ExampleEnv from '!!raw-loader!../../../docker/example.env';
+import CodeBlock from "@theme/CodeBlock";
+import ExampleEnv from "!!raw-loader!../../../docker/example.env";
 
 # Docker Compose [Recommended]
 
@@ -33,14 +33,14 @@ You can alternatively download these two files from your browser and move them t
 ## Step 2 - Populate the .env file with custom values
 
 <CodeBlock language="bash" title="Default environmental variable content">
-  {ExampleEnv}
+    {ExampleEnv}
 </CodeBlock>
 
-- Populate `UPLOAD_LOCATION` with your preferred location for storing backup assets. It should be a new directory on the server with enough free space.
-- Consider changing `DB_PASSWORD` to a custom value. Postgres is not publically exposed, so this password is only used for local authentication.
-  To avoid issues with Docker parsing this value, it is best to use only the characters `A-Za-z0-9`. `pwgen` is a handy utility for this.
-- Set your timezone by uncommenting the `TZ=` line.
-- Populate custom database information if necessary.
+-   Populate `STORAGE_DIR` with your preferred location for storing data. It should be a new directory on the server or computer.
+-   Consider changing `DB_PASSWORD` to a custom value. Postgres is not publically exposed, so this password is only used for local authentication.
+    To avoid issues with Docker parsing this value, it is best to use only the characters `A-Za-z0-9`. `pwgen` is a handy utility for this.
+-   Set your timezone by uncommenting the `TZ=` line.
+-   Populate custom database information if necessary.
 
 ## Step 3 - Start the containers
 
@@ -70,12 +70,6 @@ If you get an error `can't set healthcheck.start_interval as feature require Doc
 ## Next Steps
 
 Read the [Post Installation](/docs/install/post-install.mdx) steps or setup optional features below.
-
-### Setting up optional features
-
-- [External Libraries](/docs/features/libraries.md): Adding your existing photo library to Wizarr
-- [Hardware Transcoding](/docs/features/hardware-transcoding.md): Speeding up video transcoding
-- [Hardware-Accelerated Machine Learning](/docs/features/ml-hardware-acceleration.md): Speeding up various machine learning tasks in Wizarr
 
 ### Upgrading
 
