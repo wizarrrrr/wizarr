@@ -1,0 +1,26 @@
+{
+  "id": "features/mobile-app",
+  "title": "Mobile App",
+  "description": "Download",
+  "source": "@site/docs/features/mobile-app.mdx",
+  "sourceDirName": "features",
+  "slug": "/features/mobile-app",
+  "permalink": "/docs/features/mobile-app",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/features/mobile-app.mdx",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Config File",
+    "permalink": "/docs/install/config-file"
+  },
+  "next": {
+    "title": "Monitoring",
+    "permalink": "/docs/features/monitoring"
+  }
+}

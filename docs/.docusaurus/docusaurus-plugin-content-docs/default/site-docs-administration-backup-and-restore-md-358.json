@@ -1,0 +1,26 @@
+{
+  "id": "administration/backup-and-restore",
+  "title": "Backup and Restore",
+  "description": "A 3-2-1 backup strategy is recommended to protect your data. You should keep copies of your uploaded photos/videos as well as the Wizarr database for a comprehensive backup solution. This page provides an overview on how to backup the database and the location of user-uploaded pictures and videos. A template bash script that can be run as a cron job is provided here",
+  "source": "@site/docs/administration/backup-and-restore.md",
+  "sourceDirName": "administration",
+  "slug": "/administration/backup-and-restore",
+  "permalink": "/docs/administration/backup-and-restore",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/administration/backup-and-restore.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Config File",
+    "permalink": "/docs/install/config-file"
+  },
+  "next": {
+    "title": "Email Notifications",
+    "permalink": "/docs/administration/email-notification"
+  }
+}

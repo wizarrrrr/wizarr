@@ -1,0 +1,26 @@
+{
+  "id": "features/folder-view",
+  "title": "Folder View",
+  "description": "Folder view provides an additional view besides the timeline that is similar to a file explorer. It allows you to navigate through the folders and files in the library. This feature is handy for a highly curated and customized external library or a nicely configured storage template.",
+  "source": "@site/docs/features/folder-view.md",
+  "sourceDirName": "features",
+  "slug": "/features/folder-view",
+  "permalink": "/docs/features/folder-view",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/features/folder-view.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Config File",
+    "permalink": "/docs/install/config-file"
+  },
+  "next": {
+    "title": "Hardware Transcoding",
+    "permalink": "/docs/features/hardware-transcoding"
+  }
+}

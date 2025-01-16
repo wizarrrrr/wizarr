@@ -1,0 +1,96 @@
+{
+  "type": "api",
+  "id": "get-all-servers",
+  "title": "Get all servers",
+  "description": "",
+  "slug": "/get-all-servers",
+  "frontMatter": {},
+  "api": {
+    "operationId": "ServerController.getAll",
+    "responses": {
+      "200": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Media Servers"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "description": "Get all servers",
+    "method": "get",
+    "path": "/api/servers",
+    "parameters": [],
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Get all servers",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "servers"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "header": [
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "GET",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "type": "any",
+            "value": "{{bearerToken}}",
+            "key": "token"
+          }
+        ]
+      }
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/get-all-servers",
+  "previous": {
+    "title": "Get one library",
+    "permalink": "/docs/api/get-one-library"
+  },
+  "next": {
+    "title": "Create a new server",
+    "permalink": "/docs/api/create-a-new-server"
+  }
+}

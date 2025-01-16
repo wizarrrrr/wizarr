@@ -1,0 +1,82 @@
+{
+  "type": "api",
+  "id": "logout-of-the-server",
+  "title": "Logout of the server",
+  "description": "",
+  "slug": "/logout-of-the-server",
+  "frontMatter": {},
+  "api": {
+    "operationId": "LoginController.logout",
+    "responses": {
+      "200": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Authentication"
+    ],
+    "description": "Logout of the server",
+    "method": "get",
+    "path": "/api/auth/logout",
+    "parameters": [],
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Logout of the server",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "auth",
+          "logout"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "header": [
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "GET"
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/logout-of-the-server",
+  "previous": {
+    "title": "Login to the server with your username and password",
+    "permalink": "/docs/api/login-to-the-server-with-your-username-and-password"
+  },
+  "next": {
+    "title": "Refresh JWT Token",
+    "permalink": "/docs/api/refresh-jwt-token"
+  }
+}

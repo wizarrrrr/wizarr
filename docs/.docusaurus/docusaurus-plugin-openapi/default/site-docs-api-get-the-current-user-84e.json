@@ -1,0 +1,82 @@
+{
+  "type": "api",
+  "id": "get-the-current-user",
+  "title": "Get the current user",
+  "description": "",
+  "slug": "/get-the-current-user",
+  "frontMatter": {},
+  "api": {
+    "operationId": "LoginController.me",
+    "responses": {
+      "200": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Authentication"
+    ],
+    "description": "Get the current user",
+    "method": "get",
+    "path": "/api/auth/me",
+    "parameters": [],
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Get the current user",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "auth",
+          "me"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "header": [
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "GET"
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/get-the-current-user",
+  "previous": {
+    "title": "Refresh JWT Token",
+    "permalink": "/docs/api/refresh-jwt-token"
+  },
+  "next": {
+    "title": "Get all",
+    "permalink": "/docs/api/get-all"
+  }
+}

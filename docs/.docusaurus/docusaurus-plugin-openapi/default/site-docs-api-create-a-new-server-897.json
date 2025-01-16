@@ -1,0 +1,160 @@
+{
+  "type": "api",
+  "id": "create-a-new-server",
+  "title": "Create a new server",
+  "description": "",
+  "slug": "/create-a-new-server",
+  "frontMatter": {},
+  "api": {
+    "operationId": "ServerController.create",
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "name": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "host": {
+                "format": "url",
+                "type": "string",
+                "minLength": 1
+              },
+              "hostOverride": {
+                "format": "url",
+                "type": "string"
+              },
+              "apiKey": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "type": "object",
+            "required": [
+              "name",
+              "type",
+              "host",
+              "apiKey"
+            ]
+          }
+        }
+      },
+      "description": "ServerRequest",
+      "required": false
+    },
+    "responses": {
+      "201": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Media Servers"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "description": "Create a new server",
+    "method": "post",
+    "path": "/api/servers",
+    "parameters": [],
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "jsonRequestBodyExample": {
+      "name": "string",
+      "description": "string",
+      "type": "string",
+      "host": "string",
+      "hostOverride": "string",
+      "apiKey": "string"
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Create a new server",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "servers"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "header": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "POST",
+      "body": {
+        "mode": "raw",
+        "raw": "{\n  \"name\": \"<string>\",\n  \"type\": \"<string>\",\n  \"host\": \"<url>\",\n  \"apiKey\": \"<string>\",\n  \"description\": \"<string>\",\n  \"hostOverride\": \"<url>\"\n}",
+        "options": {
+          "raw": {
+            "language": "json"
+          }
+        }
+      },
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "type": "any",
+            "value": "{{bearerToken}}",
+            "key": "token"
+          }
+        ]
+      }
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/create-a-new-server",
+  "previous": {
+    "title": "Get all servers",
+    "permalink": "/docs/api/get-all-servers"
+  },
+  "next": {
+    "title": "Get one server",
+    "permalink": "/docs/api/get-one-server"
+  }
+}

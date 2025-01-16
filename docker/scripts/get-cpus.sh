@@ -2,7 +2,7 @@
 
 set -eu
 
-LOG_LEVEL="${IMMICH_LOG_LEVEL:='info'}"
+LOG_LEVEL="${WIZARR_LOG_LEVEL:='info'}"
 
 logDebug() {
     if [ "$LOG_LEVEL" = "debug" ] || [ "$LOG_LEVEL" = "verbose" ]; then

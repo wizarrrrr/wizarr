@@ -1,0 +1,25 @@
+{
+  "id": "overview/introduction",
+  "title": "Introduction",
+  "description": "Welcome!",
+  "source": "@site/docs/overview/introduction.mdx",
+  "sourceDirName": "overview",
+  "slug": "/overview/introduction",
+  "permalink": "/docs/overview/introduction",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/overview/introduction.mdx",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "sidebar_position": 1
+  },
+  "sidebar": "tutorialSidebar",
+  "next": {
+    "title": "Quick start",
+    "permalink": "/docs/overview/quick-start"
+  }
+}

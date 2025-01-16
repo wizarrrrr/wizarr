@@ -1,0 +1,392 @@
+{
+  "apiSidebars": {
+    "openapi-sidebar-default": [
+      {
+        "type": "link",
+        "label": "Introduction",
+        "href": "/docs/api/introduction",
+        "docId": "introduction",
+        "unlisted": false,
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "General",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Server",
+            "href": "/docs/api/server",
+            "docId": "server",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Update information",
+            "href": "/docs/api/update-information",
+            "docId": "update-information",
+            "unlisted": false,
+            "className": "api-method put",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Version",
+            "href": "/docs/api/version",
+            "docId": "version",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Health",
+            "href": "/docs/api/health",
+            "docId": "health",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "Users",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Get all users",
+            "href": "/docs/api/get-all-users",
+            "docId": "get-all-users",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Scan for users",
+            "href": "/docs/api/scan-for-users",
+            "docId": "scan-for-users",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Scan for users on a specific server",
+            "href": "/docs/api/scan-for-users-on-a-specific-server",
+            "docId": "scan-for-users-on-a-specific-server",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "Media Server Libraries",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Scan for libraries",
+            "href": "/docs/api/scan-for-libraries",
+            "docId": "scan-for-libraries",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Scan for libraries on a specific server",
+            "href": "/docs/api/scan-for-libraries-on-a-specific-server",
+            "docId": "scan-for-libraries-on-a-specific-server",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Get all libraries",
+            "href": "/docs/api/get-all-libraries",
+            "docId": "get-all-libraries",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Get one library",
+            "href": "/docs/api/get-one-library",
+            "docId": "get-one-library",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "Media Servers",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Get all servers",
+            "href": "/docs/api/get-all-servers",
+            "docId": "get-all-servers",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Create a new server",
+            "href": "/docs/api/create-a-new-server",
+            "docId": "create-a-new-server",
+            "unlisted": false,
+            "className": "api-method post",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Get one server",
+            "href": "/docs/api/get-one-server",
+            "docId": "get-one-server",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Update a server",
+            "href": "/docs/api/update-a-server",
+            "docId": "update-a-server",
+            "unlisted": false,
+            "className": "api-method put",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Delete a server",
+            "href": "/docs/api/delete-a-server",
+            "docId": "delete-a-server",
+            "unlisted": false,
+            "className": "api-method delete",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Supported servers",
+            "href": "/docs/api/supported-servers",
+            "docId": "supported-servers",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "Invitations",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Get all invitations",
+            "href": "/docs/api/get-all-invitations",
+            "docId": "get-all-invitations",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Create a new invitation",
+            "href": "/docs/api/create-a-new-invitation",
+            "docId": "create-a-new-invitation",
+            "unlisted": false,
+            "className": "api-method post",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Get one invitation",
+            "href": "/docs/api/get-one-invitation",
+            "docId": "get-one-invitation",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Update an invitation",
+            "href": "/docs/api/update-an-invitation",
+            "docId": "update-an-invitation",
+            "unlisted": false,
+            "className": "api-method put",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Delete an invitation",
+            "href": "/docs/api/delete-an-invitation",
+            "docId": "delete-an-invitation",
+            "unlisted": false,
+            "className": "api-method delete",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "Authentication",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Register a new user",
+            "href": "/docs/api/register-a-new-user",
+            "docId": "register-a-new-user",
+            "unlisted": false,
+            "className": "api-method post",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Login to the server with your username and password",
+            "href": "/docs/api/login-to-the-server-with-your-username-and-password",
+            "docId": "login-to-the-server-with-your-username-and-password",
+            "unlisted": false,
+            "className": "api-method post",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Logout of the server",
+            "href": "/docs/api/logout-of-the-server",
+            "docId": "logout-of-the-server",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Refresh JWT Token",
+            "href": "/docs/api/refresh-jwt-token",
+            "docId": "refresh-jwt-token",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Get the current user",
+            "href": "/docs/api/get-the-current-user",
+            "docId": "get-the-current-user",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "Session",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Get all",
+            "href": "/docs/api/get-all",
+            "docId": "get-all",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Get one",
+            "href": "/docs/api/get-one",
+            "docId": "get-one",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "Role",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Get all",
+            "href": "/docs/api/get-all-1",
+            "docId": "get-all-1",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Get one",
+            "href": "/docs/api/get-one-1",
+            "docId": "get-one-1",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      },
+      {
+        "type": "category",
+        "label": "Admin",
+        "collapsible": true,
+        "collapsed": true,
+        "items": [
+          {
+            "type": "link",
+            "label": "Get all",
+            "href": "/docs/api/get-all-2",
+            "docId": "get-all-2",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          },
+          {
+            "type": "link",
+            "label": "Get one",
+            "href": "/docs/api/get-one-2",
+            "docId": "get-one-2",
+            "unlisted": false,
+            "className": "api-method get",
+            "position": 999999
+          }
+        ],
+        "position": 999999
+      }
+    ]
+  }
+}

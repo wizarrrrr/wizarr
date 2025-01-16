@@ -1,0 +1,29 @@
+{
+  "id": "overview/comparison",
+  "title": "Comparison",
+  "description": "If you're new here and came from other asset self-hosting alternatives you might want to look at a comparison between Wizarr and your current solution.",
+  "source": "@site/docs/overview/comparison.md",
+  "sourceDirName": "overview",
+  "slug": "/overview/comparison",
+  "permalink": "/docs/overview/comparison",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/overview/comparison.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Introduction",
+    "permalink": "/docs/overview/introduction"
+  },
+  "next": {
+    "title": "Quick start",
+    "permalink": "/docs/overview/quick-start"
+  }
+}

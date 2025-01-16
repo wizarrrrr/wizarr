@@ -40,6 +40,7 @@ import path from "path";
 import colors from "colors";
 import cors from "@koa/cors";
 import pinoHttp, { Options } from "pino-http";
+import { writeFileSync } from "fs";
 
 export class App {
     // Define the Koa app and port
@@ -311,6 +312,12 @@ export class App {
             }
             return next();
         });
+
+        // Save spec to root folder open-api if env GENERATE_OPENAPI is set
+        if (process.env.GENERATE_OPENAPI) {
+            const specPath = path.resolve(__dirname, "../../../../open-api/wizarr-openapi-specs.json");
+            writeFileSync(specPath, JSON.stringify(spec, null, 2));
+        }
 
         // Render swagger on route
         this.app.use(koaSwagger({ routePrefix: `${routePrefix}/docs`, swaggerOptions: { spec } }));

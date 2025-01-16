@@ -27,7 +27,7 @@ import { defineComponent } from "vue";
 import VueMarkdown from "vue-markdown-render";
 import MarkdownItAnchor from "markdown-it-anchor";
 import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
-
+import EULA from "../../../docs/EULA.md";
 import type { Options } from "vue-markdown-render";
 
 export default defineComponent({
@@ -38,7 +38,7 @@ export default defineComponent({
     },
     data() {
         return {
-            markdown: "",
+            markdown: EULA,
             plugins: [MarkdownItAnchor],
             options: {
                 html: true,
@@ -48,9 +48,6 @@ export default defineComponent({
                 typographer: true,
             } as Options,
         };
-    },
-    async beforeMount() {
-        this.markdown = await import("../../../docs/EULA.md").then((module) => module.default);
     },
 });
 </script>

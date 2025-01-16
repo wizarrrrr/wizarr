@@ -1,0 +1,29 @@
+{
+  "id": "install/docker-compose",
+  "title": "Docker Compose [Recommended]",
+  "description": "Docker Compose is the recommended method to run Wizarr in production. Below are the steps to deploy Wizarr with Docker Compose.",
+  "source": "@site/docs/install/docker-compose.mdx",
+  "sourceDirName": "install",
+  "slug": "/install/docker-compose",
+  "permalink": "/docs/install/docker-compose",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/install/docker-compose.mdx",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 30,
+  "frontMatter": {
+    "sidebar_position": 30
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Install script [Experimental]",
+    "permalink": "/docs/install/script"
+  },
+  "next": {
+    "title": "Kubernetes",
+    "permalink": "/docs/install/kubernetes"
+  }
+}

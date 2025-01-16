@@ -1,0 +1,29 @@
+{
+  "id": "install/truenas",
+  "title": "TrueNAS SCALE [Community]",
+  "description": "This is a community contribution and not officially supported by the Wizarr team, but included here for convenience.",
+  "source": "@site/docs/install/truenas.md",
+  "sourceDirName": "install",
+  "slug": "/install/truenas",
+  "permalink": "/docs/install/truenas",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/install/truenas.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 80,
+  "frontMatter": {
+    "sidebar_position": 80
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "All-In-One [Community]",
+    "permalink": "/docs/install/all-in-one"
+  },
+  "next": {
+    "title": "Environment Variables",
+    "permalink": "/docs/install/environment-variables"
+  }
+}

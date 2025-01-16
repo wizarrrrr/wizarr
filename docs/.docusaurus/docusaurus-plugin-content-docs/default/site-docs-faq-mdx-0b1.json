@@ -1,0 +1,22 @@
+{
+  "id": "FAQ",
+  "title": "FAQ",
+  "description": "User",
+  "source": "@site/docs/FAQ.mdx",
+  "sourceDirName": ".",
+  "slug": "/FAQ",
+  "permalink": "/docs/FAQ",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/FAQ.mdx",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Backup Script",
+    "permalink": "/docs/guides/template-backup-script"
+  }
+}

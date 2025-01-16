@@ -1,0 +1,107 @@
+---
+sidebar_position: 30
+---
+
+import CodeBlock from '@theme/CodeBlock';
+import ExampleEnv from '!!raw-loader!../../../docker/example.env';
+
+# Docker Compose [Recommended]
+
+Docker Compose is the recommended method to run Wizarr in production. Below are the steps to deploy Wizarr with Docker Compose.
+
+## Step 1 - Download the required files
+
+Create a directory of your choice (e.g. `./wizarr`) to hold the `docker-compose.yml` and `.env` files.
+
+```bash title="Move to the directory you created"
+mkdir ./wizarr
+cd ./wizarr
+```
+
+Download [`docker-compose.yml`][compose-file] and [`example.env`][env-file] by running the following commands:
+
+```bash title="Get docker-compose.yml file"
+wget -O docker-compose.yml https://github.com/wizarrrrr/wizarr/releases/latest/download/docker-compose.yml
+```
+
+```bash title="Get .env file"
+wget -O .env https://github.com/wizarrrrr/wizarr/releases/latest/download/example.env
+```
+
+You can alternatively download these two files from your browser and move them to the directory that you created, in which case ensure that you rename `example.env` to `.env`.
+
+## Step 2 - Populate the .env file with custom values
+
+<CodeBlock language="bash" title="Default environmental variable content">
+  {ExampleEnv}
+</CodeBlock>
+
+- Populate `UPLOAD_LOCATION` with your preferred location for storing backup assets. It should be a new directory on the server with enough free space.
+- Consider changing `DB_PASSWORD` to a custom value. Postgres is not publically exposed, so this password is only used for local authentication.
+  To avoid issues with Docker parsing this value, it is best to use only the characters `A-Za-z0-9`. `pwgen` is a handy utility for this.
+- Set your timezone by uncommenting the `TZ=` line.
+- Populate custom database information if necessary.
+
+## Step 3 - Start the containers
+
+From the directory you created in Step 1 (which should now contain your customized `docker-compose.yml` and `.env` files), run the following command to start Wizarr as a background service:
+
+```bash title="Start the containers"
+docker compose up -d
+```
+
+:::info Docker version
+If you get an error such as `unknown shorthand flag: 'd' in -d` or `open <location of your .env file>: permission denied`, you are probably running the wrong Docker version. (This happens, for example, with the docker.io package in Ubuntu 22.04.3 LTS.) You can correct the problem by following the complete [Docker Engine install](https://docs.docker.com/engine/install/) procedure for your distribution, crucially the "Uninstall old versions" and "Install using the apt/rpm repository" sections. These replace the distro's Docker packages with Docker's official ones.
+
+Note that the correct command really is `docker compose`, not `docker-compose`. If you try the latter on vanilla Ubuntu 22.04, it will fail in a different way:
+
+```
+The Compose file './docker-compose.yml' is invalid because:
+'name' does not match any of the regexes: '^x-'
+```
+
+See the previous paragraph about installing from the official Docker repository.
+:::
+
+:::info Health check start interval
+If you get an error `can't set healthcheck.start_interval as feature require Docker Engine v25 or later`, it helps to comment out the line for `start_interval` in the `database` section of the `docker-compose.yml` file.
+:::
+
+## Next Steps
+
+Read the [Post Installation](/docs/install/post-install.mdx) steps or setup optional features below.
+
+### Setting up optional features
+
+- [External Libraries](/docs/features/libraries.md): Adding your existing photo library to Wizarr
+- [Hardware Transcoding](/docs/features/hardware-transcoding.md): Speeding up video transcoding
+- [Hardware-Accelerated Machine Learning](/docs/features/ml-hardware-acceleration.md): Speeding up various machine learning tasks in Wizarr
+
+### Upgrading
+
+:::danger Read the release notes
+Wizarr is currently under heavy development, which means you can expect [breaking changes][breaking] and bugs. Therefore, we recommend reading the release notes prior to updating and to take special care when using automated tools like [Watchtower][watchtower].
+
+You can see versions that had breaking changes [here][breaking].
+:::
+
+If `WIZARR_VERSION` is set, it will need to be updated to the latest or desired version.
+
+When a new version of Wizarr is [released][releases], the application can be upgraded and restarted with the following commands, run in the directory with the `docker-compose.yml` file:
+
+```bash title="Upgrade and restart Wizarr"
+docker compose pull && docker compose up -d
+```
+
+To clean up disk space, the old version's obsolete container images can be deleted with the following command:
+
+```bash title="Clean up unused Docker images"
+docker image prune
+```
+
+[compose-file]: https://github.com/wizarrrrr/wizarr/releases/latest/download/docker-compose.yml
+[env-file]: https://github.com/wizarrrrr/wizarr/releases/latest/download/example.env
+[watchtower]: https://containrrr.dev/watchtower/
+[breaking]: https://github.com/wizarrrrr/wizarr/discussions?discussions_q=label%3Achangelog%3Abreaking-change+sort%3Adate_created
+[container-auth]: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-to-the-container-registry
+[releases]: https://github.com/wizarrrrr/wizarr/releases

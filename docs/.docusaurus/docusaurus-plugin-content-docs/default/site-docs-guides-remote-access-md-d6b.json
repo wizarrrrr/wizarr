@@ -1,0 +1,26 @@
+{
+  "id": "guides/remote-access",
+  "title": "Remote Access",
+  "description": "This page gives a few pointers on how to access your Wizarr instance from outside your LAN.",
+  "source": "@site/docs/guides/remote-access.md",
+  "sourceDirName": "guides",
+  "slug": "/guides/remote-access",
+  "permalink": "/docs/guides/remote-access",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/guides/remote-access.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Python File Upload",
+    "permalink": "/docs/guides/python-file-upload"
+  },
+  "next": {
+    "title": "Remote Machine Learning",
+    "permalink": "/docs/guides/remote-machine-learning"
+  }
+}

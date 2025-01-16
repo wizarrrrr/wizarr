@@ -1,0 +1,29 @@
+{
+  "id": "developer/setup",
+  "title": "Setup",
+  "description": "If there's a feature you're planning to work on, just give us a heads up in Discord so we can:",
+  "source": "@site/docs/developer/setup.md",
+  "sourceDirName": "developer",
+  "slug": "/developer/setup",
+  "permalink": "/docs/developer/setup",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/developer/setup.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "sidebar_position": 2
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Architecture",
+    "permalink": "/docs/developer/architecture"
+  },
+  "next": {
+    "title": "Database Migrations",
+    "permalink": "/docs/developer/database-migrations"
+  }
+}

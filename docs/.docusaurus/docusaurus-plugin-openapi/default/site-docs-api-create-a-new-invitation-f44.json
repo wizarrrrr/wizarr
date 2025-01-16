@@ -1,0 +1,180 @@
+{
+  "type": "api",
+  "id": "create-a-new-invitation",
+  "title": "Create a new invitation",
+  "description": "",
+  "slug": "/create-a-new-invitation",
+  "frontMatter": {},
+  "api": {
+    "operationId": "InvitationController.create",
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "properties": {
+              "server": {
+                "type": "string"
+              },
+              "code": {
+                "type": "string"
+              },
+              "used": {
+                "type": "boolean"
+              },
+              "unlimited": {
+                "type": "boolean"
+              },
+              "users": {
+                "items": {},
+                "type": "array"
+              },
+              "libraries": {
+                "items": {},
+                "type": "array"
+              },
+              "durationAt": {
+                "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+                "type": "string"
+              },
+              "expiresAt": {
+                "pattern": "\\d{4}-[01]\\d-[0-3]\\dT[0-2]\\d:[0-5]\\d:[0-5]\\d.\\d+Z?",
+                "type": "string"
+              },
+              "usedAt": {
+                "oneOf": [
+                  {
+                    "format": "date",
+                    "type": "string"
+                  },
+                  {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                ]
+              }
+            },
+            "type": "object",
+            "required": [
+              "server",
+              "code"
+            ]
+          }
+        }
+      },
+      "description": "InvitationRequest",
+      "required": false
+    },
+    "responses": {
+      "200": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Invitations"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "description": "Create a new invitation",
+    "method": "post",
+    "path": "/api/invitations",
+    "parameters": [],
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "jsonRequestBodyExample": {
+      "server": "string",
+      "code": "string",
+      "used": true,
+      "unlimited": true,
+      "users": [
+        null
+      ],
+      "libraries": [
+        null
+      ],
+      "durationAt": "string",
+      "expiresAt": "string"
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Create a new invitation",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "invitations"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "header": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "POST",
+      "body": {
+        "mode": "raw",
+        "raw": "{\n  \"server\": \"<string>\",\n  \"code\": \"<string>\",\n  \"used\": \"<boolean>\",\n  \"unlimited\": \"<boolean>\",\n  \"durationAt\": \"<string>\",\n  \"expiresAt\": \"<string>\",\n  \"usedAt\": \"<date>\"\n}",
+        "options": {
+          "raw": {
+            "language": "json"
+          }
+        }
+      },
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "type": "any",
+            "value": "{{bearerToken}}",
+            "key": "token"
+          }
+        ]
+      }
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/create-a-new-invitation",
+  "previous": {
+    "title": "Get all invitations",
+    "permalink": "/docs/api/get-all-invitations"
+  },
+  "next": {
+    "title": "Get one invitation",
+    "permalink": "/docs/api/get-one-invitation"
+  }
+}

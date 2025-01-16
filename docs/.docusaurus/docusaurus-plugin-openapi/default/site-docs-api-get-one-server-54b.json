@@ -1,0 +1,118 @@
+{
+  "type": "api",
+  "id": "get-one-server",
+  "title": "Get one server",
+  "description": "",
+  "slug": "/get-one-server",
+  "frontMatter": {},
+  "api": {
+    "operationId": "ServerController.getOne",
+    "parameters": [
+      {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "pattern": "[A-Za-z0-9-]+",
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Media Servers"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "description": "Get one server",
+    "method": "get",
+    "path": "/api/servers/{id}",
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Get one server",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "servers",
+          ":id"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": [
+          {
+            "disabled": false,
+            "description": {
+              "content": "(Required) ",
+              "type": "text/plain"
+            },
+            "type": "any",
+            "value": "<string>",
+            "key": "id"
+          }
+        ]
+      },
+      "header": [
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "GET",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "type": "any",
+            "value": "{{bearerToken}}",
+            "key": "token"
+          }
+        ]
+      }
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/get-one-server",
+  "previous": {
+    "title": "Create a new server",
+    "permalink": "/docs/api/create-a-new-server"
+  },
+  "next": {
+    "title": "Update a server",
+    "permalink": "/docs/api/update-a-server"
+  }
+}

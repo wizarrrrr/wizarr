@@ -1,0 +1,26 @@
+{
+  "id": "developer/pr-checklist",
+  "title": "PR Checklist",
+  "description": "A minimal devcontainer is supplied with this repository. All commands can be executed directly inside this container to avoid tedious installation of the environment.",
+  "source": "@site/docs/developer/pr-checklist.md",
+  "sourceDirName": "developer",
+  "slug": "/developer/pr-checklist",
+  "permalink": "/docs/developer/pr-checklist",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/developer/pr-checklist.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "OpenAPI",
+    "permalink": "/docs/developer/open-api"
+  },
+  "next": {
+    "title": "Testing",
+    "permalink": "/docs/developer/testing"
+  }
+}

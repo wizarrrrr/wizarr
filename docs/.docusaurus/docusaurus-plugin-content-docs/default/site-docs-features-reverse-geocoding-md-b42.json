@@ -1,0 +1,26 @@
+{
+  "id": "features/reverse-geocoding",
+  "title": "Reverse Geocoding",
+  "description": "Wizarr supports local Reverse Geocoding using data from the GeoNames geographical database. This data is loaded into the Postgres database on each minor version upgrade, allowing all queries to be run on your own server.",
+  "source": "@site/docs/features/reverse-geocoding.md",
+  "sourceDirName": "features",
+  "slug": "/features/reverse-geocoding",
+  "permalink": "/docs/features/reverse-geocoding",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/features/reverse-geocoding.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Config File",
+    "permalink": "/docs/install/config-file"
+  },
+  "next": {
+    "title": "Searching",
+    "permalink": "/docs/features/searching"
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "type": "api",
+  "id": "get-one-1",
+  "title": "Get one",
+  "description": "",
+  "slug": "/get-one-1",
+  "frontMatter": {},
+  "api": {
+    "operationId": "RoleController.getOne",
+    "parameters": [
+      {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "pattern": "[0-9]+",
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Role"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "description": "Get one",
+    "method": "get",
+    "path": "/api/roles/{id}",
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Get one",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "roles",
+          ":id"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": [
+          {
+            "disabled": false,
+            "description": {
+              "content": "(Required) ",
+              "type": "text/plain"
+            },
+            "type": "any",
+            "value": "<string>",
+            "key": "id"
+          }
+        ]
+      },
+      "header": [
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "GET",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "type": "any",
+            "value": "{{bearerToken}}",
+            "key": "token"
+          }
+        ]
+      }
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/get-one-1",
+  "previous": {
+    "title": "Get all",
+    "permalink": "/docs/api/get-all-1"
+  },
+  "next": {
+    "title": "Get all",
+    "permalink": "/docs/api/get-all-2"
+  }
+}

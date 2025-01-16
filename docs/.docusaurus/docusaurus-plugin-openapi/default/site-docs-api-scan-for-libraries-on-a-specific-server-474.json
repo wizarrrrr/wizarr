@@ -1,0 +1,119 @@
+{
+  "type": "api",
+  "id": "scan-for-libraries-on-a-specific-server",
+  "title": "Scan for libraries on a specific server",
+  "description": "",
+  "slug": "/scan-for-libraries-on-a-specific-server",
+  "frontMatter": {},
+  "api": {
+    "operationId": "ServerLibraryController.scanLibraries",
+    "parameters": [
+      {
+        "in": "path",
+        "name": "serverId",
+        "required": true,
+        "schema": {
+          "pattern": "[^\\/#\\?]+?",
+          "type": "string"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Media Server Libraries"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "description": "Scan for libraries on a specific server",
+    "method": "get",
+    "path": "/api/libraries/scan/{serverId}",
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Scan for libraries on a specific server",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "libraries",
+          "scan",
+          ":serverId"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": [
+          {
+            "disabled": false,
+            "description": {
+              "content": "(Required) ",
+              "type": "text/plain"
+            },
+            "type": "any",
+            "value": "<string>",
+            "key": "serverId"
+          }
+        ]
+      },
+      "header": [
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "GET",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "type": "any",
+            "value": "{{bearerToken}}",
+            "key": "token"
+          }
+        ]
+      }
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/scan-for-libraries-on-a-specific-server",
+  "previous": {
+    "title": "Scan for libraries",
+    "permalink": "/docs/api/scan-for-libraries"
+  },
+  "next": {
+    "title": "Get all libraries",
+    "permalink": "/docs/api/get-all-libraries"
+  }
+}

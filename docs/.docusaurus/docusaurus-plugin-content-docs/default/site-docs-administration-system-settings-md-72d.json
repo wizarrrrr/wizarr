@@ -1,0 +1,26 @@
+{
+  "id": "administration/system-settings",
+  "title": "System Settings",
+  "description": "The admin user can manage settings for the Wizarr instance here.",
+  "source": "@site/docs/administration/system-settings.md",
+  "sourceDirName": "administration",
+  "slug": "/administration/system-settings",
+  "permalink": "/docs/administration/system-settings",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/administration/system-settings.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "System Integrity",
+    "permalink": "/docs/administration/system-integrity"
+  },
+  "next": {
+    "title": "User Management",
+    "permalink": "/docs/administration/user-management"
+  }
+}

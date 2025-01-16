@@ -1,0 +1,26 @@
+{
+  "id": "guides/database-queries",
+  "title": "Database Queries",
+  "description": "Keep in mind that mucking around in the database might set the moon on fire. Avoid modifying the database directly when possible, and always have current backups.",
+  "source": "@site/docs/guides/database-queries.md",
+  "sourceDirName": "guides",
+  "slug": "/guides/database-queries",
+  "permalink": "/docs/guides/database-queries",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/guides/database-queries.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Database GUI",
+    "permalink": "/docs/guides/database-gui"
+  },
+  "next": {
+    "title": "Docker Help",
+    "permalink": "/docs/guides/docker-help"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "features/automatic-backup",
+  "title": "Automatic Backup",
+  "description": "Wizarr supports uploading photos and videos from your mobile device to the server automatically.",
+  "source": "@site/docs/features/automatic-backup.md",
+  "sourceDirName": "features",
+  "slug": "/features/automatic-backup",
+  "permalink": "/docs/features/automatic-backup",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/features/automatic-backup.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Config File",
+    "permalink": "/docs/install/config-file"
+  },
+  "next": {
+    "title": "The Wizarr CLI",
+    "permalink": "/docs/features/command-line-interface"
+  }
+}

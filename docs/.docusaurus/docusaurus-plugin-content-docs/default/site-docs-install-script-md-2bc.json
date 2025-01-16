@@ -1,0 +1,29 @@
+{
+  "id": "install/script",
+  "title": "Install script [Experimental]",
+  "description": "This method is experimental and not currently recommended for production use. For production, please refer to installing with Docker Compose.",
+  "source": "@site/docs/install/script.md",
+  "sourceDirName": "install",
+  "slug": "/install/script",
+  "permalink": "/docs/install/script",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/install/script.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 20,
+  "frontMatter": {
+    "sidebar_position": 20
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Requirements",
+    "permalink": "/docs/install/requirements"
+  },
+  "next": {
+    "title": "Docker Compose [Recommended]",
+    "permalink": "/docs/install/docker-compose"
+  }
+}

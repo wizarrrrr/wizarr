@@ -1,0 +1,29 @@
+{
+  "id": "install/all-in-one",
+  "title": "All-In-One [Community]",
+  "description": "This is a community contribution and not officially supported by the Wizarr team, but included here for convenience.",
+  "source": "@site/docs/install/all-in-one.md",
+  "sourceDirName": "install",
+  "slug": "/install/all-in-one",
+  "permalink": "/docs/install/all-in-one",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/install/all-in-one.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 70,
+  "frontMatter": {
+    "sidebar_position": 70
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Unraid",
+    "permalink": "/docs/install/unraid"
+  },
+  "next": {
+    "title": "TrueNAS SCALE [Community]",
+    "permalink": "/docs/install/truenas"
+  }
+}

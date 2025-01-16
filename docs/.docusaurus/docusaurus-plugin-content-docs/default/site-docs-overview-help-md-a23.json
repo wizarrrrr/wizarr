@@ -1,0 +1,29 @@
+{
+  "id": "overview/help",
+  "title": "Help Me!",
+  "description": "Running into an issue or have a question? Try the following:",
+  "source": "@site/docs/overview/help.md",
+  "sourceDirName": "overview",
+  "slug": "/overview/help",
+  "permalink": "/docs/overview/help",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/overview/help.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "sidebar_position": 6
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Support The Project",
+    "permalink": "/docs/overview/support-the-project"
+  },
+  "next": {
+    "title": "Requirements",
+    "permalink": "/docs/install/requirements"
+  }
+}

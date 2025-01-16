@@ -1,0 +1,29 @@
+{
+  "id": "install/post-install",
+  "title": "Post installation steps",
+  "description": "A list of common steps to take after installing Wizarr include:",
+  "source": "@site/docs/install/post-install.mdx",
+  "sourceDirName": "install",
+  "slug": "/install/post-install",
+  "permalink": "/docs/install/post-install",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/install/post-install.mdx",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 90,
+  "frontMatter": {
+    "sidebar_position": 90
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Environment Variables",
+    "permalink": "/docs/install/environment-variables"
+  },
+  "next": {
+    "title": "Config File",
+    "permalink": "/docs/install/config-file"
+  }
+}

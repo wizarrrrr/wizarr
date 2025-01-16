@@ -1,0 +1,429 @@
+{
+  "/__docusaurus/debug-5ff": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/config-5ba": {
+    "__comp": "__comp---theme-debug-config-23-a-2ff",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/content-a2b": {
+    "__comp": "__comp---theme-debug-contentba-8-ce7",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    },
+    "__props": "__props---docusaurus-debug-content-3-c-0-be2"
+  },
+  "/__docusaurus/debug/globalData-c3c": {
+    "__comp": "__comp---theme-debug-global-dataede-0fa",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/metadata-156": {
+    "__comp": "__comp---theme-debug-site-metadata-68-e-3d4",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/registry-88c": {
+    "__comp": "__comp---theme-debug-registry-679-501",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/__docusaurus/debug/routes-000": {
+    "__comp": "__comp---theme-debug-routes-946-699",
+    "__context": {
+      "plugin": "plugin---docusaurus-debugb-38-ad3"
+    }
+  },
+  "/markdown-page-3d7": {
+    "__comp": "__comp---theme-mdx-page-1-f-3-b90",
+    "__context": {
+      "plugin": "plugin---markdown-pagea-74-7b5"
+    },
+    "content": "content---markdown-page-393-028"
+  },
+  "/privacy-policy-072": {
+    "__comp": "__comp---site-src-pages-privacy-policy-tsxf-53-916",
+    "__context": {
+      "plugin": "plugin---markdown-pagea-74-7b5"
+    },
+    "config": "config---privacy-policy-5-e-9-8a8"
+  },
+  "/roadmap-687": {
+    "__comp": "__comp---site-src-pages-roadmap-tsx-24-e-7ab",
+    "__context": {
+      "plugin": "plugin---markdown-pagea-74-7b5"
+    },
+    "config": "config---privacy-policy-5-e-9-8a8"
+  },
+  "/docs/api-4c5": {
+    "__comp": "__comp---theme-api-pageac-3-ebb",
+    "__context": {
+      "plugin": "plugin---docs-api-928-ac6"
+    },
+    "apiMetadata": "apiMetadata---docs-apib-52-3fc"
+  },
+  "/docs/api-bef": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-apif-68-6a0"
+  },
+  "/docs/api/create-a-new-invitation-c41": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-create-a-new-invitation-821-7f3"
+  },
+  "/docs/api/create-a-new-server-732": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-create-a-new-server-9-fa-b2a"
+  },
+  "/docs/api/delete-a-server-86d": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-delete-a-server-768-6f8"
+  },
+  "/docs/api/delete-an-invitation-29e": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-delete-an-invitation-763-290"
+  },
+  "/docs/api/get-all-d61": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-allc-3-f-999"
+  },
+  "/docs/api/get-all-1-b2b": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-all-158-c-94b"
+  },
+  "/docs/api/get-all-2-c36": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-all-2357-927"
+  },
+  "/docs/api/get-all-invitations-e4a": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-all-invitations-95-f-78d"
+  },
+  "/docs/api/get-all-libraries-ae8": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-all-libraries-8-f-5-c41"
+  },
+  "/docs/api/get-all-servers-933": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-all-serverse-71-58a"
+  },
+  "/docs/api/get-all-users-4bd": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-all-users-913-38d"
+  },
+  "/docs/api/get-one-fbe": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-onec-4-e-8d1"
+  },
+  "/docs/api/get-one-1-06e": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-one-16-a-2-30b"
+  },
+  "/docs/api/get-one-2-6aa": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-one-2-ae-4-6d1"
+  },
+  "/docs/api/get-one-invitation-bf7": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-one-invitation-2-c-5-c26"
+  },
+  "/docs/api/get-one-library-22a": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-one-library-3-a-6-cc3"
+  },
+  "/docs/api/get-one-server-f56": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-one-server-6-ee-478"
+  },
+  "/docs/api/get-the-current-user-1e8": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-get-the-current-userf-92-782"
+  },
+  "/docs/api/health-c5c": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-health-4-b-4-124"
+  },
+  "/docs/api/introduction-030": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-apif-68-6a0"
+  },
+  "/docs/api/login-to-the-server-with-your-username-and-password-f0f": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-login-to-the-server-with-your-username-and-password-7-f-3-636"
+  },
+  "/docs/api/logout-of-the-server-dd7": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-logout-of-the-serverd-21-7e6"
+  },
+  "/docs/api/refresh-jwt-token-15c": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-refresh-jwt-token-28-b-3c7"
+  },
+  "/docs/api/register-a-new-user-93f": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-register-a-new-user-147-93f"
+  },
+  "/docs/api/scan-for-libraries-d5f": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-scan-for-libraries-448-d5c"
+  },
+  "/docs/api/scan-for-libraries-on-a-specific-server-8b0": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-scan-for-libraries-on-a-specific-server-6-fe-edc"
+  },
+  "/docs/api/scan-for-users-7cb": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-scan-for-usersad-6-aad"
+  },
+  "/docs/api/scan-for-users-on-a-specific-server-e17": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-scan-for-users-on-a-specific-server-781-779"
+  },
+  "/docs/api/server-d6f": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-server-6-a-5-563"
+  },
+  "/docs/api/supported-servers-179": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-supported-serversa-52-0ad"
+  },
+  "/docs/api/update-a-server-50b": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-update-a-servera-8-a-aac"
+  },
+  "/docs/api/update-an-invitation-0e3": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-update-an-invitation-596-f28"
+  },
+  "/docs/api/update-information-e0a": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-update-informationfa-3-f4d"
+  },
+  "/docs/api/version-394": {
+    "__comp": "__comp---theme-api-item-4-c-5-a29",
+    "content": "content---docs-api-version-307-140"
+  },
+  "/docs-f74": {
+    "__comp": "__comp---theme-docs-root-5-e-9-0b6",
+    "__context": {
+      "plugin": "plugin---docsaba-d7c"
+    }
+  },
+  "/docs-80a": {
+    "__comp": "__comp---theme-doc-version-roota-7-b-5de",
+    "__props": "__props---docs-005-788"
+  },
+  "/docs-ad3": {
+    "__comp": "__comp---theme-doc-roota-94-67a"
+  },
+  "/docs/administration/backup-and-restore-564": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-backup-and-restore-358-49e"
+  },
+  "/docs/administration/email-notification-63e": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-email-notification-52-c-81e"
+  },
+  "/docs/administration/jobs-workers-cf8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-jobs-workers-7-d-6-feb"
+  },
+  "/docs/administration/oauth-ee4": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-oauth-009-ecc"
+  },
+  "/docs/administration/postgres-standalone-882": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-postgres-standalonee-7-b-314"
+  },
+  "/docs/administration/reverse-proxy-c71": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-reverse-proxy-69-f-800"
+  },
+  "/docs/administration/server-commands-044": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-server-commands-9-a-6-05c"
+  },
+  "/docs/administration/server-stats-65f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-server-statsfd-1-ba3"
+  },
+  "/docs/administration/storage-template-d41": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-storage-template-439-529"
+  },
+  "/docs/administration/system-integrity-178": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-system-integrity-9-a-2-093"
+  },
+  "/docs/administration/system-settings-3b2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-system-settings-72-d-91c"
+  },
+  "/docs/administration/user-management-e3b": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-administration-user-managemente-40-2a1"
+  },
+  "/docs/developer/architecture-ebd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-architecture-98-d-f3b"
+  },
+  "/docs/developer/database-migrations-894": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-database-migrationse-72-c9e"
+  },
+  "/docs/developer/directories-b70": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-directories-268-62a"
+  },
+  "/docs/developer/open-api-a42": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-open-api-024-2dd"
+  },
+  "/docs/developer/pr-checklist-1c9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-pr-checklistb-80-0f3"
+  },
+  "/docs/developer/setup-22d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-setup-5-be-9d2"
+  },
+  "/docs/developer/testing-f8d": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-testingfcc-361"
+  },
+  "/docs/developer/translations-bda": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-translations-094-092"
+  },
+  "/docs/developer/troubleshooting-407": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-developer-troubleshooting-91-a-12e"
+  },
+  "/docs/FAQ-f74": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-faq-0-b-1-3f3"
+  },
+  "/docs/guides/custom-locations-3d6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-custom-locations-411-281"
+  },
+  "/docs/guides/custom-map-styles-0f5": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-custom-map-stylesbfa-abf"
+  },
+  "/docs/guides/database-gui-d74": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-database-gui-1-de-267"
+  },
+  "/docs/guides/database-queries-31c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-database-queries-551-f38"
+  },
+  "/docs/guides/docker-help-976": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-docker-help-922-606"
+  },
+  "/docs/guides/external-library-cdc": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-external-library-4-bd-3d3"
+  },
+  "/docs/guides/python-file-upload-6e6": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-python-file-uploade-4-f-126"
+  },
+  "/docs/guides/remote-access-18c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-remote-accessd-6-b-75c"
+  },
+  "/docs/guides/remote-machine-learning-6c8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-remote-machine-learning-285-241"
+  },
+  "/docs/guides/scaling-immich-970": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-scaling-immich-35-e-012"
+  },
+  "/docs/guides/smtp-gmail-7fd": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-smtp-gmailfef-441"
+  },
+  "/docs/guides/template-backup-script-4f4": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-guides-template-backup-scripte-89-5e2"
+  },
+  "/docs/install/all-in-one-42c": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-all-in-one-835-06e"
+  },
+  "/docs/install/config-file-ab2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-config-file-6-f-4-b69"
+  },
+  "/docs/install/docker-compose-6c8": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-docker-composed-25-103"
+  },
+  "/docs/install/environment-variables-78a": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-environment-variables-240-c33"
+  },
+  "/docs/install/kubernetes-7ca": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-kubernetes-417-33f"
+  },
+  "/docs/install/portainer-827": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-portainer-307-e90"
+  },
+  "/docs/install/post-install-fa7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-post-installa-1-d-7ed"
+  },
+  "/docs/install/requirements-ee3": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-requirements-78-f-04a"
+  },
+  "/docs/install/script-8c2": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-script-2-bc-10f"
+  },
+  "/docs/install/truenas-937": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-truenas-8-f-3-6dc"
+  },
+  "/docs/install/unraid-0d9": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-install-unraidea-8-fe4"
+  },
+  "/docs/overview/help-82f": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-overview-helpa-23-8b2"
+  },
+  "/docs/overview/introduction-045": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-overview-introductiond-42-500"
+  },
+  "/docs/overview/quick-start-9e7": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-overview-quick-starta-2-d-bdb"
+  },
+  "/docs/overview/support-the-project-3f1": {
+    "__comp": "__comp---theme-doc-item-178-a40",
+    "content": "content---docs-overview-support-the-projectd-62-c2b"
+  },
+  "/-e5f": {
+    "__comp": "__comp---site-src-pages-index-tsx-1-df-d3e",
+    "__context": {
+      "plugin": "plugin---markdown-pagea-74-7b5"
+    },
+    "config": "config---privacy-policy-5-e-9-8a8"
+  }
+}

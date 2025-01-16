@@ -1,0 +1,29 @@
+{
+  "id": "install/kubernetes",
+  "title": "Kubernetes",
+  "description": "You can deploy Wizarr on Kubernetes using the official Helm chart.",
+  "source": "@site/docs/install/kubernetes.md",
+  "sourceDirName": "install",
+  "slug": "/install/kubernetes",
+  "permalink": "/docs/install/kubernetes",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/install/kubernetes.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "sidebarPosition": 40,
+  "frontMatter": {
+    "sidebar_position": 40
+  },
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Docker Compose [Recommended]",
+    "permalink": "/docs/install/docker-compose"
+  },
+  "next": {
+    "title": "Portainer",
+    "permalink": "/docs/install/portainer"
+  }
+}

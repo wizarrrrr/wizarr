@@ -1,0 +1,81 @@
+{
+  "type": "api",
+  "id": "supported-servers",
+  "title": "Supported servers",
+  "description": "",
+  "slug": "/supported-servers",
+  "frontMatter": {},
+  "api": {
+    "operationId": "SupportedServerController.supportedServers",
+    "responses": {
+      "200": {
+        "content": {
+          "application/json": {}
+        },
+        "description": "Successful response"
+      }
+    },
+    "tags": [
+      "Media Servers"
+    ],
+    "description": "Supported servers",
+    "method": "get",
+    "path": "/api/supported-servers",
+    "parameters": [],
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "info": {
+      "title": "Wizarr API",
+      "version": "v3.5.1",
+      "description": "The Official Home of Wizarr, your Media Management Software",
+      "contact": {
+        "name": "Wizarr Support",
+        "email": "support@wizarr.org"
+      },
+      "license": {
+        "name": "MIT License",
+        "url": "https://opensource.org/license/mit"
+      }
+    },
+    "postman": {
+      "name": "Supported servers",
+      "description": {
+        "type": "text/plain"
+      },
+      "url": {
+        "path": [
+          "api",
+          "supported-servers"
+        ],
+        "host": [
+          "{{baseUrl}}"
+        ],
+        "query": [],
+        "variable": []
+      },
+      "header": [
+        {
+          "key": "Accept",
+          "value": "application/json"
+        }
+      ],
+      "method": "GET"
+    }
+  },
+  "source": "@site/../open-api/wizarr-openapi-specs.json",
+  "sourceDirName": ".",
+  "permalink": "/docs/api/supported-servers",
+  "previous": {
+    "title": "Delete a server",
+    "permalink": "/docs/api/delete-a-server"
+  },
+  "next": {
+    "title": "Get all invitations",
+    "permalink": "/docs/api/get-all-invitations"
+  }
+}

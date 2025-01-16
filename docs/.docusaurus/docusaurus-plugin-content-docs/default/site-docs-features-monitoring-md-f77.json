@@ -1,0 +1,26 @@
+{
+  "id": "features/monitoring",
+  "title": "Monitoring",
+  "description": "Overview",
+  "source": "@site/docs/features/monitoring.md",
+  "sourceDirName": "features",
+  "slug": "/features/monitoring",
+  "permalink": "/docs/features/monitoring",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/features/monitoring.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "Config File",
+    "permalink": "/docs/install/config-file"
+  },
+  "next": {
+    "title": "Partner Sharing",
+    "permalink": "/docs/features/partner-sharing"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "administration/postgres-standalone",
+  "title": "Pre-existing Postgres",
+  "description": "While not officially recommended, it is possible to run Wizarr using a pre-existing Postgres server. To use this setup, you should have a baseline level of familiarity with Postgres and the Linux command line. If you do not have these, we recommend using the default setup with a dedicated Postgres container.",
+  "source": "@site/docs/administration/postgres-standalone.md",
+  "sourceDirName": "administration",
+  "slug": "/administration/postgres-standalone",
+  "permalink": "/docs/administration/postgres-standalone",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/administration/postgres-standalone.md",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "OAuth Authentication",
+    "permalink": "/docs/administration/oauth"
+  },
+  "next": {
+    "title": "Reverse Proxy",
+    "permalink": "/docs/administration/reverse-proxy"
+  }
+}

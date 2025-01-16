@@ -1,0 +1,22 @@
+{
+  "id": "community-projects",
+  "title": "Community Projects",
+  "description": "This page lists community projects that are built around Wizarr, but not officially supported by the development team.",
+  "source": "@site/docs/community-projects.mdx",
+  "sourceDirName": ".",
+  "slug": "/community-projects",
+  "permalink": "/docs/community-projects",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/wizarrrrr/wizarr/tree/main/docs/docs/community-projects.mdx",
+  "tags": [],
+  "version": "current",
+  "lastUpdatedBy": "Author",
+  "lastUpdatedAt": 1539502055000,
+  "frontMatter": {},
+  "sidebar": "tutorialSidebar",
+  "previous": {
+    "title": "FAQ",
+    "permalink": "/docs/FAQ"
+  }
+}
