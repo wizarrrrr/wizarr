@@ -23,20 +23,20 @@ RUN mkdir /usr/wizarr/apps
 RUN cp /usr/src/docker/scripts/*.sh /usr/wizarr/
 
 # Move the frontend, backend, and libs to appropriate locations in the container
-RUN mv /usr/src/dist/apps/wizarr-frontend /usr/wizarr/apps/web
-RUN mv /usr/src/dist/apps/wizarr-backend /usr/wizarr/apps/server
-RUN mv /usr/src/dist/libs /usr/wizarr/apps/libs
-RUN mv /usr/src/modules /usr/wizarr
+RUN cp /usr/src/dist/apps/wizarr-frontend /usr/wizarr/apps/web
+RUN cp /usr/src/dist/apps/wizarr-backend /usr/wizarr/apps/server
+RUN cp /usr/src/dist/libs /usr/wizarr/apps/libs
+RUN cp /usr/src/modules /usr/wizarr
 RUN cp /usr/src/*.json /usr/wizarr/
 
 # Copy the custom nginx configuration file into the container
-RUN mv /usr/src/docker/nginx-main.conf /etc/nginx/conf.d/wizarr.conf
+RUN cp /usr/src/docker/nginx-main.conf /etc/nginx/conf.d/wizarr.conf
 
 # Remove default nginx configuration files
 RUN rm -f /etc/nginx/conf.d/default.conf /etc/nginx/sites-enabled/default
 
 # Copy a custom .bashrc file for the root user
-RUN mv /usr/src/docker/scripts/.bashrc /root/.bashrc
+RUN cp /usr/src/docker/scripts/.bashrc /root/.bashrc
 
 # Make sure the .bashrc script is executable
 RUN chmod +x /root/.bashrc
