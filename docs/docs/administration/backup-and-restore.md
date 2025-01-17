@@ -23,7 +23,7 @@ It is not recommended to directly backup the `DATABASE_DIR` folder. Doing so whi
 
 For convenience, Wizarr will automatically create database backups by default. The backups are stored in `STORAGE_DIR/backups`.  
 As mentioned above, you should make your own backup of these as noted below.  
-You can adjust the schedule and amount of kept backups in the [admin settings](http://docs.wizarr.org/admin/system-settings?isOpen=backup).  
+You can adjust the schedule and amount of kept backups in the [admin settings](http://wizarr.org/admin/system-settings?isOpen=backup).  
 By default, Wizarr will keep the last 14 backups and create a new backup every day at 1:00 AM.
 
 #### Restoring

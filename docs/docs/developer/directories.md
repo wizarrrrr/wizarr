@@ -11,7 +11,7 @@ Our [GitHub Repository](https://github.com/wizarrrrr/wizarr) is a [monorepo](htt
 | `.github/`              | Github templates and action workflows                                          |
 | `.vscode/`              | VSCode debug launch profiles                                                   |
 | `docker/`               | Docker compose resources for dev, test, production                             |
-| `docs/`                 | Source code for the [https://docs.wizarr.org](https://docs.wizarr.org) website |
+| `docs/`                 | Source code for the [https://wizarr.org](https://wizarr.org) website |
 | `misc/release/`         | Scripts for version bumps and draft releases                                   |
 | `apps/wizarr-backend/`  | Source code for the `wizarr-server` docker image                               |
 | `apps/wizarr-frontend/` | Source code for the `web`                                                      |

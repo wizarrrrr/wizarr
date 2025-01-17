@@ -7,7 +7,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 const config: Config = {
     title: "Wizarr",
     tagline: "Server Managment Wizard",
-    url: "https://docs.wizarr.org",
+    url: "https://wizarr.org",
     baseUrl: "/",
     onBrokenLinks: "warn",
     onBrokenMarkdownLinks: "warn",
