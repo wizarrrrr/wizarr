@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Initializing Wizarr $WIZARR_SOURCE_REF"
+echo "Initializing Wizarr v$WIZARR_PACKAGE_VERSION"
 
 # Start Nginx in the background environment
 nginx &
@@ -10,7 +10,8 @@ until $(curl --output /dev/null --silent --head --fail http://localhost:5690); d
     printf '.'
     sleep 5
 done
+
 echo "Nginx started successfully"
 
 # Start the Backend Server API
-exec node /usr/src/app/server/src/main.js "$@"
+exec node /usr/wizarr/apps/server/src/main.js "$@"

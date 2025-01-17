@@ -35,7 +35,7 @@ ENDCOLOR="\e[0m"
 . /etc/os-release
 
 # Get latest version
-WIZARR_VERSION=$(< /latest)
+WIZARR_VERSION=$(node -p "require('/usr/wizarr/package.json').version")
 WIZARR_LATEST=$(curl -s --max-time 5 https://api.github.com/repos/wizarrrrr/wizarr/releases/latest | grep tag_name | cut -d '"' -f 4 || echo "${WIZARR_VERSION}")
 read -r WIZARR_VERSION_MIN _ <<< "$WIZARR_VERSION"
 

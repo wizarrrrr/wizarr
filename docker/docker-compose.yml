@@ -11,11 +11,11 @@ name: wizarr
 services:
     wizarr-server:
         container_name: wizarr_server
-        image: ghcr.io/wizarrrrr/wizarr:${WIZARR_VERSION:-release}
+        image: ghcr.io/wizarrrrr/wizarr:${WIZARR_IMAGE_VERSION:-release}
         volumes:
             # Do not edit the next line. If you want to change the storage location on your system, edit the value of STORAGE_DIR in the .env file
-            - ${STORAGE_DIR}:/usr/src/data/storage
-            - ${DATABASE_DIR}:/usr/src/data/database
+            - ${STORAGE_DIR}:/usr/wizarr/data/storage
+            - ${DATABASE_DIR}:/usr/wizarr/data/database
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env

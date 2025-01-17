@@ -14,8 +14,8 @@ services:
             target: dev
         restart: always
         volumes:
-            - ${STORAGE_DIR}:/usr/src/data/storage
-            - ${DATABASE_DIR}:/usr/src/data/database
+            - ${STORAGE_DIR}:/usr/wizarr/data/storage
+            - ${DATABASE_DIR}:/usr/wizarr/data/database
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
