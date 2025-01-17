@@ -88,8 +88,8 @@ export async function getLatestBetaVersion() {
 
 export async function getCurrentVersion(): Promise<string> {
     // Check if WIZARR_VERSION exists
-    if (process.env.WIZARR_VERSION) {
-        return "v" + process.env.WIZARR_VERSION || "0.0.0";
+    if (process.env.WIZARR_PACKAGE_VERSION) {
+        return "v" + process.env.WIZARR_PACKAGE_VERSION || "0.0.0";
     }
 
     // Read the first line of the latest file

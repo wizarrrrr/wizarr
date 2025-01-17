@@ -68,7 +68,7 @@ ENV WIZARR_REPOSITORY_URL=https://github.com/wizarrrrr/wizarr
 ENV WIZARR_SOURCE_REF=${BUILD_SOURCE_REF}
 ENV WIZARR_SOURCE_COMMIT=${BUILD_SOURCE_COMMIT}
 ENV WIZARR_SOURCE_URL=https://github.com/wizarrrrr/wizarr/commit/${BUILD_SOURCE_COMMIT}
-ENV WIZARR_VERSION=$PACKAGE_VERSION
+ENV WIZARR_PACKAGE_VERSION=$PACKAGE_VERSION
 
 # Clear up unnecessary files
 RUN rm -rf /usr/src/apps /usr/src/dist /usr/src/libs
