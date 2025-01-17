@@ -5,6 +5,7 @@ import { latestFile } from "../config/paths";
 import { getLatestStableVersion as getLatestStableVersionGithub, getLatestBetaVersion as getLatestBetaVersionGithub } from "./github.helper";
 import { cache, versionCache, ONE_HOUR } from "./cache.helper";
 import { tryCatchAsync } from "./catch.helper";
+import path from "path";
 
 export const versionRegex = /v(\d+\.\d+\.\d+)/;
 export const versionBetaRegex = /v(\d+\.\d+\.\d+-beta\.\d+)/;
@@ -86,15 +87,14 @@ export async function getLatestBetaVersion() {
 }
 
 export async function getCurrentVersion(): Promise<string> {
-    // Check if the latest file exists
-    if (!fs.existsSync(latestFile)) {
-        // If it doesn't, return the current version
-        return process.env.npm_package_version || "0.0.0";
+    // Check if WIZARR_VERSION exists
+    if (process.env.WIZARR_VERSION) {
+        return "v" + process.env.WIZARR_VERSION || "0.0.0";
     }
 
     // Read the first line of the latest file
-    const version = fs.readFileSync(latestFile, "utf8").split("\n")[0];
-
+    const version = require(path.resolve(__dirname, '../../../../../', 'package.json')).version;
+    
     // Return the version
     return "v" + version || "0.0.0";
 }

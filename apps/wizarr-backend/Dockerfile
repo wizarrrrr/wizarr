@@ -19,6 +19,7 @@ RUN apt-get update && \
     nginx \
     nmap \
     toilet \
+    bash \
     figlet \
     curl \
     tini \
@@ -47,6 +48,10 @@ COPY docker/scripts/.bashrc /root/.bashrc
 # Make sure the .bashrc script is executable
 RUN chmod +x /root/.bashrc
 
+# Extract the version from package.json and set it as an environment variable
+ARG PACKAGE_VERSION
+RUN PACKAGE_VERSION=$(node -p "require('/usr/src/package.json').version") && echo $PACKAGE_VERSION
+
 # Set build-related arguments (for versioning and tracking purposes)
 ARG BUILD_ID
 ARG BUILD_IMAGE
@@ -63,6 +68,7 @@ ENV WIZARR_REPOSITORY_URL=https://github.com/wizarrrrr/wizarr
 ENV WIZARR_SOURCE_REF=${BUILD_SOURCE_REF}
 ENV WIZARR_SOURCE_COMMIT=${BUILD_SOURCE_COMMIT}
 ENV WIZARR_SOURCE_URL=https://github.com/wizarrrrr/wizarr/commit/${BUILD_SOURCE_COMMIT}
+ENV WIZARR_VERSION=$PACKAGE_VERSION
 
 # Clear up unnecessary files
 RUN rm -rf /usr/src/apps /usr/src/dist /usr/src/libs
