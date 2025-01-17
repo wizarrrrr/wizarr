@@ -48,7 +48,7 @@ RUN mv /usr/src/docker/nginx-main.conf /etc/nginx/conf.d/wizarr.conf
 RUN rm -f /etc/nginx/conf.d/default.conf /etc/nginx/sites-enabled/default
 
 # Copy a custom .bashrc file for the root user
-COPY /usr/src/docker/scripts/.bashrc /root/.bashrc
+RUN mv /usr/src/docker/scripts/.bashrc /root/.bashrc
 
 # Make sure the .bashrc script is executable
 RUN chmod +x /root/.bashrc
