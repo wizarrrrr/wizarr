@@ -5,7 +5,7 @@ FROM ghcr.io/wizarrrrr/base-server-dev:main AS dev
 WORKDIR /usr/src/
 
 # Copy the current directory's content into the container
-COPY ./* /usr/src/
+COPY . .
 
 # Install the dependencies with npm clean install
 RUN npm ci
@@ -40,10 +40,6 @@ RUN mv /usr/src/dist/apps/wizarr-backend /usr/wizarr/apps/server
 RUN mv /usr/src/dist/libs /usr/wizarr/apps/libs
 RUN mv /usr/src/modules /usr/wizarr
 RUN mv /usr/src/*.json /usr/wizarr
-
-# Husky wants .git and .husky folders
-RUN mv -rf /usr/src/.git /usr/wizarr/.git
-RUN mv -rf /usr/src/.husky /usr/wizarr/.husky
 
 # Copy the custom nginx configuration file into the container
 RUN mv /usr/src/docker/nginx-main.conf /etc/nginx/conf.d/wizarr.conf
