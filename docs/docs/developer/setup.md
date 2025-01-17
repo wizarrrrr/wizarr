@@ -20,10 +20,10 @@ Thanks for being interested in contributing 😊
 
 This environment includes the services below. Additional details are available in each service's README.
 
--   Server - [`/apps/wizarr-backend`](https://github.com/wizarrrrr/wizarr/tree/main/apps/wizarr-backend)
--   Web app - [`/apps/wizarr-frontend`](https://github.com/wizarrrrr/wizarr/tree/main/apps/wizarr-frontend)
--   Redis
--   PostgreSQL development database with exposed port `5432` so you can use any database client to access it
+- Server - [`/apps/wizarr-backend`](https://github.com/wizarrrrr/wizarr/tree/main/apps/wizarr-backend)
+- Web app - [`/apps/wizarr-frontend`](https://github.com/wizarrrrr/wizarr/tree/main/apps/wizarr-frontend)
+- Redis
+- PostgreSQL development database with exposed port `5432` so you can use any database client to access it
 
 All the services are packaged to run as with single Docker Compose command.
 
@@ -48,8 +48,8 @@ You can access the web from `http://your-machine-ip:3000` or `http://localhost:3
 
 **Notes:**
 
--   The "web" development container runs with uid 1000. If that uid does not have read/write permissions on the mounted volumes, you may encounter errors
--   In case of rootless docker setup, you need to use root within the container, otherwise you will encounter read/write permission related errors, see comments in `docker/docker-compose.dev.yml`.
+- The "web" development container runs with uid 1000. If that uid does not have read/write permissions on the mounted volumes, you may encounter errors
+- In case of rootless docker setup, you need to use root within the container, otherwise you will encounter read/write permission related errors, see comments in `docker/docker-compose.dev.yml`.
 
 ## IDE setup
 

@@ -8,19 +8,19 @@ Hardware and software requirements for Wizarr:
 
 ## Hardware
 
--   **OS**: Recommended Linux or \*nix operating system (Ubuntu, Debian, etc).
-    -   Non-Linux OSes tend to provide a poor Docker experience and are strongly discouraged.
-        Our ability to assist with setup or troubleshooting on non-Linux OSes will be severely reduced.
-        If you still want to try to use a non-Linux OS, you can set it up as follows:
-        -   Windows: [Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/) or [WSL 2](https://docs.docker.com/desktop/wsl/).
-        -   macOS: [Docker Desktop on Mac](https://docs.docker.com/desktop/install/mac-install/).
-    -   Wizarr runs well in a virtualized environment when running in a full virtual machine.
-        The use of Docker in LXC containers is [not recommended](https://pve.proxmox.com/wiki/Linux_Container), but may be possible for advanced users.
-        If you have issues, we recommend that you switch to a supported VM deployment.
--   **RAM**: Minimum 4GB, recommended 6GB.
--   **CPU**: Minimum 2 cores, recommended 4 cores.
--   **Storage**: Recommended Unix-compatible filesystem (EXT4, ZFS, APFS, etc.) with support for user/group ownership and permissions.
-    -   The generation of thumbnails and transcoded video can increase the size of the photo library by 10-20% on average.
+- **OS**: Recommended Linux or \*nix operating system (Ubuntu, Debian, etc).
+    - Non-Linux OSes tend to provide a poor Docker experience and are strongly discouraged.
+      Our ability to assist with setup or troubleshooting on non-Linux OSes will be severely reduced.
+      If you still want to try to use a non-Linux OS, you can set it up as follows:
+        - Windows: [Docker Desktop on Windows](https://docs.docker.com/desktop/install/windows-install/) or [WSL 2](https://docs.docker.com/desktop/wsl/).
+        - macOS: [Docker Desktop on Mac](https://docs.docker.com/desktop/install/mac-install/).
+    - Wizarr runs well in a virtualized environment when running in a full virtual machine.
+      The use of Docker in LXC containers is [not recommended](https://pve.proxmox.com/wiki/Linux_Container), but may be possible for advanced users.
+      If you have issues, we recommend that you switch to a supported VM deployment.
+- **RAM**: Minimum 4GB, recommended 6GB.
+- **CPU**: Minimum 2 cores, recommended 4 cores.
+- **Storage**: Recommended Unix-compatible filesystem (EXT4, ZFS, APFS, etc.) with support for user/group ownership and permissions.
+    - The generation of thumbnails and transcoded video can increase the size of the photo library by 10-20% on average.
 
 :::tip
 Good performance and a stable connection to the Postgres database is critical to a smooth Wizarr experience.
@@ -34,8 +34,8 @@ Windows users may run into issues with non-Unix-compatible filesystems, see belo
 
 Wizarr requires [**Docker**](https://docs.docker.com/get-started/get-docker/) with the **Docker Compose plugin**:
 
--   **Docker Engine**: This CLI variant is designed for Linux servers (or Windows via WSL2).
--   **Docker Desktop**: This GUI variant is **not recommended** for Linux, but is available for Windows or macOS.
+- **Docker Engine**: This CLI variant is designed for Linux servers (or Windows via WSL2).
+- **Docker Desktop**: This GUI variant is **not recommended** for Linux, but is available for Windows or macOS.
 
 The Compose plugin will be installed by both Docker Engine and Desktop by following the linked installation guides; it can also be [separately installed](https://docs.docker.com/compose/install/).
 
