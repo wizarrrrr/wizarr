@@ -13,18 +13,6 @@ RUN npm ci
 # Build the application using npm
 RUN npm run build
 
-# Install essential packages and utilities in the container
-RUN apt-get update && \
-    apt-get install -y \
-    nginx \
-    nmap \
-    toilet \
-    bash \
-    figlet \
-    curl \
-    tini \
-    && apt-get clean
-
 # Set the working directory inside the container
 WORKDIR /usr/wizarr/
 
@@ -32,14 +20,14 @@ WORKDIR /usr/wizarr/
 RUN mkdir /usr/wizarr/apps
 
 # Copy shell scripts into the container
-RUN mv /usr/src/docker/scripts/*.sh /usr/wizarr
+RUN mv /usr/src/docker/scripts/*.sh /usr/wizarr/
 
 # Move the frontend, backend, and libs to appropriate locations in the container
 RUN mv /usr/src/dist/apps/wizarr-frontend /usr/wizarr/apps/web
 RUN mv /usr/src/dist/apps/wizarr-backend /usr/wizarr/apps/server
 RUN mv /usr/src/dist/libs /usr/wizarr/apps/libs
 RUN mv /usr/src/modules /usr/wizarr
-RUN mv /usr/src/*.json /usr/wizarr
+RUN mv /usr/src/*.json /usr/wizarr/
 
 # Copy the custom nginx configuration file into the container
 RUN mv /usr/src/docker/nginx-main.conf /etc/nginx/conf.d/wizarr.conf
