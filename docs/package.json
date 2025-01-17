@@ -26,6 +26,7 @@
         "clsx": "^2.0.0",
         "docusaurus-lunr-search": "^3.6.0",
         "docusaurus-preset-openapi": "^0.7.6",
+        "prettier": "^3.4.2",
         "prism-react-renderer": "^2.4.1",
         "react": "^18.0.0",
         "react-dom": "^18.0.0",
