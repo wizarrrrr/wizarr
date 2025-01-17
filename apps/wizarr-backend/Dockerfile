@@ -41,6 +41,10 @@ RUN mv /usr/src/dist/libs /usr/wizarr/apps/libs
 RUN mv /usr/src/modules /usr/wizarr
 RUN mv /usr/src/*.json /usr/wizarr
 
+# Husky wants .git and .husky folders
+RUN mv -rf /usr/src/.git /usr/wizarr/.git
+RUN mv -rf /usr/src/.husky /usr/wizarr/.husky
+
 # Copy the custom nginx configuration file into the container
 RUN mv /usr/src/docker/nginx-main.conf /etc/nginx/conf.d/wizarr.conf
 
