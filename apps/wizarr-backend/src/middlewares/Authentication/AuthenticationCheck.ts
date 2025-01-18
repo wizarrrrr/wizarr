@@ -22,7 +22,7 @@ export const authorizationCheck = async (action: Action, roles: any[]): Promise<
     const payload = await localAuthorizationCheck<{ sub: string }>(authorization);
 
     // Inject current user into the context as Admin
-    context.state.currentUser = await getCurrentUser(payload.sub).catch(() => undefined);
+    context.state.currentUser = await getCurrentUser(payload.sub);
 
     // If the current user is not set, return false
     if (!context.state.currentUser) throw new InvalidCredentials("Could not authenticate request");
@@ -54,11 +54,9 @@ export const localAuthorizationCheck = async <T>(authorization: string): Promise
         try {
             resolve(verify(token, await privateKey(), { algorithms: ["RS256"] }));
         } catch (error) {
-            reject(new InvalidCredentials("Invalid authorization token, try logging in again"));
+            reject(new InvalidCredentials("Invalid authorization token, try clearing your cache"));
         }
     });
-
-    // verify(token, await privateKey(), { algorithms: ["RS256"] })
 
     // If the payload is not set, throw an error
     if (!payload) throw new BadRequestError("Malformed authorization token payload, please login again");

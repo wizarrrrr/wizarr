@@ -6,9 +6,10 @@
         "firsttris.vscode-jest-runner",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "github.copilot",
         "github.copilot-chat",
         "hollowtree.vue-snippets",
-        "pkief.material-icon-theme"
+        "pkief.material-icon-theme",
+        "github.copilot",
+        "nicholashsiang.vscode-vue3-snippets"
     ]
 }

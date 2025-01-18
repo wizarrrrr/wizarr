@@ -262,7 +262,7 @@ export class App {
         });
 
         // Register the BullBoard server
-        serverAdapter.setBasePath("/bull");
+        serverAdapter.setBasePath("/api/bull");
         this.app.use(serverAdapter.registerPlugin());
     }
 
