@@ -55,6 +55,7 @@ ARG BUILD_ID
 ARG BUILD_IMAGE
 ARG BUILD_SOURCE_REF
 ARG BUILD_SOURCE_COMMIT
+ARG WIZARR_PACKAGE_VERSION
 
 # Set environment variables with information related to the build and source code
 ENV WIZARR_BUILD=${BUILD_ID}
