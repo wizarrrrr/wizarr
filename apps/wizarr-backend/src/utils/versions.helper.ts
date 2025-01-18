@@ -87,14 +87,21 @@ export async function getLatestBetaVersion() {
 }
 
 export async function getCurrentVersion(): Promise<string> {
-    // Check if WIZARR_VERSION exists
+
+    var version = "0.0.0";
+
     if (process.env.WIZARR_PACKAGE_VERSION) {
-        return "v" + process.env.WIZARR_PACKAGE_VERSION || "0.0.0";
+        version = process.env.WIZARR_PACKAGE_VERSION
     }
 
-    // Read the first line of the latest file
-    const version = require(path.resolve(__dirname, '../../../../../', 'package.json')).version;
+    if (fs.existsSync(path.resolve(__dirname, '../../../../../', 'package.json'))) {
+        version = require(path.resolve(__dirname, '../../../../../', 'package.json')).version;
+    }
+
+    if (fs.existsSync(path.resolve(__dirname, '../../../../', 'package.json'))) {
+        version = require(path.resolve(__dirname, '../../../../', 'package.json')).version;
+    }
     
     // Return the version
-    return "v" + version || "0.0.0";
+    return "v" + version;
 }
