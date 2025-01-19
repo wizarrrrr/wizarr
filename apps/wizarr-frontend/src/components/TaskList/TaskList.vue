@@ -1,5 +1,5 @@
 <template>
-    <Draggable v-model="jobs" tag="ul" group="jobs" ghost-class="moving-card" :animation="200" item-key="id">
+    <Draggable v-model="tasks" tag="ul" group="jobs" ghost-class="moving-card" :animation="200" item-key="id">
         <template #item="{ element }">
             <li class="mb-2">
                 <TaskItem :task="element" />
@@ -23,13 +23,13 @@ export default defineComponent({
         TaskItem,
     },
     computed: {
-        ...mapWritableState(useTasksStore, ["jobs"]),
+        ...mapWritableState(useTasksStore, ["tasks"]),
     },
     methods: {
-        ...mapActions(useTasksStore, ["getJobs"]),
+        ...mapActions(useTasksStore, ["getTasks"]),
     },
     async created() {
-        await this.getJobs();
+        await this.getTasks();
     },
 });
 </script>
