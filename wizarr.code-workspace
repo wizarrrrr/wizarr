@@ -3,5 +3,11 @@
         {
             "path": "."
         }
-    ]
+    ],
+    "settings": {
+        "files.autoSaveWhenNoErrors": true,
+        "files.autoSaveWorkspaceFilesOnly": true,
+        "editor.formatOnSave": true,
+        "files.autoSaveDelay": 2000
+    }
 }
