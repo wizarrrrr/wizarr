@@ -449,3 +449,4 @@ database/*
 /dump.rdb
 .docusaurus/
 /docs/build/
+core
