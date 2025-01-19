@@ -1,19 +1,29 @@
 import { privateKey } from "../../utils/secret.helper";
 import { verify } from "jsonwebtoken";
 import { Action, BadRequestError } from "routing-controllers";
-import { Context } from "vm";
+import { Context, DefaultContext, DefaultState, Middleware, Next, ParameterizedContext } from "koa";
 import { rolesCheck } from "./HasRole";
 import { getCurrentUser } from "./CurrentUser";
 import { InvalidCredentials } from "../../api/exceptions/InvalidCredentials";
 
 import type { JwtPayload as IJwtPayload } from "jsonwebtoken";
 
-export const authorizationCheck = async (action: Action, roles: any[]): Promise<boolean> => {
+export const controllerAuthorizationCheck = async (action: Action, roles: string | string[]): Promise<boolean> => {
     // Get the context from the action
     const context = action.context as Context;
 
+    // Authorize client check
+    return await authorizationCheck(context, roles);
+};
+
+export const koaAuthorizationCheck: Middleware = async (ctx, next) => {
+    // Authorize client check
+    if (await authorizationCheck(ctx, "admin")) return next();
+};
+
+export const authorizationCheck = async (ctx: Context | ParameterizedContext<DefaultState, DefaultContext, any>, roles: string | string[]) => {
     // Get the authorization header from the request or cookie if in development mode
-    const authorization = context.request.headers.authorization ?? (process.env.NODE_ENV === "development" ? context.cookies.get("refresh") : undefined);
+    const authorization = ctx.request.headers.authorization ?? (process.env.NODE_ENV === "development" ? ctx.cookies.get("refresh") : undefined);
 
     // If the authorization header is not set, return false
     if (!authorization) throw new InvalidCredentials("No authorization header set");
@@ -22,16 +32,16 @@ export const authorizationCheck = async (action: Action, roles: any[]): Promise<
     const payload = await localAuthorizationCheck<{ sub: string }>(authorization);
 
     // Inject current user into the context as Admin
-    context.state.currentUser = await getCurrentUser(payload.sub);
+    ctx.state.currentUser = await getCurrentUser(payload.sub);
 
     // If the current user is not set, return false
-    if (!context.state.currentUser) throw new InvalidCredentials("Could not authenticate request");
+    if (!ctx.state.currentUser) throw new InvalidCredentials("Could not authenticate request");
 
     // If the payload is not set, return false
     if (!payload) return false;
 
     // Verify if the user has the required role and continue to the next middleware if it does
-    if (rolesCheck(roles, context.state.currentUser)) {
+    if (rolesCheck(roles, ctx.state.currentUser)) {
         return true;
     }
 

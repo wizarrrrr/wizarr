@@ -14,7 +14,7 @@ import { koaSwagger } from "koa2-swagger-ui";
 import { connection } from "./data-source";
 import { Table } from "console-table-printer";
 import { getCurrentVersion, isBeta } from "./utils/versions.helper";
-import { authorizationCheck } from "./middlewares/Authentication/AuthenticationCheck";
+import { controllerAuthorizationCheck, koaAuthorizationCheck } from "./middlewares/Authentication/AuthenticationCheck";
 import { currentUser } from "./middlewares/Authentication/CurrentUser";
 import { SchemaObject } from "openapi3-ts";
 import { init as useSentry, autoDiscoverNodePerformanceMonitoringIntegrations, withScope, captureException } from "@sentry/node";
@@ -26,7 +26,7 @@ import { databasePath } from "./config/paths";
 import { PrettyOptions } from "pino-pretty";
 import { Logger, TransportTargetOptions } from "pino";
 import { pino } from "./utils/logger.helper";
-import { KoaAdapter } from "@bull-board/koa";
+import { KoaAdapter } from "./bull/koaAdapter";
 import { createBullBoard } from "@bull-board/api";
 import { Queue, Worker } from "bullmq";
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
@@ -34,22 +34,25 @@ import { Server } from "./api/models/Server/ServerModel";
 import { BullMQ } from "./bull/index";
 import { createKeyPair, existsKeyPair } from "./utils/secret.helper";
 import { scanLibrariesJobs, scanUsersJobs } from "./media/jobs";
+import { writeFileSync } from "fs";
+import { BoardOptions } from "@bull-board/api/dist/typings/app";
 
-import koa from "koa";
+import Koa from "koa";
+import Router from "koa-router";
 import path from "path";
 import colors from "colors";
 import cors from "@koa/cors";
 import pinoHttp, { Options } from "pino-http";
-import { writeFileSync } from "fs";
 
 export class App {
     // Define the Koa app and port
-    private app: koa = new koa();
+    private app: Koa = new Koa();
+    private router = new Router({ strict: true });
     private httpServer: server = createServer(this.app.callback());
     private port: number = 5001;
 
     // Define the server options for Koa
-    private serverOptions: typeof koa.arguments = {
+    private serverOptions: typeof Koa.arguments = {
         // Default options
     };
 
@@ -57,6 +60,24 @@ export class App {
     private bullMQ: BullMQ;
     private bullMQQueues: Queue[];
     private bullMQWorkers: Worker[];
+
+    // BullBoard Options for the applications
+    private boardOptions: BoardOptions = {
+        uiConfig: {
+            boardTitle: "Wizarr BullMQ",
+            boardLogo: {
+                path: "https://wizarr.org/img/logo.svg",
+            },
+            miscLinks: [
+                { text: "Back to Wizarr", url: "/admin" },
+                { text: "Logout", url: "/api/auth/logout" },
+            ],
+            favIcon: {
+                default: "/favicon.ico",
+                alternative: "/favicon.ico",
+            },
+        },
+    };
 
     // Define the logger options for the application
     private loggerOptions: Options & { transport: { targets: (TransportTargetOptions | { options: { prettyOptions: PrettyOptions } })[] } } = {
@@ -95,7 +116,7 @@ export class App {
     // Define the routing controller options
     private routingControllerOptions: RoutingControllersOptions = {
         validation: { stopAtFirstError: true },
-        authorizationChecker: authorizationCheck,
+        authorizationChecker: controllerAuthorizationCheck,
         currentUserChecker: currentUser,
         cors: true,
         routePrefix: "/api",
@@ -119,7 +140,7 @@ export class App {
      * Constructor
      * @param options The options for the server
      */
-    constructor(options?: typeof koa.arguments) {
+    constructor(options?: typeof Koa.arguments) {
         // Merge the default options with the options passed in
         this.serverOptions = { ...this.serverOptions, ...options };
     }
@@ -167,7 +188,7 @@ export class App {
      */
     private async createServerTable() {
         return new Table({
-            title: colors.blue("Server Information"),
+            title: colors.blue("Backend Server Information"),
             columns: [
                 { name: "1", title: colors.strip(colors.white("Address")), alignment: "left" },
                 { name: "2", title: colors.green(`http://localhost:${this.port}`), alignment: "left" },
@@ -259,9 +280,9 @@ export class App {
         createBullBoard({
             queues: this.bullMQQueues.map((queue) => new BullMQAdapter(queue)),
             serverAdapter: serverAdapter,
+            options: this.boardOptions,
         });
 
-        // Register the BullBoard server
         serverAdapter.setBasePath("/api/bull");
         this.app.use(serverAdapter.registerPlugin());
     }

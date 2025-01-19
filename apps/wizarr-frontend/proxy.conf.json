@@ -12,7 +12,7 @@
         "xfwd": true,
         "ws": true
     },
-    "/bull": {
+    "/admin/bull": {
         "target": "http://localhost:5001",
         "secure": false,
         "changeOrigin": true,
