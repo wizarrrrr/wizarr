@@ -3,22 +3,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useTasksStore } from '@/stores/tasks';
-import { mapState } from 'pinia';
+import { defineComponent } from "vue";
+import { useTasksStore } from "@/stores/tasks";
+import { mapState, mapActions } from "pinia";
 
-import DefaultWidget from '@/widgets/templates/DefaultWidget.vue';
+import DefaultWidget from "@/widgets/templates/DefaultWidget.vue";
 
 export default defineComponent({
-    name: 'TasksTotal',
+    name: "TasksTotal",
     components: {
         DefaultWidget,
     },
     computed: {
         count() {
-            return String(this.jobs.length);
+            return String(this.tasks.length);
         },
-        ...mapState(useTasksStore, ['jobs']),
+        ...mapState(useTasksStore, ["tasks"]),
+    },
+    methods: {
+        ...mapActions(useTasksStore, ["getTasks"]),
+    },
+    created() {
+        this.getTasks();
     },
 });
 </script>

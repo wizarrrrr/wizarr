@@ -103,7 +103,7 @@ export default defineComponent({
         config: {
             type: Object as () => CarouselConfig,
             default: () => ({
-                padding: false,
+                padding: true,
             }),
             required: false,
         },

@@ -12,6 +12,7 @@ declare module "@vue/runtime-core" {
 
 const vuePluginAnalytics = {
     install: (app: App, options?: { settings?: AnalyticsBrowserSettings; options?: InitOptions }): void => {
+        if (process.env.NODE_ENV == "development") return;
         // Get base URL from localStorage or use window.location.origin
         const baseURL = localStorage.getItem("base_url") ?? window.location.origin;
 

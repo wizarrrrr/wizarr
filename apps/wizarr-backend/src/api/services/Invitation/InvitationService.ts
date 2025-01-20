@@ -7,6 +7,7 @@ import { plainToClass } from "class-transformer";
 import { ServerLibraryRepository } from "../../repositories/Server/ServerLibraryRepository";
 import { InvitationRequest } from "../../requests/Invitation/InvitationRequest";
 import { In } from "typeorm";
+import { StripApiKey } from "src/decorators/StripApiKeyDecorator";
 
 @Service()
 export class InvitationService {
@@ -25,6 +26,7 @@ export class InvitationService {
      * @param {object} resourceOptions
      * @returns {Promise<{ total_data: number, rows: Invitation[] }>}
      */
+    @StripApiKey()
     public async getAll(resourceOptions?: object, currentUser?: Admin): Promise<{ total_data: number; rows: Invitation[] }> {
         return await this.invitationRepository.getManyAndCount(resourceOptions, {
             where: "admin.id = :adminId",
@@ -40,8 +42,25 @@ export class InvitationService {
      * @param {object} resourceOptions
      * @returns {Promise<Invitation>}
      */
+    @StripApiKey()
     public async findOneById(id: string, resourceOptions?: object, currentUser?: Admin): Promise<Invitation> {
         return await this.getRequestedInvitationOrFail(id, resourceOptions, currentUser);
+    }
+
+    /**
+     * Gets one invitation by token.
+     * @param {string} token
+     * @param {object} resourceOptions
+     * @returns {Promise<Invitation>}
+     */
+    @StripApiKey()
+    public async findOneByToken(token: string, resourceOptions?: object): Promise<Invitation> {
+        return await this.invitationRepository.getOne(resourceOptions, {
+            where: "code = :token",
+            parameters: {
+                token,
+            },
+        });
     }
 
     /**
@@ -50,6 +69,7 @@ export class InvitationService {
      * @param currentUser
      * @returns {Promise<Invitation>}
      */
+    @StripApiKey()
     public async create(data: InvitationRequest, currentUser: Admin): Promise<Invitation> {
         const invitation = plainToClass(Invitation, data);
         invitation.admin = currentUser;
@@ -65,6 +85,7 @@ export class InvitationService {
      * @param {Admin} currentUser
      * @returns {Promise<Invitation>}
      */
+    @StripApiKey()
     public async update(id: string, data: InvitationRequest, currentUser: Admin): Promise<Invitation> {
         const invitation = await this.getRequestedInvitationOrFail(id, undefined, currentUser);
         const newInvitation = plainToClass(Invitation, { ...invitation, ...data });
@@ -79,6 +100,7 @@ export class InvitationService {
      * @param {Admin} currentUser
      * @returns {Promise<Invitation>}
      */
+    @StripApiKey()
     public async delete(id: string, currentUser: Admin): Promise<Invitation> {
         const invitation = await this.getRequestedInvitationOrFail(id, undefined, currentUser);
         return await this.invitationRepository.remove(invitation);

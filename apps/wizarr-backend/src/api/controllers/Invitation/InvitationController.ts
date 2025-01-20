@@ -80,4 +80,16 @@ export class InvitationController extends ControllerBase {
     public async delete(@Param("id") id: string, @CurrentUser() currentUser: Admin) {
         return this.invitationService.delete(id, currentUser);
     }
+
+    /**
+     * @api /invitation/:id([A-Za-z0-9-]+)/validate
+     * @apiName Invitation
+     * @apiDescription Validate an invitation
+     */
+    @Get("/:token([A-Za-z0-9-]+)/validate")
+    @OpenAPI({ summary: "Validate an invitation" })
+    public async validate(@Param("token") token: string, @QueryParams() parseResourceOptions: RequestQueryParser) {
+        const resourceOptions = parseResourceOptions.getAll();
+        return this.invitationService.findOneByToken(token, resourceOptions);
+    }
 }

@@ -1,5 +1,5 @@
 <template>
-    <Logo :class="{ 'rounded-full': rounded, [svgSize]: true }" :viewBox="svgZoom" />
+    <Logo :class="{ [svgSize]: true }" :viewBox="svgZoom" />
 </template>
 
 <script lang="ts">
@@ -16,10 +16,6 @@ export default defineComponent({
         size: {
             type: String as () => "xxs" | "xs" | "md" | "lg" | "xl" | "2xl" | "3xl",
             default: "md",
-        },
-        rounded: {
-            type: Boolean,
-            default: false,
         },
         zoom: {
             type: Boolean,

@@ -3,14 +3,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { mapState } from 'pinia';
-import { useUsersStore } from '@/stores/users';
+import { defineComponent } from "vue";
+import { mapState, mapActions } from "pinia";
+import { useUsersStore } from "@/stores/users";
 
-import DefaultWidget from '@/widgets/templates/DefaultWidget.vue';
+import DefaultWidget from "@/widgets/templates/DefaultWidget.vue";
 
 export default defineComponent({
-    name: 'UsersTotal',
+    name: "UsersTotal",
     components: {
         DefaultWidget,
     },
@@ -18,7 +18,13 @@ export default defineComponent({
         count() {
             return String(this.users.length);
         },
-        ...mapState(useUsersStore, ['users']),
+        ...mapState(useUsersStore, ["users"]),
+    },
+    methods: {
+        ...mapActions(useUsersStore, ["getUsers"]),
+    },
+    created() {
+        this.getUsers();
     },
 });
 </script>

@@ -1,24 +1,19 @@
 <template>
-    <div class="flex flex-column space-x-1 absolute top-0 right-0 mt-2 mr-2">
-        <ThemeToggle />
-        <LanguageSelector />
-    </div>
-    <div>
-        <div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-6">
-            <WizarrLogo rounded class="w-[150px] h-[150px]" />
-            <h1 class="text-2xl font-semibold text-center text-gray-900 dark:text-white">
-                {{ __("Type in your invite code for %{server_name}!", { server_name: "Jellyfin" /*settings.server_name*/ }) }}
-            </h1>
+    <div class="absolute top-0 left-0 w-full h-full">
+        <div class="flex flex-column justify-end space-x-1 m-2">
+            <ThemeToggle />
+            <LanguageSelector />
         </div>
-        <section>
-            <div class="flex flex-col items-center justify-center md:container py-8 mx-auto">
-                <div class="w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow dark:border dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
-                    <div class="relative">
-                        <Carousel :views="views" :currentView="currentView" :pageTitle="pageTitle" :pleaseWait="pleaseWait" :stepper="activeStep" />
-                    </div>
+        <div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-6">
+            <WizarrLogo class="w-[150px] h-[150px] rounded-[10px]" />
+        </div>
+        <div class="flex flex-col items-center justify-center md:container py-8 m-auto">
+            <div class="w-full md:w-1/2 lg:w-1/3 bg-white rounded shadow dark:border dark:bg-gray-800 dark:border-gray-700 overflow-hidden">
+                <div class="relative">
+                    <Carousel :views="views" :currentView="currentView" :pageTitle="pageTitle" :pleaseWait="pleaseWait" :stepper="activeStep" />
                 </div>
             </div>
-        </section>
+        </div>
         <div class="flex justify-center items-center flex-col mb-3 space-y-6">
             <p class="text-sm text-center text-gray-900 dark:text-white">
                 {{ __("Made by ") }}
@@ -58,6 +53,7 @@ export default defineComponent({
     data() {
         return {
             socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
+            invitation: {} as Record<string, any>,
             eventBus: eventBus,
             pleaseWait: false,
             pageTitle: "",
@@ -72,15 +68,6 @@ export default defineComponent({
                         eventBus: eventBus,
                     },
                 },
-                // {
-                //     name: "payment",
-                //     title: this.__("Make Payment"),
-                //     component: () => import("../pages/Payment.vue"),
-                //     props: {
-                //         eventBus: eventBus,
-                //         code: this.$route.params.invite as string,
-                //     },
-                // },
                 {
                     name: "create",
                     title: this.__("Setup your account"),
@@ -101,6 +88,9 @@ export default defineComponent({
                     name: "success",
                     title: this.__("All done!"),
                     component: () => import("../pages/Complete.vue"),
+                    props: {
+                        eventBus: eventBus,
+                    },
                 },
                 {
                     name: "error",
@@ -117,7 +107,6 @@ export default defineComponent({
         noHeader() {
             return this.isView(["error"]);
         },
-        // ...mapState(useServerStore, ["settings"]),
     },
     methods: {
         isView(name: string | string[]) {
@@ -146,53 +135,12 @@ export default defineComponent({
 
             this.pleaseWait = false;
         },
-        async plexCreateAccount(value: EventRecords["plexCreateAccount"]) {
-            // Create the form data
-            const formData = new FormData();
-            formData.append("token", value);
-            formData.append("code", this.$route.params.invite as string);
-            formData.append("socket_id", this.socket?.id as string);
-
-            // Make API request to create the account
-            const response = await this.$axios.post("/api/plex", formData).catch((err) => {
-                this.showError(this.__("Uh oh!"), err.response?.data?.message ?? this.__("Could not create the account."));
-            });
-
-            // Check that response contains a room
-            if (response?.data?.room == undefined) {
-                this.showError(this.__("Uh oh!"), this.__("Could not create the account."));
-            }
-
-            // Show the next screen
-            this.currentView = this.views.findIndex((view) => view.name == "stepper") + 1;
-        },
-        async jellyfinCreateAccount(value: EventRecords["jellyfinCreateAccount"]) {
-            // Create the form data
-            const formData = new FormData();
-            formData.append("username", value.username);
-            formData.append("email", value.email);
-            formData.append("password", value.password);
-            formData.append("code", this.$route.params.invite as string);
-            formData.append("socket_id", this.socket?.id as string);
-
-            // Make API request to create the account
-            const response = await this.$axios.post("/api/jellyfin", formData).catch((err) => {
-                this.showError(this.__("Uh oh!"), err.response?.data?.message ?? this.__("Could not create the account."));
-            });
-
-            // Check that response contains a room
-            if (response?.data?.room == undefined) {
-                this.showError(this.__("Uh oh!"), this.__("Could not create the account."));
-            }
-
-            // Show the next screen
-            this.currentView = this.views.findIndex((view) => view.name == "stepper") + 1;
-        },
     },
     async mounted() {
         // Initialize the socket connection
         this.socket = this.$io("/jellyfin" /*+ this.settings.server_type*/);
         this.socket.on("connect", () => this.connected());
+
         // this.socket.on("connect_error", () => this.showError(this.__("Uh oh!"), this.__("Could not connect to the server.")));
         // this.socket.on("error", (message) => this.showError(this.__("Uh oh!"), message));
         this.socket.on("error", this.$toast.error);
@@ -204,6 +152,9 @@ export default defineComponent({
         // Initialize the event bus
         this.eventBus.on("plexCreateAccount", this.plexCreateAccount);
         this.eventBus.on("jellyfinCreateAccount", this.jellyfinCreateAccount);
+
+        this.eventBus.on("updateInvitation", (data) => (this.invitation = data));
+        this.eventBus.on("getInvitation", this.invitation);
 
         this.eventBus.on("pleaseWait", (pleaseWait) => (this.pleaseWait = pleaseWait));
         this.eventBus.on("pageTitle", (title) => (this.pageTitle = title));
@@ -217,4 +168,3 @@ export default defineComponent({
     },
 });
 </script>
-@/stores/information

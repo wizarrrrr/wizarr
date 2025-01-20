@@ -450,3 +450,4 @@ database/*
 .docusaurus/
 /docs/build/
 core
+.devcontainer/GitHub.copilot-1.257.1319.vsix

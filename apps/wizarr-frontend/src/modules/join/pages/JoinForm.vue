@@ -35,9 +35,12 @@ export default defineComponent({
 
             // Check if the code is valid
             const response = await this.$axios
-                .get(`/api/invitations/${this.code}/verify`, {
+                .get(`/api/invitations/${this.code}/validate`, {
                     disableInfoToast: true,
                     disableErrorToast: true,
+                    params: {
+                        relations: "server",
+                    },
                 })
                 .catch((err) => {
                     this.$emit("pleaseWait", false);
@@ -52,13 +55,13 @@ export default defineComponent({
                 this.$router.replace(`/j/${this.code}`);
             }
 
+            // Update the event bus with the invitation data
+            this.eventBus.emit("updateInvitation", response.data);
+
             // Go to the next step
             this.$emit("pleaseWait", false);
             this.$emit("nextStep");
         },
-    },
-    mounted() {
-        console.log(this.eventBus.all);
     },
 });
 </script>

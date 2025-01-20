@@ -13,6 +13,10 @@ type SentryOptions = Partial<
 >;
 
 const isBugReporting = () => {
+    if (process.env.NODE_ENV == "development") {
+        return true;
+    }
+
     const localStorage = window.localStorage.getItem("server");
 
     if (localStorage !== null) {

@@ -1,6 +1,6 @@
 <template>
-    <PlexSignup v-bind="$attrs" v-if="settings.server_type == 'plex'" />
-    <JellyfinSignup v-bind="$attrs" v-else-if="settings.server_type == 'jellyfin'" />
+    <PlexSignup v-bind="$attrs" v-if="false == 'plex'" />
+    <JellyfinSignup v-bind="$attrs" v-else-if="false == 'jellyfin'" />
 </template>
 
 <script lang="ts">
@@ -14,9 +14,14 @@ export default defineComponent({
         PlexSignup: defineAsyncComponent(() => import("./Plex/Signup.vue")),
         JellyfinSignup: defineAsyncComponent(() => import("./Jellyfin/Signup.vue")),
     },
-    computed: {
-        ...mapState(useInformationStore, ["settings"]),
+    props: {
+        invitation: {
+            type: Object,
+            required: true,
+        },
+    },
+    created() {
+        console.log("DATA: ", this.invitation);
     },
 });
 </script>
-@/stores/information

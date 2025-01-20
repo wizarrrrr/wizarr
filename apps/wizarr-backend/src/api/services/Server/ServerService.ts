@@ -12,6 +12,7 @@ import { Service } from "typedi";
 import { scanLibraries, scanUsers } from "../../../media/jobs";
 import { InjectQueue } from "../../../decorators/InjectQueue";
 import { BullMQ } from "../../../bull";
+import { StripApiKey } from "src/decorators/StripApiKeyDecorator";
 
 @Service()
 export class ServerService {
@@ -32,6 +33,7 @@ export class ServerService {
      * @param {object} resourceOptions
      * @returns {Promise<{ total_data: number, rows: Server[] }>}
      */
+    @StripApiKey()
     public async getAll(resourceOptions?: object, currentUser?: Admin): Promise<{ total_data: number; rows: Server[] }> {
         return await this.serverRepository.getManyAndCount(resourceOptions, {
             where: "admin.id = :adminId",
@@ -47,6 +49,7 @@ export class ServerService {
      * @param {object} resourceOptions
      * @returns {Promise<Server>}
      */
+    @StripApiKey()
     public async findOneById(id: string, resourceOptions?: object, currentUser?: Admin): Promise<Server> {
         return await this.getRequestedServerOrFail(id, resourceOptions, currentUser);
     }
@@ -57,6 +60,7 @@ export class ServerService {
      * @param {Admin} currentUser
      * @returns {Promise<Server>}
      */
+    @StripApiKey()
     public async create(data: any, currentUser: Admin): Promise<Server> {
         if (!(await verifyServerType(data.host, data.type, data.apiKey))) throw new InvalidServer("Server could not be verified");
         const server = plainToClass(Server, data);
@@ -73,6 +77,7 @@ export class ServerService {
      * @param {object} data
      * @returns {Promise<Server>}
      */
+    @StripApiKey()
     public async update(id: string, data: object, currentUser: Admin): Promise<Server> {
         const server = await this.getRequestedServerOrFail(id, undefined, currentUser);
         Object.assign(server, data);
@@ -84,6 +89,7 @@ export class ServerService {
      * @param {string} id
      * @returns {Promise<Server>}
      */
+    @StripApiKey()
     public async delete(id: string, currentUser: Admin): Promise<Server> {
         const server = await this.getRequestedServerOrFail(id, undefined, currentUser);
         server.users = [];
