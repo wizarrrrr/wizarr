@@ -24,9 +24,7 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "pinia";
 import { defineComponent } from "vue";
-import { useInformationStore } from "@/stores/information";
 import { Collapse } from "vue-collapsed";
 
 import Carousel from "../../core/components/Carousel.vue";
@@ -40,6 +38,7 @@ import eventBus from "../events";
 import type { Socket } from "socket.io-client";
 import type { ServerToClientEvents, ClientToServerEvents } from "@/plugins/socket";
 import type { EventRecords } from "../types/EventRecords";
+import type { Emitter } from "mitt";
 
 export default defineComponent({
     name: "JoinView",
@@ -54,7 +53,7 @@ export default defineComponent({
         return {
             socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
             invitation: {} as Record<string, any>,
-            eventBus: eventBus,
+            eventBus: eventBus as Emitter<EventRecords>,
             pleaseWait: false,
             pageTitle: "",
             currentView: 1,
@@ -150,9 +149,6 @@ export default defineComponent({
         this.socket.on("done", () => setTimeout(() => (this.currentView = this.views.findIndex((view) => view.name == "success") + 1), 1000));
 
         // Initialize the event bus
-        this.eventBus.on("plexCreateAccount", this.plexCreateAccount);
-        this.eventBus.on("jellyfinCreateAccount", this.jellyfinCreateAccount);
-
         this.eventBus.on("updateInvitation", (data) => (this.invitation = data));
         this.eventBus.on("getInvitation", this.invitation);
 
