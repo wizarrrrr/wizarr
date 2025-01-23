@@ -47,7 +47,7 @@ router.beforeEach(async (to, from, next) => {
 
     // Determine the middleware pipeline as an array and create a context object
     const middleware = to.meta.middleware as any[];
-    const context = { to, from, next, authStore };
+    const context = { to, from, next, parameters: { authStore, router } };
 
     // Run the middleware pipeline
     return middleware[0]({

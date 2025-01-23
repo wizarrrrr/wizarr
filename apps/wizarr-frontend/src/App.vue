@@ -109,16 +109,9 @@ export default defineComponent({
     },
     watch: {
         token: {
-            immediate: true,
             handler(token, oldToken) {
-                if (token === null) {
-                    this.$router.push("/login");
-                    this.notificationSocket?.disconnect();
-                }
-
-                if (token !== null && oldToken === null) {
-                    this.notificationService();
-                }
+                if (token === null) this.notificationSocket?.disconnect();
+                if (token !== null && oldToken === null) this.notificationService();
             },
         },
         theme: {

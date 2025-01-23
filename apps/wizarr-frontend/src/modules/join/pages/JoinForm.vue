@@ -8,15 +8,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useJoinStore } from "@/stores/join";
+import { mapActions } from "pinia";
 
 export default defineComponent({
     name: "JoinForm",
-    props: {
-        eventBus: {
-            type: Object,
-            required: true,
-        },
-    },
     data() {
         return {
             code: String(this.$route.params.invite || ""),
@@ -34,34 +30,25 @@ export default defineComponent({
             this.$emit("pleaseWait", true);
 
             // Check if the code is valid
-            const response = await this.$axios
-                .get(`/api/invitations/${this.code}/validate`, {
-                    disableInfoToast: true,
-                    disableErrorToast: true,
-                    params: {
-                        relations: "server",
-                    },
-                })
-                .catch((err) => {
-                    this.$emit("pleaseWait", false);
-                    this.$toast.error(this.__("Invalid invitation code, please try again"));
-                });
+            const response = await this.validateInvitation(this.code);
 
             // Check if the code is valid
-            if (!response) return;
+            if (!response) {
+                this.$toast.error(this.__("Invalid invite code"));
+                this.$emit("pleaseWait", false);
+                return;
+            }
 
             // If the route is /join then change to /j/:code
             if (this.$route.path === "/join") {
                 this.$router.replace(`/j/${this.code}`);
             }
 
-            // Update the event bus with the invitation data
-            this.eventBus.emit("updateInvitation", response.data);
-
             // Go to the next step
             this.$emit("pleaseWait", false);
             this.$emit("nextStep");
         },
+        ...mapActions(useJoinStore, ["validateInvitation"]),
     },
 });
 </script>

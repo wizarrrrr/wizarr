@@ -1,16 +1,23 @@
 export type Invitations = Invitation[];
 
 export interface Invitation {
+    id: string;
     code: string;
-    created: string;
-    duration: any;
-    expires: string;
-    id: number;
-    plex_allow_sync: boolean;
-    plex_home: boolean;
-    specific_libraries: string;
-    unlimited: boolean;
+    server: Server;
     used: boolean;
-    used_at: any;
-    used_by: Array<number>;
+    unlimited: boolean;
+    durationAt: any;
+    expiresAt: any;
+    usedAt: any;
+    createdAt: string;
+}
+
+export interface Server {
+    id: string;
+    name: string;
+    description: string;
+    type: string;
+    host: string;
+    hostOverride: any;
+    createdAt: string;
 }

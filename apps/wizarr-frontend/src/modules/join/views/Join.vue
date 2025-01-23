@@ -52,7 +52,7 @@ export default defineComponent({
     data() {
         return {
             socket: null as Socket<ServerToClientEvents, ClientToServerEvents> | null,
-            invitation: {} as Record<string, any>,
+            invitation: null as Record<string, any> | null,
             eventBus: eventBus as Emitter<EventRecords>,
             pleaseWait: false,
             pageTitle: "",
@@ -137,20 +137,16 @@ export default defineComponent({
     },
     async mounted() {
         // Initialize the socket connection
-        this.socket = this.$io("/jellyfin" /*+ this.settings.server_type*/);
-        this.socket.on("connect", () => this.connected());
+        // this.socket = this.$io("/jellyfin" /*+ this.settings.server_type*/);
+        // this.socket.on("connect", () => this.connected());
 
-        // this.socket.on("connect_error", () => this.showError(this.__("Uh oh!"), this.__("Could not connect to the server.")));
-        // this.socket.on("error", (message) => this.showError(this.__("Uh oh!"), message));
-        this.socket.on("error", this.$toast.error);
-        this.socket.on("log", (message) => console.error(message));
-        this.socket.on("message", this.$toast.info);
-        this.socket.on("step", (step: number) => (this.activeStep = step));
-        this.socket.on("done", () => setTimeout(() => (this.currentView = this.views.findIndex((view) => view.name == "success") + 1), 1000));
-
-        // Initialize the event bus
-        this.eventBus.on("updateInvitation", (data) => (this.invitation = data));
-        this.eventBus.on("getInvitation", this.invitation);
+        // // this.socket.on("connect_error", () => this.showError(this.__("Uh oh!"), this.__("Could not connect to the server.")));
+        // // this.socket.on("error", (message) => this.showError(this.__("Uh oh!"), message));
+        // this.socket.on("error", this.$toast.error);
+        // this.socket.on("log", (message) => console.error(message));
+        // this.socket.on("message", this.$toast.info);
+        // this.socket.on("step", (step: number) => (this.activeStep = step));
+        // this.socket.on("done", () => setTimeout(() => (this.currentView = this.views.findIndex((view) => view.name == "success") + 1), 1000));
 
         this.eventBus.on("pleaseWait", (pleaseWait) => (this.pleaseWait = pleaseWait));
         this.eventBus.on("pageTitle", (title) => (this.pageTitle = title));

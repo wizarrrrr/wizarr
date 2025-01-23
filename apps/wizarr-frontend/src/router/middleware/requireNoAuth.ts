@@ -1,21 +1,10 @@
-import Auth from '@/api/authentication';
+import { useAuthStore } from "@/stores/auth";
+import type { NavigationGuardNext, Router } from "vue-router";
 
-import type { NavigationGuardNext } from 'vue-router';
+type AuthStore = ReturnType<typeof useAuthStore>;
+type MiddlewareContext = { next: NavigationGuardNext; parameters: { authStore: AuthStore; router: Router } };
 
-export default async function requireAuth({
-    next,
-    authStore,
-}: {
-    next: NavigationGuardNext;
-    authStore: any;
-}) {
-    try {
-        const auth = new Auth();
-        if (await auth.isAuthenticated()) return next({ name: 'admin' });
-    } catch (error) {
-        console.error(error);
-        return next();
-    }
-
+export default async function requireNoAuth({ next, parameters }: MiddlewareContext) {
+    if (parameters.authStore.isAuthenticated()) parameters.router.push({ name: "admin" });
     return next();
 }

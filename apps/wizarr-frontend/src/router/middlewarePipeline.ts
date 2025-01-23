@@ -1,4 +1,22 @@
-function middlewarePipeline(context: any, middleware: any, index: any) {
+import type { NavigationGuardNext, RouteLocationNormalizedGeneric, RouteLocationNormalizedLoadedGeneric } from "vue-router";
+
+/**
+ * Middleware context interface
+ * - to: RouteLocationNormalizedGeneric
+ * - from: RouteLocationNormalizedLoadedGeneric
+ * - next: NavigationGuardNext
+ * - parameters: T
+ */
+interface MiddlewareContext<T> {
+    to: RouteLocationNormalizedGeneric;
+    from: RouteLocationNormalizedLoadedGeneric;
+    next: NavigationGuardNext;
+    parameters: T;
+}
+
+type MiddlewareFunction<T> = (context: MiddlewareContext<T>) => void;
+
+export default function middlewarePipeline<T>(context: MiddlewareContext<T>, middleware: MiddlewareFunction<T>[], index: number = 0) {
     const nextMiddleware = middleware[index];
 
     if (!nextMiddleware) {
@@ -10,5 +28,3 @@ function middlewarePipeline(context: any, middleware: any, index: any) {
         nextMiddleware({ ...context, next: nextPipeline });
     };
 }
-
-export default middlewarePipeline;
