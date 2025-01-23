@@ -38,6 +38,13 @@ jobs:
         if: ${{ needs.pre-job.outputs.should_run_server == 'false' && !github.event.pull_request.head.repo.fork }}
         runs-on: ubuntu-latest
         steps:
+            - name: Generate a token
+              id: generate-token
+              uses: actions/create-github-app-token@v1
+              with:
+                  app-id: ${{ secrets.PUSH_O_MATIC_APP_ID }}
+                  private-key: ${{ secrets.PUSH_O_MATIC_APP_KEY }}
+
             - name: Checkout Repository
               uses: actions/checkout@v2
               with:
@@ -58,7 +65,7 @@ jobs:
               uses: peaceiris/actions-gh-pages@v3
               with:
                   external_repository: wizarrrrr/storybook.wizarr.org
-                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  personal_token: ${{ steps.generate-token.outputs.token }}
                   publish_dir: ./dist/storybook/wizarr-frontend
                   cname: storybook.wizarr.org
 
