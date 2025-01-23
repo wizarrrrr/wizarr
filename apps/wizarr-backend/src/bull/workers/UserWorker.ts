@@ -18,72 +18,69 @@ export interface UserWorkerResult {
 }
 
 const UserWorkerHandler = async (job: Job<UserWorkerData, UserWorkerResult>) => {
-    // Log the start of the job
-    job.log(`Starting job for server ${job.data.server.id}`);
+    try {
+        // Log the start of the job
+        job.log(`Starting job for server ${job.data.server.id}`);
 
-    // Progress tracker for axios
-    const onDownloadProgress = (progressEvent: AxiosProgressEvent) => {
-        const progress = progressEvent.progress * 100 * 0.8;
-        job.updateProgress(progress);
-    };
+        // Progress tracker for Axios
+        const onDownloadProgress = (progressEvent: AxiosProgressEvent) => {
+            const progress = (progressEvent.progress ?? 0) * 80; // Ensure progressEvent.progress is not undefined
+            job.updateProgress(progress);
+        };
 
-    // Get the users from the server
-    const users = await getUsers(job.data.server, {
-        onDownloadProgress: onDownloadProgress,
-        timeout: 360000, // 6 minutes timeout
-    }).catch((error) => job.moveToFailed(error, nanoid()));
+        // Fetch users from the server
+        const users = await getUsers(job.data.server, {
+            onDownloadProgress,
+            timeout: 360_000, // 6 minutes timeout
+        });
 
-    // If the users are null, return
-    if (!users) return;
+        if (!users || users.length === 0) {
+            job.log(`No users found for server ${job.data.server.id}, finishing job`);
+            return;
+        }
 
-    // If the users are empty, return
-    if (users.length === 0) {
-        job.log(`No users found for server ${job.data.server.id}, finishing job`);
-        return;
+        job.log(`Found ${users.length} users`);
+
+        // Retrieve the server from the database
+        const serverRepository = connection.getRepository(Server);
+        const server = await serverRepository.findOneOrFail({
+            where: { id: job.data.server.id },
+        });
+
+        job.log(`Saving ${users.length} users to the database for server ${server.id}`);
+
+        // Save the users to the server
+        server.users = users;
+        await server.save();
+
+        job.updateProgress(100);
+
+        return { users };
+    } catch (error) {
+        job.log(`Job failed: ${error.message}`);
+        await job.moveToFailed(error, nanoid());
+        throw error; // Re-throw to ensure Worker emits a "failed" event
     }
-
-    // Log the total number of users
-    job.log(`Found ${users.length} users`);
-
-    // Get the server from the database
-    const serverRepository = connection.getRepository(Server);
-
-    // Find query for servers
-    const query: FindOneOptions<Server> = {
-        where: { id: job.data.server.id },
-    };
-
-    // Save the users to the database
-    const server = await serverRepository.findOneOrFail(query).catch((error) => job.moveToFailed(error, nanoid()));
-
-    // If the server is null, return
-    if (!server) return;
-
-    // Log saving the users to the database
-    job.log(`Saving ${users.length} users to the database for server ${server.id}`);
-
-    // Save the users to the server
-    server.users = users;
-    server.save();
-
-    // Update the progress to 100%
-    job.updateProgress(100);
-
-    // Return the users
-    return { users: users };
 };
 
+// Create the Worker
 const UserWorker = new Worker("user", UserWorkerHandler, {
     connection: reddisConfig(),
     concurrency: 1,
 });
 
+// Notify on completion
 UserWorker.on("completed", (job) => {
     NotificationQueue.add(nanoid(), {
         title: "Users scanned",
         message: `Scanned ${job.data.server.name} for users`,
         type: "success",
     });
+});
+
+// Log job failures
+UserWorker.on("failed", (job, err) => {
+    console.error(`User scan job failed: ${job?.id}, Error: ${err.message}`);
 });
 
 export default UserWorker;
