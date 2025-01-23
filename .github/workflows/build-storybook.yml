@@ -32,44 +32,44 @@ jobs:
               id: should_force
               run: echo "should_force=${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' }}" >> "$GITHUB_OUTPUT"
 
-        build-storybook:
-            name: Build Storybook
-            needs: pre-job
-            if: ${{ needs.pre-job.outputs.should_run_server == 'false' && !github.event.pull_request.head.repo.fork }}
-            runs-on: ubuntu-latest
-            steps:
-                - name: Generate a token
-                  id: generate-token
-                  uses: actions/create-github-app-token@v1
-                  with:
-                      app-id: ${{ secrets.PUSH_O_MATIC_APP_ID }}
-                      private-key: ${{ secrets.PUSH_O_MATIC_APP_KEY }}
+    build-storybook:
+        name: Build Storybook
+        needs: pre-job
+        if: ${{ needs.pre-job.outputs.should_run_server == 'false' && !github.event.pull_request.head.repo.fork }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Generate a token
+              id: generate-token
+              uses: actions/create-github-app-token@v1
+              with:
+                  app-id: ${{ secrets.PUSH_O_MATIC_APP_ID }}
+                  private-key: ${{ secrets.PUSH_O_MATIC_APP_KEY }}
 
-                - name: Checkout Repository
-                  uses: actions/checkout@v2
-                  with:
-                      fetch-depth: 0
+            - name: Checkout Repository
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
 
-                - name: Set up Node.js
-                  uses: actions/setup-node@v4
-                  with:
-                      node-version: 22.11.0
+            - name: Set up Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22.11.0
 
-                - name: Install Dependencies
-                  run: npm ci --ignore-scripts
+            - name: Install Dependencies
+              run: npm ci --ignore-scripts
 
-                - name: Build Storybook
-                  run: npx nx run wizarr-frontend:build-storybook
+            - name: Build Storybook
+              run: npx nx run wizarr-frontend:build-storybook
 
-                - name: Deploy Storybook
-                  uses: peaceiris/actions-gh-pages@v3
-                  with:
-                      external_repository: wizarrrrr/storybook.wizarr.org
-                      personal_token: ${{ steps.generate-token.outputs.token }}
-                      publish_dir: ./dist/storybook/wizarr-frontend
-                      cname: storybook.wizarr.org
+            - name: Deploy Storybook
+              uses: peaceiris/actions-gh-pages@v3
+              with:
+                  external_repository: wizarrrrr/storybook.wizarr.org
+                  personal_token: ${{ steps.generate-token.outputs.token }}
+                  publish_dir: ./dist/storybook/wizarr-frontend
+                  cname: storybook.wizarr.org
 
-                - name: Deploy Storybook to Chromatic
-                  run: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes --storybook-build-dir ./dist/storybook/wizarr-frontend
-                  env:
-                      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+            - name: Deploy Storybook to Chromatic
+              run: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN --exit-zero-on-changes --storybook-build-dir ./dist/storybook/wizarr-frontend
+              env:
+                  CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
