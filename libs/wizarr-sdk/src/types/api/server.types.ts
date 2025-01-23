@@ -16,7 +16,7 @@ export interface Server {
     type: string;
     host: string;
     hostOverride?: string;
-    apiKey: string;
+    apiKey?: string;
     libraries?: ServerLibraries;
     createdAt: Date;
 }
