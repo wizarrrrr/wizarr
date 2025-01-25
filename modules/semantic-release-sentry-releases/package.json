@@ -8,10 +8,15 @@
     },
     "homepage": "https://github.com/wizarrrrr/semantic-release-sentry-releases#readme",
     "dependencies": {
+        "@ctrl/plex": "3.4.0",
+        "@koa/cors": "5.0.0",
         "@semantic-release/error": "^3.0.0",
         "aggregate-error": "^3.1.0",
         "form-data": "^4.0.0",
-        "git-diff-tree": "^1.1.0"
+        "git-diff-tree": "^1.1.0",
+        "next": "13.5.8",
+        "plex-oauth": "1.2.2",
+        "universal-cookie": "7.2.2"
     },
     "devDependencies": {
         "@commitlint/cli": "17.7.2",
@@ -22,7 +27,7 @@
         "@types/node": "16.11.24",
         "@types/semantic-release": "17.2.3",
         "lint-staged": "12.5.0",
-        "nock": "13.2.4",
+        "nock": "^13.5.6",
         "nyc": "15.1.0",
         "nyc-config-common": "1.0.1",
         "semantic-release": "22.0.5",

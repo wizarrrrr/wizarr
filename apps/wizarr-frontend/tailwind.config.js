@@ -51,4 +51,4 @@ export const plugins = [
     require('tailwind-scrollbar'), // scrollbar
 ];
 
-export default { content, darkMode, theme, plugins };
+export default { config: { content, darkMode, theme, plugins } };

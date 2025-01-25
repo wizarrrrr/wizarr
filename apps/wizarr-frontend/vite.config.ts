@@ -10,7 +10,7 @@ import { defineConfig } from "vite";
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 import svgLoader from "vite-svg-loader";
 import tailwindConfig from "./tailwind.config";
-import tailwindcss from "tailwindcss";
+import tailwindcss, { type Config } from "tailwindcss";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import markdownRawPlugin from "vite-raw-plugin";
@@ -62,6 +62,11 @@ export default defineConfig({
         include: ["src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     },
     css: {
+        preprocessorOptions: {
+            scss: {
+                api: "modern-compiler"
+            }
+        },
         postcss: {
             plugins: [
                 tailwindcss(tailwindConfig), // Initialize TailwindCSS
@@ -69,5 +74,4 @@ export default defineConfig({
             ],
         },
     },
-    // assetsInclude: ["**/*.html"],
 });

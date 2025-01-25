@@ -1,3 +1,4 @@
+@use "sass:meta";
 $flag-icons-path: '../img/flags' !default;
 
 .fib {
@@ -26,7 +27,7 @@ $flag-icons-path: '../img/flags' !default;
     }
 }
 
-@if variable-exists(flag-icons-included-countries) {
+@if meta.variable-exists(flag-icons-included-countries) {
     @each $country in $flag-icons-included-countries {
         @include flag-icon($country);
     }

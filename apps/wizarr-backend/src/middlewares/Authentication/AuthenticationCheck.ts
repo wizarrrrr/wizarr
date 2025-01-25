@@ -23,7 +23,7 @@ export const koaAuthorizationCheck: Middleware = async (ctx, next) => {
 
 export const authorizationCheck = async (ctx: Context | ParameterizedContext<DefaultState, DefaultContext, any>, roles: string | string[]) => {
     // Get the authorization header from the request or cookie if in development mode
-    const authorization = ctx.request.headers.authorization ?? (process.env.NODE_ENV === "development" ? ctx.cookies.get("refresh") : undefined);
+    const authorization = ctx.request.headers.authorization ?? ctx.cookies.get("refresh");
 
     // If the authorization header is not set, return false
     if (!authorization) throw new InvalidCredentials("No authorization header set");

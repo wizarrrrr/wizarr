@@ -1,16 +1,16 @@
-@import "./fonts.scss";
+@use "fonts.scss";
 
 // Internal libraries
-@import "./tailwind.scss";
-@import "./extend.scss";
-@import "./animations.scss";
-@import "./xterm.scss";
-@import "./flags.scss";
-@import "./popper.scss";
-@import "./modal.scss";
-@import "./map.scss";
-@import "./tour.scss";
-@import "./markdown.scss";
+@use "tailwind.scss";
+@use "extend.scss";
+@use "animations.scss";
+@use "xterm.scss";
+@use "flags.scss";
+@use "popper.scss";
+@use "modal.scss";
+@use "map.scss";
+@use "tour.scss";
+@use "markdown.scss";
 
 // External libraries
 @import "floating-vue/dist/style.css";
