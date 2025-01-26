@@ -5,18 +5,17 @@
   "identifier": "com.wizarr.dev",
   "build": {
     "frontendDist": "../dist/apps/wizarr-frontend",
-    "devUrl": "https://5173--main--wizarr--ashley.dev.gitcloud.org",
+    "devUrl": "http://localhost:5173",
     "beforeDevCommand": "npm run start:frontend",
     "beforeBuildCommand": "npm run build:frontend"
   },
   "app": {
+    "withGlobalTauri": true,
     "windows": [
       {
         "title": "Wizarr",
-        "width": 800,
-        "height": 600,
         "resizable": true,
-        "fullscreen": true
+        "fullscreen": false
       }
     ],
     "security": {

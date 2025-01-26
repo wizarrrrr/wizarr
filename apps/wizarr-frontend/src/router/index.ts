@@ -36,24 +36,25 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
     // Get the auth store and check if the user is authenticated
     const authStore = useAuthStore();
+    var nextPage = next;
 
     // Start progress bar
     useProgressStore().startProgress();
 
     // Check if there exists a middleware to run
-    if (!to.meta.middleware) {
-        return next();
+    if (to.meta.middleware) {
+        // Determine the middleware pipeline as an array and create a context object
+        const middleware = to.meta.middleware as any[];
+        const context = { to, from, next, parameters: { authStore, router } };
+
+        // Run the middleware pipeline
+        nextPage = middleware[0]({
+            ...context,
+            next: middlewarePipeline(context, middleware, 1),
+        });
     }
 
-    // Determine the middleware pipeline as an array and create a context object
-    const middleware = to.meta.middleware as any[];
-    const context = { to, from, next, parameters: { authStore, router } };
-
-    // Run the middleware pipeline
-    return middleware[0]({
-        ...context,
-        next: middlewarePipeline(context, middleware, 1),
-    });
+    return nextPage();
 });
 
 router.afterEach(() => {

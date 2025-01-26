@@ -16,6 +16,7 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import markdownRawPlugin from "vite-raw-plugin";
 
 export default defineConfig({
+    clearScreen: true,
     cacheDir: "../../node_modules/.vite/wizarr",
     plugins: [
         vue(), // Initizalize Vue Plugin
@@ -29,8 +30,11 @@ export default defineConfig({
         }),
     ],
     build: {
-        sourcemap: true,
+        target: process.env.TAURI_ENV_PLATFORM == 'windows' ? 'chrome105' : 'safari13',
+        minify: !process.env.TAURI_ENV_DEBUG ? 'esbuild' : false,
+        sourcemap: !!process.env.TAURI_ENV_DEBUG,
     },
+    envPrefix: ['VITE_', 'TAURI_ENV_*'],
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
