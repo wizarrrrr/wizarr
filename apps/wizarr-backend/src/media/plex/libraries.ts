@@ -5,7 +5,7 @@ import { ServerLibrary } from "../../api/models/Server/ServerLibraryModel";
 
 import type { Section } from "@wizarrrrr/plex-sdk";
 
-import { connection } from "../../data-source";
+import { connection } from "../../config/connection";
 
 export const getLibraries = async <B extends boolean>(server: Server, translate?: B): Promise<B extends true ? ServerLibrary[] : Section[]> => {
     const api = await createClient(server.host, server.apiKey);

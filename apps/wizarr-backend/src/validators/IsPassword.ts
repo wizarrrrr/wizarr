@@ -1,6 +1,6 @@
 import { registerDecorator, ValidationOptions, ValidationArguments } from "class-validator";
 import { DiversityType, passwordStrength } from "check-password-strength";
-import { env } from "../utils/env.helper";
+
 
 export function IsPassword(validationOptions?: ValidationOptions) {
     return function (object: Object, propertyName: string) {

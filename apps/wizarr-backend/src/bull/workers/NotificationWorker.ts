@@ -1,4 +1,4 @@
-import { reddisConfig } from "../../config/bull";
+import { redis } from "../../config/redis";
 import { Job, Worker } from "bullmq";
 
 export interface Notifications {
@@ -36,7 +36,7 @@ const NotificationWorkerHandler = async (job: Job<NotificationWorkerData, Notifi
 };
 
 const NotificationWorker = new Worker("notifications", NotificationWorkerHandler, {
-    connection: reddisConfig(),
+    connection: redis,
     concurrency: 10, // Handle up to 10 jobs concurrently
 });
 

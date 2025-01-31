@@ -1,7 +1,7 @@
 import { RepositoryBase } from "../BaseRepository";
 import { Server } from "../../models/Server/ServerModel";
 import { EntityRepository } from "../../../decorators/entity-repository.decorator";
-import { connection as datasource } from "../../../data-source";
+import { connection as datasource } from "../../../config/connection";
 import { Service } from "typedi";
 
 @Service()

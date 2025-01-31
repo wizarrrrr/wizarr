@@ -1,0 +1,26 @@
+{
+    "name": "ora",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/ora/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/ora",
+                "main": "libs/ora/src/index.ts",
+                "tsConfig": "libs/ora/tsconfig.lib.json",
+                "assets": ["libs/ora/*.md"]
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/ora/**/*.ts", "libs/ora/package.json"]
+            }
+        }
+    },
+    "tags": []
+}

@@ -1,12 +1,12 @@
-import { databasePath } from "../config/paths";
 import { existsSync, readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
 import nodeCache from "node-cache";
 import app from "../main";
 
-//  Time constants
-//  These are not exact, but they are close enough for our purposes
+/**
+ * Constants for time conversions
+ */
 export const ONE_MINUTE = 60;
 export const ONE_HOUR = ONE_MINUTE * 60;
 export const ONE_DAY = ONE_HOUR * 24;
@@ -84,7 +84,7 @@ export const cache = async (cache: nodeCache, fn: Function, key: string, ttl?: n
  */
 export const setValue = (cache: nodeCache, key: string, value: any, ttl?: number) => {
     cache.set(key, value, ttl || ONE_HOUR);
-    persistCache(cache, resolve(databasePath, "cacheon"));
+    persistCache(cache, resolve(env("DATABASE_DIR"), "cacheon"));
     return value;
 };
 
@@ -95,7 +95,7 @@ export const setValue = (cache: nodeCache, key: string, value: any, ttl?: number
  * @returns True if the cache has a value for the specified key, false otherwise
  */
 export const hasValue = (cache: nodeCache, key: string) => {
-    restoreCache(cache, resolve(databasePath, "cacheon"));
+    restoreCache(cache, resolve(env("DATABASE_DIR"), "cacheon"));
     return cache.has(key);
 };
 
@@ -106,7 +106,7 @@ export const hasValue = (cache: nodeCache, key: string) => {
  * @returns The value for the specified key
  */
 export const getValue = (cache: nodeCache, key: string) => {
-    restoreCache(cache, resolve(databasePath, "cacheon"));
+    restoreCache(cache, resolve(env("DATABASE_DIR"), "cacheon"));
     return cache.get(key);
 };
 

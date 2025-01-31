@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { EntityBase } from "../BaseModel";
 import { Invitation } from "../Invitation/InvitationModel";
-import { DateTimeNow, DateTimeType } from "../../../data-source";
+import { DateTimeNow, DateTimeType } from "../../../config/connection";
 import { Server } from "../Server/ServerModel";
 
 @Entity("users")
@@ -36,6 +36,6 @@ export class User extends EntityBase {
     @Column({ type: DateTimeType, nullable: true })
     lastActivityAt: Date | null;
 
-    @CreateDateColumn(DateTimeNow())
+    @CreateDateColumn(DateTimeNow)
     createdAt: Date;
 }

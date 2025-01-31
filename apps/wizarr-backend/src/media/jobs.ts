@@ -1,7 +1,7 @@
 import { BullMQ } from "../bull";
 import { Server } from "../api/models/Server/ServerModel";
 import { UserWorkerData } from "../bull/workers/UserWorker";
-import { connection } from "../data-source";
+import { connection } from "../config/connection";
 import { LoggerInterface } from "../decorators/LoggerDecorator";
 import { BulkJobOptions, Job, JobsOptions, Queue } from "bullmq";
 import Container from "typedi";

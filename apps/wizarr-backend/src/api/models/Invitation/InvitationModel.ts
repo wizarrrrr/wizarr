@@ -1,6 +1,6 @@
 import { BeforeUpdate, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "../User/UserModel";
-import { DateTimeNow, DateTimeType } from "../../../data-source";
+import { DateTimeNow, DateTimeType } from "../../../config/connection";
 import { ServerLibrary } from "../Server/ServerLibraryModel";
 import { Admin } from "../Account/AdminModel";
 import { Server } from "../Server/ServerModel";
@@ -40,7 +40,7 @@ export class Invitation {
     @Column({ type: DateTimeType, nullable: true })
     usedAt: Date;
 
-    @CreateDateColumn(DateTimeNow())
+    @CreateDateColumn(DateTimeNow)
     createdAt: Date;
 
     @BeforeUpdate()

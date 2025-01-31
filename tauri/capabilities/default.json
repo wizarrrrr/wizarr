@@ -8,6 +8,7 @@
   "permissions": [
     "core:default",
     "os:default",
-    "notification:default"
+    "notification:default",
+    "log:default"
   ]
 }

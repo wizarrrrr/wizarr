@@ -1,7 +1,7 @@
 import { Server } from "../../api/models/Server/ServerModel";
 import { User } from "../../api/models/User/UserModel";
-import { reddisConfig } from "../../config/bull";
-import { connection } from "../../data-source";
+import { redis } from "../../config/redis";
+import { connection } from "../../config/connection";
 import { getUsers } from "../../media/index";
 import { AxiosProgressEvent } from "axios";
 import { Job, Worker } from "bullmq";
@@ -65,22 +65,27 @@ const UserWorkerHandler = async (job: Job<UserWorkerData, UserWorkerResult>) => 
 
 // Create the Worker
 const UserWorker = new Worker("user", UserWorkerHandler, {
-    connection: reddisConfig(),
+    connection: redis,
     concurrency: 1,
 });
 
 // Notify on completion
 UserWorker.on("completed", (job) => {
     NotificationQueue.add(nanoid(), {
-        title: "Users scanned",
-        message: `Scanned ${job.data.server.name} for users`,
+        title: "Scan Complete",
+        message: `${job.data.server.name} user scan has completed`,
         type: "success",
     });
 });
 
 // Log job failures
 UserWorker.on("failed", (job, err) => {
-    console.error(`User scan job failed: ${job?.id}, Error: ${err.message}`);
+    console.error(`${job.data.server.name} user scan failed: ${err.message}`);
+    NotificationQueue.add(nanoid(), {
+        title: "Scan Failed",
+        message: `${job.data.server.name} user scan has failed`,
+        type: "error",
+    });
 });
 
 export default UserWorker;

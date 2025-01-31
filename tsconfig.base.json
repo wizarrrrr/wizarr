@@ -15,6 +15,7 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
+            "@wizarrrrr/ora": ["libs/ora/src/index.ts"],
             "@wizarrrrr/plex-sdk": ["libs/plex-sdk/src/index.ts"],
             "@wizarrrrr/typeorm-simple-query-parser": ["libs/typeorm-simple-query-parser/src/index.ts"],
             "@wizarrrrr/wizarr-sdk": ["libs/wizarr-sdk/src/index.ts"]

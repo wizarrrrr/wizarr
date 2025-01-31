@@ -1,5 +1,7 @@
-import path from "path";
+import { resolve } from "path";
 
-export const rootPath = process.env.ROOT_PATH ?? path.resolve(__dirname, "../", "../", "../");
-export const latestFile = process.env.LATEST_FILE ?? path.resolve(rootPath, "../", "../", "latest");
-export const databasePath = process.env.DATABASE_DIR ?? path.resolve(rootPath, "../", "../", "database");
+console.log(process.env.DATABASE_DIR);
+console.log(process.env.ROOT_PATH);
+process.env.DATABASE_DIR = env("DATABASE_DIR", resolve(process.env.ROOT_PATH, "database"));
+
+// Set environment variables for the application

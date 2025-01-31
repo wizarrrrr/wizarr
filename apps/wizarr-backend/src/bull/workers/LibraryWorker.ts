@@ -1,11 +1,11 @@
 import { Server } from "../../api/models/Server/ServerModel";
 import { ServerLibrary } from "../../api/models/Server/ServerLibraryModel";
-import { reddisConfig } from "../../config/bull";
+import { redis } from "../../config/redis";
 import { Job, Worker } from "bullmq";
 import { AxiosProgressEvent } from "axios";
 import { nanoid } from "nanoid";
 import { getLibraries } from "../../media/index";
-import { connection } from "../../data-source";
+import { connection } from "../../config/connection";
 import NotificationQueue from "../queues/NotificationQueue";
 
 export interface LibraryWorkerData {
@@ -64,7 +64,7 @@ const LibraryWorkerHandler = async (job: Job<LibraryWorkerData, LibraryWorkerRes
 };
 
 const LibraryWorker = new Worker("library", LibraryWorkerHandler, {
-    connection: reddisConfig(),
+    connection: redis,
     concurrency: 1, // Limit concurrency to ensure one job is processed at a time
 });
 

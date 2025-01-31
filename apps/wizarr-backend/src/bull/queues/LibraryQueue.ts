@@ -1,9 +1,9 @@
 import { Queue } from "bullmq";
 import { LibraryWorkerData, LibraryWorkerResult } from "../workers/LibraryWorker";
-import { reddisConfig } from "../../config/bull";
+import { redis } from "../../config/redis";
 
 const LibraryQueue = new Queue<LibraryWorkerData, LibraryWorkerResult>("library", {
-    connection: reddisConfig(),
+    connection: redis,
 });
 
 export default LibraryQueue;

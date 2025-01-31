@@ -1,5 +1,16 @@
 import "./assets/scss/main.scss";
+import { warn, debug, trace, info, error } from '@tauri-apps/plugin-log';
 
+function overrideConsole() {
+    if (window.__TAURI__) {
+      console.warn = (...args) => warn(args.join(' '));
+      console.debug = (...args) => debug(args.join(' '));
+      console.trace = (...args) => trace(args.join(' '));
+      console.info = (...args) => info(args.join(' '));
+      console.error = (...args) => error(args.join(' '));
+    }
+}
+  
 import Axios, { piniaPluginAxios } from "./plugins/axios";
 import Filters, { piniaPluginFilters } from "./plugins/filters";
 import Firebase, { piniaPluginFirebase } from "./plugins/firebase";
@@ -27,6 +38,10 @@ import formkitConfig from "./formkit.config";
 import i18n from "./i18n";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import router from "./router";
+
+// Call the override function
+overrideConsole();
+
 
 const app = createApp(App);
 const pinia = createPinia();

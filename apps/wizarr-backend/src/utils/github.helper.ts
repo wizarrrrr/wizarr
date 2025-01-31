@@ -1,7 +1,8 @@
 import { Octokit } from "octokit";
 import { sortSemverTags, versionBetaRegex } from "./versions.helper";
 import { ONE_DAY, cache, githubCache } from "./cache.helper";
-import { env } from "./env.helper";
+import { RestEndpointMethodTypes } from "@octokit/plugin-rest-endpoint-methods";
+
 
 const auth = env("GITHUB_TOKEN");
 const octokit = new Octokit({ auth: auth });
@@ -72,7 +73,7 @@ export const getDescription = async (): Promise<string | null> => {
 export const getLicense = async (): Promise<Record<string, string> | null> => {
     try {
         // Retrieve the repo
-        const response = await octokit.rest.repos.get({ owner, repo }).catch(() => null);
+        const response = await octokit.rest.repos.get({ owner, repo }).catch(null);
         // Return the license
         return response?.data?.license as Record<string, string> | null;
     } catch (error) {

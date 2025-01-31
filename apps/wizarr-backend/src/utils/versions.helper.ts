@@ -1,14 +1,13 @@
 import semver from "semver";
 import fs from "fs";
 
-import { latestFile } from "../config/paths";
 import { getLatestStableVersion as getLatestStableVersionGithub, getLatestBetaVersion as getLatestBetaVersionGithub } from "./github.helper";
 import { cache, versionCache, ONE_HOUR } from "./cache.helper";
 import { tryCatchAsync } from "./catch.helper";
 import path from "path";
 
 export const versionRegex = /v(\d+\.\d+\.\d+)/;
-export const versionBetaRegex = /v(\d+\.\d+\.\d+-beta\.\d+)/;
+export const versionBetaRegex = /v(\d+\.\d+\.\d+-beta(?:\.\d+)?)/;
 
 export const cachedGetLatestStableVersion = async () => await cache(versionCache, getLatestStableVersionGithub, "latest_stable", ONE_HOUR);
 export const cachedGetLatestBetaVersion = async () => await cache(versionCache, getLatestBetaVersionGithub, "latest_beta", ONE_HOUR);
@@ -40,7 +39,10 @@ export async function isLatest(): Promise<boolean> {
     const latestVersion = await getLatestVersion();
 
     // Check if the current version is the latest version
-    return await tryCatchAsync(async () => await compareVersions(currentVersion, latestVersion) === 0, async () => true);
+    return await tryCatchAsync(
+        async () => (await compareVersions(currentVersion, latestVersion)) === 0,
+        async () => true,
+    );
 }
 
 export async function isBeta() {
@@ -87,21 +89,20 @@ export async function getLatestBetaVersion() {
 }
 
 export async function getCurrentVersion(): Promise<string> {
-
     var version = "0.0.0";
 
     if (process.env.WIZARR_PACKAGE_VERSION) {
-        version = process.env.WIZARR_PACKAGE_VERSION
+        version = process.env.WIZARR_PACKAGE_VERSION;
     }
 
-    if (fs.existsSync(path.resolve(__dirname, '../../../../../', 'package.json'))) {
-        version = require(path.resolve(__dirname, '../../../../../', 'package.json')).version;
+    if (fs.existsSync(path.resolve(__dirname, "../../../../../", "package.json"))) {
+        version = require(path.resolve(__dirname, "../../../../../", "package.json")).version;
     }
 
-    if (fs.existsSync(path.resolve(__dirname, '../../../../', 'package.json'))) {
-        version = require(path.resolve(__dirname, '../../../../', 'package.json')).version;
+    if (fs.existsSync(path.resolve(__dirname, "../../../../", "package.json"))) {
+        version = require(path.resolve(__dirname, "../../../../", "package.json")).version;
     }
-    
+
     // Return the version
     return "v" + version;
 }

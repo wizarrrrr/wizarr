@@ -1,13 +1,3 @@
 {
-    "recommendations": [
-        "nrwl.angular-console",
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint",
-        "firsttris.vscode-jest-runner",
-        "dbaeumer.vscode-eslint",
-        "hollowtree.vue-snippets",
-        "pkief.material-icon-theme",
-        "github.copilot",
-        "nicholashsiang.vscode-vue3-snippets"
-    ]
+    "recommendations": ["nrwl.angular-console", "esbenp.prettier-vscode", "dbaeumer.vscode-eslint", "firsttris.vscode-jest-runner", "dbaeumer.vscode-eslint", "hollowtree.vue-snippets", "pkief.material-icon-theme", "github.copilot", "nicholashsiang.vscode-vue3-snippets"]
 }

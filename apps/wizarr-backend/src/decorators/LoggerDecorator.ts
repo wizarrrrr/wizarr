@@ -1,5 +1,5 @@
 import Container, { Constructable } from "typedi";
-import { Logger } from "pino";
+import type { ConsolaInstance } from "consola";
 
 export function Logger(): CallableFunction {
     return function (object: Object, propertyName: string, index?: number) {
@@ -14,4 +14,4 @@ export function Logger(): CallableFunction {
     };
 }
 
-export type LoggerInterface = Logger;
+export type LoggerInterface = ConsolaInstance;

@@ -3,7 +3,7 @@ import { Role } from "./RoleModel";
 import { hashPassword } from "../../../utils/password.helper";
 import { EntityBase } from "../BaseModel";
 import { Session } from "./SessionsModel";
-import { DateTimeNow } from "../../../data-source";
+import { DateTimeNow } from "../../../config/connection";
 import { Server } from "../Server/ServerModel";
 import { Invitation } from "../Invitation/InvitationModel";
 
@@ -37,7 +37,7 @@ export class Admin extends EntityBase {
     @OneToMany(() => Invitation, (invitation) => invitation.admin, { nullable: true })
     invitations: Invitation[];
 
-    @CreateDateColumn(DateTimeNow())
+    @CreateDateColumn(DateTimeNow)
     createdAt: Date;
 
     @BeforeInsert()

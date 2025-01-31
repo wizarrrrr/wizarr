@@ -91,6 +91,7 @@ export default defineComponent({
             this.setVersionData(versionData);
         },
         async notificationService() {
+            window.test = this.$io;
             // Connect to the socket notifications service
             if (this.isAuthenticated()) {
                 this.notificationSocket = this.$io("/notifications", {

@@ -4,7 +4,7 @@ import { InjectRepository } from "../../decorators/InjectRepository";
 import { Service } from "typedi";
 import { InformationRepository } from "../repositories/InformationRepository";
 import { Information } from "../models/InformationModel";
-import { booleanConverter, env } from "../../utils/env.helper";
+import { booleanConverter } from "../../utils/env.helper";
 
 import type { Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 import { AdminRepository } from "../repositories/Account/AdminRepository";

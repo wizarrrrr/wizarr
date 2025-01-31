@@ -1,9 +1,6 @@
 {
     "extends": "../../tsconfig.base.json",
-    "include": [
-        "./src/**/*.ts",
-        "./types/**/*.d.ts"
-    ],
+    "include": ["./src/**/*.ts", "./src/types/**/*.d.ts"],
     "compilerOptions": {
         "target": "ESNext",
         "module": "CommonJS",
@@ -20,10 +17,7 @@
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
         "strictPropertyInitialization": false,
-        "types": [
-            "node",
-            "reflect-metadata"
-        ]
+        "types": ["node", "reflect-metadata"]
     },
     "ts-node": {
         "esm": false

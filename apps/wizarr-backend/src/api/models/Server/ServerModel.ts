@@ -4,7 +4,7 @@ import { ServerLibrary } from "./ServerLibraryModel";
 import { Admin } from "../Account/AdminModel";
 
 import type { Server as IServer } from "@wizarrrrr/wizarr-sdk";
-import { DateTimeNow } from "../../../data-source";
+import { DateTimeNow } from "../../../config/connection";
 import { User } from "../User/UserModel";
 import { Invitation } from "../Invitation/InvitationModel";
 
@@ -43,6 +43,6 @@ export class Server extends EntityBase implements IServer {
     @ManyToOne(() => Admin, (admin) => admin.servers)
     admin: Admin;
 
-    @CreateDateColumn(DateTimeNow())
+    @CreateDateColumn(DateTimeNow)
     createdAt: Date;
 }

@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, BeforeInsert, BeforeUpdate } from "typeorm";
 import { EntityBase } from "../BaseModel";
 import { Admin } from "./AdminModel";
-import { DateTimeNow } from "../../../data-source";
+import { DateTimeNow } from "../../../config/connection";
 
 @Entity("sessions")
 export class Session extends EntityBase {
@@ -26,10 +26,10 @@ export class Session extends EntityBase {
     @Column("text")
     userId: string;
 
-    @CreateDateColumn(DateTimeNow())
+    @CreateDateColumn(DateTimeNow)
     lastUsedAt: Date;
 
-    @CreateDateColumn(DateTimeNow())
+    @CreateDateColumn(DateTimeNow)
     createdAt: Date;
 
     @BeforeInsert()

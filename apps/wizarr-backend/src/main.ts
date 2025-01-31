@@ -1,54 +1,84 @@
-import "reflect-metadata";
+import "reflect-metadata"; // Enables decorators and metadata reflection used in routing-controllers and class-validator
+import path from "path"; // Path module for resolving paths
 
-import { registerModuleAlias } from "./utils/modules.helper";
+// Register paths for application environment
+process.env.ROOT_PATH = process.env.ROOT_PATH ?? path.resolve(__dirname, "../");
+process.env.DATABASE_DIR = process.env.DATABASE_DIR ?? path.resolve(__dirname, "../../", "database");
 
-registerModuleAlias(__dirname);
+import "./utils/modules.helper"; // Register module aliases for the application
+import "./utils/env.helper"; // Load environment variables from .env file
 
-import { getMetadataArgsStorage, RoutingControllersOptions, useContainer as useContainerRC, useKoaServer } from "routing-controllers";
-import { SocketControllers } from "socket-controllers";
-import { Container } from "typedi";
-import { routingControllersToSpec } from "routing-controllers-openapi";
-import { validationMetadatasToSchemas } from "class-validator-jsonschema";
+// Core modules for creating REST APIs and WebSocket communication
+import { getMetadataArgsStorage, RoutingControllersOptions, useContainer as useContainerRC, useKoaServer } from "routing-controllers"; // For setting up controllers and routes
+import { SocketControllers } from "socket-controllers"; // For WebSocket-based communication
+import { Container } from "typedi"; // Dependency injection container
+import { routingControllersToSpec } from "routing-controllers-openapi"; // Convert routes to OpenAPI specs
+import { validationMetadatasToSchemas } from "class-validator-jsonschema"; // Generate JSON schemas from class-validator metadata
+
+// Swagger API documentation configuration
 import { swaggerConfig } from "./config/swagger";
-import { koaSwagger } from "koa2-swagger-ui";
-import { connection } from "./data-source";
+import { koaSwagger } from "koa2-swagger-ui"; // Middleware for serving Swagger UI
+
+// Database and data-source configuration
+import { connection } from "./config/connection";
+
+// Utility for pretty-printing tables in the console
 import { Table } from "console-table-printer";
+
+// Versioning utilities to get current app version and determine beta status
 import { getCurrentVersion, isBeta } from "./utils/versions.helper";
-import { controllerAuthorizationCheck, koaAuthorizationCheck } from "./middlewares/Authentication/AuthenticationCheck";
-import { currentUser } from "./middlewares/Authentication/CurrentUser";
+
+// Middleware for handling authentication and authorization
+import { controllerAuthorizationCheck } from "./middlewares/router/Authentication/AuthenticationCheck"; // Middleware for route-level and app-level auth checks
+import { currentUser } from "./middlewares/router/Authentication/CurrentUser"; // Middleware to fetch and attach the current user context
+
+// OpenAPI types for defining schema objects
 import { SchemaObject } from "openapi3-ts";
-import { init as useSentry, autoDiscoverNodePerformanceMonitoringIntegrations, withScope, captureException } from "@sentry/node";
-import { addRequestDataToEvent } from "@sentry/utils";
-import { Server as server, createServer } from "http";
-import { Server as socketIO, ServerOptions } from "socket.io";
+
+// Error tracking and monitoring using Sentry
+import { init as useSentry, autoDiscoverNodePerformanceMonitoringIntegrations, withScope, captureException } from "@sentry/node"; // Sentry initialization and event tracking
+import { addRequestDataToEvent } from "@sentry/utils"; // Helper to attach request data to Sentry events
+
+// HTTP and WebSocket server creation
+import { Server as HTTPServer, createServer } from "http"; // HTTP server
+import { Server as SocketIOServer, ServerOptions } from "socket.io"; // Socket.IO server
+
+// CORS configuration for cross-origin resource sharing
 import { CorsOptions } from "cors";
-import { databasePath } from "./config/paths";
-import { PrettyOptions } from "pino-pretty";
-import { Logger, TransportTargetOptions } from "pino";
-import { pino } from "./utils/logger.helper";
-import { KoaAdapter } from "./bull/koaAdapter";
-import { createBullBoard } from "@bull-board/api";
-import { Queue, Worker } from "bullmq";
-import { BullMQAdapter } from "@bull-board/api/bullMQAdapter";
-import { Server } from "./api/models/Server/ServerModel";
-import { BullMQ } from "./bull/index";
-import { createKeyPair, existsKeyPair } from "./utils/secret.helper";
-import { scanLibrariesJobs, scanUsersJobs } from "./media/jobs";
-import { writeFileSync } from "fs";
+
+// File system utilities for managing paths and writing files
+import { writeFileSync } from "fs"; // File system module for writing files
+
+// Job queue management using BullMQ
+import { KoaAdapter } from "./bull/koaAdapter"; // Custom adapter to integrate Bull with Koa
+import { createBullBoard } from "@bull-board/api"; // BullBoard for job queue monitoring
+import { Queue, Worker } from "bullmq"; // BullMQ's Queue and Worker classes
+import { BullMQAdapter } from "@bull-board/api/bullMQAdapter"; // Adapter to integrate BullMQ with BullBoard
+import { BullMQ } from "./bull/index"; // BullMQ instance for managing queues
+import { createKeyPair, existsKeyPair } from "./utils/secret.helper"; // Utility to manage encryption keys
+import Redis, { RedisOptions } from "ioredis"; // Redis client for BullMQ
+
+// BullBoard UI configuration types
 import { BoardOptions } from "@bull-board/api/dist/typings/app";
 
-import Koa from "koa";
-import Router from "koa-router";
-import path from "path";
-import colors from "colors";
-import cors from "@koa/cors";
-import pinoHttp, { Options } from "pino-http";
+// Application framework and middleware utilities
+import Koa from "koa"; // Core Koa application framework
+import cors from "@koa/cors"; // CORS middleware for handling cross-origin requests
+import colors from "colors"; // Utility for adding colors to console output
+import { createConsola } from "consola"; // Console logger with color output
+import ip from "ip";
+import logging from "./utils/logging.helper";
+import { Options } from "pino-http";
+import { TransportTargetOptions } from "pino";
+import { PrettyOptions } from "pino-pretty";
 
+/**
+ * The main application class for setting up and running the Koa server.
+ */
 export class App {
     // Define the Koa app and port
     private app: Koa = new Koa();
-    private router = new Router({ strict: true });
-    private httpServer: server = createServer(this.app.callback());
+    private httpServer: HTTPServer = createServer(this.app.callback());
     private port: number = 5001;
 
     // Define the server options for Koa
@@ -80,7 +110,7 @@ export class App {
     };
 
     // Define the logger options for the application
-    private loggerOptions: Options & { transport: { targets: (TransportTargetOptions | { options: { prettyOptions: PrettyOptions } })[] } } = {
+    private pinoOptions: Options & { transport: { targets: (TransportTargetOptions | { options: { prettyOptions: PrettyOptions } })[] } } = {
         timestamp: () => `,"time":"${new Date().toLocaleTimeString()}"`,
         transport: {
             targets: [
@@ -88,21 +118,21 @@ export class App {
                     level: "warn",
                     target: "pino/file",
                     options: {
-                        destination: path.join(databasePath, "/logs/warn.log"),
+                        destination: env("LOG_FILE", path.join(env("DATABASE_DIR"), "/logs/warn.log")),
                         mkdir: true,
                     },
                 },
-                // {
-                //     level: "info",
-                //     target: "@wizarrrrr/pino-http-logger",
-                //     options: {
-                //         all: true,
-                //         prettyOptions: {
-                //             hideObject: true,
-                //             ignore: "pid,hostname",
-                //         },
-                //     },
-                // },
+                {
+                    level: "info",
+                    target: "@wizarrrrr/pino-http-logger",
+                    options: {
+                        all: true,
+                        prettyOptions: {
+                            hideObject: true,
+                            ignore: "pid,hostname",
+                        },
+                    },
+                },
             ],
         },
     };
@@ -122,8 +152,8 @@ export class App {
         routePrefix: "/api",
         classTransformer: true,
         defaultErrorHandler: false,
-        controllers: [path.join(__dirname, "/api/controllers/**/*.{js,ts}")],
-        middlewares: [path.join(__dirname, "/middlewares/**/*.{js,ts}")],
+        controllers: [path.join(__dirname, "/api/controllers/router/**/*.{js,ts}")],
+        middlewares: [path.join(__dirname, "/middlewares/router/**/*.{js,ts}")],
     };
 
     // Define the socket.io options
@@ -133,8 +163,8 @@ export class App {
     };
 
     // Define the logger for the application
-    private logger = pinoHttp(this.loggerOptions);
-    public log: Logger = this.logger.logger;
+    private logger = createConsola({ fancy: true });
+    public log = this.logger;
 
     /**
      * Constructor
@@ -143,12 +173,16 @@ export class App {
     constructor(options?: typeof Koa.arguments) {
         // Merge the default options with the options passed in
         this.serverOptions = { ...this.serverOptions, ...options };
+        this.initialize();
     }
 
     /**
      * Initialize the server
      */
     public async initialize() {
+        // Check connections to services required in the application
+        await this.checkRedisConnection();
+
         // Create a KeyPair for the server if one does not exist
         if (!existsKeyPair()) await createKeyPair();
 
@@ -163,41 +197,109 @@ export class App {
         this.setupSwagger();
         await this.setupBullMQProcessor();
         this.setupBullBoard();
-        this.registerRepeatableJobs();
 
         // Start the server
         this.httpServer.listen(this.port);
 
         // Handle server errors
         this.httpServer.on("error", (err) => {
-            this.log.error(err, "Failed to start server");
+            this.log.error(err.message);
             this.httpServer.close();
             process.exit(1);
         });
 
         // Handle server listening
         this.httpServer.on("listening", async () => {
-            // Create the server table and print it
-            const table = await this.createServerTable();
-            table.printTable();
+            this.createServerTable();
         });
     }
 
     /**
-     * Create a table for server information
+     * Check if Redis connection is able to be established
+     */
+    private async checkRedisConnection() {
+        // Get the Redis connection details
+        const redis = new Redis({
+            host: env("REDIS_HOST", "localhost"),
+            port: env("REDIS_PORT", 6379),
+            username: env("REDIS_USERNAME", undefined),
+            password: env("REDIS_PASSWORD", undefined),
+            maxRetriesPerRequest: 3,
+            enableReadyCheck: false,
+        } as RedisOptions);
+
+        redis.on("error", (err) => {
+            this.log.box({
+                title: colors.bold.red(" Failed to connect to Redis "),
+                message: colors.red(`Failed to connect to Redis at:\n${colors.bold(`${redis.options.host}:${redis.options.port}`)}\n\nPlease check the connection and try again`),
+                style: { borderColor: "red", borderStyle: "double-single-rounded" },
+            });
+            process.exit(0);
+        });
+    }
+
+    /**
+     * Creates and logs a formatted server information table.
      */
     private async createServerTable() {
-        return new Table({
-            title: colors.blue("Backend Server Information"),
-            columns: [
-                { name: "1", title: colors.strip(colors.white("Address")), alignment: "left" },
-                { name: "2", title: colors.green(`http://localhost:${this.port}`), alignment: "left" },
-            ],
-            rows: [
-                { 1: colors.bold("Version"), 2: (await isBeta()) ? colors.yellow(await getCurrentVersion()) : colors.green(await getCurrentVersion()) },
-                { 1: colors.bold("Channel"), 2: (await isBeta()) ? colors.yellow("Beta") : colors.green("Stable") },
-                { 1: colors.bold("Description"), 2: colors.blue("Wizarr is a media server mangement system") },
-            ],
+        /**
+         * Generates a consistent style object for table formatting.
+         * @param val - Optional value to assign to all style keys.
+         * @returns An object with uniform styling for table elements.
+         */
+        const sharedValues = (val: string = "") => Object.fromEntries(["left", "mid", "right", "other"].map((k) => [k, val])) as Record<"left" | "mid" | "right" | "other", string>;
+
+        /**
+         * Creates a formatted table row with specified columns.
+         * @param args - Column values for the table row.
+         * @returns A formatted string representing a single table row.
+         */
+        const table = (...args: string[]) => {
+            const rawTable = new Table({
+                style: {
+                    headerTop: sharedValues(), // Empty top border
+                    headerBottom: sharedValues(" "), // Spaced bottom border
+                    tableBottom: sharedValues(), // Empty bottom border
+                    vertical: "", // No vertical separators
+                },
+            });
+
+            args.forEach((text) => rawTable.addColumn(text)); // Add each argument as a column
+
+            // Render table and remove unnecessary top and bottom lines
+            const lines = rawTable.render().split("\n");
+            return lines.length > 2 ? lines.slice(1, -2).join("\n") : "";
+        };
+
+        // Fetch server information
+        const webAddress = colors.bold.blue.underline(`http://${ip.address()}:5173`);
+        const apiAddress = colors.bold.blue.underline(`http://${ip.address()}:${this.port}/api`);
+        const currentVersion = await getCurrentVersion();
+        const isBetaVersion = await isBeta();
+        const serverVersion = colors.bold.green(isBetaVersion ? colors.yellow(currentVersion) : colors.green(currentVersion));
+        const serverChannel = colors.bold.green(isBetaVersion ? colors.yellow("BETA") : colors.green("STABLE"));
+
+        const buildID = env("WIZARR_BUILD", colors.yellow("NOT BUILT"));
+        const commitREF = env("WIZARR_SOURCE_COMMIT", colors.yellow("NO PULL REQUEST"));
+        const repoSHEBANG = env("WIZARR_REPOSITORY", colors.yellow("NONE DETECTED"));
+
+        // Log the server details inside a styled box
+        this.log.box({
+            title: colors.bold(" 🚀 Wizarr Server 🚀 "), // Box title
+            message: [
+                table("🌎", colors.bold("WEB ADDRESS:"), webAddress),
+                table("🤖", colors.bold("API ADDRESS:"), apiAddress),
+                table("🔔", colors.bold("SVR VERSION:"), serverVersion),
+                table("📢", colors.bold("SVR CHANNEL:"), serverChannel),
+                "", // Line break for spacing
+                table(colors.bold("BUILD ID:"), buildID),
+                table(colors.bold("COMMIT REF:"), commitREF),
+                table(colors.bold("REPOSITORY:"), repoSHEBANG),
+            ].join("\n"),
+            style: {
+                padding: 1, // Adds padding inside the box
+                borderStyle: "double-single-rounded", // Custom border style
+            },
         });
     }
 
@@ -213,8 +315,7 @@ export class App {
      */
     private async createTypeORMConnection() {
         await connection.initialize().catch((err) => {
-            this.log.error(err, "Failed to connect to database");
-            console.error(err);
+            this.log.fatal("Could not connect to database");
             process.exit(1);
         });
     }
@@ -230,7 +331,7 @@ export class App {
      * Register the middlewares
      */
     private registerMiddlewares() {
-        this.app.use(pino(this.logger, Container));
+        this.app.use(logging(this.logger, this.pinoOptions, Container));
         this.app.use(cors(this.corsOptions));
     }
 
@@ -238,28 +339,24 @@ export class App {
      * Register the socket.io server
      */
     private registerSocketControllers() {
-        const io = new socketIO(this.httpServer, this.socketIOOptions);
+        const io = new SocketIOServer(this.httpServer, this.socketIOOptions);
 
-        this.app.use(async (ctx, next) => {
-            ctx.io = io;
-            await next();
-        });
+        this.app.use((ctx, next) => ((ctx.io = io), next()));
 
         return new SocketControllers({
             io: io,
             container: Container,
-            controllers: this.routingControllerOptions.controllers,
-            middlewares: this.routingControllerOptions.middlewares,
+            controllers: [path.join(__dirname, "/api/controllers/socket/**/*.{js,ts}")],
+            middlewares: [path.join(__dirname, "/middlewares/socket/**/*.{js,ts}")],
         });
     }
 
     /**
      * Setup BullMQ for the server
      */
-
     private async setupBullMQProcessor() {
         // Create the BullMQ queues and workers instances
-        this.bullMQ = new BullMQ(this.log);
+        this.bullMQ = new BullMQ(this.logger);
 
         // Initialize the BullMQ queues and workers
         await this.bullMQ.initialize();
@@ -285,28 +382,6 @@ export class App {
 
         serverAdapter.setBasePath("/api/bull");
         this.app.use(serverAdapter.registerPlugin());
-    }
-
-    /**
-     * Register the repeatable jobs
-     */
-    private async registerRepeatableJobs() {
-        // // Get the repeatable jobs
-        // const scanUsers = await scanUsersJobs();
-        // const scanLibraries = await scanLibrariesJobs();
-        // // Add the repeatable jobs to the queues
-        // scanUsers.forEach((job) => {
-        //     this.bullMQ.queues.user.add(job.name, job.data, {
-        //         repeat: { pattern: "0 * * * *" },
-        //         ...job.opts,
-        //     });
-        // });
-        // scanLibraries.forEach((job) => {
-        //     this.bullMQ.queues.library.add(job.name, job.data, {
-        //         repeat: { pattern: "0 * * * *" },
-        //         ...job.opts,
-        //     });
-        // });
     }
 
     /**
@@ -406,6 +481,4 @@ export class App {
 }
 
 const app = new App();
-app.initialize();
-
 export default app;

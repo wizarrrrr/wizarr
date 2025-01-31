@@ -20,11 +20,17 @@ msgstr ""
 "X-Generator: Weblate 5.2-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: src/modules/settings/pages/Main.vue:246
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:14
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:14
+#, fuzzy
+msgid "%{s} Server"
+msgstr "Medien Server"
+
+#: src/modules/settings/pages/Main.vue:264
 msgid "About"
 msgstr "Über"
 
-#: src/modules/settings/pages/Main.vue:157
+#: src/modules/settings/pages/Main.vue:169 src/modules/setup/views/Setup.vue:71
 msgid "Account"
 msgstr "Konto"
 
@@ -32,21 +38,28 @@ msgstr "Konto"
 msgid "Account Error"
 msgstr "Kontofehler"
 
-#: src/modules/settings/pages/Main.vue:152
+#: src/modules/settings/pages/Main.vue:164
 msgid "Account Settings"
 msgstr "Kontoeinstellungen"
 
-#: src/modules/settings/pages/Main.vue:116
+#: src/modules/settings/pages/Main.vue:128
 msgid "Add API keys for external services"
 msgstr "API-Schlüssel für externe Dienste erstellen"
 
-#: src/modules/settings/pages/Main.vue:202
+#: src/modules/settings/pages/Main.vue:220
 msgid "Add Custom HTML page to help screen"
 msgstr "Füge der Hilfeseite eine benutzerdefinierte HTML-Seite hinzu"
 
-#: src/modules/settings/pages/Main.vue:109
+#: src/modules/settings/pages/Main.vue:121
 msgid "Add Jellyseerr, Overseerr or Ombi support"
 msgstr "Jellyseerr, Overseerr oder Ombi hinzufügen"
+
+#: src/components/Lists/ServerList/components/ServersEmpty.vue:28
+#: src/components/Lists/ServerList/ServerList.vue:64
+#: src/modules/admin/pages/Servers.vue:35
+#, fuzzy
+msgid "Add Media Server"
+msgstr "Medien Server"
 
 #: src/modules/settings/pages/Passkeys.vue:9
 msgid "Add Passkey"
@@ -56,31 +69,32 @@ msgstr "Passkey hinzufügen"
 msgid "Add Request Service"
 msgstr "Anfragedienst hinzufügen"
 
-#: src/modules/settings/components/Forms/RequestForm.vue:15
+#: src/modules/admin/pages/Servers.vue:5
+#, fuzzy
+msgid "Add Server"
+msgstr "Service hinzufügen"
+
+#: src/modules/settings/components/Forms/RequestForm.vue:2
 msgid "Add Service"
 msgstr "Service hinzufügen"
 
-#: src/modules/settings/pages/Main.vue:123
+#: src/modules/settings/pages/Main.vue:135
 msgid "Add webhooks for external services"
 msgstr "Webhooks für externe Dienste hinzufügen"
 
-#: src/modules/setup/pages/Account.vue:4
-msgid "Admin Account"
-msgstr "Admin Konto"
-
-#: src/modules/admin/components/Forms/InvitationForm.vue:19
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:34
 msgid "Advanced Options"
 msgstr "Erweiterte Optionen"
 
-#: src/modules/settings/pages/Main.vue:210
+#: src/modules/settings/pages/Main.vue:228
 msgid "Advanced Settings"
 msgstr "Erweiterte Einstellungen"
 
-#: src/modules/settings/pages/Main.vue:211
+#: src/modules/settings/pages/Main.vue:229
 msgid "Advanced settings for the server"
 msgstr "Erweiterte Einstellungen für den Server"
 
-#: src/modules/join/views/Join.vue:129
+#: src/modules/join/views/Join.vue:88
 msgid "All done!"
 msgstr "Alles erledigt!"
 
@@ -111,7 +125,9 @@ msgstr ""
 "wurde dein Konto nicht erstellt. Wenn Du Probleme beim Anmelden haben, "
 "kontaktiere bitte einen Administrator."
 
-#: src/modules/settings/components/APIKeys/APIKeysForm.vue:106
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:51
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:50
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:37
 msgid "API Key"
 msgstr "API Schlüssel"
 
@@ -123,12 +139,7 @@ msgstr "API Schlüssel gelöscht"
 msgid "API key deletion cancelled"
 msgstr "Löschung des API Schlüssels abgebrochen"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:58
-#, fuzzy
-msgid "API key for your media server"
-msgstr "Trete meinem Medienserver bei"
-
-#: src/modules/settings/pages/Main.vue:115
+#: src/modules/settings/pages/Main.vue:127
 msgid "API keys"
 msgstr "API-Schlüssel"
 
@@ -136,7 +147,7 @@ msgstr "API-Schlüssel"
 msgid "Are you sure you want to delete this API key?"
 msgstr "Bist du sicher, dass du diesen API-Schlüssel löschen möchtest?"
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:190
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:148
 msgid "Are you sure you want to delete this invitation?"
 msgstr "Bist du sicher, dass du diese Einladung löschen möchtest?"
 
@@ -144,7 +155,12 @@ msgstr "Bist du sicher, dass du diese Einladung löschen möchtest?"
 msgid "Are you sure you want to delete this request?"
 msgstr "Bist du sicher, dass du diese Anfrage löschen möchtest?"
 
-#: src/components/WebhookList/WebhookItem.vue:54
+#: src/components/Lists/ServerList/components/ServerItem.vue:52
+#, fuzzy
+msgid "Are you sure you want to delete this server?"
+msgstr "Bist du sicher, dass du diese Anfrage löschen möchtest?"
+
+#: src/components/Lists/WebhookList/components/WebhookItem.vue:54
 msgid "Are you sure you want to delete this webhook?"
 msgstr "Bist du sicher, dass du diesen Webhook löschen möchtest?"
 
@@ -152,24 +168,15 @@ msgstr "Bist du sicher, dass du diesen Webhook löschen möchtest?"
 msgid "Are you sure you want to reset your dashboard?"
 msgstr "Bist du sicher, dass du dein Dashboard zurücksetzen möchtest?"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:164
-msgid ""
-"Are you sure you want to save this connection, this will reset your Wizarr "
-"instance, which may lead to data loss."
-msgstr ""
-"Bist du sicher, dass du diese Verbindung speichern möchtest? Dies wird deine "
-"Wizarr-Instanz zurücksetzen, was zu Datenverlust führen kann."
-
 #: src/modules/settings/pages/Support.vue:74
 msgid "Are you sure you want to start a support session?"
 msgstr "Bist Du sicher, dass Du eine Support-Sitzung starten möchten?"
 
 #: src/components/Dashboard/Dashboard.vue:80
-#: src/components/WebhookList/WebhookItem.vue:54
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:189
-#: src/modules/admin/components/Users/UserList/UserItem.vue:151
+#: src/components/Lists/WebhookList/components/WebhookItem.vue:54
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:148
+#: src/modules/admin/components/Users/UserList/UserItem.vue:148
 #: src/modules/settings/components/APIKeys/APIKeysItem.vue:82
-#: src/modules/settings/components/Forms/MediaForm.vue:164
 #: src/modules/settings/components/Requests/RequestsItem.vue:55
 msgid "Are you sure?"
 msgstr "Bist du sicher?"
@@ -178,24 +185,31 @@ msgstr "Bist du sicher?"
 msgid "Automatic Media Requests"
 msgstr ""
 
-#: src/modules/help/views/Help.vue:19 src/modules/setup/views/Setup.vue:26
-#: src/modules/setup/views/Setup.vue:38 src/modules/setup/views/Setup.vue:41
+#: src/components/Forms/InvitationForm/InvitationForm.vue:164
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:59
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:47
+#: src/modules/help/views/Help.vue:19 src/modules/setup/views/Setup.vue:21
 #: src/templates/SettingsTemplate.vue:15
 msgid "Back"
 msgstr "Zurück"
 
 #: src/modules/settings/pages/Backup.vue:7
-#: src/modules/settings/pages/Main.vue:240
+#: src/modules/settings/pages/Main.vue:258
 msgid "Backup"
 msgstr "Sicherung"
 
-#: src/modules/settings/pages/Backup.vue:145
+#: src/modules/settings/pages/Backup.vue:49
 msgid "Backup File"
 msgstr "Sicherungsdatei"
 
-#: src/modules/settings/pages/Main.vue:234
+#: src/modules/settings/pages/Main.vue:252
 msgid "Bug Reporting"
 msgstr ""
+
+#: src/modules/settings/pages/Sentry.vue:55
+#, fuzzy
+msgid "Bug reporting settings saved."
+msgstr "Deine Einladungen verwalten"
 
 #: src/modules/settings/pages/Sentry.vue:14
 msgid ""
@@ -203,11 +217,11 @@ msgid ""
 "user experience."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:164
+#: src/modules/settings/pages/Main.vue:176
 msgid "Change your password"
 msgstr "Passwort ändern"
 
-#: src/modules/settings/pages/Main.vue:228
+#: src/modules/settings/pages/Main.vue:246
 msgid "Check for and view updates"
 msgstr "Nach Updates suchen und anzeigen"
 
@@ -223,7 +237,7 @@ msgstr ""
 msgid "Click on \"Copy ID\" then paste it it in the box below."
 msgstr ""
 
-#: src/modules/settings/components/Modals/ViewApiKey.vue:15
+#: src/modules/settings/components/Modals/ViewApiKey.vue:6
 msgid "Click the key to copy to clipboard!"
 msgstr "Klicke auf den Schlüssel, um ihn in die Zwischenablage zu kopieren!"
 
@@ -231,15 +245,15 @@ msgstr "Klicke auf den Schlüssel, um ihn in die Zwischenablage zu kopieren!"
 msgid "Close"
 msgstr "Schliessen"
 
-#: src/modules/settings/pages/Main.vue:144
+#: src/modules/settings/pages/Main.vue:156
 msgid "Configure Discord bot settings"
 msgstr "Discord-Bot konfigurieren"
 
-#: src/modules/settings/pages/Main.vue:136
+#: src/modules/settings/pages/Main.vue:148
 msgid "Configure notification settings"
 msgstr "Benachrichtigungseinstellungen konfigurieren"
 
-#: src/modules/settings/pages/Main.vue:129
+#: src/modules/settings/pages/Main.vue:141
 msgid "Configure payment settings"
 msgstr "Zahlungseinstellungen konfigurieren"
 
@@ -249,46 +263,46 @@ msgid ""
 "after signup."
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:158
+#: src/modules/settings/pages/Main.vue:170
 msgid "Configure your account settings"
 msgstr "Kontoeinstellungen konfigurieren"
 
-#: src/modules/settings/pages/Main.vue:103
-msgid "Configure your media server settings"
-msgstr "Medienserver-Einstellungen konfigurieren"
-
-#: src/modules/settings/pages/Main.vue:177
+#: src/modules/settings/pages/Main.vue:189
 msgid "Configure your passkeys"
 msgstr "Passkeys konfigurieren"
 
-#: src/modules/join/pages/Error.vue:12
+#: src/modules/settings/pages/Main.vue:115
+#, fuzzy
+msgid "Configure your remote servers settings"
+msgstr "Medienserver-Einstellungen konfigurieren"
+
+#: src/modules/setup/pages/Account.vue:18
+#, fuzzy
+msgid "Confirm Password"
+msgstr "Anmelden mit Passwort"
+
+#: src/modules/join/pages/Error.vue:16
 msgid "Continue to Login"
 msgstr "Weiter zum Login"
 
+#: src/components/Forms/InvitationForm/pages/InvitationComplete.vue:67
 #: src/modules/admin/components/InvitationManager/Invitation.vue:152
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:143
-#: src/modules/admin/components/Invitations/ShareSheet.vue:89
-#: src/modules/admin/components/Users/UserManager/User.vue:162
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:104
+#: src/modules/admin/components/Invitations/ShareSheet.vue:74
+#: src/modules/admin/components/Users/UserManager/User.vue:122
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:74
 #: src/modules/settings/components/Modals/ViewApiKey.vue:35
 msgid "Copied to clipboard"
 msgstr "In die Zwischenablage kopiert"
 
 #: src/modules/help/components/Jellyfin/Download.vue:30
-#: src/modules/settings/components/APIKeys/APIKeysForm.vue:22
-#: src/modules/settings/components/APIKeys/APIKeysForm.vue:39
-#: src/modules/settings/components/APIKeys/APIKeysForm.vue:42
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:49
 msgid "Copy"
 msgstr "Kopieren"
 
-#: src/modules/join/views/Join.vue:176 src/modules/join/views/Join.vue:254
+#: src/modules/join/views/Join.vue:130
 msgid "Could not connect to the server."
 msgstr "Konnte keine Verbindung zum Server herstellen."
-
-#: src/modules/join/views/Join.vue:196 src/modules/join/views/Join.vue:204
-#: src/modules/join/views/Join.vue:230 src/modules/join/views/Join.vue:238
-msgid "Could not create the account."
-msgstr "Konto konnte nicht erstellt werden."
 
 #: src/modules/settings/pages/Backup.vue:10
 msgid ""
@@ -298,35 +312,37 @@ msgstr ""
 "Erstelle eine Sicherung deiner Datenbank und Konfiguration. Bitte lege ein "
 "Verschlüsselungspasswort fest, um deine Sicherungsdatei zu schützen."
 
-#: src/modules/settings/pages/Main.vue:241
+#: src/modules/setup/pages/Account.vue:3
+#, fuzzy
+msgid "Create Account"
+msgstr "Konto speichern"
+
+#: src/modules/settings/pages/Main.vue:259
 msgid "Create and restore backups"
 msgstr "Sicherungen erstellen und wiederherstellen"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:252
-#: src/modules/admin/components/Forms/InvitationForm.vue:44
+#: src/components/Forms/InvitationForm/InvitationForm.vue:178
 msgid "Create Another"
 msgstr "Weitere erstellen"
 
-#: src/modules/settings/components/APIKeys/APIKeysForm.vue:51
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:13
 #: src/modules/settings/pages/APIKeys.vue:24
 msgid "Create API Key"
 msgstr "API-Schlüssel erstellen"
 
-#: src/modules/admin/pages/FlowEditor.vue:5
 #: src/modules/admin/pages/FlowEditor.vue:8
 msgid "Create Flow"
 msgstr "Flow erstellen"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:265
-#: src/modules/admin/components/Forms/InvitationForm.vue:268
-#: src/modules/admin/components/Forms/InvitationForm.vue:33
-#: src/modules/admin/pages/Invitations.vue:38
-#: src/modules/admin/pages/Invitations.vue:41
+#: src/components/Forms/InvitationForm/InvitationForm.vue:144
+#: src/components/Forms/InvitationForm/InvitationForm.vue:147
+#: src/modules/admin/pages/Invitations.vue:39
+#: src/modules/admin/pages/Invitations.vue:43
 #: src/modules/admin/pages/Invitations.vue:5 src/tours/admin-invitations.ts:13
 msgid "Create Invitation"
 msgstr "Einladung erstellen"
 
-#: src/modules/settings/components/Forms/WebhookForm.vue:21
+#: src/modules/settings/components/Forms/WebhookForm.vue:7
 #: src/modules/settings/pages/Webhooks.vue:24
 msgid "Create Webhook"
 msgstr "Webhook erstellen"
@@ -335,12 +351,20 @@ msgstr "Webhook erstellen"
 msgid "Current Version"
 msgstr ""
 
-#: src/modules/setup/pages/Database.vue:10
-#: src/modules/setup/pages/Database.vue:8
+#: src/modules/setup/pages/Database.vue:3
 msgid "Currently Wizarr only supports it's internal SQLite database."
 msgstr "Derzeit unterstützt Wizarr nur seine interne SQLite-Datenbank."
 
-#: src/modules/settings/pages/Main.vue:201
+#: src/components/Forms/InvitationForm/pages/InvitationPermissions.vue:8
+msgid "Custom Duration"
+msgstr ""
+
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:28
+#, fuzzy
+msgid "Custom Expiration"
+msgstr "Ablaufdatum des Benutzers"
+
+#: src/modules/settings/pages/Main.vue:219
 msgid "Custom HTML"
 msgstr "Eigenes HTML"
 
@@ -356,34 +380,24 @@ msgstr "Dashboard erfolgreich zurückgesetzt"
 msgid "Dashboard Widgets"
 msgstr "Dashboard Widgets"
 
-#: src/modules/setup/pages/Database.vue:4
+#: src/modules/setup/views/Setup.vue:61
 msgid "Database"
 msgstr "Datenbank"
 
-#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:10
-#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:12
+#: src/components/Lists/ServerList/components/ServerItem.vue:52
+#, fuzzy
+msgid "Delete Server"
+msgstr "Server erkennen"
+
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:15
 msgid "Deleted users will not be visible"
 msgstr "Gelöschte Benutzer werden nicht angezeigt"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:10
-msgid "Detect Server"
-msgstr "Server erkennen"
-
-#: src/modules/settings/components/Forms/MediaForm.vue:130
-msgid "Detected %{server_type} server!"
-msgstr "Server vom Typ %{server_type} erkannt!"
-
-#: src/modules/settings/components/Forms/MediaForm.vue:65
-#, fuzzy
-msgid "Detected Media Server"
-msgstr "Server erkennen"
-
-#: src/modules/settings/pages/Main.vue:195
+#: src/modules/settings/pages/Main.vue:213
 msgid "Discord"
 msgstr "Discord"
 
-#: src/modules/settings/pages/Main.vue:143
+#: src/modules/settings/pages/Main.vue:155
 msgid "Discord Bot"
 msgstr "Discord Bot"
 
@@ -391,29 +405,24 @@ msgstr "Discord Bot"
 msgid "Discord Server ID:"
 msgstr ""
 
-#: src/modules/settings/components/Forms/MediaForm.vue:11
+#: src/modules/admin/pages/Users.vue:36
+msgid "Dispatched scan users task"
+msgstr ""
+
+#: src/modules/setup/pages/Account.vue:5
 #, fuzzy
 msgid "Display Name"
 msgstr "Anzeigename des Servers"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:16
-#, fuzzy
-msgid "Display Name for your media servers"
-msgstr "Benutzer des Mediaservers verwalten"
-
-#: src/modules/admin/components/Users/UserList/UserItem.vue:151
+#: src/modules/admin/components/Users/UserList/UserItem.vue:148
 msgid "Do you really want to delete this user from your media server?"
 msgstr "Möchtest du diesen Benutzer wirklich von deinem Medienserver löschen?"
 
-#: src/modules/settings/components/ScanServers/ScanServers.vue:26
-#: src/modules/settings/components/ScanServers/ScanServers.vue:35
-#: src/modules/settings/components/ScanServers/ScanServers.vue:39
-#: src/modules/settings/components/ScanServers/ScanServers.vue:42
-msgid "Don't see your server?"
-msgstr "Deinen Server nicht gefunden?"
+#: src/components/Forms/InvitationForm/pages/InvitationPermissions.vue:5
+msgid "Duration the invitees account exists for"
+msgstr ""
 
-#: src/modules/admin/pages/Home.vue:5 src/modules/admin/pages/Home.vue:9
-#: src/tours/admin-home.ts:22
+#: src/modules/admin/pages/Home.vue:5 src/tours/admin-home.ts:22
 msgid "Edit Dashboard"
 msgstr "Dashboard bearbeiten"
 
@@ -425,11 +434,12 @@ msgstr "Ähm, also, was ist Jellyfin genau?"
 msgid "Eh, So, What is Plex exactly?"
 msgstr "Ähm, also, was ist Plex genau?"
 
-#: src/modules/settings/pages/Account.vue:61
+#: src/modules/settings/pages/Account.vue:16
+#: src/modules/setup/pages/Account.vue:11
 msgid "Email"
 msgstr "Email"
 
-#: src/modules/settings/pages/Main.vue:196
+#: src/modules/settings/pages/Main.vue:214
 msgid "Enable Discord page and configure settings"
 msgstr "Discord-Seite aktivieren und Einstellungen konfigurieren"
 
@@ -437,14 +447,18 @@ msgstr "Discord-Seite aktivieren und Einstellungen konfigurieren"
 msgid "Enable Server Widget:"
 msgstr ""
 
-#: src/modules/settings/pages/Backup.vue:142
-#: src/modules/settings/pages/Backup.vue:67
+#: src/modules/settings/pages/Backup.vue:23
+#: src/modules/settings/pages/Backup.vue:48
 msgid "Encryption Password"
 msgstr "Verschlüsselungspasswort"
 
 #: src/tours/admin-settings.ts:21
 msgid "End of Tour"
 msgstr "Ende der Tour"
+
+#: src/modules/setup/views/Setup.vue:56
+msgid "End User License Agreement"
+msgstr ""
 
 #: src/modules/settings/pages/Discord.vue:31
 msgid "Ensure the toggle for \"Enable Server Widget\" is checked."
@@ -460,20 +474,31 @@ msgstr ""
 msgid "Error Monitoring"
 msgstr ""
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:207
-#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:91
-#: src/modules/admin/components/Users/UserList/UserItem.vue:79
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:157
+#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:55
+#: src/modules/admin/components/Users/UserList/UserItem.vue:84
 msgid "Expired %{s}"
 msgstr "Abgelaufen am %{s}"
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:211
-#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:95
-#: src/modules/admin/components/Users/UserList/UserItem.vue:83
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:161
+#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserItem.vue:59
+#: src/modules/admin/components/Users/UserList/UserItem.vue:88
 msgid "Expires %{s}"
 msgstr "Läuft ab am %{s}"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:55
-msgid "Failed to create invitation"
+#: src/components/Forms/ServerForm/pages/ServerSelect.vue:37
+#, fuzzy
+msgid "Failed to load media server options"
+msgstr "Medienserver-Einstellungen konfigurieren"
+
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:98
+#, fuzzy
+msgid "Failed to save server connection"
+msgstr "Verbindung konnte nicht gespeichert werden."
+
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:77
+#, fuzzy
+msgid "Failed to update server information"
 msgstr "Einladung konnte nicht erstellt werden"
 
 #: src/modules/settings/pages/Discord.vue:18
@@ -482,7 +507,7 @@ msgid ""
 "your Discord settings and going to Appearance."
 msgstr ""
 
-#: src/modules/settings/pages/Account.vue:29
+#: src/modules/settings/pages/Account.vue:8
 msgid "First name"
 msgstr "Vorname"
 
@@ -490,11 +515,11 @@ msgstr "Vorname"
 msgid "Flow Editor"
 msgstr "Flow Editor"
 
-#: src/modules/settings/pages/Main.vue:98
+#: src/modules/settings/pages/Main.vue:110
 msgid "General settings for the server"
 msgstr "Allgemeine Einstellungen für den Server"
 
-#: src/modules/settings/pages/Main.vue:266
+#: src/modules/settings/pages/Main.vue:284
 msgid "Get live support from the server admins"
 msgstr "Hol dir Live-Support von den Server-Administratoren"
 
@@ -506,22 +531,15 @@ msgstr "Los geht's"
 msgid "Getting Started!"
 msgstr "Los geht's!"
 
-#: src/modules/core/views/NotFound.vue:31
-#: src/modules/core/views/NotFound.vue:33
-#: src/modules/core/views/NotFound.vue:35
-#: src/modules/core/views/NotFound.vue:41
+#: src/modules/core/views/NotFound.vue:22
 msgid "Go Home"
 msgstr "Zur Startseite"
 
-#: src/modules/core/views/NotFound.vue:28
-#: src/modules/core/views/NotFound.vue:30
-#: src/modules/core/views/NotFound.vue:32
-#: src/modules/core/views/NotFound.vue:38
+#: src/modules/core/views/NotFound.vue:21
 msgid "Go to Dashboard"
 msgstr "Zum Dashboard"
 
 #: src/modules/setup/pages/Complete.vue:11
-#: src/modules/setup/pages/Complete.vue:15
 msgid "Go to Login"
 msgstr "Zum Login"
 
@@ -544,7 +562,6 @@ msgstr ""
 "mit anderen teilen können. Wenn Du diese Einladung erhalten hast, bedeutet "
 "das, dass jemand seine Bibliothek mit Dir teilen möchte."
 
-#: src/modules/settings/pages/Backup.vue:48
 #: src/modules/settings/pages/Backup.vue:58
 msgid "here"
 msgstr "hier"
@@ -553,15 +570,33 @@ msgstr "hier"
 msgid "Here's why"
 msgstr ""
 
-#: src/components/NavBars/AdminNavBar.vue:77 src/modules/admin/pages/Home.vue:3
+#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/AdminNavBar.vue:78
 msgid "Home"
 msgstr "Start"
 
-#: src/modules/settings/components/Forms/WebhookForm.vue:96
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:33
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:32
+msgid "Host Override URL"
+msgstr ""
+
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:13
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:12
+msgid "Host URL"
+msgstr ""
+
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:14
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:34
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:13
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:33
+#, fuzzy
+msgid "https://%{s}.example.com"
+msgstr "https://beispiel.de"
+
+#: src/modules/settings/components/Forms/WebhookForm.vue:22
 msgid "https://example.com"
 msgstr "https://beispiel.de"
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:105
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:74
 msgid "I wanted to invite you to join my media server."
 msgstr "Ich möchte dich dazu einladen, meinem Medienserver beizutreten."
 
@@ -573,29 +608,35 @@ msgstr ""
 "Wenn dich ein Freund hierher geschickt hat, bitte um Zugang, oder wenn du "
 "einen Einladungscode hast, klicke auf 'Los geht's!"
 
-#: src/modules/join/pages/JoinForm.vue:50
-msgid "Invalid invitation code, please try again"
-msgstr "Ungültiger Einladungscode, bitte versuche es erneut"
+#: src/modules/join/pages/JoinForm.vue:37
+#, fuzzy
+msgid "Invalid invite code"
+msgstr "Einladungscode"
 
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:13
 #: src/modules/admin/components/InvitationManager/Invitation.vue:6
 #: src/modules/admin/components/Users/UserManager/User.vue:24
-#: src/modules/admin/components/Users/UserManager/User.vue:33
 msgid "Invitation Code"
 msgstr "Einladungscode"
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:197
+#: src/components/Forms/InvitationForm/InvitationForm.vue:175
+#, fuzzy
+msgid "Invitation Created"
+msgstr "Einladungscode"
+
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:138
 msgid "Invitation deleted successfully"
 msgstr "Einladung erfolgreich gelöscht"
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:199
-msgid "Invitation deletion cancelled"
-msgstr "Löschung der Einladung abgebrochen"
-
-#: src/modules/admin/components/InvitationManager/Invitation.vue:21
 #: src/modules/admin/components/InvitationManager/Invitation.vue:29
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:115
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:82
 msgid "Invitation Details"
 msgstr "Einladungsdetails"
+
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:25
+#, fuzzy
+msgid "Invitation Expiration"
+msgstr "Einladungseinstellungen"
 
 #: src/modules/admin/components/InvitationManager/Invitation.vue:127
 msgid "Invitation expired %{s}"
@@ -605,7 +646,11 @@ msgstr "Einladung abgelaufen am %{s}"
 msgid "Invitation expires %{s}"
 msgstr "Einladung läuft ab am %{s}"
 
-#: src/modules/admin/components/InvitationManager/Invitation.vue:39
+#: src/components/Forms/InvitationForm/InvitationForm.vue:161
+#, fuzzy
+msgid "Invitation Permissions"
+msgstr "Eingeladene Benutzer"
+
 #: src/modules/admin/components/InvitationManager/Invitation.vue:50
 msgid "Invitation Settings"
 msgstr "Einladungseinstellungen"
@@ -614,16 +659,16 @@ msgstr "Einladungseinstellungen"
 msgid "Invitation used"
 msgstr "Einladung wurde verwendet"
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:169
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:126
 msgid "Invitation Users"
 msgstr "Eingeladene Benutzer"
 
-#: src/components/NavBars/AdminNavBar.vue:81
 #: src/modules/admin/pages/Invitations.vue:2
+#: src/templates/Navbars/AdminNavBar.vue:82
 msgid "Invitations"
 msgstr "Einladungen"
 
-#: src/modules/join/pages/JoinForm.vue:31
+#: src/modules/join/pages/JoinForm.vue:4
 msgid "Invite Code"
 msgstr "Einladungscode"
 
@@ -659,7 +704,7 @@ msgstr ""
 "auch immer."
 
 #: src/modules/help/components/Discord.vue:31
-#: src/modules/join/pages/JoinForm.vue:13
+#: src/modules/join/pages/JoinForm.vue:3
 msgid "Join"
 msgstr "Beitreten"
 
@@ -671,7 +716,7 @@ msgstr "Beitreten & Herunterladen"
 msgid "Join & Download Plex for this device"
 msgstr "Beitreten und Plex für dieses Gerät herunterladen"
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:104
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:73
 msgid "Join my media server"
 msgstr "Trete meinem Medienserver bei"
 
@@ -679,7 +724,7 @@ msgstr "Trete meinem Medienserver bei"
 msgid "Join our Discord"
 msgstr "Treten Sie unserem Discord bei"
 
-#: src/modules/settings/pages/Account.vue:33
+#: src/modules/settings/pages/Account.vue:9
 msgid "Last name"
 msgstr "Nachname"
 
@@ -691,6 +736,10 @@ msgstr "Neueste Informationen"
 msgid "Latest Information"
 msgstr "Neueste Informationen"
 
+#: src/components/Forms/InvitationForm/pages/InvitationPermissions.vue:11
+msgid "Leave empty to use all libraries"
+msgstr ""
+
 #: src/tours/admin-home.ts:18
 msgid ""
 "Like this Widget, it shows you the latest information about Wizarr and will "
@@ -699,7 +748,7 @@ msgstr ""
 "Dieses Widget zeigt die neuesten Informationen über Wizarr und wird "
 "regelmäßig von unserem großartigen Team aktualisiert."
 
-#: src/modules/settings/pages/Main.vue:265
+#: src/modules/settings/pages/Main.vue:283
 #: src/modules/settings/pages/Support.vue:4
 msgid "Live Support"
 msgstr "Live-Support"
@@ -708,8 +757,7 @@ msgstr "Live-Support"
 msgid "Load More"
 msgstr "Mehr laden"
 
-#: src/modules/settings/pages/Membership.vue:18
-#: src/modules/settings/pages/Membership.vue:20
+#: src/modules/settings/pages/Membership.vue:23
 msgid "Login"
 msgstr "Anmelden"
 
@@ -717,7 +765,7 @@ msgstr "Anmelden"
 msgid "Login into Membership"
 msgstr "Einloggen in die Mitgliedschaft"
 
-#: src/modules/join/pages/Plex/Signup.vue:11
+#: src/modules/join/pages/Plex/Signup.vue:7
 msgid "Login to Plex"
 msgstr "Bei Plex anmelden"
 
@@ -729,77 +777,77 @@ msgstr "Mit Passkey anmelden"
 msgid "Login with Password"
 msgstr "Anmelden mit Passwort"
 
-#: src/modules/settings/pages/Membership.vue:44
-#: src/modules/settings/pages/Membership.vue:49
-#: src/modules/settings/pages/Membership.vue:52
+#: src/modules/settings/pages/Membership.vue:55
 msgid "Logout"
 msgstr "Ausloggen"
 
-#: src/modules/settings/pages/Main.vue:214
+#: src/modules/settings/pages/Main.vue:232
 msgid "Logs"
 msgstr "Logs"
 
-#: src/modules/join/views/Join.vue:29 src/modules/join/views/Join.vue:43
+#: src/modules/join/views/Join.vue:19
 msgid "Made by "
 msgstr "Hergestellt von "
 
-#: src/modules/settings/pages/Main.vue:97
+#: src/modules/settings/pages/Main.vue:109
 msgid "Main Settings"
 msgstr "Einstellungen"
 
-#: src/modules/settings/pages/Main.vue:235
+#: src/modules/settings/pages/Main.vue:253
 #, fuzzy
 msgid "Manage bug reporting settings"
 msgstr "Deine Einladungen verwalten"
 
-#: src/modules/admin/pages/Home.vue:6
+#: src/modules/admin/pages/Servers.vue:2
+#: src/modules/settings/pages/Main.vue:114
+#, fuzzy
+msgid "Manage Servers"
+msgstr "Server scannen"
+
+#: src/modules/admin/pages/Home.vue:2
 msgid "Manage you Wizarr server"
 msgstr "Verwalte Deinen Wizarr-Server"
 
-#: src/modules/admin/pages/FlowEditor.vue:6
+#: src/modules/admin/pages/FlowEditor.vue:4
 msgid "Manage your command flows"
 msgstr "Befehlsabläufe verwalten"
 
-#: src/modules/admin/pages/Invitations.vue:3
+#: src/modules/admin/pages/Invitations.vue:2
 msgid "Manage your invitations"
 msgstr "Deine Einladungen verwalten"
 
-#: src/modules/admin/pages/Users.vue:3
+#: src/modules/admin/pages/Users.vue:2
 msgid "Manage your media server users"
 msgstr "Benutzer des Mediaservers verwalten"
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:114
+#: src/modules/admin/pages/Servers.vue:2
+#, fuzzy
+msgid "Manage your remote servers"
+msgstr "Benutzer des Mediaservers verwalten"
+
+#: src/modules/admin/components/Users/UserList/UserItem.vue:112
 msgid "Managing %{user}"
 msgstr "Verwaltung von %{user}"
 
-#: src/modules/settings/pages/Account.vue:41
+#: src/modules/settings/pages/Account.vue:9
 msgid "Martian"
 msgstr "Marsmensch"
 
-#: src/modules/settings/pages/Account.vue:61
+#: src/modules/settings/pages/Account.vue:13
 msgid "marvin"
 msgstr "marvin"
 
-#: src/modules/settings/pages/Account.vue:36
+#: src/modules/settings/pages/Account.vue:8
 msgid "Marvin"
 msgstr "Marvin"
 
-#: src/modules/settings/pages/Account.vue:76
+#: src/modules/settings/pages/Account.vue:16
 msgid "marvin@wizarr.org"
 msgstr "marvin@wizarr.org"
 
-#: src/modules/settings/pages/Main.vue:102
-msgid "Media Server"
-msgstr "Medien Server"
-
-#: src/modules/settings/components/Forms/MediaForm.vue:17
+#: src/components/Lists/ServerList/ServerList.vue:4
 #, fuzzy
-msgid "Media Server Address"
-msgstr "Medien Server"
-
-#: src/modules/settings/components/Forms/MediaForm.vue:27
-#, fuzzy
-msgid "Media Server Override"
+msgid "Media Servers"
 msgstr "Medien Server"
 
 #: src/modules/help/components/Request.vue:17
@@ -810,12 +858,11 @@ msgstr ""
 msgid "Members Online"
 msgstr "Mitglieder online"
 
-#: src/modules/settings/pages/Main.vue:255
+#: src/modules/settings/pages/Main.vue:273
 msgid "Members Only"
 msgstr "Nur für Mitglieder"
 
-#: src/modules/settings/pages/Main.vue:259
-#: src/modules/settings/pages/Membership.vue:34
+#: src/modules/settings/pages/Main.vue:277
 #: src/modules/settings/pages/Membership.vue:42
 msgid "Membership"
 msgstr "Mitgliedschaft"
@@ -832,27 +879,27 @@ msgstr "Mitgliedschaft erforderlich"
 msgid "Mixing the potions"
 msgstr "Mixen der Zaubertränke"
 
-#: src/modules/settings/pages/Main.vue:191
+#: src/modules/settings/pages/Main.vue:209
 msgid "Modify the look and feel of the server"
 msgstr "Erscheinungsbild des Servers ändern"
 
-#: src/modules/settings/components/APIKeys/APIKeysForm.vue:91
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:21
 msgid "My API Key"
 msgstr "Mein API Schlüssel"
 
-#: src/modules/settings/components/Forms/WebhookForm.vue:61
+#: src/modules/settings/components/Forms/WebhookForm.vue:15
 msgid "My Webhook"
 msgstr "Mein Webhook"
 
-#: src/modules/settings/components/APIKeys/APIKeysForm.vue:71
-#: src/modules/settings/components/Forms/WebhookForm.vue:47
+#: src/modules/settings/components/APIKeys/APIKeysForm.vue:20
+#: src/modules/settings/components/Forms/WebhookForm.vue:14
 msgid "Name"
 msgstr "Name"
 
-#: src/modules/help/views/Help.vue:22
-#: src/modules/settings/components/Forms/MediaForm.vue:49
-#: src/modules/setup/views/Setup.vue:29 src/modules/setup/views/Setup.vue:41
-#: src/modules/setup/views/Setup.vue:49
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:3
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:3
+#: src/components/Forms/ServerForm/pages/ServerSelect.vue:4
+#: src/modules/help/views/Help.vue:22 src/modules/setup/views/Setup.vue:22
 msgid "Next"
 msgstr "Weiter"
 
@@ -861,27 +908,20 @@ msgstr "Weiter"
 msgid "Next Page"
 msgstr "Nächste Seite"
 
-#: src/modules/settings/components/APIKeys/APIKeys.vue:11
 #: src/modules/settings/components/APIKeys/APIKeys.vue:19
 msgid "No API Keys found"
 msgstr "Keine API-Schlüssel gefunden"
 
-#: src/widgets/default/ContributorsList.vue:34
 #: src/widgets/default/ContributorsList.vue:38
 msgid "No contributors found"
 msgstr "Keine Unterstützer gefunden"
 
-#: src/modules/admin/components/InvitationManager/Invitation.vue:26
-#: src/modules/admin/components/InvitationManager/Invitation.vue:34
 #: src/modules/admin/components/InvitationManager/Invitation.vue:37
-#: src/modules/admin/components/Users/UserManager/User.vue:44
-#: src/modules/admin/components/Users/UserManager/User.vue:61
-#: src/modules/admin/components/Users/UserManager/User.vue:64
+#: src/modules/admin/components/Users/UserManager/User.vue:43
 msgid "No expiration"
 msgstr "Kein Ablaufdatum"
 
 #: src/modules/admin/components/Invitations/InvitationList/InvitationList.vue:11
-#: src/modules/admin/components/Invitations/InvitationList/InvitationList.vue:20
 msgid "No Invitations found"
 msgstr "Keine Einladungen gefunden"
 
@@ -893,33 +933,30 @@ msgstr "Keine Passkeys gefunden"
 msgid "No Requests found"
 msgstr "Keine Anfragen gefunden"
 
-#: src/modules/settings/components/ScanServers/ScanServers.vue:15
-#: src/modules/settings/components/ScanServers/ScanServers.vue:22
-#: src/modules/settings/components/ScanServers/ScanServers.vue:24
-msgid "No servers could be found."
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:6
+#, fuzzy
+msgid "No servers available"
 msgstr "Keine Server gefunden."
 
 #: src/modules/settings/pages/Main.vue:30
 msgid "No settings matched your search."
 msgstr "Es wurden keine Einstellungen gefunden, die Deiner Suche entsprechen."
 
-#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:10
 #: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:13
-#: src/modules/admin/components/Invitations/SimpleUserList/SimpleUserList.vue:8
 #: src/modules/admin/components/Users/UserList/UserList.vue:11
 msgid "No Users found"
 msgstr "Keine Benutzer gefunden"
 
-#: src/components/WebhookList/WebhookList.vue:11
+#: src/components/Lists/WebhookList/WebhookList.vue:11
 msgid "No Webhooks found"
 msgstr "Kein Webhook gefunden"
 
-#: src/modules/settings/pages/Main.vue:135
+#: src/modules/settings/pages/Main.vue:147
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
 #: src/modules/join/pages/Error.vue:45
-#: src/modules/join/pages/Plex/Signup.vue:48
+#: src/modules/join/pages/Plex/Signup.vue:35
 #: src/modules/settings/pages/Support.vue:62
 msgid "Okay"
 msgstr "Okay"
@@ -936,21 +973,23 @@ msgstr "Plex öffnen"
 msgid "Open Window"
 msgstr ""
 
-#: src/modules/settings/components/Forms/MediaForm.vue:40
-msgid "Optional if your server address does not match your external address"
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:37
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:37
+msgid "Optional description to help you identify this server"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:176
+#: src/modules/settings/pages/Main.vue:188
 msgid "Passkey Authentication"
 msgstr "Passkey Authentifizierung"
 
-#: src/modules/settings/pages/Backup.vue:189
-#: src/modules/settings/pages/Backup.vue:89
-#: src/modules/settings/pages/Main.vue:163
+#: src/modules/settings/pages/Backup.vue:23
+#: src/modules/settings/pages/Backup.vue:48
+#: src/modules/settings/pages/Main.vue:175
+#: src/modules/setup/pages/Account.vue:14
 msgid "Password"
 msgstr "Passwort"
 
-#: src/modules/settings/pages/Main.vue:128
+#: src/modules/settings/pages/Main.vue:140
 msgid "Payments"
 msgstr "Zahlungen"
 
@@ -973,8 +1012,6 @@ msgstr ""
 "Planen Sie, Filme auf diesem Gerät anzusehen? Laden Sie Plex für dieses "
 "Gerät herunter."
 
-#: src/modules/settings/pages/Backup.vue:51
-#: src/modules/settings/pages/Backup.vue:61
 #: src/modules/settings/pages/Backup.vue:62
 msgid ""
 "Please bare in mind that these tools are only for debugging purposes and we "
@@ -985,25 +1022,59 @@ msgstr ""
 "wir keinen Support für etwaige Probleme bieten werden, die bei ihrer "
 "Verwendung auftreten könnten."
 
-#: src/modules/settings/pages/Membership.vue:52
-#: src/modules/settings/pages/Membership.vue:60
 #: src/modules/settings/pages/Membership.vue:63
 msgid "Please bare with us while we work on development of this portal."
 msgstr ""
 "Bitte habt Geduld mit uns, während wir an der Entwicklung dieses Portals "
 "arbeiten."
 
-#: src/modules/settings/components/Forms/MediaForm.vue:136
-msgid "Please enter a server URL and API key."
-msgstr "Bitte gib eine Server-URL und API-Schlüssel ein."
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:45
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:45
+msgid "Please enter a description between 0 and 255 characters"
+msgstr ""
 
-#: src/modules/settings/components/Forms/MediaForm.vue:116
-msgid "Please enter a server URL."
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:26
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:26
+msgid "Please enter a name between 3 and 32 characters"
+msgstr ""
+
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:24
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:24
+#, fuzzy
+msgid "Please enter a name for this server"
 msgstr "Bitte gib die URL vom Media Server ein."
 
-#: src/modules/join/pages/JoinForm.vue:34
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:20
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:38
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:19
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:37
+msgid "Please enter a valid URL for your %{s} server"
+msgstr ""
+
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:16
+#, fuzzy
+msgid "Please enter an invitation code"
+msgstr "Bitte gib einen Einladungscode ein"
+
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:18
+#, fuzzy
+msgid "Please enter an invitation code that is 6 characters long"
+msgstr "Bitte gib einen Einladungscode ein"
+
+#: src/modules/join/pages/JoinForm.vue:25
 msgid "Please enter an invite code"
 msgstr "Bitte gib einen Einladungscode ein"
+
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:55
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:54
+#, fuzzy
+msgid "Please enter the API key of your %{s} server"
+msgstr "Trete meinem Medienserver bei"
+
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:17
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:16
+msgid "Please enter the host URL of your %{s} server"
+msgstr ""
 
 #: src/modules/settings/pages/Discord.vue:10
 msgid ""
@@ -1012,17 +1083,37 @@ msgid ""
 "Widgets, please follow the instructions below."
 msgstr ""
 
-#: src/modules/join/views/Join.vue:99
+#: src/modules/join/views/Join.vue:64
 msgid "Please enter your invite code"
 msgstr "Bitte gib deinen Einladungscode ein"
 
-#: src/modules/join/pages/Plex/Signup.vue:5
+#: src/modules/join/pages/Plex/Signup.vue:4
 msgid "Please login to your Plex account to help us connect you to our server."
 msgstr ""
 "Bitte melde dich in deinem Plex-Konto an, um Zugriff auf unseren Server zu "
 "erhalten."
 
-#: src/modules/settings/components/APIKeys/APIKeysForm.vue:12
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:17
+msgid "Please only use letters and numbers"
+msgstr ""
+
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:25
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:44
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:25
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:44
+msgid "Please only use letters, numbers and spaces"
+msgstr ""
+
+#: src/components/Forms/ServerForm/pages/ServerSelect.vue:66
+#, fuzzy
+msgid "Please select a media server"
+msgstr "Bitte gib die URL vom Media Server ein."
+
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:6
+#, fuzzy
+msgid "Please select a server"
+msgstr "Bitte gib die URL vom Media Server ein."
+
 #: src/modules/settings/components/APIKeys/APIKeysForm.vue:29
 msgid ""
 "Please take a copy your API key. You will not be able to see it again, "
@@ -1035,15 +1126,12 @@ msgstr ""
 msgid "Please wait"
 msgstr "Bitte warten"
 
-#: src/modules/core/components/Carousel.vue:43
-#: src/modules/core/components/Carousel.vue:66
-#: src/modules/core/components/Carousel.vue:70
-#: src/modules/core/components/Carousel.vue:75
-#: src/modules/join/views/Join.vue:121
+#: src/modules/core/components/Carousel.vue:37
+#: src/modules/core/components/Paged.vue:32 src/modules/join/views/Join.vue:80
 msgid "Please wait..."
 msgstr "Bitte warten..."
 
-#: src/modules/join/pages/Plex/Signup.vue:44
+#: src/modules/join/pages/Plex/Signup.vue:35
 msgid "Plex Warning"
 msgstr "Plex Warnung"
 
@@ -1064,8 +1152,7 @@ msgid "Recent Contributors"
 msgstr "Neueste Unterstützer"
 
 #: src/modules/settings/pages/Membership.vue:123
-#: src/modules/settings/pages/Membership.vue:25
-#: src/modules/settings/pages/Membership.vue:26
+#: src/modules/settings/pages/Membership.vue:33
 msgid "Register"
 msgstr "Registrieren"
 
@@ -1077,7 +1164,7 @@ msgstr "Zugang beantragen"
 msgid "Request any available Movie or TV Show"
 msgstr ""
 
-#: src/modules/settings/pages/Main.vue:108
+#: src/modules/settings/pages/Main.vue:120
 msgid "Requests"
 msgstr "Anfragen"
 
@@ -1085,22 +1172,11 @@ msgstr "Anfragen"
 msgid "Reset Layout"
 msgstr "Layout zurücksetzen"
 
-#: src/modules/settings/pages/Backup.vue:27
 #: src/modules/settings/pages/Backup.vue:32
+#: src/modules/setup/views/Setup.vue:66
 msgid "Restore"
 msgstr "Wiederherstellen"
 
-#: src/modules/setup/pages/Restore.vue:10 src/modules/setup/pages/Restore.vue:8
-msgid ""
-"Restore a backup of your database and configuration from a backup file. You "
-"will need to provide the encryption password that was used to create the "
-"backup"
-msgstr ""
-"Stelle eine Sicherung deiner Datenbank und Konfiguration aus einer Backup-"
-"Datei wieder her. Du musst das Verschlüsselungspasswort angeben, das für das "
-"Erstellen der Sicherung verwendet wurde"
-
-#: src/modules/settings/pages/Backup.vue:30
 #: src/modules/settings/pages/Backup.vue:35
 msgid ""
 "Restore a backup of your database and configuration from a backup file. You "
@@ -1111,56 +1187,46 @@ msgstr ""
 "Datei wieder her. Du musst das Verschlüsselungspasswort angeben, das für das "
 "Erstellen der Sicherung verwendet wurde."
 
-#: src/modules/setup/pages/Restore.vue:4
-msgid "Restore Backup"
-msgstr "Wiederherstellen"
+#: src/modules/setup/pages/Restore.vue:6
+msgid "Restore is currently disabled due to a bug, please restore manually"
+msgstr ""
 
 #: src/modules/help/components/Jellyfin/Welcome.vue:10
 msgid "Right, so how do I watch stuff?"
 msgstr ""
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:118
-#: src/modules/admin/components/Users/UserList/UserItem.vue:119
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:85
+#: src/modules/admin/components/Users/UserList/UserItem.vue:117
 #: src/modules/settings/pages/Discord.vue:42
 msgid "Save"
 msgstr "Speichern"
 
-#: src/modules/settings/pages/Account.vue:17
+#: src/modules/settings/pages/Account.vue:5
 msgid "Save Account"
 msgstr "Konto speichern"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:44
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:4
 msgid "Save Connection"
 msgstr "Verbindung speichern"
 
-#: src/modules/admin/pages/Home.vue:5 src/modules/admin/pages/Home.vue:9
+#: src/modules/admin/pages/Home.vue:5
 msgid "Save Dashboard"
 msgstr "Dashboard speichern"
 
-#: src/components/Modals/ServerURLModal.vue:8
-msgid "Save URL"
-msgstr "URL speichern"
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:3
+#, fuzzy
+msgid "Save Information"
+msgstr "Neueste Informationen"
 
 #: src/tours/admin-users.ts:13
 msgid "Scan for Users"
 msgstr "Nach Benutzer scannen"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:28
-#: src/modules/settings/components/Forms/MediaForm.vue:94
-msgid "Scan Libraries"
-msgstr "Bibliotheken scannen"
-
-#: src/modules/settings/components/Forms/MediaForm.vue:33
-msgid "Scan Servers"
-msgstr "Server scannen"
-
 #: src/modules/admin/pages/Users.vue:5
 msgid "Scan Users"
 msgstr "Benutzer scannen"
 
-#: src/modules/admin/pages/Settings.vue:13
-#: src/modules/admin/pages/Settings.vue:67
-#: src/modules/admin/pages/Settings.vue:9
+#: src/modules/admin/pages/Settings.vue:14
 msgid "Search"
 msgstr "Suchen"
 
@@ -1168,39 +1234,60 @@ msgstr "Suchen"
 msgid "Search Settings"
 msgstr "Sucheinstellungen"
 
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:6
+#, fuzzy
+msgid "Select a server"
+msgstr "Server erkennen"
+
 #: src/components/Buttons/LanguageSelector.vue:32
 msgid "Select Language"
 msgstr "Sprache auswählen"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:97
+#: src/components/Forms/InvitationForm/pages/InvitationPermissions.vue:11
 msgid "Select Libraries"
 msgstr "Bibliotheken auswählen"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:39
-msgid "Server API Key"
-msgstr "Server API Schlüssel"
+#: src/components/Forms/ServerForm/pages/ServerSelect.vue:3
+#, fuzzy
+msgid "Select Media Server"
+msgstr "Server erkennen"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:152
-msgid "Server connection verified!"
-msgstr "Verbindung fehlgeschlagen!"
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:6
+#, fuzzy
+msgid "Select Server"
+msgstr "Server erkennen"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:25
-msgid "Server IP or Address of your media server"
-msgstr ""
+#: src/components/Forms/ServerForm/pages/ServerComplete.vue:3
+#, fuzzy
+msgid "Server Created"
+msgstr "Server Typ"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:49
-msgid "Server Type"
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:36
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:36
+#, fuzzy
+msgid "Server Description"
+msgstr "Verbindung speichern"
+
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:12
+#: src/components/Forms/ServerForm/pages/ServerInformation.vue:12
+#, fuzzy
+msgid "Server Name"
 msgstr "Server Typ"
 
 #: src/modules/help/components/Jellyfin/Download.vue:26
 msgid "Server URL"
 msgstr "Server URL"
 
-#: src/modules/settings/pages/Main.vue:170
+#: src/templates/Navbars/AdminNavBar.vue:86
+#, fuzzy
+msgid "Servers"
+msgstr "Server scannen"
+
+#: src/modules/settings/pages/Main.vue:182
 msgid "Sessions"
 msgstr "Sitzungen"
 
-#: src/components/NavBars/AdminNavBar.vue:89
+#: src/templates/Navbars/AdminNavBar.vue:94
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -1208,30 +1295,20 @@ msgstr "Einstellungen"
 msgid "Settings Categories"
 msgstr "Einstellungen Kategorien"
 
-#: src/modules/settings/pages/Main.vue:153
+#: src/modules/settings/pages/Main.vue:165
 msgid "Settings for user accounts"
 msgstr "Einstellungen für Benutzerkonten"
 
-#: src/modules/setup/views/Setup.vue:11 src/modules/setup/views/Setup.vue:13
-msgid "Setup Wizarr"
-msgstr "Wizarr Einrichten"
-
-#: src/modules/join/views/Join.vue:113
+#: src/modules/join/views/Join.vue:72
 msgid "Setup your account"
 msgstr "Einrichten deines Kontos"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:248
-#: src/modules/admin/components/Forms/InvitationForm.vue:47
-msgid "Share"
-msgstr "Teilen"
-
-#: src/modules/admin/components/Forms/InvitationForm.vue:245
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:157
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:114
 msgid "Share Invitation"
 msgstr "Einladung teilen"
 
-#: src/modules/admin/components/Invitations/ShareSheet.vue:19
-#: src/modules/admin/components/Invitations/ShareSheet.vue:29
+#: src/components/Forms/InvitationForm/pages/InvitationComplete.vue:18
+#: src/modules/admin/components/Invitations/ShareSheet.vue:18
 msgid ""
 "Share this link with your friends and family to invite them to join your "
 "media server."
@@ -1256,24 +1333,18 @@ msgstr ""
 msgid "Something went wrong"
 msgstr "Etwas fehlt."
 
-#: src/modules/join/views/Join.vue:137
+#: src/modules/join/views/Join.vue:99
 msgid ""
 "Something went wrong while trying to join the server. Please try again later."
 msgstr ""
 "Beim Versuch, dem Server beizutreten, ist etwas schief gelaufen. Bitte "
 "versuche es später noch einmal."
 
-#: src/modules/core/views/NotFound.vue:16
-#: src/modules/core/views/NotFound.vue:18
-#: src/modules/core/views/NotFound.vue:20
-#: src/modules/core/views/NotFound.vue:22
+#: src/modules/core/views/NotFound.vue:14
 msgid "Something's missing."
 msgstr "Etwas fehlt."
 
-#: src/modules/core/views/NotFound.vue:20
-#: src/modules/core/views/NotFound.vue:22
-#: src/modules/core/views/NotFound.vue:24
-#: src/modules/core/views/NotFound.vue:28
+#: src/modules/core/views/NotFound.vue:17
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr ""
 "Entschuldigung, wir können diese Seite nicht finden. Sie scheint nicht zu "
@@ -1284,13 +1355,25 @@ msgstr ""
 msgid "Start Support Session"
 msgstr "Support-Sitzung starten"
 
-#: src/modules/join/pages/Complete.vue:17
+#: src/modules/join/pages/Complete.vue:11
 msgid "Start Walkthrough"
 msgstr "Starte die Einführung"
 
-#: src/modules/admin/components/Users/UserManager/Settings.vue:4
+#: src/modules/admin/components/Users/UserManager/Settings.vue:6
 msgid "Still under development"
 msgstr "Noch in Entwicklung"
+
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:116
+msgid "Successfully added %{s} server"
+msgstr ""
+
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:103
+msgid "Successfully saved server connection"
+msgstr ""
+
+#: src/components/Forms/ServerEditForm/pages/ServerInformation.vue:82
+msgid "Successfully updated server information"
+msgstr ""
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Summoning the spirits"
@@ -1300,16 +1383,15 @@ msgstr "Die Geister herbeirufen"
 msgid "Support session ended"
 msgstr "Die Support-Sitzung wurde beendet"
 
-#: src/widgets/default/ContributorsList.vue:11
-#: src/widgets/default/ContributorsList.vue:13
+#: src/widgets/default/ContributorsList.vue:17
 msgid "Support Us"
 msgstr "Unterstütze uns"
 
-#: src/components/Modals/LanguageModal.vue:11
+#: src/components/Forms/LanguageForm/LanguageForm.vue:11
 msgid "System Default"
 msgstr "Systemvoreinstellung"
 
-#: src/modules/settings/pages/Main.vue:221
+#: src/modules/settings/pages/Main.vue:239
 msgid "Tasks"
 msgstr "Aufgaben"
 
@@ -1329,12 +1411,15 @@ msgstr ""
 "Dies sind deine Widgets, mit denen du dir einen schnellen Überblick über "
 "deine Wizarr-Instanz verschaffen kannst."
 
-#: src/modules/settings/pages/Main.vue:256
+#: src/modules/settings/pages/Main.vue:274
 msgid "These features are only available to paying members"
 msgstr "Diese Funktionen stehen nur zahlenden Mitgliedern zur Verfügung"
 
-#: src/modules/setup/pages/Database.vue:14
-#: src/modules/setup/pages/Database.vue:16
+#: src/components/Forms/ServerForm/pages/ServerSelect.vue:3
+msgid "This can not be changed once created"
+msgstr ""
+
+#: src/modules/setup/pages/Database.vue:4
 msgid ""
 "This is a temporary and we are working on adding support for other databases."
 msgstr ""
@@ -1351,6 +1436,13 @@ msgstr ""
 "informativ! Bitte zögere nicht, uns auf Discord zu kontaktieren und uns "
 "mitzuteilen, was du von Wizarr hälst."
 
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:35
+#: src/components/Forms/ServerForm/pages/ServerConnection.vue:34
+msgid ""
+"This is the URL that will be used to access the server. This is useful if "
+"you are using a reverse proxy to access the server."
+msgstr ""
+
 #: src/tours/admin-invitations.ts:9
 msgid ""
 "This is where you can manage your invitations, they will appear here in a "
@@ -1364,7 +1456,6 @@ msgstr ""
 msgid "This page is currently read only!"
 msgstr "Diese Seite ist zur Zeit nur lesbar!"
 
-#: src/modules/settings/pages/Backup.vue:47
 #: src/modules/settings/pages/Backup.vue:57
 msgid "To decrypt and encrypt backup files you can use the tools"
 msgstr ""
@@ -1381,7 +1472,7 @@ msgid ""
 "sidebar."
 msgstr ""
 
-#: src/widgets/default/InvitesTotal.vue:3
+#: src/widgets/default/InvitesTotal.vue:2
 msgid "Total Invitations"
 msgstr "Alle Einladungen"
 
@@ -1393,35 +1484,19 @@ msgstr "Alle Aufgaben"
 msgid "Total Users"
 msgstr "Alle Nutzer"
 
-#: src/modules/admin/components/Forms/InvitationForm.vue:59
-msgid "Try Again"
-msgstr "Nochmal versuchen"
-
-#: src/modules/join/views/Join.vue:7 src/modules/join/views/Join.vue:9
-msgid "Type in your invite code to %{server_name} server!"
-msgstr "Gib deinen Einladungscode für %{server_name} Server ein!"
-
-#: src/modules/join/views/Join.vue:136 src/modules/join/views/Join.vue:175
-#: src/modules/join/views/Join.vue:194 src/modules/join/views/Join.vue:203
-#: src/modules/join/views/Join.vue:228 src/modules/join/views/Join.vue:237
-#: src/modules/join/views/Join.vue:253 src/modules/join/views/Join.vue:258
+#: src/modules/join/views/Join.vue:130 src/modules/join/views/Join.vue:98
 msgid "Uh oh!"
 msgstr "Uh oh!"
 
-#: src/modules/settings/pages/Main.vue:190
+#: src/modules/settings/pages/Main.vue:208
 msgid "UI Settings"
 msgstr "UI Einstellungen"
 
-#: src/modules/settings/components/Forms/MediaForm.vue:123
-msgid "Unable to detect server."
-msgstr "Server konnte nicht erkannt werden."
-
-#: src/modules/settings/pages/Sentry.vue:55
+#: src/modules/settings/pages/Sentry.vue:50
 #, fuzzy
 msgid "Unable to save bug reporting settings."
 msgstr "Verbindung konnte nicht gespeichert werden."
 
-#: src/modules/settings/components/Forms/MediaForm.vue:169
 #: src/modules/settings/pages/Discord.vue:75
 msgid "Unable to save connection."
 msgstr "Verbindung konnte nicht gespeichert werden."
@@ -1430,68 +1505,65 @@ msgstr "Verbindung konnte nicht gespeichert werden."
 msgid "Unable to save due to widgets being disabled on this server."
 msgstr ""
 
-#: src/modules/settings/components/Forms/MediaForm.vue:146
-msgid "Unable to verify server."
-msgstr "Server konnte nicht verifiziert werden."
-
-#: src/modules/settings/pages/Main.vue:227
+#: src/modules/settings/pages/Main.vue:245
 msgid "Updates"
 msgstr "Updates"
 
-#: src/modules/settings/components/Forms/WebhookForm.vue:75
+#: src/modules/settings/components/Forms/WebhookForm.vue:21
 msgid "URL"
 msgstr "URL"
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:155
+#: src/modules/admin/components/Users/UserList/UserItem.vue:152
 msgid "User %{user} deleted"
 msgstr "Benutzer %{user} wurde gelöscht"
 
-#: src/modules/admin/components/Users/UserList/UserItem.vue:160
+#: src/components/Forms/InvitationForm/pages/InvitationPermissions.vue:5
+#, fuzzy
+msgid "User Account Duration"
+msgstr "Ablaufdatum des Benutzers"
+
+#: src/modules/admin/components/Users/UserList/UserItem.vue:157
 msgid "User deletion cancelled"
 msgstr "Löschung des Benutzers abgebrochen"
 
 #: src/modules/admin/components/Users/UserManager/User.vue:39
-#: src/modules/admin/components/Users/UserManager/User.vue:56
 msgid "User Expiration"
 msgstr "Ablaufdatum des Benutzers"
 
-#: src/modules/admin/components/Users/UserManager/User.vue:127
+#: src/modules/admin/components/Users/UserManager/User.vue:97
 msgid "User expired %{s}"
 msgstr "Benutzer ist abgelaufen am %{s}"
 
-#: src/modules/admin/components/Users/UserManager/User.vue:131
+#: src/modules/admin/components/Users/UserManager/User.vue:101
 msgid "User expires %{s}"
 msgstr "Benutzer läuft ab am %{s}"
 
-#: src/modules/settings/pages/Account.vue:49
+#: src/modules/settings/pages/Account.vue:13
+#: src/modules/setup/pages/Account.vue:8
 msgid "Username"
 msgstr "Nutzername"
 
-#: src/components/NavBars/AdminNavBar.vue:85
+#: src/templates/Navbars/AdminNavBar.vue:90
 msgid "Users"
 msgstr "Benutzer"
-
-#: src/modules/settings/components/Forms/MediaForm.vue:39
-msgid "Verify Connection"
-msgstr "Verbindung überprüfen"
 
 #: src/components/ChangeLogs/ChangeLogItem.vue:17
 msgid "View"
 msgstr "Anzeigen"
 
-#: src/modules/settings/pages/Main.vue:215
+#: src/modules/settings/pages/Main.vue:233
 msgid "View and download server logs"
 msgstr "Serverprotokolle anzeigen und herunterladen"
 
-#: src/modules/settings/pages/Main.vue:222
+#: src/modules/settings/pages/Main.vue:240
 msgid "View and manage scheduled tasks"
 msgstr "Geplante Aufgaben anzeigen und verwalten"
 
-#: src/modules/settings/pages/Main.vue:171
+#: src/modules/settings/pages/Main.vue:183
 msgid "View and manage your active sessions"
 msgstr "Aktive Sitzungen anzeigen und verwalten"
 
-#: src/modules/settings/pages/Main.vue:260
+#: src/modules/settings/pages/Main.vue:278
 msgid "View and manage your membership"
 msgstr "Mitgliedschaft anzeigen und verwalten"
 
@@ -1499,9 +1571,19 @@ msgstr "Mitgliedschaft anzeigen und verwalten"
 msgid "View API key"
 msgstr "API-Schlüssel anzeigen"
 
-#: src/modules/settings/pages/Main.vue:247
+#: src/components/Forms/ServerEditForm/pages/ServerConnection.vue:62
+#, fuzzy
+msgid "View Help"
+msgstr "Anzeigen"
+
+#: src/modules/settings/pages/Main.vue:265
 msgid "View information about the server"
 msgstr "Informationen zum Server anzeigen"
+
+#: src/components/Forms/ServerForm/pages/ServerComplete.vue:5
+#, fuzzy
+msgid "View Servers"
+msgstr "Server scannen"
 
 #: src/components/Loading/FullPageLoading.vue:107
 msgid "Waving our wands"
@@ -1564,15 +1646,15 @@ msgstr ""
 "einem Wizarr-Assistenten zu starten. Wir werden versuchen, dich durch "
 "eventuelle Probleme zu führen und sie zu lösen."
 
-#: src/components/WebhookList/WebhookItem.vue:57
+#: src/components/Lists/WebhookList/components/WebhookItem.vue:57
 msgid "Webhook deleted successfully"
 msgstr "Webhook erfolgreich gelöscht"
 
-#: src/components/WebhookList/WebhookItem.vue:59
+#: src/components/Lists/WebhookList/components/WebhookItem.vue:59
 msgid "Webhook deletion cancelled"
 msgstr "Löschung des Webhooks abgebrochen"
 
-#: src/modules/settings/pages/Main.vue:122
+#: src/modules/settings/pages/Main.vue:134
 msgid "Webhooks"
 msgstr "Webhooks"
 
@@ -1596,7 +1678,7 @@ msgstr ""
 "Mit Plex habst Du Zugriff auf alle Filme, Fernsehsendungen, Musik und Fotos, "
 "die auf dem Server gespeichert sind!"
 
-#: src/components/Footers/DefaultFooter.vue:3
+#: src/templates/Footers/DefaultFooter.vue:3
 msgid "Wizarr"
 msgstr "Wizarr"
 
@@ -1612,7 +1694,7 @@ msgstr ""
 "Mit Wizarr können Server-Administratoren ganz einfach neue Benutzer einladen "
 "und deren Zugang verwalten"
 
-#: src/modules/join/pages/Plex/Signup.vue:45
+#: src/modules/join/pages/Plex/Signup.vue:35
 msgid ""
 "Wizarr is an unverified app. This means that Plex may warn you about using "
 "it. Do you wish to continue?"
@@ -1632,11 +1714,14 @@ msgstr ""
 "Schaltfläche \"Benutzern scannen\" klickst, dies ist nützlich, wenn Wizarr "
 "noch nicht dazu gekommen ist, dies zu tun."
 
+#: src/components/Forms/InvitationForm/pages/InvitationInformation.vue:12
+msgid "XMFGEJI"
+msgstr ""
+
 #: src/modules/settings/pages/Support.vue:74
 msgid "Yes"
 msgstr "Ja"
 
-#: src/modules/settings/pages/Membership.vue:35
 #: src/modules/settings/pages/Membership.vue:43
 msgid "You are currently logged into membership."
 msgstr "Du bist momentan in deinem Mitgliedskonto eingeloggt."
@@ -1657,18 +1742,36 @@ msgstr ""
 "Du kannst eine neue Einladung erstellen, indem Du auf die Schaltfläche "
 "\"Einladung erstellen\" klickst."
 
+#: src/components/Lists/ServerList/ServerList.vue:7
+msgid "You can drag and drop the servers to reorder them."
+msgstr ""
+
 #: src/modules/help/components/Request.vue:21
 msgid "You can recieve notifications when your media is ready"
 msgstr ""
 
+#: src/components/Forms/ServerForm/pages/ServerComplete.vue:4
+#, fuzzy
+msgid "You have successfully added your media server to Wizarr!"
+msgstr "Du hast den Einrichtungsvorgang erfolgreich abgeschlossen."
+
 #: src/modules/setup/pages/Complete.vue:7
-#: src/modules/setup/pages/Complete.vue:9
 msgid "You have successfully completed the setup process."
 msgstr "Du hast den Einrichtungsvorgang erfolgreich abgeschlossen."
+
+#: src/components/Lists/ServerList/ServerList.vue:10
+msgid ""
+"You haven’t added any servers yet, get started by adding a Media Server to "
+"Wizarr."
+msgstr ""
 
 #: src/modules/settings/pages/Support.vue:61
 msgid "You must be a paying member to use this feature."
 msgstr "Du musst zahlendes Mitglied sein, um diese Funktion nutzen zu können."
+
+#: src/components/Forms/InvitationForm/InvitationForm.vue:192
+msgid "You need to add a server before you can create an invitation"
+msgstr ""
 
 #: src/modules/join/pages/Complete.vue:5
 msgid ""
@@ -1678,8 +1781,9 @@ msgstr ""
 "Du bist bereit! Klicke auf Weiter, um zu starten und eine Anleitung zur "
 "Verwendung von %{serverName} zu erhalten!"
 
-#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:146
-#: src/modules/admin/components/Invitations/ShareSheet.vue:92
+#: src/components/Forms/InvitationForm/pages/InvitationComplete.vue:69
+#: src/modules/admin/components/Invitations/InvitationList/InvitationItem.vue:106
+#: src/modules/admin/components/Invitations/ShareSheet.vue:76
 msgid "Your browser does not support copying to clipboard"
 msgstr "Dein Browser unterstützt das Kopieren in die Zwischenablage nicht"
 
@@ -1698,6 +1802,91 @@ msgstr "Deine Einstellungen"
 #: src/tours/admin-users.ts:8
 msgid "Your Users"
 msgstr "Deine Benutzer"
+
+#~ msgid "Admin Account"
+#~ msgstr "Admin Konto"
+
+#~ msgid ""
+#~ "Are you sure you want to save this connection, this will reset your "
+#~ "Wizarr instance, which may lead to data loss."
+#~ msgstr ""
+#~ "Bist du sicher, dass du diese Verbindung speichern möchtest? Dies wird "
+#~ "deine Wizarr-Instanz zurücksetzen, was zu Datenverlust führen kann."
+
+#~ msgid "Could not create the account."
+#~ msgstr "Konto konnte nicht erstellt werden."
+
+#~ msgid "Detected %{server_type} server!"
+#~ msgstr "Server vom Typ %{server_type} erkannt!"
+
+#, fuzzy
+#~ msgid "Display Name for your media servers"
+#~ msgstr "Benutzer des Mediaservers verwalten"
+
+#~ msgid "Don't see your server?"
+#~ msgstr "Deinen Server nicht gefunden?"
+
+#~ msgid "Invalid invitation code, please try again"
+#~ msgstr "Ungültiger Einladungscode, bitte versuche es erneut"
+
+#~ msgid "Invitation deletion cancelled"
+#~ msgstr "Löschung der Einladung abgebrochen"
+
+#, fuzzy
+#~ msgid "Media Server Address"
+#~ msgstr "Medien Server"
+
+#, fuzzy
+#~ msgid "Media Server Override"
+#~ msgstr "Medien Server"
+
+#~ msgid "Please enter a server URL and API key."
+#~ msgstr "Bitte gib eine Server-URL und API-Schlüssel ein."
+
+#~ msgid ""
+#~ "Restore a backup of your database and configuration from a backup file. "
+#~ "You will need to provide the encryption password that was used to create "
+#~ "the backup"
+#~ msgstr ""
+#~ "Stelle eine Sicherung deiner Datenbank und Konfiguration aus einer Backup-"
+#~ "Datei wieder her. Du musst das Verschlüsselungspasswort angeben, das für "
+#~ "das Erstellen der Sicherung verwendet wurde"
+
+#~ msgid "Restore Backup"
+#~ msgstr "Wiederherstellen"
+
+#~ msgid "Save URL"
+#~ msgstr "URL speichern"
+
+#~ msgid "Scan Libraries"
+#~ msgstr "Bibliotheken scannen"
+
+#~ msgid "Server API Key"
+#~ msgstr "Server API Schlüssel"
+
+#~ msgid "Server connection verified!"
+#~ msgstr "Verbindung fehlgeschlagen!"
+
+#~ msgid "Setup Wizarr"
+#~ msgstr "Wizarr Einrichten"
+
+#~ msgid "Share"
+#~ msgstr "Teilen"
+
+#~ msgid "Try Again"
+#~ msgstr "Nochmal versuchen"
+
+#~ msgid "Type in your invite code to %{server_name} server!"
+#~ msgstr "Gib deinen Einladungscode für %{server_name} Server ein!"
+
+#~ msgid "Unable to detect server."
+#~ msgstr "Server konnte nicht erkannt werden."
+
+#~ msgid "Unable to verify server."
+#~ msgstr "Server konnte nicht verifiziert werden."
+
+#~ msgid "Verify Connection"
+#~ msgstr "Verbindung überprüfen"
 
 #~ msgid "Continue"
 #~ msgstr "Weiter"
