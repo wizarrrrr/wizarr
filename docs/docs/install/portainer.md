@@ -17,9 +17,9 @@ Install Wizarr using Portainer's Stack feature.
 7. Copy the content of the `example.env` file from the [GitHub repository](https://github.com/wizarrrrr/wizarr/releases/latest/download/example.env) and paste into the editor.
 8. Switch back to "**Simple Mode**".
 
-- Change the default `DB_PASSWORD`, and add custom database connection information if necessary.
-- Change `DATABASE_DIR` to a folder where the database will be saved to disk.
-- Change `UPLOAD_LOCATION` to a folder where media (uploaded and generated) will be stored.
+-   Change the default `DB_PASSWORD`, and add custom database connection information if necessary.
+-   Change `DB_DIR` to a folder where the database will be saved to disk.
+-   Change `UPLOAD_LOCATION` to a folder where media (uploaded and generated) will be stored.
 
 11. Click on "**Deploy the stack**".
 

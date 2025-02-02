@@ -5,10 +5,10 @@ import { cache, secretCache } from "./cache.helper";
 import app from "../main";
 
 // Global variables for this helper
-export const privateKeyFile = resolve(env("DATABASE_DIR"), "private.key");
+export const privateKeyFile = resolve(env("DB_DIR"), "private.key");
 export const privateKeyExists = existsSync(privateKeyFile);
 
-export const publicKeyFile = resolve(env("DATABASE_DIR"), "public.key");
+export const publicKeyFile = resolve(env("DB_DIR"), "public.key");
 export const publicKeyExists = existsSync(publicKeyFile);
 
 export const cachedPrivateKey = async (): Promise<string> => cache(secretCache, async () => await privateKey(), "private_key");

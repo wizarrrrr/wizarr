@@ -3,7 +3,7 @@ import { toLowerCase } from "../utils/lowercase.helper";
 
 import type { DataSourceOptions } from "typeorm";
 
-const databaseFile = resolve(env("DATABASE_DIR"), "wizarr.db");
+const databaseFile = resolve(env("DB_DIR"), "wizarr.db");
 const entityPath = resolve(__dirname, "../", "api", "models");
 const migrationPath = resolve(__dirname, "../", "database", "migrations");
 
@@ -18,22 +18,22 @@ export const database = (type: "sqlite" | "postgres"): DataSourceOptions => {
         migrationsRun: true,
         synchronize: true,
         logging: false,
-        // cache: {
-        //     type: "redis",
-        //     duration: 30000,
-        //     options: {
-        //         socket: {
-        //             host: env("REDIS_HOST", "localhost"),
-        //             port: env("REDIS_PORT", 6379),
-        //         },
-        //     },
-        //     ignoreErrors: true,
-        // },
+        cache: {
+            type: "redis",
+            duration: 30000,
+            options: {
+                socket: {
+                    host: env("REDIS_HOST", "localhost"),
+                    port: env("REDIS_PORT", 6379),
+                },
+            },
+            ignoreErrors: true,
+        },
     };
 
-    if (options.type === "sqlite" && env("DATABASE_FILE", databaseFile)) {
+    if (options.type === "sqlite" && env("DB_FILE", databaseFile)) {
         Object.assign(options, {
-            database: env("DATABASE_FILE", databaseFile),
+            database: env("DB_FILE", databaseFile),
         });
     }
 

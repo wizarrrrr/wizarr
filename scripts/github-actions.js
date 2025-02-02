@@ -1,174 +1,224 @@
 /**
- * This script allows you to delete actions for a workflow in a Github repository.
- * 
+ * This script allows you to delete actions for a workflow in a GitHub repository.
+ *
  * Just run `node scripts/github-actions.js` and follow the prompts.
- * 
+ *
  * You will need to create a `github_token.txt` file in the `scripts` directory
- * with a Github Personal Access Token with the `repo` scope.
- * 
+ * with a GitHub Personal Access Token with the `repo` scope.
+ *
  * USE THIS SCRIPT AT YOUR OWN RISK! I AM NOT RESPONSIBLE FOR ANY DATA LOSS!
- * 
+ *
  * MIT License (c) 2023 Ashley Bailey
  */
 const run = async () => {
     const { Octokit } = require("octokit");
-    const prompts = require('prompts');
+    const prompts = require("prompts");
+    const fs = require("fs");
+    const path = require("path");
 
-    // Read Github Token from github_token.txt
+    // Read GitHub Token from github_token.txt
     const getToken = () => {
-        const fs = require("fs");
-        const path = require("path");
-        const filePath = path.join(__dirname, "github_token.txt");
-        const token = fs.readFileSync(filePath, "utf8");
-        return token;
+        try {
+            const filePath = path.join(__dirname, "github_token.txt");
+            return fs.readFileSync(filePath, "utf8").trim();
+        } catch (error) {
+            console.error("Error reading GitHub token. Ensure github_token.txt exists.");
+            process.exit(1);
+        }
     };
 
     // Get authenticated Octokit client instance
-    const getOctokit = () => {
-        const token = getToken();
-        return new Octokit({ auth: token });
-    }
+    const getOctokit = () => new Octokit({ auth: getToken() });
 
-    // Get a list of all repositories for the authenticated user
-    /**
-     * @param {Octokit} octokit
-     * @param {string} type
-     * @param {string} org
-     * @return {Promise<import("@octokit/types").OctokitResponse<import("@octokit/types").ReposListForAuthenticatedUserResponse>>}
-     */
+    // Fetch repositories
     const getRepositories = async (octokit, type, org = null) => {
-        if (type === 'personal') {
-            return await octokit.rest.repos.listForAuthenticatedUser();
-        } else if (type === 'organization') {
-            return await octokit.rest.repos.listForOrg({
-                org: org
-            });
+        try {
+            return type === "personal" ? await octokit.rest.repos.listForAuthenticatedUser() : await octokit.rest.repos.listForOrg({ org });
+        } catch (error) {
+            console.error("Error fetching repositories:", error.message);
+            process.exit(1);
         }
-    }
+    };
 
-    // Get a list of all organizations for the authenticated user
-    /**
-     * @param {Octokit} octokit
-     * @return {Promise<import("@octokit/types").OctokitResponse<import("@octokit/types").OrgsListResponse>>}
-     */
+    // Fetch organizations
     const getOrganizations = async (octokit) => {
-        return await octokit.rest.orgs.listForAuthenticatedUser();
-    }
+        try {
+            return await octokit.rest.orgs.listForAuthenticatedUser();
+        } catch (error) {
+            console.error("Error fetching organizations:", error.message);
+            process.exit(1);
+        }
+    };
 
-    /**
-     * @param {string} username
-     */
     const resetCLI = (username) => {
         console.clear();
         console.log(`Hello, ${username}!`);
-        console.log(`Welcome to the Github Actions CLI!\n`);
-    }
+        console.log("Welcome to the GitHub Actions CLI!\n");
+    };
 
     const octokit = getOctokit();
-    const { data: { login: username } } = await octokit.rest.users.getAuthenticated();
+    let username;
+
+    try {
+        const { data } = await octokit.rest.users.getAuthenticated();
+        username = data.login;
+    } catch (error) {
+        console.error("Error authenticating with GitHub:", error.message);
+        process.exit(1);
+    }
 
     resetCLI(username);
 
-    // Get use to select an account or organization
+    // Account type selection
     const { account } = await prompts({
-        type: 'select',
-        name: 'account',
-        message: 'Select an account or organization',
+        type: "select",
+        name: "account",
+        message: "Select an account type:",
         choices: [
-            { title: 'Personal', value: 'personal' },
-            { title: 'Organization', value: 'organization' },
+            { title: "Personal", value: "personal" },
+            { title: "Organization", value: "organization" },
         ],
-        initial: 0
+        initial: 0,
     });
 
     resetCLI(username);
 
-    // Get a list of all organizations for the authenticated user if the user selected organization
-    const { data: organizations } = account === 'organization' ? await getOrganizations(octokit) : { data: [] };
+    let organization = null;
+    let organizations = [];
 
-    // Get user to select an organization if the user selected organization
-    const { organization } = account === 'organization' ? await prompts({
-        type: 'select',
-        name: 'organization',
-        message: 'Select an organization',
-        choices: organizations.map(({ login }) => ({ title: login, value: login })),
-        initial: 0
-    }) : { organization: null };
+    if (account === "organization") {
+        const { data } = await getOrganizations(octokit);
+        organizations = data;
+
+        if (organizations.length === 0) {
+            console.error("No organizations found. Exiting...");
+            process.exit(1);
+        }
+
+        const orgSelection = await prompts({
+            type: "select",
+            name: "organization",
+            message: "Select an organization:",
+            choices: organizations.map(({ login }) => ({ title: login, value: login })),
+            initial: 0,
+        });
+
+        organization = orgSelection.organization;
+    }
 
     resetCLI(username);
 
-    // Get a user to select a repository for the selected account or organization
+    // Repository selection
     const { data: repositories } = await getRepositories(octokit, account, organization);
 
+    if (repositories.length === 0) {
+        console.error("No repositories found. Exiting...");
+        process.exit(1);
+    }
+
     const { repository } = await prompts({
-        type: 'select',
-        name: 'repository',
-        message: 'Select a repository',
+        type: "select",
+        name: "repository",
+        message: "Select a repository:",
         choices: repositories.map(({ name }) => ({ title: name, value: name })),
-        initial: 0
+        initial: 0,
     });
 
     resetCLI(username);
 
-    // Get user to select an action to perform on the selected repository
+    // Action selection
     const { action } = await prompts({
-        type: 'select',
-        name: 'action',
-        message: 'Select an action',
-        choices: [
-            { title: 'Delete actions for a workflow', value: 'delete' },
-            // { title: 'Delete all failed actions', value: 'delete-failed' },
-            // { title: 'Delete all successful actions', value: 'delete-successful' },
-            // { title: 'Delete all cancelled actions', value: 'delete-cancelled' },
-            // { title: 'Delete all actions', value: 'delete-all' },
-        ],
-        initial: 0
+        type: "select",
+        name: "action",
+        message: "Select an action:",
+        choices: [{ title: "Delete actions for a workflow", value: "delete" }],
+        initial: 0,
     });
 
     resetCLI(username);
 
-    // Get a list of all actions for the selected workflow
-    const { data: { workflows } } = await octokit.rest.actions.listRepoWorkflows({
-        owner: organization || username,
-        repo: repository
-    });
+    // Fetch workflows
+    let workflows;
+    try {
+        const { data } = await octokit.rest.actions.listRepoWorkflows({
+            owner: organization || username,
+            repo: repository,
+        });
+        workflows = data.workflows;
+    } catch (error) {
+        console.error("Error fetching workflows:", error.message);
+        process.exit(1);
+    }
 
-    // Get user to select a workflow
+    if (workflows.length === 0) {
+        console.error("No workflows found. Exiting...");
+        process.exit(1);
+    }
+
+    // Workflow selection
     const { workflow } = await prompts({
-        type: 'select',
-        name: 'workflow',
-        message: 'Select a workflow',
+        type: "select",
+        name: "workflow",
+        message: "Select a workflow:",
         choices: workflows.map(({ name }) => ({ title: name, value: name })),
-        initial: 0
+        initial: 0,
     });
 
     resetCLI(username);
 
-    // Get some information about the selected workflow
-    const { data: { total_count, workflow_runs } } = await octokit.rest.actions.listWorkflowRuns({
-        owner: organization || username,
-        repo: repository,
-        workflow_id: workflows.find(({ name }) => name === workflow).id,
-    });
+    // Fetch workflow runs
+    let workflowRuns;
+    let totalCount;
 
-    // Show a warning message if they are about to delete all actions for the selected workflow
-    // with a count of the number of actions that will be deleted
+    try {
+        const { data } = await octokit.rest.actions.listWorkflowRuns({
+            owner: organization || username,
+            repo: repository,
+            workflow_id: workflows.find(({ name }) => name === workflow).id,
+        });
+
+        totalCount = data.total_count;
+        workflowRuns = data.workflow_runs;
+    } catch (error) {
+        console.error("Error fetching workflow runs:", error.message);
+        process.exit(1);
+    }
+
+    if (totalCount === 0) {
+        console.log(`No actions found for the ${workflow} workflow.`);
+        process.exit(0);
+    }
+
+    // Confirm deletion
     const { confirm } = await prompts({
-        type: 'confirm',
-        name: 'confirm',
-        message: `Are you sure you want to delete all actions for the ${workflow} workflow?\n  This will delete ${total_count} actions.`,
-        initial: false
+        type: "confirm",
+        name: "confirm",
+        message: `Are you sure you want to delete all ${totalCount} actions for the "${workflow}" workflow?`,
+        initial: false,
     });
 
-    if (!confirm) return;
+    if (!confirm) {
+        console.log("Operation cancelled.");
+        process.exit(0);
+    }
 
     resetCLI(username);
 
-    // Delete all actions for the selected workflow
-    Object.values(workflow_runs).forEach(async ({ id }) => {
-        console.log(`Deleting action ${id}...`);
-        await octokit.rest.actions.deleteWorkflowRun({ owner: organization || username, repo: repository, run_id: id });
-    });
-}
+    // Delete workflow runs
+    try {
+        for (const run of workflowRuns) {
+            console.log(`Deleting action ${run.id}...`);
+            await octokit.rest.actions.deleteWorkflowRun({
+                owner: organization || username,
+                repo: repository,
+                run_id: run.id,
+            });
+        }
+        console.log(`Successfully deleted ${totalCount} actions for the "${workflow}" workflow.`);
+    } catch (error) {
+        console.error("Error deleting workflow runs:", error.message);
+        process.exit(1);
+    }
+};
 
-run()
+run();

@@ -89,7 +89,7 @@ cap_drop:
 
 Data for Wizarr comes in two forms:
 
-1. **Metadata** stored in a Postgres database, stored in the `DATABASE_DIR` folder (previously `pg_data` Docker volume).
+1. **Metadata** stored in a Postgres database, stored in the `DB_DIR` folder (previously `pg_data` Docker volume).
 2. **Files** stored in the `STORAGE_LOCATION` folder, more [info](/docs/administration/backup-and-restore#asset-types-and-storage-locations).
 
 :::warning
@@ -102,8 +102,8 @@ docker compose down -v
 
 After removing the containers and volumes, there are a few directories that need to be deleted to reset Wizarr to a new installation. Once they are deleted, Wizarr can be started back up and will be a fresh installation.
 
-- `DATABASE_DIR` contains the database, media info, and settings.
-- `STORAGE_LOCATION` contains all the files uploaded to Wizarr.
+-   `DB_DIR` contains the database, media info, and settings.
+-   `STORAGE_LOCATION` contains all the files uploaded to Wizarr.
 
 :::note Portainer
 If you use portainer, bring down the stack in portainer. Go into the volumes section  

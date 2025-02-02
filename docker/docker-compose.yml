@@ -15,7 +15,7 @@ services:
         volumes:
             # Do not edit the next line. If you want to change the storage location on your system, edit the value of STORAGE_DIR in the .env file
             - ${STORAGE_DIR}:/usr/wizarr/data/storage
-            - ${DATABASE_DIR}:/usr/wizarr/data/database
+            - ${DB_DIR}:/usr/wizarr/data/database
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -44,11 +44,11 @@ services:
         environment:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
             POSTGRES_USER: ${DB_USERNAME}
-            POSTGRES_DB: ${DATABASE_DIR}
+            POSTGRES_DB: ${DB_DIR}
             POSTGRES_INITDB_ARGS: "--data-checksums"
         volumes:
-            # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DATABASE_DIR in the .env file
-            - ${DATABASE_DIR}:/var/lib/postgresql/data
+            # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DIR in the .env file
+            - ${DB_DIR}:/var/lib/postgresql/data
         healthcheck:
             test: >-
                 pg_isready --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" || exit 1;

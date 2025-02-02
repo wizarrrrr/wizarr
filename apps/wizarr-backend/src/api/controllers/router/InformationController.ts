@@ -9,6 +9,7 @@ import { InformationService } from "../../services/InformationService";
 import { InformationPUT } from "../../requests/InformationRequest";
 import { LoggerInterface } from "../../../decorators/LoggerDecorator";
 import { cachedGetCurrentVersion, getCurrentVersion, getLatestBetaVersion, getLatestStableVersion, getLatestVersion, isBeta, isLatest } from "../../../utils/versions.helper";
+import { Cached } from "src/decorators/CachedDecorator";
 
 import type { Version as IVersion, Health as IHealth, Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 
@@ -57,6 +58,7 @@ export class InformationController extends ControllerBase {
      */
     @Get("/version")
     @OpenAPI({ tags: ["General"] })
+    @Cached()
     public async version(): Promise<IVersion> {
         const currentVersion = await getCurrentVersion();
         const latestVersion = await getLatestVersion();

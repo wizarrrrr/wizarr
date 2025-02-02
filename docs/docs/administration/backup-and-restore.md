@@ -16,7 +16,7 @@ Refer to the official [postgres documentation](https://www.postgresql.org/docs/c
 :::
 
 :::caution
-It is not recommended to directly backup the `DATABASE_DIR` folder. Doing so while the database is running can lead to a corrupted backup that cannot be restored.
+It is not recommended to directly backup the `DB_DIR` folder. Doing so while the database is running can lead to a corrupted backup that cannot be restored.
 :::
 
 ### Automatic Database Backups
@@ -42,8 +42,8 @@ docker exec -t wizarr_postgres pg_dumpall --clean --if-exists --username=postgre
 
 ```bash title='Restore'
 docker compose down -v  # CAUTION! Deletes all Wizarr data to start from scratch
-## Uncomment the next line and replace DATABASE_DIR with your Postgres path to permanently reset the Postgres database
-# rm -rf DATABASE_DIR # CAUTION! Deletes all Wizarr data to start from scratch
+## Uncomment the next line and replace DB_DIR with your Postgres path to permanently reset the Postgres database
+# rm -rf DB_DIR # CAUTION! Deletes all Wizarr data to start from scratch
 docker compose pull             # Update to latest version of Wizarr (if desired)
 docker compose create           # Create Docker containers for Wizarr apps without running them
 docker start wizarr_postgres    # Start Postgres server
@@ -64,8 +64,8 @@ docker compose up -d            # Start remainder of Wizarr apps
 
 ```powershell title='Restore'
 docker compose down -v  # CAUTION! Deletes all Wizarr data to start from scratch
-## Uncomment the next line and replace DATABASE_DIR with your Postgres path to permanently reset the Postgres database
-# Remove-Item -Recurse -Force DATABASE_DIR # CAUTION! Deletes all Wizarr data to start from scratch
+## Uncomment the next line and replace DB_DIR with your Postgres path to permanently reset the Postgres database
+# Remove-Item -Recurse -Force DB_DIR # CAUTION! Deletes all Wizarr data to start from scratch
 ## You should mount the backup (as a volume, example: `- 'C:\path\to\backup\dump.sql:/dump.sql'`) into the wizarr_postgres container using the docker-compose.yml
 docker compose pull                               # Update to latest version of Wizarr (if desired)
 docker compose create                             # Create Docker containers for Wizarr apps without running them
@@ -83,4 +83,4 @@ docker compose up -d                              # Start remainder of Wizarr ap
 </TabItem>
 </Tabs>
 
-Note that for the database restore to proceed properly, it requires a completely fresh install (i.e. the Wizarr server has never run since creating the Docker containers). If the Wizarr app has run, Postgres conflicts may be encountered upon database restoration (relation already exists, violated foreign key constraints, multiple primary keys, etc.), in which case you need to delete the `DATABASE_DIR` folder to reset the database.
+Note that for the database restore to proceed properly, it requires a completely fresh install (i.e. the Wizarr server has never run since creating the Docker containers). If the Wizarr app has run, Postgres conflicts may be encountered upon database restoration (relation already exists, violated foreign key constraints, multiple primary keys, etc.), in which case you need to delete the `DB_DIR` folder to reset the database.

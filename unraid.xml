@@ -18,6 +18,6 @@
   <DonateLink>https://opencollective.com/wizarr</DonateLink>
   <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Folder for handling Wizarr related data including database files and cache." Type="Path" Display="always" Required="false" Mask="false" />
   <Config Name="WebUI Port" Target="5690" Default="5690" Mode="tcp" Description="TCP Port where Wizarr will reside on your IP address" Type="Port" Display="always" Required="false" Mask="false" />
-  <Config Name="Database Directory" Target="DATABASE_DIR" Default="/data/database" Mode="{3}" Description="DO NOT EDIT" Type="Variable" Display="false" Required="false" Mask="false">/data/database</Config>
+  <Config Name="Database Directory" Target="DB_DIR" Default="/data/database" Mode="{3}" Description="DO NOT EDIT" Type="Variable" Display="false" Required="false" Mask="false">/data/database</Config>
   <Config Name="Latest File Path" Target="LATEST_FILE" Default="/latest" Mode="{3}" Description="DO NOT EDIT" Type="Variable" Display="false" Required="false" Mask="false">/latest</Config>
 </Container>

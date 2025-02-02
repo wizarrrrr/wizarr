@@ -79,7 +79,6 @@ else
     print_message "⚠️ System is not using systemd or service. Please start PostgreSQL manually!"
 fi
 
-
 # Install Redis
 print_message "🔥 Installing Redis..."
 sudo apt-get install lsb-release curl gpg -y
@@ -107,6 +106,24 @@ else
     print_message "⚠️ System is not using systemd or service. Please start Redis manually!"
 fi
 
+# Install Memcached
+print_message "💾 Installing Memcached..."
+sudo apt install -y memcached libmemcached-tools
+
+# Start Memcached based on init system
+if pidof systemd &> /dev/null; then
+    print_message "⚙️ Configuring Memcached with systemd..."
+    sudo systemctl enable memcached
+    sudo systemctl start memcached
+    sudo systemctl status memcached --no-pager | /usr/games/lolcat
+elif command -v service &> /dev/null; then
+    print_message "⚙️ Starting Memcached with service command..."
+    sudo service memcached start
+    sudo service memcached status | /usr/games/lolcat
+else
+    print_message "⚠️ System is not using systemd or service. Please start Memcached manually!"
+fi
+
 # Display final versions
 print_message "\n🎉 Installation Complete! 🚀"
 print_message "🟢 Node.js version: $(node -v)"
@@ -114,5 +131,6 @@ print_message "📦 NVM version: $(nvm --version)"
 print_message "🦀 Rust version: $(rustc --version)"
 print_message "🐘 PostgreSQL version: $(psql --version)"
 print_message "🔥 Redis version: $(redis-server --version | awk '{print $3}')"
+print_message "💾 Memcached version: $(memcached -V)"
 
 print_message "🎊 All tools are successfully installed! Happy coding! 🚀"

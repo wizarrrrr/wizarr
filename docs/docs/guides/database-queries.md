@@ -5,9 +5,9 @@ Keep in mind that mucking around in the database might set the moon on fire. Avo
 :::
 
 :::tip
-Run `docker exec -it wizarr_postgres psql --dbname=<DB_DATABASE_NAME> --username=<DB_USERNAME>` to connect to the database via the container directly.
+Run `docker exec -it wizarr_postgres psql --dbname=<DB_NAME> --username=<DB_USERNAME>` to connect to the database via the container directly.
 
-(Replace `<DB_DATABASE_NAME>` and `<DB_USERNAME>` with the values from your [`.env` file](/docs/install/environment-variables#database)).
+(Replace `<DB_NAME>` and `<DB_USERNAME>` with the values from your [`.env` file](/docs/install/environment-variables#database)).
 :::
 
 ## Assets

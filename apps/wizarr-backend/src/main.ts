@@ -3,7 +3,7 @@ import path from "path"; // Path module for resolving paths
 
 // Register paths for application environment
 process.env.ROOT_PATH = process.env.ROOT_PATH ?? path.resolve(__dirname, "../");
-process.env.DATABASE_DIR = process.env.DATABASE_DIR ?? path.resolve(__dirname, "../../", "database");
+process.env.DB_DIR = process.env.DB_DIR ?? path.resolve(__dirname, "../../", "database");
 
 import "./utils/modules.helper"; // Register module aliases for the application
 import "./utils/env.helper"; // Load environment variables from .env file
@@ -71,6 +71,8 @@ import logging from "./utils/logging.helper";
 import { Options } from "pino-http";
 import { TransportTargetOptions } from "pino";
 import { PrettyOptions } from "pino-pretty";
+import { release } from "os";
+import { memcached } from "./config/memcached";
 
 /**
  * The main application class for setting up and running the Koa server.
@@ -118,7 +120,7 @@ export class App {
                     level: "warn",
                     target: "pino/file",
                     options: {
-                        destination: env("LOG_FILE", path.join(env("DATABASE_DIR"), "/logs/warn.log")),
+                        destination: env("LOG_FILE", path.join(env("DB_DIR"), "/logs/warn.log")),
                         mkdir: true,
                     },
                 },
@@ -274,10 +276,15 @@ export class App {
         // Fetch server information
         const webAddress = colors.bold.blue.underline(`http://${ip.address()}:5173`);
         const apiAddress = colors.bold.blue.underline(`http://${ip.address()}:${this.port}/api`);
+        const dbAddress = env("DB_TYPE", "postgres") === "postgres" ? colors.bold.blue.underline(`postgres://${env("DB_USERNAME", "postgres")}:${"".padEnd(env("DB_PASSWORD", "postgres").length, "*")}@${env("DB_HOST", "localhost")}:${env("DB_PORT", "5432")}/${env("DB_NAME", "postgres")}`) : colors.blue.bold.underline(`${env("DB_DIR")}/wizarr.db`);
+        const redisAddress = colors.bold.blue.underline(`redis://${env("REDIS_HOST", "localhost")}:${env("REDIS_PORT", 6379)}`);
+        const memcachedAddress = colors.bold.blue.underline(`memcached://${env("MEMCACHED_HOST", "localhost")}:${env("MEMCACHED_PORT", 11211)}`);
+
         const currentVersion = await getCurrentVersion();
         const isBetaVersion = await isBeta();
         const serverVersion = colors.bold.green(isBetaVersion ? colors.yellow(currentVersion) : colors.green(currentVersion));
         const serverChannel = colors.bold.green(isBetaVersion ? colors.yellow("BETA") : colors.green("STABLE"));
+        const systemVersion = colors.bold.green(release());
 
         const buildID = env("WIZARR_BUILD", colors.yellow("NOT BUILT"));
         const commitREF = env("WIZARR_SOURCE_COMMIT", colors.yellow("NO PULL REQUEST"));
@@ -287,10 +294,15 @@ export class App {
         this.log.box({
             title: colors.bold(" 🚀 Wizarr Server 🚀 "), // Box title
             message: [
-                table("🌎", colors.bold("WEB ADDRESS:"), webAddress),
-                table("🤖", colors.bold("API ADDRESS:"), apiAddress),
-                table("🔔", colors.bold("SVR VERSION:"), serverVersion),
-                table("📢", colors.bold("SVR CHANNEL:"), serverChannel),
+                table("🌎", colors.bold("  WEB ADDRESS:"), webAddress),
+                table("🤖", colors.bold("  API ADDRESS:"), apiAddress),
+                table("💾", colors.bold(" DATABASE URL:"), dbAddress),
+                table("📑", colors.bold("    REDIS URL:"), redisAddress),
+                table("📦", colors.bold("MEMCACHED URL:"), memcachedAddress),
+                "", // Line break for spacing
+                table("🔔", colors.bold(" WIZARR VERSION:"), serverVersion),
+                table("📢", colors.bold(" WIZARR CHANNEL:"), serverChannel),
+                table("🔧", colors.bold(" SYSTEM VERSION:"), systemVersion),
                 "", // Line break for spacing
                 table(colors.bold("BUILD ID:"), buildID),
                 table(colors.bold("COMMIT REF:"), commitREF),
@@ -333,6 +345,9 @@ export class App {
     private registerMiddlewares() {
         this.app.use(logging(this.logger, this.pinoOptions, Container));
         this.app.use(cors(this.corsOptions));
+
+        // Override console with consola
+        this.logger.wrapAll();
     }
 
     /**
@@ -410,7 +425,7 @@ export class App {
         });
 
         // Save spec to root folder open-api if env GENERATE_OPENAPI is set
-        if (process.env.GENERATE_OPENAPI) {
+        if (env("NODE_ENV") === "development" && env("GENERATE_OPENAPI") === "true") {
             const specPath = path.resolve(__dirname, "../../../../open-api/wizarr-openapi-specs.json");
             writeFileSync(specPath, JSON.stringify(spec, null, 2));
         }
@@ -431,7 +446,7 @@ export class App {
                 // Automatically instrument Node libraries and frameworks
                 ...autoDiscoverNodePerformanceMonitoringIntegrations(),
             ],
-            environment: process.env.NODE_ENV,
+            environment: env("NODE_ENV", "production"),
         });
 
         // Add Sentry tracing middlewares
@@ -461,13 +476,23 @@ export class App {
     private addProcessListeners() {
         // Handle process exit
         process.on("exit", async () => {
+            this.log.warn(this.shutdownObjectInfo("EXIT"), "Process exited.");
             this.httpServer.close();
+            memcached.flush((err) => {
+                if (err) return this.log.error("Memcached flush failed:", err);
+                this.log.success("Memcached flushed.");
+            });
+            process.exit(0);
         });
 
         // Handle process termination
         process.on("SIGTERM", async () => {
             this.log.warn(this.shutdownObjectInfo("SIGTERM"), "SIGTERM signal received.");
             this.httpServer.close();
+            memcached.flush((err) => {
+                if (err) return this.log.error("Memcached flush failed:", err);
+                this.log.success("Memcached flushed.");
+            });
             process.exit(0);
         });
 
@@ -475,6 +500,10 @@ export class App {
         process.on("SIGINT", async () => {
             this.log.warn(this.shutdownObjectInfo("SIGINT"), "SIGINT signal received.");
             this.httpServer.close();
+            memcached.flush((err) => {
+                if (err) return this.log.error("Memcached flush failed:", err);
+                this.log.success("Memcached flushed.");
+            });
             process.exit(0);
         });
     }

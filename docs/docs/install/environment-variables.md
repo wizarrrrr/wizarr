@@ -21,7 +21,7 @@ If this should not work, try running `docker compose up -d --force-recreate`.
 | :--------------- | :------------------------------ | :-------: | :--------- |
 | `WIZARR_VERSION` | Image tags                      | `release` | server     |
 | `STORAGE_DIR`    | Host Path for uploads           |           | server     |
-| `DATABASE_DIR`   | Host Path for Postgres database |           | database   |
+| `DB_DIR`         | Host Path for Postgres database |           | database   |
 
 :::tip
 These environment variables are used by the `docker-compose.yml` file and do **NOT** affect the containers directly.
@@ -60,11 +60,11 @@ These environment variables are used by the `docker-compose.yml` file and do **N
 | `DB_PORT`                           | Database Port                                                            |    `5432`    | server                         |
 | `DB_USERNAME`                       | Database User                                                            |  `postgres`  | server, database<sup>\*1</sup> |
 | `DB_PASSWORD`                       | Database Password                                                        |  `postgres`  | server, database<sup>\*1</sup> |
-| `DB_DATABASE_NAME`                  | Database Name                                                            |   `wizarr`   | server, database<sup>\*1</sup> |
+| `DB_NAME`                           | Database Name                                                            |   `wizarr`   | server, database<sup>\*1</sup> |
 | `DB_VECTOR_EXTENSION`<sup>\*2</sup> | Database Vector Extension (one of [`pgvector`, `pgvecto.rs`])            | `pgvecto.rs` | server                         |
 | `DB_SKIP_MIGRATIONS`                | Whether to skip running migrations on startup (one of [`true`, `false`]) |   `false`    | server                         |
 
-\*1: The values of `DB_USERNAME`, `DB_PASSWORD`, and `DB_DATABASE_NAME` are passed to the Postgres container as the variables `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DB` in `docker-compose.yml`.
+\*1: The values of `DB_USERNAME`, `DB_PASSWORD`, and `DB_NAME` are passed to the Postgres container as the variables `POSTGRES_USER`, `POSTGRES_PASSWORD`, and `POSTGRES_DB` in `docker-compose.yml`.
 
 \*2: This setting cannot be changed after the server has successfully started up.
 
@@ -75,7 +75,7 @@ All `DB_` variables must be provided to all Wizarr workers, including `api` and 
 `DB_URL` must be in the format `postgresql://wizarrdbusername:wizarrdbpassword@postgreshost:postgresport/wizarrdatabasename`.
 You can require SSL by adding `?sslmode=require` to the end of the `DB_URL` string, or require SSL and skip certificate verification by adding `?sslmode=require&sslmode=no-verify`.
 
-When `DB_URL` is defined, the `DB_HOSTNAME`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD` and `DB_DATABASE_NAME` database variables are ignored.
+When `DB_URL` is defined, the `DB_HOSTNAME`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD` and `DB_NAME` database variables are ignored.
 
 :::
 
@@ -141,14 +141,14 @@ The following variables support the use of [Docker secrets][docker-secrets] for 
 To use any of these, replace the regular environment variable with the equivalent `_FILE` environment variable. The value of
 the `_FILE` variable should be set to the path of a file containing the variable value.
 
-| Regular Variable   | Equivalent Docker Secrets '\_FILE' Variable |
-| :----------------- | :------------------------------------------ |
-| `DB_HOSTNAME`      | `DB_HOSTNAME_FILE`<sup>\*1</sup>            |
-| `DB_DATABASE_NAME` | `DB_DATABASE_NAME_FILE`<sup>\*1</sup>       |
-| `DB_USERNAME`      | `DB_USERNAME_FILE`<sup>\*1</sup>            |
-| `DB_PASSWORD`      | `DB_PASSWORD_FILE`<sup>\*1</sup>            |
-| `DB_URL`           | `DB_URL_FILE`<sup>\*1</sup>                 |
-| `REDIS_PASSWORD`   | `REDIS_PASSWORD_FILE`<sup>\*2</sup>         |
+| Regular Variable | Equivalent Docker Secrets '\_FILE' Variable |
+| :--------------- | :------------------------------------------ |
+| `DB_HOSTNAME`    | `DB_HOSTNAME_FILE`<sup>\*1</sup>            |
+| `DB_NAME`        | `DB_NAME_FILE`<sup>\*1</sup>                |
+| `DB_USERNAME`    | `DB_USERNAME_FILE`<sup>\*1</sup>            |
+| `DB_PASSWORD`    | `DB_PASSWORD_FILE`<sup>\*1</sup>            |
+| `DB_URL`         | `DB_URL_FILE`<sup>\*1</sup>                 |
+| `REDIS_PASSWORD` | `REDIS_PASSWORD_FILE`<sup>\*2</sup>         |
 
 \*1: See the [official documentation][docker-secrets-docs] for
 details on how to use Docker Secrets in the Postgres image.
@@ -156,7 +156,7 @@ details on how to use Docker Secrets in the Postgres image.
 \*2: See [this comment][docker-secrets-example] for an example of how
 to use use a Docker secret for the password in the Redis container.
 
-[tz-list]: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#List
+[tz-list]: https://en.wikipedia.org/wiki/List_of_tz_DB_time_zones#List
 [docker-secrets-example]: https://github.com/docker-library/redis/issues/46#issuecomment-335326234
 [docker-secrets-docs]: https://github.com/docker-library/docs/tree/master/postgres#docker-secrets
 [docker-secrets]: https://docs.docker.com/engine/swarm/secrets/

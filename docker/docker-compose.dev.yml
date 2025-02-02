@@ -15,7 +15,7 @@ services:
         restart: always
         volumes:
             - ${STORAGE_DIR}:/usr/wizarr/data/storage
-            - ${DATABASE_DIR}:/usr/wizarr/data/database
+            - ${DB_DIR}:/usr/wizarr/data/database
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
@@ -45,10 +45,10 @@ services:
         environment:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
             POSTGRES_USER: ${DB_USERNAME}
-            POSTGRES_DB: ${DB_DATABASE_NAME}
+            POSTGRES_DB: ${DB_NAME}
             POSTGRES_INITDB_ARGS: "--data-checksums"
         volumes:
-            - ${DATABASE_DIR}:/var/lib/postgresql/data
+            - ${DB_DIR}:/var/lib/postgresql/data
         ports:
             - 5432:5432
         healthcheck:
@@ -69,6 +69,19 @@ services:
             -c max_wal_size=2GB
             -c shared_buffers=512MB
             -c wal_compression=on
+    memcached:
+        container_name: wizarr_memcached
+        restart: always
+        image: "memcached:1.6.26-alpine"
+        command:
+            - --conn-limit=1024
+            - --memory-limit=64
+            - --threads=4
+        healthcheck:
+            test: echo stats | nc 127.0.0.1 11211
+            interval: 20s
+            timeout: 1s
+            retries: 5
 
     # wizarr-prometheus:
     #   container_name: wizarr_prometheus
