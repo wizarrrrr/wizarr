@@ -68,3 +68,16 @@ services:
             -c shared_buffers=512MB
             -c wal_compression=on
         restart: always
+    memcached:
+        container_name: wizarr_memcached
+        restart: always
+        image: "memcached:1.6.26-alpine"
+        command:
+            - --conn-limit=1024
+            - --memory-limit=64
+            - --threads=4
+        healthcheck:
+            test: echo stats | nc 127.0.0.1 11211
+            interval: 20s
+            timeout: 1s
+            retries: 5

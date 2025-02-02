@@ -17,13 +17,12 @@
   <a href="https://opencollective.com/wizarr"><img alt="Backers" src="https://img.shields.io/opencollective/all/wizarr.svg?label=backers" /></a>
   <a href="https://features.wizarr.org"><img alt="Submit Feature Requests" src="https://img.shields.io/badge/vote_now-features?label=features" /></a>
   <a href="https://github.com/wizarrrrr/wizarr/issues"><img alt="Github Issues" src="https://img.shields.io/github/issues/wizarrrrr/wizarr" /></a>
-  <a href="https://github.com/wizarrrrr/wizarr/actions/workflows/release.yml"><img alt="GitHub Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrrr/wizarr/release.yml" /></a>
+  <a href="https://github.com/wizarrrrr/wizarr/actions/workflows/release.yml"><img alt="GitHub Build" src="https://img.shields.io/github/actions/workflow/status/wizarrrrr/wizarr/docker.yml" /></a>
 </p>
 
 ---
 
 ## Introduction
-
 
 Wizarr is an open-source software designed to simplify the management of media servers such as Jellyfin, Plex, and Emby. Initially created to allow users to easily invite others to their media servers, Wizarr has rapidly evolved with plans to broaden its scope. The ultimate goal is for Wizarr to become a versatile, centralized server management tool that can seamlessly interact with various APIs, allowing users to manage, configure, and deploy settings across multiple server environments.
 
@@ -34,20 +33,20 @@ Wizarr is an open-source software designed to simplify the management of media s
 
 ## Features
 
-- Create User Invitations for Plex, Jellyfin & Emby
-- Multi-language support with quick switching
-- Passkey Authentication for admins
-- Advanced configuration options for Invitations
-- Auto-add users to systems like **Ombi**, **Jellyseerr**, and **Overseerr**
-- Discord Intergration
-- Custom On-Boarding Screens for new users
-- Live Log output in Web Panel
-- Session Management to Logout Remote Computers
-- Live Notification System
-- Swagger API Documentation
-- Light/Dark Mode
-- Postgres/Sqlite Supported
-- Supports Unlimited Servers
+-   Create User Invitations for Plex, Jellyfin & Emby
+-   Multi-language support with quick switching
+-   Passkey Authentication for admins
+-   Advanced configuration options for Invitations
+-   Auto-add users to systems like **Ombi**, **Jellyseerr**, and **Overseerr**
+-   Discord Intergration
+-   Custom On-Boarding Screens for new users
+-   Live Log output in Web Panel
+-   Session Management to Logout Remote Computers
+-   Live Notification System
+-   Swagger API Documentation
+-   Light/Dark Mode
+-   Postgres/Sqlite Supported
+-   Supports Unlimited Servers
 
 ---
 
@@ -59,15 +58,17 @@ Wizarr is an open-source software designed to simplify the management of media s
 > incomplete and not ready for Live Production use.
 
 **JUST FOR TESTERS**
+
 1. Clone the repo to your local computer & then enter the root directory for Wizarr:<br>
    `git clone https://github.com/wizarrrrr/wizarr`<br>
    `cd ./wizarr/`<br>
-3. If you would like to run Wizarr in Developer mode please skip this step, otherwise you can build Wizarr's Docker image:<br>
+2. If you would like to run Wizarr in Developer mode please skip this step, otherwise you can build Wizarr's Docker image:<br>
    `docker compose -f docker/docker-compose.dev.yml build`<br>
    `docker compose -f docker/docker-compose.dev.yml up`<br>
    **Your done, you can reach the test version of Wizarr @ http://localhost:5690**<br>
 
 **JUST FOR DEVELOPERS**:<br>
+
 1. Using **Node** Version **22.11.0** & **NPM** Version **10.9.0** install the dependencies required:<br>
    `npm install`<br>
 2. Build Wizarr by running the following:<br>
