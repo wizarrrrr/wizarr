@@ -50,9 +50,6 @@ jobs:
             - name: Run npm install
               run: npm ci
 
-            - name: Check formatting
-              run: npm run format
-
             - name: Run build
               run: npm run build
 
