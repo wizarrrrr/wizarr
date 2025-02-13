@@ -5,6 +5,7 @@ import { connection } from "../config/connection";
 import { LoggerInterface } from "../decorators/LoggerDecorator";
 import { BulkJobOptions, Job, JobsOptions, Queue } from "bullmq";
 import Container from "typedi";
+import consola from "consola";
 
 type ServerInput = Server | Server[] | string | string[];
 
@@ -59,9 +60,8 @@ const parseJob = (job: Job<any, any, string>[]) => {
 export const scanUsersJobs = async (servers?: ServerInput, options?: JobsOptions) => {
     // Define the servers array to scan
     let serversToScan: Server[] = await parseServers(servers);
-    let logger: LoggerInterface = Container.get("Logger");
 
-    logger.info(`Scanning ${serversToScan.length} servers for users`);
+    consola.info(`Scanning ${serversToScan.length} servers for users`);
 
     // Create the jobs for the queue
     const jobs: Array<{ name: string; data: UserWorkerData; opts?: JobsOptions }> = serversToScan.map((server) => {
@@ -95,9 +95,8 @@ export const scanUsers = async (servers?: ServerInput, queue?: Queue, options?: 
 export const scanLibrariesJobs = async (servers?: ServerInput, options?: JobsOptions) => {
     // Define the servers array to scan
     let serversToScan: Server[] = await parseServers(servers);
-    let logger: LoggerInterface = Container.get("Logger");
 
-    logger.info(`Scanning ${serversToScan.length} servers for libraries`);
+    consola.info(`Scanning ${serversToScan.length} servers for libraries`);
 
     // Create the jobs for the queue
     const jobs: Array<{ name: string; data: UserWorkerData; opts?: JobsOptions }> = serversToScan.map((server) => {

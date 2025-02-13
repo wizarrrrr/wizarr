@@ -1,7 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "rootDir": ".",
+        "rootDir": "./",
         "sourceMap": true,
         "declaration": false,
         "moduleResolution": "node",
@@ -13,8 +13,9 @@
         "lib": ["es2020", "dom"],
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
-        "baseUrl": ".",
+        "baseUrl": "./",
         "paths": {
+            "@wizarrrrr/async": ["libs/async/src/index.ts"],
             "@wizarrrrr/ora": ["libs/ora/src/index.ts"],
             "@wizarrrrr/plex-sdk": ["libs/plex-sdk/src/index.ts"],
             "@wizarrrrr/typeorm-simple-query-parser": ["libs/typeorm-simple-query-parser/src/index.ts"],

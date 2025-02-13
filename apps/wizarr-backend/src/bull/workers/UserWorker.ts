@@ -6,8 +6,10 @@ import { getUsers } from "../../media/index";
 import { AxiosProgressEvent } from "axios";
 import { Job, Worker } from "bullmq";
 import { nanoid } from "nanoid";
-import { FindOneOptions } from "typeorm";
 import NotificationQueue from "../queues/NotificationQueue";
+import axios from "axios";
+import fs from "fs";
+import path from "path";
 
 export interface UserWorkerData {
     server: Server;

@@ -5,6 +5,6 @@ type AuthStore = ReturnType<typeof useAuthStore>;
 type MiddlewareContext = { next: NavigationGuardNext; parameters: { authStore: AuthStore; router: Router } };
 
 export default async function requireNoAuth({ next, parameters }: MiddlewareContext) {
-    if (parameters.authStore.isAuthenticated()) parameters.router.push({ name: "admin" });
+    if (parameters.authStore.isLoggedIn) parameters.router.push({ name: "admin" });
     return next();
 }

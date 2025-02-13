@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto md:h-screen">
         <!-- Nav Bar for Public Routes -->
-        <DefaultNavBar :button="isAuthenticated ? 'Dashboard' : 'Login'" :buttonLink="isAuthenticated ? '/admin' : '/login'" />
+        <DefaultNavBar :button="isLoggedIn ? 'Dashboard' : 'Login'" :buttonLink="isLoggedIn ? '/admin' : '/login'" />
 
         <!-- Hero Section -->
         <section class="bg-gray-100 dark:bg-gray-900 px-2 md:px-4 lg:px-6 xl:px-8 mt-28 md:mt-0">
@@ -27,7 +27,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useAuthStore } from "@/stores/auth";
-import { mapActions } from "pinia";
+import { mapState } from "pinia";
 
 import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
@@ -39,7 +39,7 @@ export default defineComponent({
         DefaultButton,
     },
     computed: {
-        ...mapActions(useAuthStore, ["isAuthenticated"]),
+        ...mapState(useAuthStore, ["isLoggedIn"]),
     },
 });
 </script>

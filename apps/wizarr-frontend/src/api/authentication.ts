@@ -123,7 +123,7 @@ class Auth {
      * Check if the user is authenticated
      * This method is used to check if the user is authenticated
      */
-    async isAuthenticated(): Promise<boolean> {
+    async isLoggedIn(): Promise<boolean> {
         // Get auth store from pinia
         const authStore = useAuthStore();
 

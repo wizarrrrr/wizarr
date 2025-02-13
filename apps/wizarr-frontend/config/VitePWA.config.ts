@@ -12,16 +12,50 @@ const VitePWAConfig: Partial<VitePWAOptions> = {
     workbox: {
         runtimeCaching: [
             {
-                handler: "NetworkOnly",
-                urlPattern: /\/api\/.*\/*.json/,
-                method: "POST",
+                urlPattern: /\/.*\.(js|css)$/, // Matches any JS or CSS files (including dynamic chunks)
+                handler: "StaleWhileRevalidate",
                 options: {
-                    backgroundSync: {
-                        name: "apiQueue",
-                        options: {
-                            maxRetentionTime: 24 * 60,
-                        },
+                    cacheName: "vue-dynamic-chunks-cache", // Cache name
+                    expiration: {
+                        maxEntries: 100, // Cache up to 100 chunks
+                        maxAgeSeconds: 30 * 24 * 60 * 60, // Cache for 30 days
                     },
+                    cacheableResponse: {
+                        statuses: [200], // Only cache successful responses
+                    },
+                },
+            },
+            {
+                urlPattern: /\/api\/.*/, // Matches all API requests
+                handler: "StaleWhileRevalidate", // Try the network first, fallback to cache if offline
+                method: "GET", // Only cache GET requests
+                options: {
+                    cacheName: "api-cache", // Name of the cache storage
+                    expiration: {
+                        maxEntries: 100, // Limit cache to 100 API responses
+                        maxAgeSeconds: 60 * 60, // Keep cached responses for 1 hour
+                    },
+                    cacheableResponse: {
+                        statuses: [200], // Only cache successful responses
+                    },
+                },
+            },
+            {
+                urlPattern: /\.(?:png|jpg|jpeg|svg|gif|webp)$/, // Matches image requests
+                handler: "CacheFirst", // Uses cache before network
+                options: {
+                    cacheName: "image-cache", // Name of cache storage
+                    expiration: {
+                        maxEntries: 50, // Limit cache to 50 images
+                        maxAgeSeconds: 30 * 24 * 60 * 60, // Cache for 30 days
+                    },
+                },
+            },
+            {
+                urlPattern: /\/fonts\//, // Matches font requests
+                handler: "StaleWhileRevalidate", // Serves cached fonts while updating in background
+                options: {
+                    cacheName: "font-cache",
                 },
             },
         ],
@@ -56,7 +90,7 @@ const VitePWAConfig: Partial<VitePWAOptions> = {
         ],
     },
     devOptions: {
-        enabled: true,
+        enabled: process.env.NODE_ENV !== "production",
         type: "module",
         navigateFallback: "index.html",
         suppressWarnings: false,

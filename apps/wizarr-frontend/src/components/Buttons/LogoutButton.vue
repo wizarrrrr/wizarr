@@ -8,19 +8,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Auth from "@/api/authentication";
+import { mapActions } from "pinia";
+import { useAuthStore } from "@/stores/auth";
 
 export default defineComponent({
     name: "LogoutButton",
-    data() {
-        return {
-            auth: new Auth(),
-        };
-    },
     methods: {
-        async logout() {
-            await this.auth.logout();
-        },
+        ...mapActions(useAuthStore, ["logout"]),
     },
 });
 </script>

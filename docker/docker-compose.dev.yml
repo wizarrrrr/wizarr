@@ -14,17 +14,14 @@ services:
             target: dev
         restart: always
         volumes:
-            - ${STORAGE_DIR}:/usr/wizarr/data/storage
             - ${DB_DIR}:/usr/wizarr/data/database
             - /etc/localtime:/etc/localtime:ro
         env_file:
-            - .env
-        ulimits:
-            nofile:
-                soft: 1048576
-                hard: 1048576
+            - example.env
         ports:
             - 5690:5690
+            - 5173:5173
+            - 5001:5001
         depends_on:
             - redis
             - postgres
@@ -33,13 +30,13 @@ services:
 
     redis:
         container_name: wizarr_redis
-        image: redis:6.2-alpine@sha256:eaba718fecd1196d88533de7ba49bf903ad33664a92debb24660a922ecd9cac8
+        image: redis:alpine
         healthcheck:
             test: redis-cli ping || exit 1
 
     postgres:
         container_name: wizarr_postgres
-        image: tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+        image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
         env_file:
             - .env
         environment:
@@ -69,10 +66,11 @@ services:
             -c max_wal_size=2GB
             -c shared_buffers=512MB
             -c wal_compression=on
+
     memcached:
         container_name: wizarr_memcached
         restart: always
-        image: "memcached:1.6.26-alpine"
+        image: "memcached:alpine"
         command:
             - --conn-limit=1024
             - --memory-limit=64
@@ -83,8 +81,22 @@ services:
             timeout: 1s
             retries: 5
 
+    s3:
+        container_name: wizarr_s3
+        restart: always
+        image: zenko/cloudserver:latest
+        ports:
+            - "8000:8000"
+        environment:
+            S3METADATAPATH: /var/lib/s3/meta
+            S3DATAPATH: /var/lib/s3/data
+            REMOTE_MANAGEMENT_DISABLE: true
+        volumes:
+            - ${STORAGE_DIR}/meta:/var/lib/s3/meta
+            - ${STORAGE_DIR}/data:/var/lib/s3/data
+
     # wizarr-prometheus:
-    #   container_name: wizarr_prometheus
+    #   container_name:
     #   ports:
     #     - 9090:9090
     #   image: prom/prometheus

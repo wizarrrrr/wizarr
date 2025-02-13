@@ -1,8 +1,5 @@
 <template>
     <div class="fixed top-0 bottom-0 left-0 right-0 z-50 inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-900">
-        <!-- <div style="width: 200px" class="mt-36 absolute w-full h-full">
-            <img src="../../assets/img/wizard.png" alt="Logo" />
-        </div> -->
         <div class="dark:text-white text-lg w-full flex flex-col items-center justify-center">
             <div class="w-[70px] stroke-primary">
                 <div class="loader">
@@ -99,16 +96,19 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { updateTheme } from "@/ts/utils/darkMode";
 
 export default defineComponent({
     name: "FullPageLoading",
     data() {
         return {
-            messages: [this.__("Please wait"), this.__("Preparing the spells"), this.__("Mixing the potions"), this.__("Summoning the spirits"), this.__("Waving our wands")],
+            messages: ["Please wait", "Preparing the spells", "Mixing the potions", "Summoning the spirits", "Waving our wands"],
             showingMessage: 0,
         };
     },
     mounted() {
+        const themeStore = JSON.parse(localStorage.getItem("theme") || "{}");
+        updateTheme(themeStore.theme || "dark");
         setInterval(() => {
             this.showingMessage++;
             if (this.showingMessage >= this.messages.length) {

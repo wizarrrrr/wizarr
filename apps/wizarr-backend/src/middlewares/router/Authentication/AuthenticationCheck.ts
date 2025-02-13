@@ -43,11 +43,8 @@ export const authorizationTokenCheck = async (token: string): Promise<boolean> =
 /**
  * General authorization check with role validation.
  */
-export const authorizationCheck = async (
-    ctx: Context | ParameterizedContext<DefaultState, DefaultContext>,
-    roles: string | string[]
-): Promise<boolean> => {
-    const authorization = ctx.request.headers.authorization ?? ctx.cookies.get("refresh");
+export const authorizationCheck = async (ctx: Context | ParameterizedContext<DefaultState, DefaultContext>, roles: string | string[]): Promise<boolean> => {
+    const authorization = ctx.request.headers.authorization;
 
     if (!authorization) throw new InvalidCredentials("No authorization header set");
 
@@ -76,22 +73,18 @@ export const localAuthorizationCheck = async <T>(authorization: string): Promise
 
     const key = await privateKey(); // Await the privateKey here
 
-    try {
-        const payload = await new Promise<IJwtPayload | string>((resolve, reject) => {
-            verify(token, key, { algorithms: ["RS256"] }, (err, decoded) => {
-                if (err) return reject(new InvalidCredentials("Invalid authorization token, try clearing your cache"));
-                resolve(decoded);
-            });
+    const payload = await new Promise<IJwtPayload | string>((resolve, reject) => {
+        verify(token, key, { algorithms: ["RS256"] }, (err, decoded) => {
+            if (err) return reject(new InvalidCredentials("Invalid authorization token, try clearing your cache"));
+            resolve(decoded);
         });
+    });
 
-        if (!payload) throw new BadRequestError("Malformed authorization token payload, please login again");
+    if (!payload) throw new BadRequestError("Malformed authorization token payload, please login again");
 
-        if (process.env.NODE_ENV === "production" && !(payload as Record<string, boolean>).fresh) {
-            throw new Error("Token is not fresh");
-        }
-
-        return payload as T;
-    } catch (error) {
-        throw error instanceof InvalidCredentials ? error : new BadRequestError(error.message);
+    if (process.env.NODE_ENV === "production" && !(payload as Record<string, boolean>).fresh) {
+        throw new Error("Token is not fresh");
     }
+
+    return payload as T;
 };

@@ -1,9 +1,10 @@
-import { useUserStore } from "@/stores/user";
+import { useAuthStore } from "@/stores/auth";
 import type { Admin } from "@wizarrrrr/wizarr-sdk";
 
+const authStore = useAuthStore();
 export const hasRole = (role: string | string[], user?: Admin) => {
     // Get the current user from the store or the parameter
-    const currentUser = user ?? useUserStore().user;
+    const currentUser = user ?? authStore.user;
 
     // If there is no current user, return false
     if (!currentUser?.roles) return false;

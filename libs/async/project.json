@@ -1,0 +1,26 @@
+{
+    "name": "async",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/async/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/async",
+                "main": "libs/async/src/index.ts",
+                "tsConfig": "libs/async/tsconfig.lib.json",
+                "assets": ["libs/async/*.md"]
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/async/**/*.ts", "libs/async/package.json"]
+            }
+        }
+    },
+    "tags": []
+}

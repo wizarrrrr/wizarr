@@ -44,15 +44,12 @@ const createToast = (type: "info" | "success" | "error" | "warning" | "default")
         const toast = useToast();
         if (isForeground) {
             if (type === "default") {
-                toast(message, options as CommonOptions);
+                return toast(message, options as CommonOptions);
             } else {
-                toast[type](message, options as CommonOptions);
+                return toast[type](message, options as CommonOptions);
             }
         } else {
-            sendTauriNotification(
-                `Wizarr ${type.charAt(0).toUpperCase() + type.slice(1)}`,
-                typeof message === "string" ? message : "Open Wizarr to view the message."
-            );
+            sendTauriNotification(`Wizarr ${type.charAt(0).toUpperCase() + type.slice(1)}`, typeof message === "string" ? message : "Open Wizarr to view the message.");
         }
     };
 };

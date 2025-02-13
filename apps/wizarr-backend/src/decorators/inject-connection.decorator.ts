@@ -1,3 +1,4 @@
+import consola from "consola";
 import { connection } from "../config/connection";
 import { Container, Constructable, ContainerInstance } from "typedi";
 
@@ -7,7 +8,7 @@ import { Container, Constructable, ContainerInstance } from "typedi";
  */
 export function InjectConnection(): CallableFunction {
     return function (target: Object, propertyKey: string | symbol, index?: number): void {
-        console.log("InjectConnection", target, propertyKey, index);
+        consola.log("InjectConnection", target, propertyKey, index);
         Container.registerHandler({
             object: target as Constructable<unknown>,
             index: index,

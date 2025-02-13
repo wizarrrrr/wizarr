@@ -6,7 +6,7 @@ import { ServerService } from "../../../services/Server/ServerService";
 import { RequestQueryParser } from "@wizarrrrr/typeorm-simple-query-parser";
 import { ServerRequest } from "../../../requests/Server/ServerPostRequest";
 import { Admin } from "../../../models/Account/AdminModel";
-import { LoggerInterface } from "../../../../decorators/LoggerDecorator";
+import consola from "consola";
 
 @Service()
 @OpenAPI({ security: [{ bearerAuth: [] }], tags: ["Media Servers"] })
@@ -19,8 +19,6 @@ export class ServerController extends ControllerBase {
     constructor(@Inject() private serverService: ServerService) {
         super();
     }
-
-    @Inject("Logger") private logger: LoggerInterface;
 
     /**
      * @api /server Server
@@ -58,7 +56,7 @@ export class ServerController extends ControllerBase {
     @HttpCode(201)
     @Authorized(["admin"])
     public async create(@Body() server: ServerRequest, @CurrentUser() currentUser: Admin) {
-        this.logger.info("Creating a new server");
+        consola.info("Creating a new server");
         return this.serverService.create(server, currentUser);
     }
 
@@ -71,7 +69,7 @@ export class ServerController extends ControllerBase {
     @OpenAPI({ summary: "Update a server" })
     @Authorized(["admin"])
     public async update(@Param("id") id: string, @Body() server: Partial<ServerRequest>, @CurrentUser() currentUser: Admin) {
-        this.logger.info("Updating server with id: " + id);
+        consola.info("Updating server with id: " + id);
         return this.serverService.update(id, server, currentUser);
     }
 

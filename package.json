@@ -28,6 +28,8 @@
     },
     "dependencies": {
         "@aacassandra/vue3-progressbar": "^1.0.3",
+        "@aws-sdk/client-s3": "^3.741.0",
+        "@aws-sdk/s3-request-presigner": "^3.741.0",
         "@bull-board/api": "^5.10.1",
         "@ctrl/plex": "^3.4.0",
         "@flavorly/vanilla-components": "^0.7.63",
@@ -82,6 +84,7 @@
         "@vueform/multiselect": "^2.6.2",
         "@vueuse/core": "^10.4.0",
         "@vueuse/integrations": "^10.4.0",
+        "@wizarrrrr/async": "file:libs/async",
         "@wizarrrrr/ora": "file:libs/ora",
         "@wizarrrrr/plex-sdk": "file:libs/plex-sdk",
         "@wizarrrrr/typeorm-simple-query-parser": "file:libs/typeorm-simple-query-parser",

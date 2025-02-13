@@ -52,6 +52,9 @@ export default defineConfig({
                 "./", // Allow Root
             ],
         },
+        watch: {
+            usePolling: true
+        }
     },
     preview: {
         port: 4300,

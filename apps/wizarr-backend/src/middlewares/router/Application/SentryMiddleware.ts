@@ -1,9 +1,10 @@
 import { KoaMiddlewareInterface, Middleware } from "routing-controllers";
-import { Context, HttpError, Request } from "koa";
+import { Context, HttpError } from "koa";
 import { getGlobalScope, runWithAsyncContext } from "@sentry/node";
 import { addRequestDataToEvent } from "@sentry/utils";
 import { Service } from "typedi";
 import consola from "consola";
+import path from "path";
 
 @Service()
 @Middleware({ type: "before" })
@@ -23,9 +24,16 @@ export class SentryMiddleware implements KoaMiddlewareInterface {
                 try {
                     await next();
                 } catch (error) {
+                    if (error.stack) {
+                        const homePath = `${path.join(__dirname, "..", "..", "..", "..")}`.replace(`dist/`, ``);
+                        error.stack = error.stack.replace(new RegExp("/home/apps/wizarr-backend", "g"), homePath);
+                    }
+
+                    // Set the error response in the context
                     const response = this.handleErrorResponse(error);
                     this.setContextResponse(context, response);
-                    throw error;
+                    resolve(response);
+                    consola.error(error);
                 }
                 resolve(void 0);
             });

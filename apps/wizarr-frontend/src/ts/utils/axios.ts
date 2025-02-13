@@ -1,166 +1,63 @@
-import mainAxios, { Axios, type AxiosRequestConfig, type AxiosResponse, type InternalAxiosRequestConfig } from "axios";
-import cookie from "js-cookie";
-import Auth from "@/api/authentication";
-
+import axios from "axios";
 import { errorToast, infoToast } from "./toasts";
 import { useAuthStore } from "@/stores/auth";
-import { useToast } from "@/plugins/toasts";
+import type { InternalAxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from "axios";
 
-export interface CustomAxiosResponse<T = any, D = any> extends AxiosResponse<T, D> {
-    config: CustomAxiosRequestConfig<D> & InternalAxiosRequestConfig;
-}
-
-export interface CustomAxiosRequestConfig<D = any> extends AxiosRequestConfig<D> {
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+    authStore?: ReturnType<typeof useAuthStore>;
     disableInfoToast?: boolean;
     disableErrorToast?: boolean;
-    refresh_header?: boolean;
 }
 
-export interface CustomAxiosInstance extends Axios {
-    disableInfoToast?: boolean;
-    disableErrorToast?: boolean;
-    refresh_header?: boolean;
-    getUri(config?: CustomAxiosRequestConfig): string;
-    request<T = any, R = CustomAxiosResponse<T>, D = any>(config: CustomAxiosRequestConfig<D>): Promise<R>;
-    get<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    delete<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    head<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    options<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    post<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    put<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    patch<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    postForm<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    putForm<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
-    patchForm<T = any, R = CustomAxiosResponse<T>, D = any>(url: string, data?: D, config?: CustomAxiosRequestConfig<D>): Promise<R>;
+interface CustomAxiosResponse<T = any> extends AxiosResponse<T> {
+    config: CustomAxiosRequestConfig;
 }
 
-class AxiosInterceptor {
-    // Axios instance and progress store
-    public axios: CustomAxiosInstance = mainAxios.create();
+const setAuthorizationHeader = (config: CustomAxiosRequestConfig) => {
+    const authStore = useAuthStore();
+    const token = authStore?.user?.jwtToken;
 
-    /*
-     * Constructor to apply interceptors
-     */
-    constructor(axios: CustomAxiosInstance) {
-        // Apply interceptors
-        axios.interceptors.response.use(this.resp.bind(this), this.error.bind(this));
-        axios.interceptors.request.use(this.req.bind(this), this.error.bind(this));
-        axios.defaults.headers.common["X-CSRF-TOKEN"] = cookie.get("csrf_access_token");
-
-        // If localstorage has a base url, set it
-        if (typeof window !== "undefined") {
-            if (localStorage.getItem("base_url")) {
-                axios.defaults.baseURL = localStorage.getItem("base_url") as string;
-            }
-        }
-
-        // Set axios instance
-        this.axios = axios;
+    if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
     }
 
-    /*
-     * Interceptor for axios request
-     * @param config
-     * @returns {any}
-     */
-    public async req(config: InternalAxiosRequestConfig & CustomAxiosRequestConfig) {
-        // Try to add the authorization header to the request
-        try {
-            // Get the auth store
-            const authStore = useAuthStore();
+    return config;
+};
 
-            // If the request is a refresh request, return the config
-            if (config.refresh_header) {
-                if ((authStore.token?.length ?? 0) > 0) {
-                    config.headers["Authorization"] = `Bearer ${authStore.token}`;
-                }
-                return config;
-            }
+const handleResponseSuccess = (response: CustomAxiosResponse) => {
+    const { config, data } = response;
 
-            // Check if the JWT token is expired and refresh it if it is
-            if (authStore.isAccessTokenExpired()) {
-                const authentication = new Auth();
-                console.log("Refreshing token because it is expired");
-                await authentication.refreshToken().catch(() => {
-                    authStore.removeAccessToken();
-                });
-            }
-
-            // Add the authorization header to the request
-            if ((authStore.token?.length ?? 0) > 0) {
-                config.headers["Authorization"] = `Bearer ${authStore.token}`;
-            }
-        } catch (e) {
-            // Do nothing
-        }
-
-        return config;
+    if (!config.disableInfoToast && data?.message) {
+        infoToast(data.message);
     }
 
-    /*
-     * Interceptor for axios response
-     * @param resp
-     * @returns {any}
-     */
-    public resp<V>(resp: CustomAxiosResponse) {
-        // If response has a message, show it
-        if (!this.axios.disableInfoToast && !resp.config.disableInfoToast) {
-            if (resp.data?.message) {
-                infoToast(resp.data.message);
-            }
-        }
+    return response;
+};
 
-        return resp;
+const handleResponseError = async (error: any) => {
+    const { response, config } = error;
+
+    if (!config?.disableErrorToast && response?.data) {
+        const { errors, message } = response.data;
+
+        if (errors) {
+            Object.values(errors)
+                .flat()
+                .forEach((msg) => errorToast(String(msg)));
+        } else if (message) {
+            errorToast(message);
+        }
     }
 
-    /*
-     * Interceptor for axios error
-     * @param error
-     * @returns {any}
-     */
-    public async error(error: any) {
-        if (this.axios.disableErrorToast || error.config.disableErrorToast) {
-            return Promise.reject(error);
-        }
-
-        const showErrorToast = (message: string) => errorToast(message);
-
-        const { response } = error;
-        if (response?.data) {
-            const { errors, message } = response.data as {
-                errors?: Record<string, string[] | string>;
-                message?: string;
-            };
-            if (errors) {
-                Object.values(errors).forEach((errorMessages: string[] | string) => {
-                    if (Array.isArray(errorMessages)) {
-                        errorMessages.forEach((errorMessage: string) => {
-                            showErrorToast(errorMessage);
-                        });
-                    } else if (typeof errorMessages === "string") {
-                        showErrorToast(errorMessages);
-                    }
-                });
-            } else if (message) {
-                showErrorToast(message);
-            }
-        }
-
-        if (response?.status === 401) {
-            try {
-                const auth = new Auth();
-                auth.logout();
-            } catch (e) {
-                useToast().error("An unauthenticated request was made, but we failed to log you out. Please refresh the page.");
-            }
-        }
-
-        return Promise.reject(error);
+    if (response?.status === 401) {
     }
+
+    return Promise.reject(error);
+};
+
+export default function (options?: CreateAxiosDefaults) {
+    const apiClient = axios.create({ ...options });
+    apiClient.interceptors.request.use(setAuthorizationHeader, (error) => Promise.reject(error));
+    apiClient.interceptors.response.use(handleResponseSuccess, handleResponseError);
+    return apiClient;
 }
-
-// Create a new instance of AxiosInterceptor
-const axios = () => new AxiosInterceptor(mainAxios).axios;
-
-export default axios;
-export { AxiosInterceptor };

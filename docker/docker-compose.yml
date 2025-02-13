@@ -9,12 +9,11 @@
 name: wizarr
 
 services:
-    wizarr-server:
+    wizarr:
         container_name: wizarr_server
         image: ghcr.io/wizarrrrr/wizarr:${WIZARR_IMAGE_VERSION:-release}
         volumes:
             # Do not edit the next line. If you want to change the storage location on your system, edit the value of STORAGE_DIR in the .env file
-            - ${STORAGE_DIR}:/usr/wizarr/data/storage
             - ${DB_DIR}:/usr/wizarr/data/database
             - /etc/localtime:/etc/localtime:ro
         env_file:
@@ -23,7 +22,7 @@ services:
             - "5690:5690"
         depends_on:
             - redis
-            - database
+            - postgres
         restart: always
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:5690/api/health"]
@@ -33,14 +32,14 @@ services:
 
     redis:
         container_name: wizarr_redis
-        image: docker.io/redis:6.2-alpine@sha256:eaba718fecd1196d88533de7ba49bf903ad33664a92debb24660a922ecd9cac8
+        image: docker.io/redis:latest
         healthcheck:
             test: redis-cli ping || exit 1
         restart: always
 
-    database:
+    postgres:
         container_name: wizarr_postgres
-        image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0@sha256:90724186f0a3517cf6914295b5ab410db9ce23190a2d9d0b9dd6463e3fa298f0
+        image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
         environment:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
             POSTGRES_USER: ${DB_USERNAME}
@@ -68,10 +67,11 @@ services:
             -c shared_buffers=512MB
             -c wal_compression=on
         restart: always
+
     memcached:
         container_name: wizarr_memcached
         restart: always
-        image: "memcached:1.6.26-alpine"
+        image: "memcached:alpine"
         command:
             - --conn-limit=1024
             - --memory-limit=64
@@ -81,3 +81,16 @@ services:
             interval: 20s
             timeout: 1s
             retries: 5
+
+    s3:
+        container_name: wizarr_s3
+        restart: always
+        image: zenko/cloudserver:latest
+        environment:
+            S3METADATAPATH: /var/lib/s3/meta
+            S3DATAPATH: /var/lib/s3/data
+            REMOTE_MANAGEMENT_DISABLE: true
+            HOST_NAMES: "s3"
+        volumes:
+            - ${STORAGE_DIR}/meta:/var/lib/s3/meta
+            - ${STORAGE_DIR}/data:/var/lib/s3/data

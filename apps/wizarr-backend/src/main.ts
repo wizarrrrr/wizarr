@@ -4,6 +4,7 @@ import path from "path"; // Path module for resolving paths
 // Register paths for application environment
 process.env.ROOT_PATH = process.env.ROOT_PATH ?? path.resolve(__dirname, "../");
 process.env.DB_DIR = process.env.DB_DIR ?? path.resolve(__dirname, "../../", "database");
+process.env.STORAGE_DIR = process.env.STORAGE_DIR ?? path.resolve(__dirname, "../../", "storage");
 
 import "./utils/modules.helper"; // Register module aliases for the application
 import "./utils/env.helper"; // Load environment variables from .env file
@@ -73,6 +74,7 @@ import { TransportTargetOptions } from "pino";
 import { PrettyOptions } from "pino-pretty";
 import { release } from "os";
 import { memcached } from "./config/memcached";
+
 
 /**
  * The main application class for setting up and running the Koa server.

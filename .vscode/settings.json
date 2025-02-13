@@ -15,11 +15,9 @@
         "**/.github": false,
         "**/node_modules": true,
         "**/reports": true,
-        "**/tmp": true,
+        "**/tmp": true
     },
-    "css.customData": [
-        ".vscode/tailwind.json"
-    ],
+    "css.customData": [".vscode/tailwind.json"],
     "[vue]": {
         "editor.formatOnType": true,
         "editor.formatOnSave": true,
@@ -29,4 +27,7 @@
         "editor.defaultFormatter": "shakram02.bash-beautify"
     },
     "editor.formatOnSave": true,
+    "[nginx]": {
+        "editor.defaultFormatter": "AaaaronZhou.nginx-config-formatter-vscode-extension"
+    }
 }

@@ -12,7 +12,7 @@
                             <i class="fa-solid fa-spinner fa-spin dark:text-white fa-2xl m-4"></i>
                         </div>
                         <div v-else-if="step == 1">
-                            <LoginForm :passkeySupported="passkeySupported" @passwordLogin="passwordLogin" @passkeyLogin="passkeyLogin" key="login-form" />
+                            <LoginForm :passkeySupported="passkeySupported" @passwordLogin="loginPassword" @passkeyLogin="loginPasskey" key="login-form" />
                         </div>
                         <div v-else>
                             <div class="flex flex-col items-center justify-center space-y-4">
@@ -30,12 +30,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { useAuthStore } from "@/stores/auth";
+import { mapActions } from "pinia";
 
 import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
 import DefaultLoading from "@/components/Loading/DefaultLoading.vue";
 
 import LoginForm from "../components/LoginForm.vue";
-
 import Auth from "@/api/authentication";
 
 const STEP = {
@@ -52,36 +53,37 @@ export default defineComponent({
     },
     data() {
         return {
-            auth: new Auth(),
             step: STEP.LOADING,
             passkeySupported: true,
         };
     },
     methods: {
-        async passwordLogin({ username, password }: { username: string; password: string }) {
+        async loginPassword({ username, password }: { username: string; password: string }) {
             this.step = STEP.LOADING;
-            await this.auth.login(username, password).catch(() => {
+            await this.passwordLogin(username, password).catch(() => {
                 this.step = STEP.USERNAME;
             });
         },
-        async passkeyLogin({ username }: { username: string }) {
+        async loginPasskey({ username }: { username: string }) {
             this.step = STEP.LOADING;
-            await this.auth.passkeyAuthentication(username).catch((e) => {
-                this.step = STEP.USERNAME;
-            });
+            // await this.auth.passkeyAuthentication(username).catch((e) => {
+            //     this.step = STEP.USERNAME;
+            // });
         },
+        // Map actions to methods from the auth store
+        ...mapActions(useAuthStore, ["passwordLogin"]),
     },
     async mounted() {
         // Check if WebAuthn is supported
-        const browserSupportsWebAuthn = this.auth.browserSupportsWebAuthn();
-        const browserSupportsWebAuthnAutofill = await this.auth.browserSupportsWebAuthnAutofill();
+        // const browserSupportsWebAuthn = this.auth.browserSupportsWebAuthn();
+        // const browserSupportsWebAuthnAutofill = await this.auth.browserSupportsWebAuthnAutofill();
 
         // If WebAuthn is not supported go to login with password
-        if (!browserSupportsWebAuthn) {
-            this.step = STEP.USERNAME;
-            this.passkeySupported = false;
-            return;
-        }
+        // if (!browserSupportsWebAuthn) {
+        //     this.step = STEP.USERNAME;
+        //     this.passkeySupported = false;
+        //     return;
+        // }
 
         // Remove loading screen
         this.step = STEP.USERNAME;
@@ -90,13 +92,13 @@ export default defineComponent({
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         // If WebAuthn autofill is supported, allow user to login with MFA autofill
-        if (browserSupportsWebAuthn && browserSupportsWebAuthnAutofill) {
-            try {
-                await this.auth.passkeyAuthentication("", true);
-            } catch (e) {
-                console.warn(e);
-            }
-        }
+        // if (browserSupportsWebAuthn && browserSupportsWebAuthnAutofill) {
+        //     try {
+        //         await this.auth.passkeyAuthentication("", true);
+        //     } catch (e) {
+        //         console.warn(e);
+        //     }
+        // }
     },
 });
 </script>

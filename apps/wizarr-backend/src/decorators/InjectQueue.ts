@@ -1,17 +1,17 @@
 import Container, { Constructable } from "typedi";
-import { BullMQ, Queues, Workers } from "../bull";
+import { BullMQ, Queues } from "../bull";
 
 /**
  * Injects BullMQ queue into a class property or constructor parameter.
  * @param queueName The name of the queue to inject.
  */
-export function InjectQueue(queueName?: keyof Queues): ParameterDecorator {
+export function InjectQueue(queueName?: Queues): CallableFunction {
     return (object: object, propertyName: string, index?: number): void => {
         Container.registerHandler({
             object: object as Constructable<unknown>,
             index: index,
             propertyName: propertyName,
-            value: async (containerInstance) => {
+            value: (containerInstance) => {
                 const bullMQ = containerInstance.get(BullMQ);
                 return bullMQ.getQueue(queueName);
             },
@@ -23,13 +23,13 @@ export function InjectQueue(queueName?: keyof Queues): ParameterDecorator {
  * Injects BullMQ worker into a class property or constructor parameter.
  * @param workerName The name of the worker to inject.
  */
-export function InjectWorker(workerName?: keyof Workers): CallableFunction {
+export function InjectWorker(workerName?: Queues): CallableFunction {
     return (object: object, propertyName: string, index?: number): void => {
         Container.registerHandler({
             object: object as Constructable<unknown>,
             index: index,
             propertyName: propertyName,
-            value: async (containerInstance) => {
+            value: (containerInstance) => {
                 const bullMQ = containerInstance.get(BullMQ);
                 return bullMQ.getWorker(workerName);
             },

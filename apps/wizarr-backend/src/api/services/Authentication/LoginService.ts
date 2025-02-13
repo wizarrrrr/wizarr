@@ -48,7 +48,7 @@ export class LoginService {
         context?.cookies.set("refresh", refreshToken, { httpOnly: true, sameSite: "strict" });
 
         // Return the admin
-        return { message: "Successfully logged in", user: admin, token: accessToken };
+        return { user: admin, token: accessToken };
     }
 
     /**
@@ -57,7 +57,7 @@ export class LoginService {
      */
     public async logout(context: Context) {
         // Check if the refresh token is set in the cookies
-        if (!context.cookies.get("refresh")) throw new InvalidCredentials();
+        if (!context.cookies.get("refresh")) throw new InvalidCredentials("Missing refresh token");
 
         // Get the refresh token from the cookies
         const refreshToken = context.cookies.get("refresh");
@@ -81,7 +81,7 @@ export class LoginService {
      */
     public async refresh(context: Context) {
         // Check if the refresh token is set in the cookies
-        if (!context.cookies.get("refresh")) throw new InvalidCredentials();
+        if (!context.cookies.get("refresh")) throw new InvalidCredentials("Missing refresh token");
 
         // Get the refresh token from the cookies
         const refreshToken = context.cookies.get("refresh");
@@ -111,8 +111,12 @@ export class LoginService {
         session.refreshJti = newRefreshJTI;
         await session.save();
 
-        // Return the new access token
-        return { token: accessToken };
+        // Get the admin from the database by username, throw an error if it doesn't exist
+        const admin = await this.adminRepository.findOne({ where: { id: session.userId } });
+        if (!admin) throw new InvalidCredentials();
+
+        // Return the admin with the new access token
+        return { user: admin, token: accessToken };
     }
 
     /**
