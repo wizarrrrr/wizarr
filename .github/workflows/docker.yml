@@ -146,6 +146,7 @@ jobs:
                       BUILD_IMAGE=${{ github.event_name == 'release' && github.ref_name || steps.metadata.outputs.tags }}
                       BUILD_SOURCE_REF=${{ github.ref_name }}
                       BUILD_SOURCE_COMMIT=${{ github.sha }}
+                  target: prod
 
     success-check-server:
         name: Docker Build & Push Server Success

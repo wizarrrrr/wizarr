@@ -17,8 +17,8 @@ RUN npm ci
 # Build the application using npm
 RUN npm run build
 
-# Use a specific base image from GitHub container registry for development environment
-FROM ghcr.io/wizarrrrr/base-server-dev:main AS dev
+# Use a specific base image from GitHub container registry for production environments
+FROM ghcr.io/wizarrrrr/base-server-prod:main AS prod
 
 # Set the working directory inside the container
 WORKDIR /usr/wizarr/
@@ -80,3 +80,44 @@ CMD ["/usr/wizarr/start.sh"]
 
 # Define a healthcheck command to monitor the container's health
 HEALTHCHECK CMD wizarr-healthcheck
+
+
+# Use a specific base image from GitHub container registry for development environments
+FROM ghcr.io/wizarrrrr/base-server-dev:main AS dev
+
+# Set the working directory inside the container
+WORKDIR /usr/wizarr/
+
+# Set build-related arguments (for versioning and tracking purposes)
+ARG BUILD_ID
+ARG BUILD_IMAGE
+ARG BUILD_SOURCE_REF
+ARG BUILD_SOURCE_COMMIT
+
+# Create a group named 'wizarr' and a user named 'wizarr', then add the 'wizarr' user to group with GID 1000
+# RUN if ! id -u wizarr > /dev/null 2>&1; then \
+#         echo "Creating user wizarr"; \
+#         useradd --no-create-home wizarr; \
+#     fi && \
+#     # Add 'wizarr' user to the group with GID=1000
+#     usermod -a -G 1000 wizarr
+
+# USER wizarr
+
+# Set environment variables with information related to the build and source code
+ENV WIZARR_BUILD=${BUILD_ID}
+ENV WIZARR_BUILD_URL=https://github.com/wizarrrrr/wizarr/actions/runs/${BUILD_ID}
+ENV WIZARR_BUILD_IMAGE=${BUILD_IMAGE}
+ENV WIZARR_BUILD_IMAGE_URL=https://github.com/wizarrrrr/wizarr/pkgs/container/wizarr
+ENV WIZARR_REPOSITORY=wizarrrrr/wizarr
+ENV WIZARR_REPOSITORY_URL=https://github.com/wizarrrrr/wizarr
+ENV WIZARR_SOURCE_REF=${BUILD_SOURCE_REF}
+ENV WIZARR_SOURCE_COMMIT=${BUILD_SOURCE_COMMIT}
+ENV WIZARR_SOURCE_URL=https://github.com/wizarrrrr/wizarr/commit/${BUILD_SOURCE_COMMIT}
+
+# Use tini to ensure proper signal handling
+ENTRYPOINT ["tini", "--", "/bin/sh"]
+
+# Default command to run when the container starts
+CMD ["/usr/wizarr/docker/scripts/start-dev.sh"]
+

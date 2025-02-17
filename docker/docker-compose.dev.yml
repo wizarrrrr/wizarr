@@ -13,51 +13,43 @@ services:
             dockerfile: apps/wizarr-backend/Dockerfile
             target: dev
         restart: always
+        user: "1000:1000"
+        environment:
+            STORAGE_DIR: ./data/storage
+            DB_DIR: ./data/database
+            DB_TYPE: postgres
+            WIZARR_IMAGE_VERSION: beta
+            DB_PASSWORD: postgres
+            DB_USERNAME: postgres
+            DB_HOST: wizarr_postgres
+            DB_NAME: wizarr
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+            MEMCACHED_HOST: memcached
+            MEMCACHED_PORT: 11211
         volumes:
-            - ${DB_DIR}:/usr/wizarr/data/database
+            - ../:/usr/wizarr
+            - ./data/database:/usr/wizarr/data/database
             - /etc/localtime:/etc/localtime:ro
-        env_file:
-            - example.env
-        ports:
-            - 5690:5690
-            - 5173:5173
-            - 5001:5001
         depends_on:
             - redis
             - postgres
-        healthcheck:
-            disable: false
+
 
     redis:
         container_name: wizarr_redis
         image: redis:alpine
-        healthcheck:
-            test: redis-cli ping || exit 1
 
     postgres:
         container_name: wizarr_postgres
         image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
-        env_file:
-            - .env
         environment:
-            POSTGRES_PASSWORD: ${DB_PASSWORD}
-            POSTGRES_USER: ${DB_USERNAME}
-            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: wizarr
             POSTGRES_INITDB_ARGS: "--data-checksums"
         volumes:
-            - ${DB_DIR}:/var/lib/postgresql/data
-        ports:
-            - 5432:5432
-        healthcheck:
-            test: >-
-                pg_isready --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" || exit 1;
-                Chksum="$$(psql --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" --tuples-only --no-align
-                --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')";
-                echo "checksum failure count is $$Chksum";
-                [ "$$Chksum" = '0' ] || exit 1
-            interval: 5m
-            start_interval: 30s
-            start_period: 5m
+            - ./data/database:/var/lib/postgresql/data
         command: >-
             postgres
             -c shared_preload_libraries=vectors.so
@@ -75,46 +67,15 @@ services:
             - --conn-limit=1024
             - --memory-limit=64
             - --threads=4
-        healthcheck:
-            test: echo stats | nc 127.0.0.1 11211
-            interval: 20s
-            timeout: 1s
-            retries: 5
 
     s3:
         container_name: wizarr_s3
         restart: always
         image: zenko/cloudserver:latest
-        ports:
-            - "8000:8000"
         environment:
             S3METADATAPATH: /var/lib/s3/meta
             S3DATAPATH: /var/lib/s3/data
             REMOTE_MANAGEMENT_DISABLE: true
         volumes:
-            - ${STORAGE_DIR}/meta:/var/lib/s3/meta
-            - ${STORAGE_DIR}/data:/var/lib/s3/data
-
-    # wizarr-prometheus:
-    #   container_name:
-    #   ports:
-    #     - 9090:9090
-    #   image: prom/prometheus
-    #   volumes:
-    #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    #     - prometheus-data:/prometheus
-
-    # first login uses admin/admin
-    # add data source for http://wizarr-prometheus:9090 to get started
-    # wizarr-grafana:
-    #   container_name: wizarr_grafana
-    #   command: ['./run.sh', '-disable-reporting']
-    #   ports:
-    #     - 3000:3000
-    #   image: grafana/grafana:10.3.3-ubuntu
-    #   volumes:
-    #     - grafana-data:/var/lib/grafana
-
-volumes:
-    prometheus-data:
-    grafana-data:
+            - ./data/storage/meta:/var/lib/s3/meta
+            - ./data/storage/data:/var/lib/s3/data
