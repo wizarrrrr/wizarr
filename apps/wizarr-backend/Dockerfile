@@ -94,16 +94,6 @@ ARG BUILD_IMAGE
 ARG BUILD_SOURCE_REF
 ARG BUILD_SOURCE_COMMIT
 
-# Create a group named 'wizarr' and a user named 'wizarr', then add the 'wizarr' user to group with GID 1000
-# RUN if ! id -u wizarr > /dev/null 2>&1; then \
-#         echo "Creating user wizarr"; \
-#         useradd --no-create-home wizarr; \
-#     fi && \
-#     # Add 'wizarr' user to the group with GID=1000
-#     usermod -a -G 1000 wizarr
-
-# USER wizarr
-
 # Set environment variables with information related to the build and source code
 ENV WIZARR_BUILD=${BUILD_ID}
 ENV WIZARR_BUILD_URL=https://github.com/wizarrrrr/wizarr/actions/runs/${BUILD_ID}

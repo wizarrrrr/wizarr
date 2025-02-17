@@ -14,22 +14,22 @@ services:
             target: dev
         restart: always
         user: "1000:1000"
+        network_mode: host
         environment:
-            STORAGE_DIR: ./data/storage
-            DB_DIR: ./data/database
+            STORAGE_DIR: /usr/wizarr/data/storage
+            DB_DIR: /usr/wizarr/data/database
             DB_TYPE: postgres
             WIZARR_IMAGE_VERSION: beta
             DB_PASSWORD: postgres
             DB_USERNAME: postgres
-            DB_HOST: wizarr_postgres
+            DB_HOST: 127.0.0.1
             DB_NAME: wizarr
-            REDIS_HOST: redis
+            REDIS_HOST: 127.0.0.1
             REDIS_PORT: 6379
-            MEMCACHED_HOST: memcached
+            MEMCACHED_HOST: 127.0.0.1
             MEMCACHED_PORT: 11211
         volumes:
             - ../:/usr/wizarr
-            - ./data/database:/usr/wizarr/data/database
             - /etc/localtime:/etc/localtime:ro
         depends_on:
             - redis
@@ -39,17 +39,20 @@ services:
     redis:
         container_name: wizarr_redis
         image: redis:alpine
+        network_mode: host
 
     postgres:
         container_name: wizarr_postgres
         image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
+        user: "1000:1000"
         environment:
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres
             POSTGRES_DB: wizarr
             POSTGRES_INITDB_ARGS: "--data-checksums"
         volumes:
-            - ./data/database:/var/lib/postgresql/data
+            - ../data/database:/var/lib/postgresql/data
+        network_mode: host
         command: >-
             postgres
             -c shared_preload_libraries=vectors.so
@@ -63,6 +66,7 @@ services:
         container_name: wizarr_memcached
         restart: always
         image: "memcached:alpine"
+        network_mode: host
         command:
             - --conn-limit=1024
             - --memory-limit=64
@@ -72,10 +76,11 @@ services:
         container_name: wizarr_s3
         restart: always
         image: zenko/cloudserver:latest
+        network_mode: host
         environment:
             S3METADATAPATH: /var/lib/s3/meta
             S3DATAPATH: /var/lib/s3/data
             REMOTE_MANAGEMENT_DISABLE: true
         volumes:
-            - ./data/storage/meta:/var/lib/s3/meta
-            - ./data/storage/data:/var/lib/s3/data
+            - ../data/storage/meta:/var/lib/s3/meta
+            - ../data/storage/data:/var/lib/s3/data
