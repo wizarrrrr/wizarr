@@ -5,7 +5,7 @@
     </div>
     <div>
         <div class="flex justify-center items-center flex-col mt-12 mb-3 space-y-6">
-            <WizarrLogo rounded class="w-[150px] h-[150px]" />
+            <WizarrLogo class="w-[150px] h-[150px] rounded-[10px]" />
         </div>
         <section>
             <div class="flex flex-col items-center justify-center md:container py-8 mx-auto">
