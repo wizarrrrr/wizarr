@@ -37,6 +37,9 @@ export class Admin extends EntityBase {
     @OneToMany(() => Invitation, (invitation) => invitation.admin, { nullable: true })
     invitations: Invitation[];
 
+    @Column("boolean", { nullable: false, default: false })
+    activated: boolean;
+
     @CreateDateColumn(DateTimeNow)
     createdAt: Date;
 

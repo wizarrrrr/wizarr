@@ -28,6 +28,7 @@ export class RegisterService {
     public async register(data: RegisterRequest) {
         const admin = plainToClass(Admin, data);
         admin.roles = await this.roleRepository.getRolesByName(data.roles);
+        admin.activated = (await this.adminRepository.count() <= 0) ? true : false;
         return this.adminRepository.save(admin);
     }
 }
