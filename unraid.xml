@@ -5,6 +5,8 @@
   <Registry>https://github.com/wizarrrrr/wizarr/pkgs/container/wizarr</Registry>
   <Network>bridge</Network>
   <Beta>true</Beta>
+  <Memory>1024</Memory>
+  <CPUset>0,1</CPUset>
   <Branch>
     <Tag>release</Tag>
     <TagDescription>This is the release branch, and is always the latest stable version of Wizarr</TagDescription>
@@ -24,6 +26,13 @@
   <TemplateURL>https://raw.githubusercontent.com/wizarrrrr/wizarr/refs/heads/master/unraid.xml</TemplateURL>
   <Icon>https://avatars.githubusercontent.com/u/192495477</Icon>
   <ExtraParams>--restart unless-stopped</ExtraParams>
+  <HealthCheck>
+    <Test>curl --fail http://localhost:5690/api/health || exit 1</Test>
+    <Interval>30s</Interval>
+    <Timeout>10s</Timeout>
+    <Retries>3</Retries>
+    <StartPeriod>40s</StartPeriod>
+  </HealthCheck>
   <DonateText>Support Us</DonateText>
   <DonateLink>https://pay.wizarr.org</DonateLink>
   <Requires>Wizarr requires that you have the following Docker Instances installed:&#xD;
@@ -33,11 +42,16 @@
     &#x2022; zenko/cloudserver S3 (located at http://s3:8000 or otherwise configured)&#xD;
 &#xD;
 If you have any worries about the setup and configuration of Wizarr please follow the guide at https://wizarr.org/docs/install/unraid</Requires>
-  <Config Name="Wizarr Managment Port" Target="5690" Default="5690" Mode="tcp" Description="The port used to access Wizarr" Type="Port" Display="always" Required="false" Mask="false">5690</Config>
+  <Config Name="Wizarr Management Port" Target="5690" Default="5690" Mode="tcp" Description="The port used to access Wizarr" Type="Port" Display="always" Required="false" Mask="false">5690</Config>
   <Config Name="Wizarr Database Type" Target="DB_TYPE" Default="sqlite" Mode="" Description="Wizarr Database Type, can be either sqlite or postgres, postgres requires further configuration." Type="Variable" Display="always-hide" Required="true" Mask="false">sqlite</Config>
   <Config Name="Wizarr Platform" Target="WIZARR_PLATFORM" Default="UNRAID" Mode="" Description="DO NOT EDIT OR REMOVE" Type="Variable" Display="advanced-hide" Required="true" Mask="false">UNRAID</Config>
   <Config Name="Wizarr Database Folder" Target="DB_DIR" Default="/usr/wizarr/data/database" Mode="" Description="The folder Wizarr will look to inside the container for the database." Type="Variable" Display="advanced" Required="true" Mask="false">/usr/wizarr/data/database</Config>
   <Config Name="Wizarr Storage Folder" Target="STORAGE_DIR" Default="/usr/wizarr/data/storage" Mode="" Description="The folder Wizarr will look to inside the container for the storage." Type="Variable" Display="advanced" Required="true" Mask="false">/usr/wizarr/data/storage</Config>
   <Config Name="Wizarr Database Folder" Target="/usr/wizarr/data/database" Default="/mnt/user/appdata/wizarr/database" Mode="rw" Description="The folder Wizarr will use to store database files into." Type="Path" Display="always-hide" Required="true" Mask="false">/mnt/user/appdata/wizarr/database</Config>
   <Config Name="Wizarr Storage Folder" Target="/usr/wizarr/data/storage" Default="/mnt/user/appdata/wizarr/storage" Mode="rw" Description="The folder Wizarr will use to store uploaded files to aswell as cache and other files." Type="Path" Display="always-hide" Required="true" Mask="false">/mnt/user/appdata/wizarr/storage</Config>
+  <Config Name="Time Zone" Target="TZ" Default="Etc/UTC" Mode="" Description="Specify a timezone to use (e.g., Europe/London)" Type="Variable" Display="always" Required="false" Mask="false">Etc/UTC</Config>
+  <Label>
+    <Name>VERSION</Name>
+    <Value>latest</Value>
+  </Label>
 </Container>
