@@ -1,23 +1,43 @@
 <?xml version="1.0"?>
 <Container version="2">
-  <Name>wizarr</Name>
-  <Repository>ghcr.io/wizarrrrr/wizarr</Repository>
+  <Name>Wizarr</Name>
+  <Repository>ghcr.io/wizarrrrr/wizarr:release</Repository>
   <Registry>https://github.com/wizarrrrr/wizarr/pkgs/container/wizarr</Registry>
-  <TemplateURL>https://github.com/wizarrrrr/wizarr/blob/master/unraid.xml</TemplateURL>
   <Network>bridge</Network>
+  <Beta>true</Beta>
+  <Branch>
+    <Tag>release</Tag>
+    <TagDescription>This is the release branch, and is always the latest stable version of Wizarr</TagDescription>
+  </Branch>
+  <Branch>
+    <Tag>beta</Tag>
+    <TagDescription>This is highly unstable and you are likely to face many issue attempting to use Wizarr in Beta.</TagDescription>
+  </Branch>
+  <Shell>sh</Shell>
   <Privileged>false</Privileged>
-  <Shell>bash</Shell>
-  <Support>https://github.com/wizarrrrr/wizarr/discussions</Support>
-  <Project>https://github.com/wizarrrrr/wizarr</Project>
-  <Overview>The official Wizarr Container. Wizarr is a automatic user invitation system for Plex. Create a unique link and share it to a user and they will automatically be invited to your Plex Server!</Overview>
-  <Category>MediaServer:Other</Category>
+  <Support>https://wizarr.org/docs/overview/introduction</Support>
+  <Project>https://github.com/wizarrrrr/wizarr/</Project>
+  <WebPage>https://wizarr.org</WebPage>
+  <Overview>Wizarr is an open-source software designed to simplify the management of media servers such as Jellyfin, Plex, and Emby. Initially created to allow users to easily invite others to their media servers, Wizarr has rapidly evolved with plans to broaden its scope. The ultimate goal is for Wizarr to become a versatile, centralized server management tool that can seamlessly interact with various APIs, allowing users to manage, configure, and deploy settings across multiple server environments.</Overview>
+  <Category>Tools: MediaApp:Other MediaServer:Other</Category>
   <WebUI>http://[IP]:[PORT:5690]/</WebUI>
-  <Icon>https://raw.githubusercontent.com/wizarrrrr/wizarr/master/apps/wizarr-frontend/src/assets/img/wizard.png</Icon>
+  <TemplateURL>https://raw.githubusercontent.com/wizarrrrr/wizarr/refs/heads/master/unraid.xml</TemplateURL>
+  <Icon>https://avatars.githubusercontent.com/u/192495477</Icon>
   <ExtraParams>--restart unless-stopped</ExtraParams>
-  <DonateText>If you like our work please consider Donating.</DonateText>
-  <DonateLink>https://opencollective.com/wizarr</DonateLink>
-  <Config Name="Data Folder" Target="/data/database" Default="/mnt/user/appdata/wizarr/" Mode="rw" Description="Folder for handling Wizarr related data including database files and cache." Type="Path" Display="always" Required="false" Mask="false" />
-  <Config Name="WebUI Port" Target="5690" Default="5690" Mode="tcp" Description="TCP Port where Wizarr will reside on your IP address" Type="Port" Display="always" Required="false" Mask="false" />
-  <Config Name="Database Directory" Target="DB_DIR" Default="/data/database" Mode="{3}" Description="DO NOT EDIT" Type="Variable" Display="false" Required="false" Mask="false">/data/database</Config>
-  <Config Name="Latest File Path" Target="LATEST_FILE" Default="/latest" Mode="{3}" Description="DO NOT EDIT" Type="Variable" Display="false" Required="false" Mask="false">/latest</Config>
+  <DonateText>Support Us</DonateText>
+  <DonateLink>https://pay.wizarr.org</DonateLink>
+  <Requires>Wizarr requires that you have the following Docker Instances installed:&#xD;
+    &#x2022; Redis (located at http://redis:6379 or otherwise configured)&#xD;
+    &#x2022; PostgreSQL (located at http://postgres:5432 or otherwise configured)&#xD;
+    &#x2022; Memcached (located at http://memcached:11211 or otherwise configured)&#xD;
+    &#x2022; zenko/cloudserver S3 (located at http://s3:8000 or otherwise configured)&#xD;
+&#xD;
+If you have any worries about the setup and configuration of Wizarr please follow the guide at https://wizarr.org/docs/install/unraid</Requires>
+  <Config Name="Wizarr Managment Port" Target="5690" Default="5690" Mode="tcp" Description="The port used to access Wizarr" Type="Port" Display="always" Required="false" Mask="false">5690</Config>
+  <Config Name="Wizarr Database Type" Target="DB_TYPE" Default="sqlite" Mode="" Description="Wizarr Database Type, can be either sqlite or postgres, postgres requires further configuration." Type="Variable" Display="always-hide" Required="true" Mask="false">sqlite</Config>
+  <Config Name="Wizarr Platform" Target="WIZARR_PLATFORM" Default="UNRAID" Mode="" Description="DO NOT EDIT OR REMOVE" Type="Variable" Display="advanced-hide" Required="true" Mask="false">UNRAID</Config>
+  <Config Name="Wizarr Database Folder" Target="DB_DIR" Default="/usr/wizarr/data/database" Mode="" Description="The folder Wizarr will look to inside the container for the database." Type="Variable" Display="advanced" Required="true" Mask="false">/usr/wizarr/data/database</Config>
+  <Config Name="Wizarr Storage Folder" Target="STORAGE_DIR" Default="/usr/wizarr/data/storage" Mode="" Description="The folder Wizarr will look to inside the container for the storage." Type="Variable" Display="advanced" Required="true" Mask="false">/usr/wizarr/data/storage</Config>
+  <Config Name="Wizarr Database Folder" Target="/usr/wizarr/data/database" Default="/mnt/user/appdata/wizarr/database" Mode="rw" Description="The folder Wizarr will use to store database files into." Type="Path" Display="always-hide" Required="true" Mask="false">/mnt/user/appdata/wizarr/database</Config>
+  <Config Name="Wizarr Storage Folder" Target="/usr/wizarr/data/storage" Default="/mnt/user/appdata/wizarr/storage" Mode="rw" Description="The folder Wizarr will use to store uploaded files to aswell as cache and other files." Type="Path" Display="always-hide" Required="true" Mask="false">/mnt/user/appdata/wizarr/storage</Config>
 </Container>
