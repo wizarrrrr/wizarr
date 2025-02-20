@@ -55,6 +55,8 @@ const axiosRetry = async function <T>(url: string, config?: RetryOptions): Promi
     return attemptRequest();
 };
 
+export { axiosRetry };
+
 export default {
     install(app: App) {
         app.config.globalProperties.$axiosRetry = axiosRetry;

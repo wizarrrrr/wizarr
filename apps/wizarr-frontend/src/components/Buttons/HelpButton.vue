@@ -1,15 +1,10 @@
 <template>
-    <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" type="button" @click="$help('Home')">
-        <div class="w-6 h-6 flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700">
-            <i class="fa-solid fa-lg fa-circle-info" style="font-size: 15px"></i>
-        </div>
+    <button type="button" @click="$help('Home')" class="relative rounded-full text-gray-400 hover:text-white">
+        <span class="sr-only">View help</span>
+        <ExclamationCircleIcon class="size-5" aria-hidden="true" />
     </button>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
-    name: "HelpButton",
-});
+<script lang="ts" setup>
+import { ExclamationCircleIcon } from "@heroicons/vue/24/outline";
 </script>

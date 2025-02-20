@@ -25,6 +25,7 @@ import Tours, { piniaPluginTours } from "./plugins/tours";
 import WebShare, { piniaPluginWebShare } from "./plugins/webshare";
 
 import App from "./App.vue";
+import Setup from "./modules/setup/views/Setup.vue";
 import FullPageLoading from "@/components/Loading/FullPageLoading.vue";
 import Analytics from "./plugins/analytics";
 import FloatingVue from "floating-vue";
@@ -43,6 +44,10 @@ import i18n from "./i18n";
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import router from "./router";
 import async from "@wizarrrrr/async";
+import { axiosRetry } from "./plugins/axiosRetry";
+import type { Information } from "@wizarrrrr/wizarr-sdk";
+import { useInformationStore } from "./stores/information";
+import { GraphQLClient } from "graphql-request";
 
 const startApp = async () => {
     // Create the loading component
@@ -51,6 +56,7 @@ const startApp = async () => {
 
     // Create the app instance and pinia
     const app = createApp(App);
+    const setup = createApp(Setup);
     const pinia = createPinia();
 
     // Place the loading component on the app's globalProperties
@@ -70,6 +76,25 @@ const startApp = async () => {
 
     app.use(pinia);
 
+    setup.use(pinia);
+    setup.use(i18n);
+    setup.use(ToastPlugin, ToastOptions);
+    setup.use(Axios);
+    setup.use(plugin, defaultConfig(formkitConfig));
+    setup.use(ToastPlugin, ToastOptions);
+    setup.use(Toast);
+
+    // Get Information from Server
+    const informationStore = useInformationStore();
+    const serverData = await axiosRetry<Information>("/api/information");
+    informationStore.setServerData(serverData);
+
+    // If setupRequired then redirect to /setup
+    if (informationStore.setupRequired === true) {
+        loading.unmount();
+        return setup.mount("#setup");
+    }
+
     // Verify login state
     const authStore = useAuthStore();
     const [error, undefined] = await async(authStore.refreshToken);
@@ -82,6 +107,9 @@ const startApp = async () => {
     app.config.globalProperties.env = {
         NODE_ENV: process.env.NODE_ENV as "development" | "production",
     };
+
+    const blogClient = new GraphQLClient("https://eu-west-2.cdn.hygraph.com/content/cm794oacz001307w5uvanqvdo/master");
+    app.config.globalProperties.$blogClient = blogClient;
 
     app.use(router);
     app.use(ToastPlugin, ToastOptions);
@@ -121,6 +149,7 @@ declare module "@vue/runtime-core" {
         };
         $help: (id: string) => void;
         $loading: App<Element>;
+        $blogClient: GraphQLClient;
     }
 
     interface GlobalComponents {

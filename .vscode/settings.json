@@ -25,5 +25,10 @@
     },
     "editor.formatOnSave": true,
     "dbcode.connections": [],
-    "files.autoSave": "onWindowChange"
+    "files.autoSave": "onWindowChange",
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true
+    }
 }

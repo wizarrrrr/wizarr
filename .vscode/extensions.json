@@ -1,3 +1,3 @@
 {
-    "recommendations": ["nrwl.angular-console", "esbenp.prettier-vscode", "dbaeumer.vscode-eslint", "firsttris.vscode-jest-runner", "hollowtree.vue-snippets", "pkief.material-icon-theme", "github.copilot", "nicholashsiang.vscode-vue3-snippets", "dbcode.dbcode", "znck.vue", "dalirnet.vue-sort"]
+    "recommendations": ["nrwl.angular-console", "esbenp.prettier-vscode", "dbaeumer.vscode-eslint", "firsttris.vscode-jest-runner", "hollowtree.vue-snippets", "pkief.material-icon-theme", "github.copilot", "nicholashsiang.vscode-vue3-snippets", "dbcode.dbcode", "dalirnet.vue-sort", "johnsoncodehk.volar", "vue.volar"]
 }

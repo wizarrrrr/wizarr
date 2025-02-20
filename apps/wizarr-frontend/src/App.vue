@@ -23,6 +23,7 @@ import ReloadPrompt from "@/components/ReloadPrompt.vue";
 import Help from "@/components/Help/Help.vue";
 
 import type { Information as IInformation } from "@wizarrrrr/wizarr-sdk";
+import type { Version as IVersion } from "@wizarrrrr/wizarr-sdk";
 
 export default defineComponent({
     name: "App",
@@ -75,18 +76,10 @@ export default defineComponent({
         this.updateTheme(this.theme);
 
         // Get the server data
-        const serverData = await this.$axiosRetry<IInformation>("/api/information", {
-            disableErrorToast: true,
-            disableInfoToast: true,
-        });
-
+        const serverData = await this.$axiosRetry<IInformation>("/api/information");
         this.setServerData(serverData);
 
-        const versionData = await this.$axiosRetry("/api/version", {
-            disableErrorToast: true,
-            disableInfoToast: true,
-        });
-
+        const versionData = await this.$axiosRetry<IVersion>("/api/version");
         this.setVersionData(versionData);
 
         this.$loading.unmount();

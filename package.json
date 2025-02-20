@@ -111,6 +111,7 @@
         "firebase": "^10.3.1",
         "floating-vue": "^2.0.0-beta.24",
         "flowbite": "^1.8.1",
+        "graphql-request": "^7.1.2",
         "gravatar": "^1.8.2",
         "gridstack": "^9.2.0",
         "i": "^0.3.7",
