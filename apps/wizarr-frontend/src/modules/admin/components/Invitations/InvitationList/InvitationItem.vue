@@ -5,7 +5,7 @@
                 {{ invite.code }}
             </button>
             <p v-if="invite.used" class="text-xs truncate w-full" :class="usedColor">
-                {{ __("Invitation used") }}
+                {{ __("Invitation Used") }}
             </p>
             <p v-else-if="invite.expiresAt" class="text-xs truncate w-full" :class="expireColor">
                 {{ expired }}
@@ -153,13 +153,13 @@ export default defineComponent({
     },
     computed: {
         expired(): string {
-            if (this.$filter("isPast", this.invite.expires)) {
+            if (this.$filter("isPast", this.invite.expiresAt)) {
                 return this.__("Expired %{s}", {
-                    s: this.$filter("timeAgo", this.invite.expires),
+                    s: this.$filter("timeAgo", this.invite.expiresAt),
                 });
             } else {
                 return this.__("Expires %{s}", {
-                    s: this.$filter("timeAgo", this.invite.expires),
+                    s: this.$filter("timeAgo", this.invite.expiresAt),
                 });
             }
         },
@@ -176,11 +176,11 @@ export default defineComponent({
             const inHalfDay = new Date();
             inHalfDay.setHours(inHalfDay.getHours() + 12);
 
-            if (this.$filter("isPast", this.invite.expires)) {
+            if (this.$filter("isPast", this.invite.expiresAt)) {
                 return "text-red-600 dark:text-red-500";
             }
 
-            if (this.$filter("dateLess", this.invite.expires, inHalfDay)) {
+            if (this.$filter("dateLess", this.invite.expiresAt, inHalfDay)) {
                 return "text-yellow-500 dark:text-yellow-400";
             }
 

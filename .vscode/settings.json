@@ -23,11 +23,7 @@
         "editor.formatOnSave": true,
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "[shellscript]": {
-        "editor.defaultFormatter": "shakram02.bash-beautify"
-    },
     "editor.formatOnSave": true,
-    "[nginx]": {
-        "editor.defaultFormatter": "AaaaronZhou.nginx-config-formatter-vscode-extension"
-    }
+    "dbcode.connections": [],
+    "files.autoSave": "onWindowChange"
 }
