@@ -41,8 +41,7 @@ export const useAuthStore = defineStore("auth", {
             router.push("/login");
         },
         async refreshToken() {
-            if (!this.user) return;
-            const refreshResponse = await this.$axios.get<LoginResponse>("/api/auth/refresh");
+            const refreshResponse = await this.$axios.get<LoginResponse>("/api/auth/refresh", { disableErrorToast: true });
             this.user = { ...refreshResponse.data.user, jwtToken: refreshResponse.data.token };
             this.startRefreshTokenTimer();
         },
