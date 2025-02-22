@@ -562,7 +562,7 @@ msgstr ""
 msgid "Here's why"
 msgstr ""
 
-#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/AdminNavBar.vue:78
+#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/NavigationBar.vue:78
 msgid "Home"
 msgstr ""
 
@@ -649,7 +649,7 @@ msgid "Invitation Users"
 msgstr ""
 
 #: src/modules/admin/pages/Invitations.vue:2
-#: src/templates/Navbars/AdminNavBar.vue:82
+#: src/templates/Navbars/NavigationBar.vue:82
 msgid "Invitations"
 msgstr ""
 
@@ -1234,7 +1234,7 @@ msgstr ""
 msgid "Server URL"
 msgstr ""
 
-#: src/templates/Navbars/AdminNavBar.vue:86
+#: src/templates/Navbars/NavigationBar.vue:86
 #, fuzzy
 msgid "Servers"
 msgstr "Detectar servidor"
@@ -1243,7 +1243,7 @@ msgstr "Detectar servidor"
 msgid "Sessions"
 msgstr ""
 
-#: src/templates/Navbars/AdminNavBar.vue:94
+#: src/templates/Navbars/NavigationBar.vue:94
 msgid "Settings"
 msgstr ""
 
@@ -1481,7 +1481,7 @@ msgstr ""
 msgid "Username"
 msgstr ""
 
-#: src/templates/Navbars/AdminNavBar.vue:90
+#: src/templates/Navbars/NavigationBar.vue:90
 msgid "Users"
 msgstr ""
 

@@ -570,7 +570,7 @@ msgstr "hier"
 msgid "Here's why"
 msgstr ""
 
-#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/AdminNavBar.vue:78
+#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/NavigationBar.vue:78
 msgid "Home"
 msgstr "Start"
 
@@ -664,7 +664,7 @@ msgid "Invitation Users"
 msgstr "Eingeladene Benutzer"
 
 #: src/modules/admin/pages/Invitations.vue:2
-#: src/templates/Navbars/AdminNavBar.vue:82
+#: src/templates/Navbars/NavigationBar.vue:82
 msgid "Invitations"
 msgstr "Einladungen"
 
@@ -1278,7 +1278,7 @@ msgstr "Server Typ"
 msgid "Server URL"
 msgstr "Server URL"
 
-#: src/templates/Navbars/AdminNavBar.vue:86
+#: src/templates/Navbars/NavigationBar.vue:86
 #, fuzzy
 msgid "Servers"
 msgstr "Server scannen"
@@ -1287,7 +1287,7 @@ msgstr "Server scannen"
 msgid "Sessions"
 msgstr "Sitzungen"
 
-#: src/templates/Navbars/AdminNavBar.vue:94
+#: src/templates/Navbars/NavigationBar.vue:94
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -1543,7 +1543,7 @@ msgstr "Benutzer läuft ab am %{s}"
 msgid "Username"
 msgstr "Nutzername"
 
-#: src/templates/Navbars/AdminNavBar.vue:90
+#: src/templates/Navbars/NavigationBar.vue:90
 msgid "Users"
 msgstr "Benutzer"
 

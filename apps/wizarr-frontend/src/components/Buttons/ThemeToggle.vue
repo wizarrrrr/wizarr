@@ -1,42 +1,24 @@
 <template>
-    <button class="text-gray-500 dark:text-gray-400 focus:outline-none text-sm" type="button" @click="toggleTheme">
-        <div :class="iconClasses" class="flex items-center justify-center rounded hover:bg-gray-200 hover:dark:bg-gray-700">
-            <i v-if="theme == DARK_VALUE" class="fa-solid fa-md fa-cloud-moon"></i>
-            <i v-if="theme == LIGHT_VALUE" class="fa-solid fa-md fa-sun"></i>
-            <i v-if="theme == SYSTEM_VALUE" class="fa-solid fa-md fa-desktop"></i>
-        </div>
+    <button type="button" @click="toggleTheme" class="relative rounded-full text-gray-400 hover:text-black dark:hover:text-white">
+        <span class="sr-only">Change theme</span>
+        <MoonIcon v-if="theme === LIGHT_VALUE" class="size-5" aria-hidden="true" />
+        <SunIcon v-else-if="theme === DARK_VALUE" class="size-5" aria-hidden="true" />
+        <ComputerDesktopIcon v-else-if="theme === SYSTEM_VALUE" class="size-5" aria-hidden="true" />
     </button>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-import { mapState, mapActions } from "pinia";
+<script lang="ts" setup>
+import { computed } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import { LIGHT_VALUE, DARK_VALUE, SYSTEM_VALUE } from "@/ts/utils/darkMode";
+import { MoonIcon, SunIcon, ComputerDesktopIcon } from "@heroicons/vue/24/outline";
 
-export default defineComponent({
-    name: "ThemeToggle",
-    data() {
-        return {
-            LIGHT_VALUE,
-            DARK_VALUE,
-            SYSTEM_VALUE,
-        };
-    },
-    props: {
-        iconClasses: {
-            type: String,
-            default: "w-6 h-6",
-        },
-    },
-    computed: {
-        ...mapState(useThemeStore, ["theme"]),
-        iconClasses(): string {
-            return this.iconClasses;
-        },
-    },
-    methods: {
-        ...mapActions(useThemeStore, ["updateTheme", "toggleTheme"]),
-    },
-});
+// Access the theme store
+const themeStore = useThemeStore();
+
+// Get and compute current theme from the store
+const theme = computed(() => themeStore.theme);
+
+// Destructure needed actions directly from the store
+const { toggleTheme } = themeStore;
 </script>

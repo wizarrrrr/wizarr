@@ -28,14 +28,14 @@ import { defineComponent } from "vue";
 
 import VueMarkdown from "vue-markdown-render";
 import MarkdownItAnchor from "markdown-it-anchor";
-import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
+import NavigationBar from "@/templates/NavigationBar.vue";
 import EULA from "../../../docs/EULA.md";
 import type { Options } from "vue-markdown-render";
 
 export default defineComponent({
     name: "EULAView",
     components: {
-        DefaultNavBar,
+        NavigationBar,
         VueMarkdown,
     },
     data() {

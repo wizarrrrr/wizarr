@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-wrap items-start md:items-center justify-center mx-auto mt-20 md:mt-0 md:h-screen">
         <!-- Nav Bar for Public Routes -->
-        <DefaultNavBar />
+        <NavigationBar />
 
         <!-- Hero Section -->
         <section class="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0 w-full">
@@ -33,7 +33,7 @@ import { defineComponent } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { mapActions } from "pinia";
 
-import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
+import NavigationBar from "@/templates/NavigationBar.vue";
 import DefaultLoading from "@/components/Loading/DefaultLoading.vue";
 
 import LoginForm from "../components/LoginForm.vue";
@@ -47,7 +47,7 @@ const STEP = {
 export default defineComponent({
     name: "LoginView",
     components: {
-        DefaultNavBar,
+        NavigationBar,
         DefaultLoading,
         LoginForm,
     },

@@ -1,5 +1,5 @@
 <template>
-    <button type="button" @click="$help('Home')" class="relative rounded-full text-gray-400 hover:text-white">
+    <button type="button" @click="$help('Home')" class="relative rounded-full text-gray-400 hover:text-black dark:hover:text-white">
         <span class="sr-only">View help</span>
         <ExclamationCircleIcon class="size-5" aria-hidden="true" />
     </button>

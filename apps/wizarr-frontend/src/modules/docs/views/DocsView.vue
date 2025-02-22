@@ -1,6 +1,6 @@
 <template>
     <!-- Navbar -->
-    <DefaultNavBar :hide-button="true" :show-toggles="true" />
+    <NavigationBar :hideComponents="['MOBILE_NAVIGATION']" :button="{ label: 'Exit', 'data-theme': 'primary', onClick: closeWindow }" />
 
     <!-- Page Content -->
     <div id="content" class="pt-[64px] mb-6 md:px-6">
@@ -12,52 +12,54 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 
 import VueMarkdown from "vue-markdown-render";
 import MarkdownItAnchor from "markdown-it-anchor";
-import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
+import NavigationBar from "@/templates/NavigationBar.vue";
 
 import type { Options } from "vue-markdown-render";
 
-export default defineComponent({
-    name: "DocsView",
-    components: {
-        DefaultNavBar,
-        VueMarkdown,
-    },
-    data() {
-        return {
-            markdown: null as string | null,
-            plugins: [MarkdownItAnchor],
-            options: {
-                html: true,
-                xhtmlOut: true,
-                breaks: true,
-                linkify: true,
-                typographer: true,
-            } as Options,
-        };
-    },
-    async mounted() {
-        // Get the page ID from the route
-        const pageID = this.$route.params.id as string | undefined;
+// Route definitions
+const route = useRoute();
 
-        // If no page ID is provided, show the README
-        if (!pageID) {
-            // @ts-ignore
-            return await import(`../../../docs/README.md`).then((markdown) => {
-                this.markdown = markdown.default;
-            });
-        }
+// State definitions
+const markdown = ref<string | null>(null);
+const plugins = [MarkdownItAnchor];
+const options: Options = {
+    html: true,
+    xhtmlOut: true,
+    breaks: true,
+    linkify: true,
+    typographer: true,
+};
 
-        const markdown = await import(`../../../docs/${pageID}.md`).catch(async () => {
-            // @ts-ignore
-            return await import(`../../../docs/README.md`);
+// Method definitions
+const closeWindow = () => {
+    window.close();
+};
+
+// Lifecycle hook for fetching markdown content
+onMounted(async () => {
+    // Get the page ID from the route
+    const pageID = route.params.id as string | undefined;
+
+    // If no page ID is provided, load the README
+    if (!pageID) {
+        // @ts-ignore
+        return await import(`../../../docs/README.md`).then((markdownModule) => {
+            markdown.value = markdownModule.default;
         });
+    }
 
-        this.markdown = markdown.default;
-    },
+    // Attempt to load specific markdown file, fallback to README if not found
+    const markdownModule = await import(`../../../docs/${pageID}.md`).catch(async () => {
+        // @ts-ignore
+        return await import(`../../../docs/README.md`);
+    });
+
+    markdown.value = markdownModule.default;
 });
 </script>

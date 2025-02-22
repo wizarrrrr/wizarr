@@ -31,7 +31,7 @@ import { defineComponent } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { mapActions } from "pinia";
 
-import AdminNavBar from "@/templates/Navbars/AdminNavBar.vue";
+import AdminNavBar from "@/templates/NavigationBar.vue";
 import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
 

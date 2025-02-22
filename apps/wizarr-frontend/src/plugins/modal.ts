@@ -112,4 +112,5 @@ const vuePluginModal = {
     },
 };
 
+export { useModal };
 export default vuePluginModal;

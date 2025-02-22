@@ -1,6 +1,6 @@
 <template>
     <!-- Navbar -->
-    <AdminNavBar />
+    <NavigationBar />
 
     <!-- Page Content -->
     <div id="content" class="mt-[64px] mb-6">
@@ -14,13 +14,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-import AdminNavBar from "@/templates/Navbars/AdminNavBar.vue";
+import NavigationBar from "@/templates/NavigationBar.vue";
 import AdminFooter from "@/templates/Footers/AdminFooter.vue";
 
 export default defineComponent({
     name: "AdminView",
     components: {
-        AdminNavBar,
+        NavigationBar,
         AdminFooter,
     },
 });

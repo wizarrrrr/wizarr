@@ -1,5 +1,7 @@
 export {};
-declare module "vue" {
+import { ComponentInternalInstance } from "vue";
+
+export declare module "@vue/runtime-core" {
     interface ComponentCustomProperties {
         __: (
             msgid: string,
@@ -36,4 +38,15 @@ declare module "vue" {
             disableHtmlEscaping?: boolean,
         ) => string;
     }
+
+    interface ComponentInternalInstance {
+        proxy: {
+            __: ComponentCustomProperties["__"];
+            _x: ComponentCustomProperties["_x"];
+            _n: ComponentCustomProperties["_n"];
+            _xn: ComponentCustomProperties["_xn"];
+        };
+    }
 }
+
+export {};

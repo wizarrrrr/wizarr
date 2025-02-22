@@ -569,7 +569,7 @@ msgstr "aquí"
 msgid "Here's why"
 msgstr ""
 
-#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/AdminNavBar.vue:78
+#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/NavigationBar.vue:78
 msgid "Home"
 msgstr "Inicio"
 
@@ -663,7 +663,7 @@ msgid "Invitation Users"
 msgstr "Usuarios de invitación"
 
 #: src/modules/admin/pages/Invitations.vue:2
-#: src/templates/Navbars/AdminNavBar.vue:82
+#: src/templates/Navbars/NavigationBar.vue:82
 msgid "Invitations"
 msgstr "Invitaciones"
 
@@ -1277,7 +1277,7 @@ msgstr "Tipo de servidor"
 msgid "Server URL"
 msgstr "URL del servidor"
 
-#: src/templates/Navbars/AdminNavBar.vue:86
+#: src/templates/Navbars/NavigationBar.vue:86
 #, fuzzy
 msgid "Servers"
 msgstr "Escanear servidores"
@@ -1286,7 +1286,7 @@ msgstr "Escanear servidores"
 msgid "Sessions"
 msgstr "Sesiones"
 
-#: src/templates/Navbars/AdminNavBar.vue:94
+#: src/templates/Navbars/NavigationBar.vue:94
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -1540,7 +1540,7 @@ msgstr "Usuario expira %{s}"
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: src/templates/Navbars/AdminNavBar.vue:90
+#: src/templates/Navbars/NavigationBar.vue:90
 msgid "Users"
 msgstr "Usuarios"
 

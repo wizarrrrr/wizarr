@@ -572,7 +572,7 @@ msgstr "ici"
 msgid "Here's why"
 msgstr ""
 
-#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/AdminNavBar.vue:78
+#: src/modules/admin/pages/Home.vue:2 src/templates/Navbars/NavigationBar.vue:78
 msgid "Home"
 msgstr "Accueil"
 
@@ -666,7 +666,7 @@ msgid "Invitation Users"
 msgstr "Utilisateurs de l'invitation"
 
 #: src/modules/admin/pages/Invitations.vue:2
-#: src/templates/Navbars/AdminNavBar.vue:82
+#: src/templates/Navbars/NavigationBar.vue:82
 msgid "Invitations"
 msgstr "Invitations"
 
@@ -1279,7 +1279,7 @@ msgstr "Type de serveur"
 msgid "Server URL"
 msgstr "URL du serveur"
 
-#: src/templates/Navbars/AdminNavBar.vue:86
+#: src/templates/Navbars/NavigationBar.vue:86
 #, fuzzy
 msgid "Servers"
 msgstr "Rechercher un serveur"
@@ -1288,7 +1288,7 @@ msgstr "Rechercher un serveur"
 msgid "Sessions"
 msgstr "Sessions"
 
-#: src/templates/Navbars/AdminNavBar.vue:94
+#: src/templates/Navbars/NavigationBar.vue:94
 msgid "Settings"
 msgstr "Paramètres"
 
@@ -1543,7 +1543,7 @@ msgstr "L'utilisateur expire %{s}"
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: src/templates/Navbars/AdminNavBar.vue:90
+#: src/templates/Navbars/NavigationBar.vue:90
 msgid "Users"
 msgstr "Utilisateurs"
 

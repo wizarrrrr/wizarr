@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto md:h-screen">
         <!-- Nav Bar for Public Routes -->
-        <DefaultNavBar :button="isLoggedIn ? 'Dashboard' : 'Login'" :buttonLink="isLoggedIn ? '/admin' : '/login'" />
+        <NavigationBar :hideComponents="['LANGUAGE', 'HELP']" :button="{ label: isLoggedIn ? 'Dashboard' : 'Login', 'data-theme': 'primary', onClick: () => $router.push(isLoggedIn ? '/admin' : '/login') }" />
 
         <!-- Hero Section -->
         <section class="bg-gray-100 dark:bg-gray-900 px-2 md:px-4 lg:px-6 xl:px-8 mt-28 md:mt-0">
@@ -29,13 +29,13 @@ import { defineComponent } from "vue";
 import { useAuthStore } from "@/stores/auth";
 import { mapState } from "pinia";
 
-import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
+import NavigationBar from "@/templates/NavigationBar.vue";
 import DefaultButton from "@/components/Buttons/DefaultButton.vue";
 
 export default defineComponent({
     name: "HomeView",
     components: {
-        DefaultNavBar,
+        NavigationBar,
         DefaultButton,
     },
     computed: {
