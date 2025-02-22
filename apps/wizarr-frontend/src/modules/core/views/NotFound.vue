@@ -1,9 +1,6 @@
 <template>
     <div class="max-w-screen-xl flex flex-wrap items-center justify-center mx-auto md:h-screen">
-        <!-- Nav Bar for Authenticated Routes -->
-        <AdminNavBar v-if="isAuthenticated" />
-        <!-- Nav Bar for Unauthenticated Routes -->
-        <DefaultNavBar button="Login" buttonLink="/login" v-else />
+        <NavigationBar :hideComponents="['USER', 'LANGUAGE', 'THEME', 'HELP', 'MOBILE', 'NAVIGATION', 'NOTIFICATIONS']" :button="{ label: isAuthenticated ? 'Dashboard' : 'Login', 'data-theme': 'primary', onClick: () => router.push(isAuthenticated ? '/admin' : '/login') }" />
 
         <!-- Hero Section -->
         <section class="bg-gray-100 dark:bg-gray-900 px-2 md:px-4 lg:px-6 xl:px-8 mt-28 md:mt-0">
@@ -18,32 +15,22 @@
                     </p>
                 </div>
                 <div class="flex justify-center mt-6">
-                    <DefaultButton v-if="isAuthenticated" to="/admin">{{ __("Go to Dashboard") }}</DefaultButton>
-                    <DefaultButton v-else to="/">{{ __("Go Home") }}</DefaultButton>
+                    <FormKit type="button" v-if="isAuthenticated" @click="router.push('/admin')">{{ __("Go to Dashboard") }}</FormKit>
+                    <FormKit type="button" v-else @click="router.push('/')">{{ __("Go Home") }}</FormKit>
                 </div>
             </div>
         </section>
     </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent } from "vue";
 import { useAuthStore } from "@/stores/auth";
-import { mapActions } from "pinia";
+import { useRouter } from "vue-router";
 
-import AdminNavBar from "@/templates/NavigationBar.vue";
-import DefaultNavBar from "@/templates/Navbars/DefaultNavBar.vue";
-import DefaultButton from "@/components/Buttons/DefaultButton.vue";
+import NavigationBar from "@/templates/NavigationBar.vue";
 
-export default defineComponent({
-    name: "NotFoundView",
-    components: {
-        DefaultNavBar,
-        DefaultButton,
-        AdminNavBar,
-    },
-    computed: {
-        ...mapActions(useAuthStore, ["isAuthenticated"]),
-    },
-});
+const router = useRouter();
+const authStore = useAuthStore();
+const isAuthenticated = authStore.isLoggedIn;
 </script>
