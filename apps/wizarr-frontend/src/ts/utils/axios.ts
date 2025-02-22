@@ -3,28 +3,20 @@ import { errorToast, infoToast } from "./toasts";
 import { useAuthStore } from "@/stores/auth";
 import type { InternalAxiosRequestConfig, AxiosResponse, CreateAxiosDefaults } from "axios";
 
-interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
-    authStore?: ReturnType<typeof useAuthStore>;
-    disableInfoToast?: boolean;
-    disableErrorToast?: boolean;
-}
-
-interface CustomAxiosResponse<T = any> extends AxiosResponse<T> {
-    config: CustomAxiosRequestConfig;
-}
-
-const setAuthorizationHeader = (config: CustomAxiosRequestConfig) => {
-    const authStore = useAuthStore();
-    const token = authStore?.user?.jwtToken;
-
-    if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
+declare module "axios" {
+    export interface AxiosRequestConfig {
+        disableInfoToast?: boolean;
+        disableErrorToast?: boolean;
     }
+}
 
+const setAuthorizationHeader = (config: InternalAxiosRequestConfig) => {
+    const authStore = useAuthStore();
+    if (authStore?.user?.jwtToken) config.headers["Authorization"] = `Bearer ${authStore.user.jwtToken}`;
     return config;
 };
 
-const handleResponseSuccess = (response: CustomAxiosResponse) => {
+function handleResponseSuccess<T extends { message?: string }>(response: AxiosResponse<T>) {
     const { config, data } = response;
 
     if (!config.disableInfoToast && data?.message) {
@@ -32,7 +24,7 @@ const handleResponseSuccess = (response: CustomAxiosResponse) => {
     }
 
     return response;
-};
+}
 
 const handleResponseError = async (error: any) => {
     const { response, config } = error;
