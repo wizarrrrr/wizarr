@@ -138,6 +138,15 @@ const children: RouteRecordRaw[] = [
         component: () => import("../pages/Support.vue"),
         meta: { header: "Live Support", subheader: "Get live support" },
     },
+    {
+        path: "database-schema",
+        name: "admin-settings-database-schema",
+        component: () => import("../pages/DatabaseSchema.vue"),
+        meta: {
+            header: "Database Schema",
+            subheader: "View database schema",
+        },
+    },
 ];
 
 export default children;

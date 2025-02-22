@@ -25,7 +25,11 @@ export class Admin extends EntityBase {
     password: string;
 
     @ManyToMany(() => Role, null, { eager: true, cascade: true })
-    @JoinTable()
+    @JoinTable({
+        name: "admins_roles_roles",
+        joinColumn: { name: "adminsId" },
+        inverseJoinColumn: { name: "rolesId" },
+    })
     roles: Role[];
 
     @OneToMany(() => Session, (session) => session.user, { nullable: true, cascade: true })

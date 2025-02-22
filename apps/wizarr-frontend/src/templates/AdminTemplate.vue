@@ -6,7 +6,7 @@
             <!-- Border Box -->
             <div class="w-full rounded bg-none dark:border-gray-700 light:border-gray-200" :class="boxBorderClass">
                 <!-- Header -->
-                <div class="space-y-3" :class="boxHeaderClass">
+                <div class="space-y-3 bg-white dark:bg-gray-900" :class="boxHeaderClass">
                     <div v-if="header || subheader || headerSlotAvailable" class="flex items-center bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600" :class="boxHeaderWrapperClass">
                         <div :class="boxHeaderSizeClass">
                             <div class="flex items-center">

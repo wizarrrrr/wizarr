@@ -74,7 +74,7 @@ import { TransportTargetOptions } from "pino";
 import { PrettyOptions } from "pino-pretty";
 import { release } from "os";
 import { memcached } from "./config/memcached";
-
+import { DataSource } from "typeorm";
 
 /**
  * The main application class for setting up and running the Koa server.
@@ -332,6 +332,7 @@ export class App {
             this.log.fatal("Could not connect to database");
             process.exit(1);
         });
+        Container.set(DataSource, connection);
     }
 
     /**

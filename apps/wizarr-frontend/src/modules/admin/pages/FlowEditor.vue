@@ -1,12 +1,7 @@
 <template>
-    <HeaderTemplate
-        :header="__('Flow Editor')"
-        :subheader="__('Manage your command flows')"
-    >
+    <HeaderTemplate :header="__('Flow Editor')" :subheader="__('Manage your command flows')">
         <template #header>
-            <DefaultButton theme="primary">
-                {{ __('Create Flow') }}</DefaultButton
-            >
+            <DefaultButton theme="primary"> {{ __("Create Flow") }}</DefaultButton>
         </template>
         <template #default>
             <VueFlow v-model="elements" fit-view-on-init disabled>
@@ -19,42 +14,42 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { VueFlow } from '@vue-flow/core';
-import { Background } from '@vue-flow/background';
-import { MiniMap } from '@vue-flow/minimap';
-import { Controls } from '@vue-flow/controls';
+import { defineComponent } from "vue";
+import { VueFlow } from "@vue-flow/core";
+import { Background } from "@vue-flow/background";
+import { MiniMap } from "@vue-flow/minimap";
+import { Controls } from "@vue-flow/controls";
 
-import HeaderTemplate from '@/templates/HeaderTemplate.vue';
-import DefaultButton from '@/components/Buttons/DefaultButton.vue';
+import HeaderTemplate from "@/templates/HeaderTemplate.vue";
+import DefaultButton from "@/components/Buttons/DefaultButton.vue";
 
 const initialElements = [
     // Nodes
     {
-        id: '1',
-        label: 'This page is still under testing',
+        id: "1",
+        label: "This page is still under testing",
         position: { x: 400, y: 100 },
-        class: 'light',
+        class: "light",
     },
     {
-        id: '2',
-        label: 'there is currently not functionality',
+        id: "2",
+        label: "there is currently not functionality",
         position: { x: 400, y: 300 },
-        class: 'light',
+        class: "light",
     },
 
     // Edges
     {
-        id: 'e1-2',
-        source: '1',
-        target: '2',
-        type: 'smoothstep',
+        id: "e1-2",
+        source: "1",
+        target: "2",
+        type: "smoothstep",
         animated: true,
     },
 ];
 
 export default defineComponent({
-    name: 'FlowEditorView',
+    name: "FlowEditorView",
     components: {
         VueFlow,
         Background,
