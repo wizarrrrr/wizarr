@@ -31,6 +31,8 @@ enum COMPONENT {
     BUTTON,
     LOGO,
     MOBILE_NAVIGATION,
+    NAVIGATION,
+    NOTIFICATIONS,
 }
 
 // Enum representing authentication states for showing/hiding pages
@@ -104,7 +106,7 @@ const menuItems = [
                     <router-link to="/" class="flex items-center" v-if="!isComponentHidden(COMPONENT.LOGO)">
                         <WizarrLogo class="rounded-md" />
                     </router-link>
-                    <div class="hidden sm:ml-6 sm:block">
+                    <div class="hidden sm:ml-6 sm:block" v-if="!isComponentHidden(COMPONENT.NAVIGATION)">
                         <div class="flex space-x-4">
                             <!-- Navigation links for each page -->
                             <template v-for="page in pages" :key="page.name">
@@ -127,10 +129,31 @@ const menuItems = [
                         <!-- Custom form button, only shown if defined and not hidden -->
                         <FormKit v-if="navProps.button?.label && !isComponentHidden(COMPONENT.BUTTON)" type="button" :label="navProps.button.label" :data-theme="navProps.button['data-theme']" :onClick="navProps.button.onClick" />
                         <!-- Notification bell and menu, hidden if 'USER' in hideComponents -->
-                        <button v-if="authStore.isLoggedIn && !navProps.button?.label && !isComponentHidden(COMPONENT.USER)" type="button" class="relative rounded-full text-gray-400 hover:text-black dark:hover:text-white">
-                            <span class="sr-only">View notifications</span>
-                            <BellIcon class="size-5" aria-hidden="true" />
-                        </button>
+                        <Menu v-if="authStore.isLoggedIn && !isComponentHidden(COMPONENT.NOTIFICATIONS)" as="div" class="size-5 relative">
+                            <MenuButton class="relative rounded-full text-gray-400 hover:text-black dark:hover:text-white">
+                                <span class="sr-only">View notifications</span>
+                                <BellIcon class="size-5" aria-hidden="true" />
+                            </MenuButton>
+                            <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform opacity-100 scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100" leave-to-class="transform opacity-0 scale-95">
+                                <MenuItems class="absolute right-0 z-21 mt-2 w-48 origin-top-right rounded-md bg-white dark:bg-gray-800 ring-1 shadow-lg ring-black/5 overflow-hidden">
+                                    <MenuItem>
+                                        <div class="block px-4 py-2 text-sm text-gray-700 dark:text-white flex flex-col">
+                                            <span>Lorem Ipsum</span>
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <div class="block px-4 py-2 text-sm text-gray-700 dark:text-white flex flex-col">
+                                            <span>Lorem Ipsum</span>
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <div class="block px-4 py-2 text-sm text-gray-700 dark:text-white flex flex-col">
+                                            <span>Lorem Ipsum</span>
+                                        </div>
+                                    </MenuItem>
+                                </MenuItems>
+                            </transition>
+                        </Menu>
                         <Menu v-if="authStore.isLoggedIn && !navProps.button?.label && !isComponentHidden(COMPONENT.USER)" as="div" class="relative">
                             <MenuButton class="relative flex rounded-full bg-gray-800 text-sm hover:opacity-80">
                                 <span class="sr-only">Open user menu</span>
