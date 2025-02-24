@@ -22,6 +22,11 @@ const children: RouteRecordRaw[] = [
         component: () => import("../pages/Users.vue"),
     },
     {
+        path: "blog",
+        name: "admin-blog",
+        component: () => import("../pages/Blog.vue"),
+    },
+    {
         path: "flow-editor",
         name: "admin-flow-editor",
         component: () => import("../pages/FlowEditor.vue"),

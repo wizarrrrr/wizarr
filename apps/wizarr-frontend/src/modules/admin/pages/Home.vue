@@ -1,5 +1,5 @@
 <template>
-    <AdminTemplate :header="__('Home')" :subheader="__('Manage you Wizarr server')" :box-view="boxView">
+    <AdminTemplate :header="__('Home')" :subheader="__('Manage you Wizarr server')" :box-view="false">
         <template #header>
             <FormKit id="editDashboard" type="button" @click="isEditing = !isEditing" :classes="{ input: buttonClasses }">
                 {{ isEditing ? __("Save Dashboard") : __("Edit Dashboard") }}

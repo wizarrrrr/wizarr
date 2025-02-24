@@ -1,5 +1,5 @@
 <template>
-    <AdminTemplate :header="headerText" :subheader="subheaderText" :box-view="boxView">
+    <AdminTemplate :header="headerText" :subheader="subheaderText" :box-view="false">
         <template #header>
             <div class="relative w-full" v-if="searchBar">
                 <div class="hidden md:block">

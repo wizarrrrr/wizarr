@@ -1,5 +1,5 @@
 <template>
-    <AdminTemplate :header="__('Manage Servers')" :subheader="__('Manage your remote servers')" :box-view="boxView">
+    <AdminTemplate :header="__('Manage Servers')" :subheader="__('Manage your remote servers')" :box-view="false">
         <template #header>
             <FormKit id="createInvitation" type="button" @click="openServerForm" :classes="{ input: '!bg-secondary' }">
                 {{ __("Add Server") }}

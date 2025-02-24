@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@wizarrrrr/async": [
+        "libs/async/src/index.ts"
+      ],
+      "@wizarrrrr/ora": [
+        "libs/ora/src/index.ts"
+      ],
+      "@wizarrrrr/plex-sdk": [
+        "dist/libs/plex-sdk"
+      ],
+      "@wizarrrrr/typeorm-simple-query-parser": [
+        "dist/libs/typeorm-simple-query-parser"
+      ],
+      "@wizarrrrr/wizarr-sdk": [
+        "dist/libs/wizarr-sdk"
+      ]
+    }
+  },
+  "extends": "../../../apps/wizarr-backend/tsconfig.app.json"
+}

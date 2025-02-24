@@ -70,6 +70,8 @@ const useFilters = () => {
     return filter;
 };
 
+const useFilter = filter;
+
 const piniaPluginFilters = (context: PiniaPluginContext) => {
     context.store.$filter = filter;
     context.store.$filters = filtersChained;
@@ -83,4 +85,4 @@ const vuePluginFilters = {
 };
 
 export default vuePluginFilters;
-export { useFilters, piniaPluginFilters, vuePluginFilters };
+export { useFilter, useFilters, piniaPluginFilters, vuePluginFilters };

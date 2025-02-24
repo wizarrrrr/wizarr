@@ -1,5 +1,5 @@
 <template>
-    <AdminTemplate :header="__('Invited Users')" :subheader="__('Manage your media server users')" :box-view="boxView">
+    <AdminTemplate :header="__('Invited Users')" :subheader="__('Manage your media server users')" :box-view="false">
         <template #header>
             <FormKit id="scanUsers" type="button" :prefix-icon="buttonWait ? 'fa-spinner fa-spin' : 'fa-binoculars'" :disabled="buttonWait" @click="localScanUsers" :classes="{ input: '!bg-secondary' }">
                 {{ __("Scan Users") }}

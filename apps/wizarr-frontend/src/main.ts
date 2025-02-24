@@ -48,6 +48,7 @@ import { axiosRetry } from "./plugins/axiosRetry";
 import type { Information } from "@wizarrrrr/wizarr-sdk";
 import { useInformationStore } from "./stores/information";
 import { GraphQLClient } from "graphql-request";
+import Sticky from "vue3-sticky-directive";
 
 const startApp = async () => {
     // Create the loading component
@@ -130,6 +131,7 @@ const startApp = async () => {
     app.use(Firebase);
     app.use(Tours, { i18n: i18n });
     app.use(RocketChat);
+    app.use(Sticky);
 
     app.component("VueFeather", VueFeather);
 
