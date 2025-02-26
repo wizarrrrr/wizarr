@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from "vue-router";
 
 const children: RouteRecordRaw[] = [
     {
-        path: "",
+        path: "dashboard",
         name: "admin-home",
         component: () => import("../pages/Home.vue"),
     },
@@ -24,7 +24,12 @@ const children: RouteRecordRaw[] = [
     {
         path: "blog",
         name: "admin-blog",
-        component: () => import("../pages/Blog.vue"),
+        component: () => import("../pages/Blog/Blog.vue"),
+    },
+    {
+        path: "blog/:id",
+        name: "admin-blog-post",
+        component: () => import("../pages/Blog/BlogPost.vue"),
     },
     {
         path: "flow-editor",

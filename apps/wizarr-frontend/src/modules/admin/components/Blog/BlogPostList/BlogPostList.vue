@@ -1,5 +1,5 @@
 <template>
-    <div class="grid gap-8 lg:grid-cols-2">
+    <div class="grid gap-4 lg:grid-cols-2">
         <template v-if="loading">
             <BlogPostItemSkeleton v-for="n in 3" />
         </template>
@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from "vue";
+import { computed } from "vue";
 
+import gql from "graphql-tag";
 import BlogPostItem from "./BlogPostItem.vue";
 import BlogPostItemSkeleton from "./BlogPostItemSkeleton.vue";
 
 import { provideApolloClient, useQuery } from "@vue/apollo-composable";
 import { ApolloClient, InMemoryCache } from "@apollo/client/core";
-import gql from "graphql-tag";
 
 // Define Apollo Client
 const apolloClient = new ApolloClient({

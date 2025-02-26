@@ -15,12 +15,12 @@
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
                 <img class="w-10 h-10 rounded bg-gray-200 dark:bg-gray-700 object-cover" :src="authorAvatar" :alt="authorAvatarAlt" />
-                <span class="flex flex-col">
+                <span class="flex flex-col pb-2">
                     <span class="font-medium dark:text-white"> {{ authorName }} </span>
-                    <span class="font-light text-gray-500 dark:text-gray-400"> {{ authorTitle }} </span>
+                    <span class="leading-[0.8] font-light text-gray-500 dark:text-gray-400"> {{ authorTitle }} </span>
                 </span>
             </div>
-            <FormKit :label="__('Read More')" type="button" data-theme="primary" @click="readMore" />
+            <FormKit :label="__('Read More')" type="button" data-theme="primary" @click="router.push(link)" />
         </div>
     </article>
 </template>
@@ -28,6 +28,9 @@
 <script lang="ts" setup>
 import { defineProps, computed } from "vue";
 import { useFilter } from "@/plugins/filters";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const props = defineProps<{
     tags: Array<{
@@ -44,7 +47,6 @@ const props = defineProps<{
 }>();
 
 const timeAgo = computed(() => {
-    console.log("props.publishedAt", props.publishedAt);
     return useFilter("timeAgo", props.publishedAt);
 });
 </script>

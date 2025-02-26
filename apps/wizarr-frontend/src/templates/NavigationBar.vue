@@ -110,7 +110,7 @@ const menuItems = [
                         <div class="flex space-x-4">
                             <!-- Navigation links for each page -->
                             <template v-for="page in pages" :key="page.name">
-                                <router-link v-if="(page.shown === AUTH.LOGGED_IN && authStore.isLoggedIn === true) || (page.shown === AUTH.LOGGED_OUT && authStore.isLoggedIn === false) || page.shown === AUTH.LOGGED_ANY" :to="page.url" class="rounded-md px-3 py-2 text-sm font-semibold" :class="route.path == page.url || (page.url == '/admin/settings' && route.path.includes('/admin/settings')) ? 'bg-gray-800 text-white' : 'text-black dark:text-gray-300 hover:bg-gray-700 hover:text-white'">
+                                <router-link v-if="(page.shown === AUTH.LOGGED_IN && authStore.isLoggedIn === true) || (page.shown === AUTH.LOGGED_OUT && authStore.isLoggedIn === false) || page.shown === AUTH.LOGGED_ANY" :to="page.url" class="rounded-md px-3 py-2 text-sm font-semibold" :class="route.path == page.url || (page.url == '/admin/settings' && route.path.includes('/admin/settings')) || (page.url == '/admin/blog' && route.path.includes('/admin/blog')) ? 'bg-gray-800 text-white' : 'text-black dark:text-gray-300 hover:bg-gray-700 hover:text-white'">
                                     {{ __(page.name) }}
                                 </router-link>
                             </template>
