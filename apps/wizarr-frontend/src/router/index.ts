@@ -16,6 +16,8 @@ import requestRoutes from "@/modules/requests/router";
 import setupRoutes from "@/modules/setup/router";
 import docsRoutes from "@/modules/docs/router";
 import coreRoutes from "@/modules/core/router";
+import { useTitle } from "@vueuse/core";
+import { computed, ref } from "vue";
 
 const router = createRouter({
     history: typeof window !== "undefined" ? createWebHistory() : createMemoryHistory(),
@@ -31,6 +33,12 @@ const router = createRouter({
         ...docsRoutes, // Docs routes ["/docs", "/docs/:id"]
         ...coreRoutes, // Core routes ["/:pathMatch(.*)*"]
     ],
+});
+
+router.afterEach((to) => {
+    const defaultTitle = ref("Wizarr");
+    const titleRef = ref(to.meta.title as string | undefined);
+    useTitle(computed(() => (titleRef.value !== undefined ? `${titleRef.value} | ${defaultTitle.value}` : defaultTitle.value)));
 });
 
 router.beforeEach(async (to, from, next) => {

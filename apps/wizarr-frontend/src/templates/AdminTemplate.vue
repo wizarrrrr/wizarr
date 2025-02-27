@@ -1,131 +1,90 @@
 <template>
-    <!-- Page -->
-    <div :class="boxPageClass">
-        <!-- Wrapper -->
-        <div class="flex flex-col items-center justify-center" :class="boxWrapperClass">
-            <!-- Border Box -->
-            <div class="w-full rounded bg-none dark:border-gray-700 light:border-gray-200" :class="boxBorderClass">
-                <!-- Header -->
-                <div class="space-y-3 bg-white dark:bg-gray-900" :class="boxHeaderClass">
-                    <div v-if="header || subheader || headerSlotAvailable" class="flex items-center bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600" :class="boxHeaderWrapperClass">
-                        <div :class="boxHeaderSizeClass">
-                            <div class="flex items-center">
-                                <div class="flex flex-col justify-start">
-                                    <div class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                                        <Transition name="fade-fast" mode="out-in" :duration="{ enter: 300, leave: 300 }" v-if="transition">
-                                            <span :key="header">
-                                                {{ header ?? "" }}
-                                            </span>
-                                        </Transition>
-                                        <span v-else>
-                                            {{ header ?? "" }}
-                                        </span>
-                                    </div>
-                                    <div class="text-sm font-semibold leading-tight tracking-tight text-gray-900 md:text-md dark:text-gray-400">
-                                        <Transition name="fade-fast" mode="out-in" :duration="{ enter: 300, leave: 300 }" v-if="transition">
-                                            <span :key="subheader">
-                                                {{ subheader ?? "" }}
-                                            </span>
-                                        </Transition>
-                                        <span v-else>
-                                            {{ subheader ?? "" }}
-                                        </span>
-                                    </div>
-                                </div>
+    <!-- Main container -->
+    <div class="flex flex-col items-center justify-center">
+        <!-- Wrapper for the box -->
+        <!-- <div class="overflow-hidden"> -->
+        <!-- Header section -->
+        <div class="w-full bg-white dark:bg-gray-900">
+            <!-- Header content (conditionally rendered if header, subheader, or header slot is available) -->
+            <div v-if="header || subheader || headerSlotAvailable" class="flex items-center justify-center bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-600">
+                <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 flex flex-row justify-between py-4 flex flex-row justify-between w-full">
+                    <!-- Header text and subheader -->
+                    <div class="flex items-center">
+                        <div class="flex flex-col justify-start">
+                            <!-- Main header with transition support -->
+                            <div class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                                <Transition v-if="transition" name="fade-fast" mode="out-in" :duration="{ enter: 300, leave: 300 }">
+                                    <span :key="header">{{ header ?? "" }}</span>
+                                </Transition>
+                                <span v-else>{{ header ?? "" }}</span>
                             </div>
-                            <div class="flex items-center justify-end space-x-2">
-                                <slot name="header" />
+                            <!-- Subheader with transition support -->
+                            <div class="text-sm font-semibold leading-tight tracking-tight text-gray-900 md:text-md dark:text-gray-400">
+                                <Transition v-if="transition" name="fade-fast" mode="out-in" :duration="{ enter: 300, leave: 300 }">
+                                    <span :key="subheader">{{ subheader ?? "" }}</span>
+                                </Transition>
+                                <span v-else>{{ subheader ?? "" }}</span>
                             </div>
                         </div>
                     </div>
-                    <!-- <hr v-if="header || subheader || headerSlotAvailable" class="border-gray-200 dark:border-gray-700 hidden" :class="boxHRClass" /> -->
-                </div>
-
-                <!-- Content -->
-                <div :class="boxContentClass">
-                    <slot />
-                </div>
-
-                <!-- Footer -->
-                <div v-if="footerSlotAvailable || footerActionsSlotAvailable" class="flex items-center justify-between mb-6 md:mb-0 px-6 md:px-0">
-                    <div class="flex items-center">
-                        <slot name="footer" />
-                    </div>
+                    <!-- Slot for additional header content -->
                     <div class="flex items-center justify-end space-x-2">
-                        <slot name="footerActions" />
+                        <slot name="header" />
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Content section -->
+        <div :class="align ? 'w-full mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 pt-6' : 'w-full'">
+            <slot />
+        </div>
+
+        <!-- Footer section (conditionally rendered if footer or footer actions slot is available) -->
+        <div v-if="footerSlotAvailable || footerActionsSlotAvailable" class="flex items-center justify-between mb-6 md:mb-0 px-6 md:px-0">
+            <!-- Slot for footer content -->
+            <div class="flex items-center">
+                <slot name="footer" />
+            </div>
+            <!-- Slot for footer actions -->
+            <div class="flex items-center justify-end space-x-2">
+                <slot name="footerActions" />
+            </div>
+        </div>
+        <!-- </div> -->
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { computed, useSlots } from "vue";
 
-export default defineComponent({
-    name: "Box",
-    props: {
-        header: {
-            type: String,
-        },
-        subheader: {
-            type: String,
-        },
-        class: {
-            type: String,
-            default: "",
-        },
-        transition: {
-            type: Boolean,
-            default: false,
-        },
-        boxView: {
-            type: Boolean,
-            default: true,
-        },
-        contentConform: {
-            type: Boolean,
-            default: true,
-        },
+// Define props
+const props = defineProps({
+    header: {
+        type: String,
     },
-    computed: {
-        headerSlotAvailable() {
-            return this.$slots.header !== undefined;
-        },
-        footerSlotAvailable() {
-            return this.$slots.footer !== undefined;
-        },
-        footerActionsSlotAvailable() {
-            return this.$slots.footerActions !== undefined;
-        },
-        boxPageClass() {
-            return this.boxView ? "max-w-screen-xl mx-auto md:px-10" : "";
-        },
-        boxWrapperClass() {
-            return this.boxView ? "md:pt-8" : "";
-        },
-        boxBorderClass() {
-            return this.boxView ? "md:border md:p-8" + " " + this.class : "";
-        },
-        boxHeaderClass() {
-            return this.boxView ? "md:space-y-4 md:pb-6" : "";
-        },
-        boxHeaderWrapperClass() {
-            return this.boxView ? "justify-between" : "justify-center";
-        },
-        boxHeaderInsideClass() {
-            return this.boxView ? "md:p-0 md:border-none" : "";
-        },
-        boxHeaderSizeClass() {
-            return (!this.boxView ? "w-full max-w-screen-xl flex flex-row justify-between p-4" : "p-4 md:pb-4 md:p-0") + " " + "flex flex-row justify-between w-full";
-        },
-        boxHRClass() {
-            return this.boxView ? "md:block" : "";
-        },
-        boxContentClass() {
-            return (this.boxView ? "md:p-0 p-4" : "pt-6 px-4") + " " + (this.contentConform ? "w-full max-w-screen-xl m-auto" : "");
-        },
+    subheader: {
+        type: String,
+    },
+    class: {
+        type: String,
+        default: "",
+    },
+    transition: {
+        type: Boolean,
+        default: false,
+    },
+    align: {
+        type: Boolean,
+        default: true,
     },
 });
+
+// Access slots
+const slots = useSlots();
+
+// Computed properties to check if slots are available
+const headerSlotAvailable = computed(() => !!slots.header);
+const footerSlotAvailable = computed(() => !!slots.footer);
+const footerActionsSlotAvailable = computed(() => !!slots.footerActions);
 </script>

@@ -99,7 +99,7 @@ const menuItems = [
 
 <template>
     <Disclosure as="nav" class="z-20 bg-white dark:bg-gray-900 absolute w-full top-0 left-0 right-0 border-b border-gray-200 dark:border-gray-600 md:h-[64px]" v-slot="{ open }">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
             <div class="flex h-16 items-center justify-between">
                 <div class="flex items-center">
                     <!-- Logo link, displayed unless 'LOGO' is in hideComponents -->
