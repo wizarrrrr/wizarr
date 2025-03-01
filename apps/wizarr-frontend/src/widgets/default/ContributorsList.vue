@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-full relative">
+    <div class="w-full h-full relative p-4">
         <div class="flex flex-col space-between grow h-full">
             <div class="flex flex-col space-y-2">
                 <Transition name="fade" mode="out-in">

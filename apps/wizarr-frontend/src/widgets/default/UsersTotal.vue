@@ -1,5 +1,5 @@
 <template>
-    <DefaultWidget :title="__('Total Users')" :value="count" icon="fa-user" />
+    <DefaultWidget :title="__('Total Users')" :value="count" icon="fa-user" class="p-4" />
 </template>
 
 <script lang="ts">

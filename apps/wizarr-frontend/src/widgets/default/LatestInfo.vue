@@ -1,5 +1,5 @@
 <template>
-    <DefaultWidget icon="fa-info-circle">
+    <DefaultWidget icon="fa-info-circle" class="p-4">
         <template #title>
             <div class="text-[20px] mt-[-5px] text-gray-500 dark:text-gray-300 mb-0 font-medium truncate text-ellipsis overflow-hidden">
                 {{ __("Latest Info") }}

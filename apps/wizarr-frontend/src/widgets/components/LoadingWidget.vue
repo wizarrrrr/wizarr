@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-full transition-opacity duration-300">
+    <div class="w-full h-full transition-opacity duration-300 p-4">
         <div class="flex flex-row-reverse justify-between p-3">
             <div class="flex items-center justify-end flex-grow">
                 <div class="flex items-center justify-center">

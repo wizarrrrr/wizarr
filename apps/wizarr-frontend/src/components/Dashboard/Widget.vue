@@ -1,6 +1,6 @@
 <template>
     <div :class="widgetClassName" :ref="localData.id" :id="localData.id" :gs-id="localData.id" :gs-x="localData.grid.x" :gs-y="localData.grid.y" :gs-w="localData.grid.w" :gs-h="localData.grid.h">
-        <div class="grid-stack-item-content group border dark:border-gray-700 relative p-4 text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-800 highlight-white/5 rounded shadow-md flex items-center justify-center" :class="{ 'cursor-move': isEditing }">
+        <div class="grid-stack-item-content group border dark:border-gray-700 relative text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-800 highlight-white/5 rounded shadow-md flex items-center justify-center" :class="{ 'cursor-move': isEditing }">
             <Transition name="fade" mode="out-in" :duration="{ enter: 100, leave: 100 }">
                 <component v-if="component" :is="component" :data="data" :isEditing="isEditing" :class="{ 'group-hover:!opacity-100': isEditing }" />
             </Transition>

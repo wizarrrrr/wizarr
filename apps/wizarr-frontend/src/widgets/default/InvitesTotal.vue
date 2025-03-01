@@ -1,5 +1,5 @@
 <template>
-    <DefaultWidget :title="__('Total Invitations')" :value="count" icon="fa-envelope" />
+    <DefaultWidget :title="__('Total Invitations')" :value="count" icon="fa-envelope" class="p-4" />
 </template>
 
 <script lang="ts">
