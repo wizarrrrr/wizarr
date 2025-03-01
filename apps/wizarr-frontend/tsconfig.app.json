@@ -28,9 +28,8 @@
         "composite": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": [
-                "./src/*"
-            ]
+            "@/*": ["./src/*"],
+            "@plugins/*": ["./src/plugins/*"] 
         }
     }
 }
