@@ -7,7 +7,7 @@ import type { AxiosRequestConfig, AxiosResponse } from "axios";
 import type { App } from "vue";
 import type { ToastID } from "vue-toastification/dist/types/types";
 
-let MAX_RETRIES = 2;
+let MAX_RETRIES = 6;
 let RETRY_DELAY = 5000;
 
 interface RetryOptions extends AxiosRequestConfig {
@@ -36,11 +36,15 @@ const axiosRetry = async function <T>(url: string, config?: RetryOptions): Promi
             return response.data;
         } catch (error) {
             if (retryCount >= (config?.maxRetries ?? MAX_RETRIES)) {
+                toast.update(connectionToast ?? 0, BadBackend, {
+                    timeout: 3000,
+                });
                 toast.error("Retried multiple times, giving up. Please reload the page.");
                 throw error;
             }
             retryCount++;
             if (!connectionToast) {
+                toast.dismiss(connectionToast ?? 0);
                 connectionToast = toast.error(BadBackend, {
                     timeout: false,
                     closeButton: false,

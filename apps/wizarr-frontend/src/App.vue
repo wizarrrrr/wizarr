@@ -76,11 +76,11 @@ export default defineComponent({
         this.updateTheme(this.theme);
 
         // Get the server data
-        const serverData = await this.$axiosRetry<IInformation>("/api/information");
-        this.setServerData(serverData);
+        // const serverData = await this.$axiosRetry<IInformation>("/api/information");
+        // this.setServerData(serverData);
 
-        const versionData = await this.$axiosRetry<IVersion>("/api/version");
-        this.setVersionData(versionData);
+        // const versionData = await this.$axiosRetry<IVersion>("/api/version");
+        // this.setVersionData(versionData);
 
         this.$loading.unmount();
     },

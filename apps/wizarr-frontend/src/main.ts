@@ -30,7 +30,6 @@ import FullPageLoading from "@/components/Loading/FullPageLoading.vue";
 import Analytics from "./plugins/analytics";
 import FloatingVue from "floating-vue";
 import Modal from "./plugins/modal";
-import OpenLayersMap from "vue3-openlayers";
 import ProgressOptions from "./assets/configs/DefaultProgress";
 import RocketChat from "./plugins/rocketChat";
 import Sentry from "./plugins/sentry";
@@ -82,13 +81,19 @@ const startApp = async () => {
     setup.use(ToastPlugin, ToastOptions);
     setup.use(Axios);
     setup.use(plugin, defaultConfig(formkitConfig));
-    setup.use(ToastPlugin, ToastOptions);
     setup.use(Toast);
 
     // Get Information from Server
     const informationStore = useInformationStore();
-    const serverData = await axiosRetry<Information>("/api/information");
-    informationStore.setServerData(serverData);
+    const [serverError, serverData] = await async(axiosRetry<Information>, "/api/information");
+
+    // Handle Server Error
+    if (serverError) {
+        console.error(serverError);
+    }
+
+    // Set Server Data
+    if (!serverError) informationStore.setServerData(serverData);
 
     // If setupRequired then redirect to /setup
     if (informationStore.setupRequired === true) {
@@ -119,7 +124,6 @@ const startApp = async () => {
     app.use(Toast);
     app.use(i18n);
     app.use(VueProgressBar, ProgressOptions);
-    app.use(OpenLayersMap, { debug: false });
     app.use(FloatingVue);
     app.use(plugin, defaultConfig(formkitConfig));
     app.use(Socket, { uri: window.location.origin, opts: { path: "/api/socket.io" } });
