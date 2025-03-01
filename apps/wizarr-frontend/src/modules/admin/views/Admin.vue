@@ -3,7 +3,7 @@
     <NavigationBar />
 
     <!-- Page Content -->
-    <div id="content" class="mt-[64px] mb-6">
+    <div id="content" class="mb-6">
         <RouterView />
     </div>
 

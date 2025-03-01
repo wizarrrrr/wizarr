@@ -1,8 +1,6 @@
 <template>
     <!-- Main container -->
     <div class="flex flex-col items-center justify-center">
-        <!-- Wrapper for the box -->
-        <!-- <div class="overflow-hidden"> -->
         <!-- Header section -->
         <div class="w-full bg-white dark:bg-gray-900">
             <!-- Header content (conditionally rendered if header, subheader, or header slot is available) -->
@@ -51,7 +49,6 @@
                 <slot name="footerActions" />
             </div>
         </div>
-        <!-- </div> -->
     </div>
 </template>
 
