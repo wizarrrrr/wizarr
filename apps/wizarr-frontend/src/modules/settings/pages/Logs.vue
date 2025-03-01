@@ -15,7 +15,7 @@
 import { Terminal } from "xterm";
 import { mapState } from "pinia";
 import { defineComponent } from "vue";
-import { FitAddon } from "xterm-addon-fit";
+import { FitAddon } from "@xterm/addon-fit";
 import { useThemeStore } from "@/stores/theme";
 import { useDebounceFn } from "@vueuse/core";
 import { useInformationStore } from "@/stores/information";
