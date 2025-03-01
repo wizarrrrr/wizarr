@@ -192,3 +192,87 @@ button[disabled],
 .debug * {
     box-shadow: inset 0px 0px 1px 1px magenta;
 }
+
+/* SVG map styles */
+.svgMap-container {
+    width: 100%;
+    height: 100%;
+}
+
+.svgMap-map-container {
+    width: 100%;
+    height: 100%;
+}
+
+.svgMap-map-wrapper {
+    width: 100%;
+    height: 100%;
+    padding-top: 0px !important;
+}
+
+.svgMap-map-image {
+    width: 100%;
+    height: 100%;
+    @apply dark:bg-gray-800;
+}
+
+.svgMap-map-controls-wrapper {
+    margin: 20px;
+    position: relative;
+    left: 0px !important;
+    bottom: 0px !important;
+    background-color: transparent !important;
+}
+
+.svgMap-map-controls-zoom {
+    background-color: transparent !important;
+}
+
+.svgMap-map-wrapper .svgMap-control-button {
+    @apply rounded-lg !border !border-solid !border-gray-300 hover:!bg-gray-100 dark:!border-gray-600 dark:hover:!bg-gray-600;
+}
+
+.svgMap-map-wrapper .svgMap-control-button.svgMap-zoom-button:after,
+.svgMap-map-wrapper .svgMap-control-button.svgMap-zoom-button:before {
+    @apply dark:!bg-gray-600 dark:hover:!bg-gray-500;
+}
+
+.svgMap-map-wrapper .svgMap-control-button:first-child {
+    @apply mr-2;
+}
+
+.svgMap-tooltip {
+    @apply rounded-lg !border-0 !bg-white !text-left !shadow-lg dark:!bg-gray-700;
+}
+
+.svgMap-tooltip .svgMap-tooltip-content-container .svgMap-tooltip-flag-container {
+    @apply mr-2 !inline-block !border-0 !p-0 !text-left;
+}
+
+.svgMap-tooltip .svgMap-tooltip-content-container .svgMap-tooltip-flag-container .svgMap-tooltip-flag {
+    @apply inline-block !h-4 !border-0 !p-0;
+}
+
+.svgMap-tooltip .svgMap-tooltip-title {
+    @apply inline-block !pt-2 !text-sm !font-semibold !text-gray-900 dark:!text-white;
+}
+
+.svgMap-tooltip .svgMap-tooltip-content {
+    @apply mt-0;
+}
+
+.svgMap-tooltip .svgMap-tooltip-content table td {
+    @apply text-left !text-sm !font-normal !text-gray-500 dark:!text-gray-400;
+}
+
+.svgMap-tooltip .svgMap-tooltip-content table td span {
+    @apply text-left !text-sm !font-semibold !text-gray-900 dark:!text-white;
+}
+
+.svgMap-tooltip .svgMap-tooltip-pointer {
+    @apply hidden;
+}
+
+.svgMap-map-wrapper .svgMap-country {
+    @apply dark:!stroke-gray-800;
+}
