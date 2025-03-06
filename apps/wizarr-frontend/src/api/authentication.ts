@@ -2,7 +2,7 @@ import { errorToast, infoToast } from "../ts/utils/toasts";
 import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
 
 import type { Membership } from "@/types/api/membership";
-import type { RegistrationResponseJSON } from "@simplewebauthn/typescript-types";
+import type { RegistrationResponseJSON } from "@simplewebauthn/types";
 import type { WebAuthnError } from "@simplewebauthn/browser/dist/types/helpers/webAuthnError";
 import { useAuthStore } from "@/stores/auth";
 import { useAxios } from "@/plugins/axios";
