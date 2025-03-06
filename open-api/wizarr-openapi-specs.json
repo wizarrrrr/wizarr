@@ -180,15 +180,15 @@
   },
   "info": {
     "title": "Wizarr API",
-    "version": "v3.5.1",
+    "version": "v3.5.5",
     "description": "The Official Home of Wizarr, your Media Management Software",
     "contact": {
       "name": "Wizarr Support",
       "email": "support@wizarr.org"
     },
     "license": {
-      "name": "MIT License",
-      "url": "https://opensource.org/license/mit"
+      "name": "Other",
+      "url": "https://opensource.org/license/other"
     }
   },
   "openapi": "3.0.0",
@@ -782,6 +782,61 @@
         "summary": "Delete an invitation",
         "tags": [
           "Invitations"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/invitations/{token}/validate": {
+      "get": {
+        "operationId": "InvitationController.validate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "pattern": "[A-Za-z0-9-]+",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Validate an invitation",
+        "tags": [
+          "Invitations"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/database/schema": {
+      "get": {
+        "operationId": "SchemaController.getSchema",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {}
+            },
+            "description": "Successful response"
+          }
+        },
+        "summary": "Get schema",
+        "tags": [
+          "Schema"
         ],
         "security": [
           {

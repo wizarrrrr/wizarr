@@ -75,6 +75,7 @@ import { PrettyOptions } from "pino-pretty";
 import { release } from "os";
 import { memcached } from "./config/memcached";
 import { DataSource } from "typeorm";
+import mount from "koa-mount";
 
 /**
  * The main application class for setting up and running the Koa server.
@@ -87,7 +88,7 @@ export class App {
 
     // Define the server options for Koa
     private serverOptions: typeof Koa.arguments = {
-        // Default options
+        proxy: true,
     };
 
     // BullMQ Queues and Workers and Class
@@ -167,7 +168,7 @@ export class App {
     };
 
     // Define the logger for the application
-    private logger = createConsola({ fancy: true });
+    private logger = createConsola();
     public log = this.logger;
 
     /**
@@ -201,6 +202,31 @@ export class App {
         this.setupSwagger();
         await this.setupBullMQProcessor();
         this.setupBullBoard();
+
+        // test
+        const { KoaAuth, getSession } = await import("@wizarrrrr/authjs-koa");
+        const GitHub = await import("@auth/core/providers/github");
+
+        const config = {
+            providers: [
+                GitHub.default({
+                    clientId: "Ov23liVHSi07wDX27lNv",
+                    clientSecret: "0929e1c31723e771f17145a5aa17ee2e3386262b",
+                }),
+            ],
+            secret: "secret",
+            trustHost: true,
+        };
+
+        this.app.use(mount("/api/auth", KoaAuth(config)));
+
+        this.app.use(
+            mount("/api/test", async (ctx, next) => {
+                const session = await getSession(ctx.request, config);
+                ctx.body = session;
+                next();
+            }),
+        );
 
         // Start the server
         this.httpServer.listen(this.port);

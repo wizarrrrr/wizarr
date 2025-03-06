@@ -28,11 +28,6 @@ services:
             REDIS_PORT: 6379
             MEMCACHED_HOST: 127.0.0.1
             MEMCACHED_PORT: 11211
-        healthcheck:
-            interval: 5m
-            timeout: 2m
-            start_period: 45s
-            test: ["CMD", "curl", "-f", "--retry", "6", "--max-time", "5", "--retry-delay", "10", "--retry-max-time", "60", "http://127.0.0.1:5001/api/health"]
         volumes:
             - ../:/usr/wizarr
             - /etc/localtime:/etc/localtime:ro

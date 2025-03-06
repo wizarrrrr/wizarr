@@ -30,17 +30,47 @@ export default defineConfig({
         }),
     ],
     build: {
-        target: process.env.TAURI_ENV_PLATFORM == 'windows' ? 'chrome105' : 'safari13',
-        minify: !process.env.TAURI_ENV_DEBUG ? 'esbuild' : false,
+        target: process.env.TAURI_ENV_PLATFORM == "windows" ? "chrome105" : "safari13",
+        minify: !process.env.TAURI_ENV_DEBUG ? "esbuild" : false,
         sourcemap: !!process.env.TAURI_ENV_DEBUG,
     },
-    envPrefix: ['VITE_', 'TAURI_ENV_*'],
+    envPrefix: ["VITE_", "TAURI_ENV_*"],
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
     },
     server: {
+        proxy: {
+            "/api": {
+                target: "http://localhost:5001",
+                secure: false,
+                changeOrigin: true,
+                xfwd: true,
+                rewrite: (path) => {
+                    console.log(path);
+                    return path;
+                },
+                configure: (proxy) => {
+                    proxy.on("proxyRes", (proxyRes, req) => {
+                        proxyRes.headers["test"] = "test";
+                    });
+                },
+            },
+            "/socket.io": {
+                target: "ws://localhost:5001",
+                secure: false,
+                changeOrigin: true,
+                xfwd: true,
+                ws: true,
+            },
+            "/admin/bull": {
+                target: "http://localhost:5001",
+                secure: false,
+                changeOrigin: true,
+                xfwd: true,
+            },
+        },
         fs: {
             allow: [
                 "../../node_modules/.vite/wizarr", // Allow Vite Cache
@@ -53,8 +83,9 @@ export default defineConfig({
             ],
         },
         watch: {
-            usePolling: true
-        }
+            usePolling: true,
+        },
+        allowedHosts: true,
     },
     preview: {
         port: 4300,
@@ -71,11 +102,12 @@ export default defineConfig({
     css: {
         preprocessorOptions: {
             scss: {
-                api: "modern-compiler"
-            }
+                api: "modern-compiler",
+            },
         },
         postcss: {
             plugins: [
+                // @ts-expect-error - TailwindCSS Plugin is weird
                 tailwindcss(tailwindConfig), // Initialize TailwindCSS
                 autoprefixer, // Initialize Autoprefixer
             ],

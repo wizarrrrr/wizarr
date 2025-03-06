@@ -1,0 +1,14 @@
+{
+    "name": "@wizarrrrr/authjs-koa",
+    "description": "Authentication for Koa.",
+    "version": "0.0.1",
+    "type": "module",
+    "dependencies": {
+        "@auth/core": "^0.38.0"
+    },
+    "devDependencies": {
+        "@auth/core": "^0.38.0",
+        "@types/koa": "^2.13.12"
+    },
+    "main": "./src/index.ts"
+}

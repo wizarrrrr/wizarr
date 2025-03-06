@@ -1,24 +1,24 @@
 {
-    "name": "ora",
+    "name": "authjs-koa",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "libs/ora/src",
+    "sourceRoot": "libs/authjs-koa/src",
     "projectType": "library",
     "targets": {
         "build": {
             "executor": "@nx/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/libs/ora",
-                "main": "libs/ora/src/index.ts",
-                "tsConfig": "libs/ora/tsconfig.lib.json",
-                "assets": ["libs/ora/*.md"]
+                "outputPath": "dist/libs/authjs-koa",
+                "main": "libs/authjs-koa/src/index.ts",
+                "tsConfig": "libs/authjs-koa/tsconfig.lib.json",
+                "module": "ESNext"
             }
         },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/ora/**/*.ts", "libs/ora/package.json"]
+                "lintFilePatterns": ["libs/authjs-koa/**/*.ts", "libs/authjs-koa/package.json"]
             }
         }
     },
