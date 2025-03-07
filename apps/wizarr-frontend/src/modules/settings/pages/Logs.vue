@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Terminal } from "xterm";
+import { Terminal } from "@xterm/xterm";
 import { mapState } from "pinia";
 import { defineComponent } from "vue";
 import { FitAddon } from "@xterm/addon-fit";
@@ -20,7 +20,7 @@ import { useThemeStore } from "@/stores/theme";
 import { useDebounceFn } from "@vueuse/core";
 import { useInformationStore } from "@/stores/information";
 
-import type { ITheme, ITerminalOptions } from "xterm";
+import type { ITheme, ITerminalOptions } from "@xterm/xterm";
 import type { Socket } from "socket.io-client";
 
 import { useAuthStore } from "@/stores/auth";

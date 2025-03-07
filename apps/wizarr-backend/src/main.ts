@@ -76,6 +76,7 @@ import { release } from "os";
 import { memcached } from "./config/memcached";
 import { DataSource } from "typeorm";
 import mount from "koa-mount";
+import { KoaAuthConfig, type skipCSRFCheck } from "@wizarrrrr/authjs-koa";
 
 /**
  * The main application class for setting up and running the Koa server.
@@ -206,9 +207,26 @@ export class App {
         // test
         const { KoaAuth, getSession } = await import("@wizarrrrr/authjs-koa");
         const GitHub = await import("@auth/core/providers/github");
+        const Credentials = await import("@auth/core/providers/credentials");
 
-        const config = {
+        const config: KoaAuthConfig = {
             providers: [
+                Credentials.default({
+                    credentials: {
+                        username: {
+                            label: "Username",
+                            type: "text",
+                        },
+                        password: {
+                            label: "Password",
+                            type: "password",
+                        },
+                    },
+                    authorize: async (credentials) => {
+                        console.log("AUTHORIZE", credentials);
+                        return null;
+                    },
+                }),
                 GitHub.default({
                     clientId: "Ov23liVHSi07wDX27lNv",
                     clientSecret: "0929e1c31723e771f17145a5aa17ee2e3386262b",
@@ -216,13 +234,16 @@ export class App {
             ],
             secret: "secret",
             trustHost: true,
+            experimental: {
+                enableWebAuthn: true,
+            },
         };
 
         this.app.use(mount("/api/auth", KoaAuth(config)));
 
         this.app.use(
             mount("/api/test", async (ctx, next) => {
-                const session = await getSession(ctx.request, config);
+                const session = await getSession(ctx, config);
                 ctx.body = session;
                 next();
             }),

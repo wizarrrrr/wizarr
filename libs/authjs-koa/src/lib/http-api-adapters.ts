@@ -1,4 +1,5 @@
 import * as k from "koa";
+import { getBasePath, KoaAuthConfig } from "../index.js";
 
 /**
  * Encodes an object as url-encoded string.
@@ -33,18 +34,18 @@ function encodeJson(obj: Record<string, unknown>) {
  * @param req The Koa Request
  * @returns The encoded body
  */
-function encodeRequestBody(req: k.Request): BodyInit {
-    const contentType = req.headers["content-type"];
+function encodeRequestBody(ctx: k.Request): BodyInit {
+    const contentType = ctx.headers["content-type"];
 
     if (contentType?.includes("application/x-www-form-urlencoded")) {
-        return encodeUrlEncoded(req.body as Record<string, unknown>);
+        return encodeUrlEncoded(ctx.body as Record<string, unknown>);
     }
 
     if (contentType?.includes("application/json")) {
-        return encodeJson(req.body as Record<string, unknown>);
+        return encodeJson(ctx.body as Record<string, unknown>);
     }
 
-    return req.body as BodyInit;
+    return ctx.body as BodyInit;
 }
 
 /**
@@ -52,32 +53,31 @@ function encodeRequestBody(req: k.Request): BodyInit {
  * @param req The Koa Request
  * @returns The Web Request
  */
-export function toWebRequest(req: k.Request) {
-    const url = "https://" + req.get("host") + req.originalUrl;
+export function toWebRequest(ctx: k.ParameterizedContext<k.DefaultState, k.DefaultContext>, config: KoaAuthConfig) {
+    const basePath = config?.basePath ?? getBasePath(ctx);
+    const envUrl = process.env["AUTH_URL"] ?? process.env["NEXTAUTH_URL"];
+    const headers = new Headers(ctx.headers as Record<string, string>);
 
-    const headers = new Headers();
+    const detectedHost = headers.get("x-forwarded-host") ?? headers.get("host");
+    const detectedProtocol = ctx.headers["x-forwarded-proto"] ? (Array.isArray(ctx.headers["x-forwarded-proto"]) ? ctx.headers["x-forwarded-proto"][0] : ctx.headers["x-forwarded-proto"]).split(",")[0] : ctx.protocol.split(",")[0];
+    const _protocol = detectedProtocol.endsWith(":") ? detectedProtocol : detectedProtocol + ":";
 
-    Object.entries(req.headers).forEach(([key, value]) => {
-        if (Array.isArray(value)) {
-            value.forEach((v) => v && headers.append(key, v));
-            return;
-        }
-
-        if (value) {
-            headers.append(key, value);
-        }
-    });
+    const query = ctx.href.split("?")[1];
+    const url = envUrl ? new URL(envUrl) : new URL(`${_protocol}//${detectedHost}${basePath}${ctx.path}${query ? `?${query}` : ""}`);
 
     // GET and HEAD not allowed to receive body
-    const body = /GET|HEAD/.test(req.method) ? undefined : encodeRequestBody(req);
+    const body = /GET|HEAD/.test(ctx.method) ? undefined : encodeRequestBody(ctx.request);
 
-    const request = new Request(url, {
-        method: req.method,
+    console.log("URL", url);
+    console.log("ctx.query", ctx.query);
+    console.log("ctx.request.query", ctx.request.query);
+    console.log("ctx.request.body", ctx.request.body);
+
+    return new Request(url, {
+        method: ctx.method,
         headers: headers,
         body: body,
     });
-
-    return request;
 }
 
 /**
@@ -86,7 +86,7 @@ export function toWebRequest(req: k.Request) {
  * @param res The Web Response
  * @param ctx The Koa Context
  */
-export async function toKoaResponse(res: Response, ctx: k.Context) {
+export async function toKoaResponse(res: Response, ctx: k.ParameterizedContext<k.DefaultState, k.DefaultContext>) {
     // Set headers
     res.headers.forEach((value, key) => {
         if (value) {
@@ -97,6 +97,9 @@ export async function toKoaResponse(res: Response, ctx: k.Context) {
     // Set status and status text
     ctx.status = res.status;
     ctx.message = res.statusText;
+
+    // Explicitly write the headers to the content type
+    ctx.type = res.headers.get("content-type") ?? "";
 
     // Set the response body
     ctx.body = await res.text();
