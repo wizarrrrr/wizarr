@@ -1,6 +1,7 @@
 import { RepositoryBase } from "../BaseRepository";
-import { Admin } from "../../models/Account/AdminModel";
+import { UserEntity } from "../../models/Account/UserEntity";
 import { EntityRepository } from "../../../decorators/entity-repository.decorator";
+import { Service } from "typedi";
 
-@EntityRepository(Admin)
-export class AdminRepository extends RepositoryBase<Admin> {}
+@EntityRepository(UserEntity)
+export class AdminRepository extends RepositoryBase<UserEntity> {}

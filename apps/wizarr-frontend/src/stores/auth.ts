@@ -29,19 +29,19 @@ export const useAuthStore = defineStore("auth", {
             else router.push("/admin");
         },
         async passwordLogin(username: string, password: string) {
-            const loginResponse = await this.$axios.post<LoginResponse>("/api/auth/login", { username, password });
+            const loginResponse = await this.$axios.post<LoginResponse>("/api/oldauth/login", { username, password });
             this.user = { ...loginResponse.data.user, jwtToken: loginResponse.data.token };
             this.startRefreshTokenTimer();
             this.loginRedirect();
         },
         logout() {
-            this.$axios.get("/api/auth/logout");
+            this.$axios.get("/api/oldauth/logout");
             this.stopRefreshTokenTimer();
             this.user = null;
             router.push("/login");
         },
         async refreshToken() {
-            const refreshResponse = await this.$axios.get<LoginResponse>("/api/auth/refresh", { disableErrorToast: true });
+            const refreshResponse = await this.$axios.get<LoginResponse>("/api/oldauth/refresh", { disableErrorToast: true });
             this.user = { ...refreshResponse.data.user, jwtToken: refreshResponse.data.token };
             this.startRefreshTokenTimer();
         },

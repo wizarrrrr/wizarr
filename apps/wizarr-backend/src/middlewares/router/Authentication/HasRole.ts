@@ -1,6 +1,6 @@
-import { Admin } from "../../../api/models/Account/AdminModel";
+import { UserEntity } from "../../../api/models/Account/UserEntity";
 
-export const rolesCheck = (roles: string | string[], user: Admin): boolean => {
+export const rolesCheck = (roles: string | string[], user: UserEntity): boolean => {
     // If the roles are not set, return true
     if (!roles) return true;
 
@@ -14,4 +14,5 @@ export const rolesCheck = (roles: string | string[], user: Admin): boolean => {
 
     // Return false
     return false;
+    return true;
 };

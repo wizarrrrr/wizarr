@@ -4,7 +4,7 @@ import { Inject, Service } from "typedi";
 import { ControllerBase } from "../BaseController";
 import { UserService } from "../../../services/User/UserService";
 import { LoggerInterface } from "../../../../decorators/LoggerDecorator";
-import { Admin } from "../../../models/Account/AdminModel";
+import { UserEntity } from "../../../models/Account/UserEntity";
 import { RequestQueryParser } from "@wizarrrrr/typeorm-simple-query-parser";
 
 @Service()
@@ -28,7 +28,7 @@ export class UserController extends ControllerBase {
     @Get()
     @OpenAPI({ summary: "Get all users" })
     @Authorized()
-    public async getAll(@QueryParams() parseResourceOptions: RequestQueryParser, @CurrentUser() currentUser: Admin) {
+    public async getAll(@QueryParams() parseResourceOptions: RequestQueryParser, @CurrentUser() currentUser: UserEntity) {
         const resourceOptions = parseResourceOptions.getAll();
         return this.userService.getAll(resourceOptions, currentUser);
     }

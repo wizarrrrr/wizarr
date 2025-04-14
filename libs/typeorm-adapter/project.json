@@ -1,0 +1,26 @@
+{
+    "name": "typeorm-adapter",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/typeorm-adapter/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/typeorm-adapter",
+                "main": "libs/typeorm-adapter/src/index.ts",
+                "tsConfig": "libs/typeorm-adapter/tsconfig.lib.json",
+                "assets": ["libs/typeorm-adapter/*.md"]
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/typeorm-adapter/**/*.ts", "libs/typeorm-adapter/package.json"]
+            }
+        }
+    },
+    "tags": []
+}

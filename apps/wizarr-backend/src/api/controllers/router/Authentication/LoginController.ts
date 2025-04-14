@@ -5,7 +5,7 @@ import { Service } from "typedi";
 import { LoginService } from "../../../services/Authentication/LoginService";
 import { ControllerBase } from "../BaseController";
 import { Context } from "koa";
-import { Admin } from "../../../models/Account/AdminModel";
+import { UserEntity } from "../../../models/Account/UserEntity";
 
 @Service()
 @OpenAPI({ tags: ["Authentication"] })
@@ -55,7 +55,7 @@ export class LoginController extends ControllerBase {
     @Get("/me")
     @OpenAPI({ summary: "Get the current user" })
     @Authorized()
-    public async me(@CurrentUser() user: Admin) {
+    public async me(@CurrentUser() user: UserEntity) {
         return user;
     }
 }

@@ -1,6 +1,6 @@
 import { RepositoryBase } from "../BaseRepository";
-import { Session } from "../../models/Account/SessionsModel";
+import { SessionEntity } from "../../models/Account/SessionEntity";
 import { EntityRepository } from "../../../decorators/entity-repository.decorator";
 
-@EntityRepository(Session)
-export class SessionRepository extends RepositoryBase<Session> {}
+@EntityRepository(SessionEntity)
+export class SessionRepository extends RepositoryBase<SessionEntity> {}

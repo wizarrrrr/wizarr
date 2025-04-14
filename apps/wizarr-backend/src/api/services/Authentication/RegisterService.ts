@@ -1,4 +1,4 @@
-import { Admin } from "../../models/Account/AdminModel";
+import { UserEntity } from "../../models/Account/UserEntity";
 import { AdminRepository } from "../../repositories/Account/AdminRepository";
 import { RoleRepository } from "../../repositories/Account/RoleRepository";
 import { RegisterRequest } from "../../requests/Authentication/RegisterRequest";
@@ -15,8 +15,8 @@ export class RegisterService {
      * @returns
      */
     constructor(
-        @InjectRepository() private adminRepository: AdminRepository,
         @InjectRepository() private roleRepository: RoleRepository,
+        @InjectRepository() private adminRepository: AdminRepository,
     ) {}
 
     /**
@@ -26,9 +26,9 @@ export class RegisterService {
      */
     @StripPassword()
     public async register(data: RegisterRequest) {
-        const admin = plainToClass(Admin, data);
+        const admin = plainToClass(UserEntity, data);
         admin.roles = await this.roleRepository.getRolesByName(data.roles);
-        admin.activated = (await this.adminRepository.count() <= 0) ? true : false;
+        admin.activated = (await this.adminRepository.count()) <= 0 ? true : false;
         return this.adminRepository.save(admin);
     }
 }

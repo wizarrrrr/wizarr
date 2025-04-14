@@ -8,7 +8,7 @@ import serve from "koa-static";
 import views from "@ladjs/koa-views";
 import path from "path";
 import { addRequestDataToEvent, captureException, withScope } from "@sentry/node";
-import { authorizationCheck } from "src/middlewares/router/Authentication/AuthenticationCheck";
+import { authorizationCheck } from "../middlewares/router/Authentication/AuthenticationCheck";
 
 // Define the KoaAdapter class implementing the IServerAdapter interface
 export class KoaAdapter implements IServerAdapter {

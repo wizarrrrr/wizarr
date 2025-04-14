@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import { InvalidServer } from "../../exceptions/InvalidServer";
-import { Admin } from "../../models/Account/AdminModel";
+import { UserEntity } from "../../models/Account/UserEntity";
 import { Server } from "../../models/Server/ServerModel";
 import { ServerRepository } from "../../repositories/Server/ServerRepository";
 import { ServerRequest } from "../../requests/Server/ServerPostRequest";
@@ -12,7 +12,7 @@ import { Service } from "typedi";
 import { scanLibraries, scanUsers } from "../../../media/jobs";
 import { InjectQueue } from "../../../decorators/InjectQueue";
 import { BullMQ } from "../../../bull";
-import { StripApiKey } from "src/decorators/StripApiKeyDecorator";
+import { StripApiKey } from "../../../decorators/StripApiKeyDecorator";
 
 @Service()
 export class ServerService {
@@ -34,7 +34,7 @@ export class ServerService {
      * @returns {Promise<{ total_data: number, rows: Server[] }>}
      */
     @StripApiKey()
-    public async getAll(resourceOptions?: object, currentUser?: Admin): Promise<{ total_data: number; rows: Server[] }> {
+    public async getAll(resourceOptions?: object, currentUser?: UserEntity): Promise<{ total_data: number; rows: Server[] }> {
         return await this.serverRepository.getManyAndCount(resourceOptions, {
             where: "admin.id = :adminId",
             parameters: {
@@ -50,18 +50,18 @@ export class ServerService {
      * @returns {Promise<Server>}
      */
     @StripApiKey()
-    public async findOneById(id: string, resourceOptions?: object, currentUser?: Admin): Promise<Server> {
+    public async findOneById(id: string, resourceOptions?: object, currentUser?: UserEntity): Promise<Server> {
         return await this.getRequestedServerOrFail(id, resourceOptions, currentUser);
     }
 
     /**
      * Creates a server.
      * @param {object} data
-     * @param {Admin} currentUser
+     * @param {UserEntity} currentUser
      * @returns {Promise<Server>}
      */
     @StripApiKey()
-    public async create(data: any, currentUser: Admin): Promise<Server> {
+    public async create(data: any, currentUser: UserEntity): Promise<Server> {
         if (!(await verifyServerType(data.host, data.type, data.apiKey))) throw new InvalidServer("Server could not be verified");
         const server = plainToClass(Server, data);
         server.admin = currentUser;
@@ -78,7 +78,7 @@ export class ServerService {
      * @returns {Promise<Server>}
      */
     @StripApiKey()
-    public async update(id: string, data: object, currentUser: Admin): Promise<Server> {
+    public async update(id: string, data: object, currentUser: UserEntity): Promise<Server> {
         const server = await this.getRequestedServerOrFail(id, undefined, currentUser);
         Object.assign(server, data);
         return await this.serverRepository.save(server, data);
@@ -90,7 +90,7 @@ export class ServerService {
      * @returns {Promise<Server>}
      */
     @StripApiKey()
-    public async delete(id: string, currentUser: Admin): Promise<Server> {
+    public async delete(id: string, currentUser: UserEntity): Promise<Server> {
         const server = await this.getRequestedServerOrFail(id, undefined, currentUser);
         server.users = [];
         server.libraries = [];
@@ -101,7 +101,7 @@ export class ServerService {
     /**
      * Helper function to get a server by id or throw an exception.
      */
-    private async getRequestedServerOrFail(id: string, resourceOptions?: object, currentUser?: Admin) {
+    private async getRequestedServerOrFail(id: string, resourceOptions?: object, currentUser?: UserEntity) {
         const userQuery = currentUser ? { where: "admin.id = :adminId", parameters: { adminId: currentUser.id } } : undefined;
         const mediaServer = await this.serverRepository.getOneById(id as any, resourceOptions, userQuery);
         if (!mediaServer) throw new Error(`MediaServer with id '${id}' not found`);

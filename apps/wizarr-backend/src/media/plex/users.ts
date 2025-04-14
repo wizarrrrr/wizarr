@@ -1,7 +1,7 @@
 import { Server } from "../../api/models/Server/ServerModel";
 import { createClient } from "./index";
 import { User } from "../../api/models/User/UserModel";
-import { MyPlexAccount } from "@wizarrrrr/plex-sdk/src/index";
+import { MyPlexAccount } from "@wizarrrrr/plex-sdk";
 import { plainToInstance } from "class-transformer";
 
 export const getUsers = async <B extends boolean>(server: Server, translate?: B): Promise<B extends true ? User[] : MyPlexAccount[]> => {

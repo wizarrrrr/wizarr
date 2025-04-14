@@ -1,14 +1,21 @@
-import { existsSync, writeFileSync, readFileSync } from "fs";
+import { existsSync, writeFileSync, readFileSync, mkdirSync } from "fs";
 import { resolve } from "path";
 import { KeyObject, createPrivateKey, createPublicKey, generateKeyPair } from "crypto";
 import { cache, secretCache } from "./cache.helper";
 import app from "../main";
 
+const STORAGE_DIR = env<string>("STORAGE_DIR");
+
+// Create the storage directory if it does not exist
+if (!existsSync(STORAGE_DIR)) {
+    mkdirSync(STORAGE_DIR, { recursive: true });
+}
+
 // Global variables for this helper
-export const privateKeyFile = resolve(env("STORAGE_DIR"), "private.key");
+export const privateKeyFile = STORAGE_DIR + "/private.key";
 export const privateKeyExists = existsSync(privateKeyFile);
 
-export const publicKeyFile = resolve(env("STORAGE_DIR"), "public.key");
+export const publicKeyFile = STORAGE_DIR + "/public.key";
 export const publicKeyExists = existsSync(publicKeyFile);
 
 export const cachedPrivateKey = async (): Promise<string> => cache(secretCache, async () => await privateKey(), "private_key");

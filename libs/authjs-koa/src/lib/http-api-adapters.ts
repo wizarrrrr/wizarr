@@ -68,11 +68,6 @@ export function toWebRequest(ctx: k.ParameterizedContext<k.DefaultState, k.Defau
     // GET and HEAD not allowed to receive body
     const body = /GET|HEAD/.test(ctx.method) ? undefined : encodeRequestBody(ctx.request);
 
-    console.log("URL", url);
-    console.log("ctx.query", ctx.query);
-    console.log("ctx.request.query", ctx.request.query);
-    console.log("ctx.request.body", ctx.request.body);
-
     return new Request(url, {
         method: ctx.method,
         headers: headers,

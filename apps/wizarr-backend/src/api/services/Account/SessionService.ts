@@ -1,7 +1,7 @@
 import { UserNotFoundException } from "../../../api/exceptions/UserNotFoundException";
 import { SessionRepository } from "../../../api/repositories/Account/SessionRepository";
 import { InjectRepository } from "../../../decorators/InjectRepository";
-import { Session } from "../../../api/models/Account/SessionsModel";
+import { SessionEntity } from "../../models/Account/SessionEntity";
 import { Service } from "typedi";
 import { StripPassword } from "../../../decorators/StripPasswordDecorator";
 
@@ -20,7 +20,7 @@ export class SessionService {
      * @returns {Promise<{ total_data: number, rows: Admin[] }>}
      */
     @StripPassword()
-    public async getAll(resourceOptions?: object): Promise<{ total_data: number; rows: Session[] }> {
+    public async getAll(resourceOptions?: object): Promise<{ total_data: number; rows: SessionEntity[] }> {
         return await this.sessionRepository.getManyAndCount(resourceOptions);
     }
 
@@ -31,7 +31,7 @@ export class SessionService {
      * @returns {Promise<Admin>}
      */
     @StripPassword()
-    public async findOneById(id: string, resourceOptions?: object): Promise<Session> {
+    public async findOneById(id: string, resourceOptions?: object): Promise<SessionEntity> {
         return await this.getRequestdSessionOrFail(id, resourceOptions);
     }
 

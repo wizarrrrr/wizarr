@@ -7,7 +7,7 @@ import { RegisterRequest } from "../../../requests/Authentication/RegisterReques
 
 @Service()
 @OpenAPI({ tags: ["Authentication"] })
-@JsonController("/auth")
+@JsonController("/oldauth")
 export class RegisterController extends ControllerBase {
     /**
      * Creates an instance of AuthenticationController.

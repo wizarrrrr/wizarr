@@ -2,9 +2,9 @@ import "reflect-metadata"; // Enables decorators and metadata reflection used in
 import path from "path"; // Path module for resolving paths
 
 // Register paths for application environment
-process.env.ROOT_PATH = process.env.ROOT_PATH ?? path.resolve(__dirname, "../");
-process.env.DB_DIR = process.env.DB_DIR ?? path.resolve(__dirname, "../../", "database");
-process.env.STORAGE_DIR = process.env.STORAGE_DIR ?? path.resolve(__dirname, "../../", "storage");
+process.env["ROOT_PATH"] = process.env["ROOT_PATH"] ?? path.resolve(__dirname, "../");
+process.env["DB_DIR"] = process.env["DB_DIR"] ?? path.resolve(__dirname, "../../", "database");
+process.env["STORAGE_DIR"] = process.env["STORAGE_DIR"] ?? path.resolve(__dirname, "../../", "storage");
 
 import "./utils/modules.helper"; // Register module aliases for the application
 import "./utils/env.helper"; // Load environment variables from .env file
@@ -21,7 +21,7 @@ import { swaggerConfig } from "./config/swagger";
 import { koaSwagger } from "koa2-swagger-ui"; // Middleware for serving Swagger UI
 
 // Database and data-source configuration
-import { connection } from "./config/connection";
+import { config, connection } from "./config/connection";
 
 // Utility for pretty-printing tables in the console
 import { Table } from "console-table-printer";
@@ -66,7 +66,7 @@ import { BoardOptions } from "@bull-board/api/dist/typings/app";
 import Koa from "koa"; // Core Koa application framework
 import cors from "@koa/cors"; // CORS middleware for handling cross-origin requests
 import colors from "colors"; // Utility for adding colors to console output
-import { createConsola } from "consola"; // Console logger with color output
+import consola, { createConsola } from "consola"; // Console logger with color output
 import ip from "ip";
 import logging from "./utils/logging.helper";
 import { Options } from "pino-http";
@@ -76,7 +76,21 @@ import { release } from "os";
 import { memcached } from "./config/memcached";
 import { DataSource } from "typeorm";
 import mount from "koa-mount";
-import { KoaAuthConfig, type skipCSRFCheck } from "@wizarrrrr/authjs-koa";
+import type { KoaAuthConfig } from "@wizarrrrr/authjs-koa";
+import { TypeORMAdapter } from "@wizarrrrr/typeorm-adapter";
+import * as entities from "./api/models/Account";
+import { InformationService } from "./api/services/InformationService";
+
+import type GitHub from "@auth/core/providers/github";
+import type Credentials from "@auth/core/providers/credentials";
+
+export async function getGitHubProvider(): Promise<typeof GitHub> {
+    return (await Function('return import("@auth/core/providers/github")')()).default;
+}
+
+export async function getCredentialsProvider(): Promise<typeof Credentials> {
+    return (await Function('return import("@auth/core/providers/credentials")')()).default;
+}
 
 /**
  * The main application class for setting up and running the Koa server.
@@ -91,6 +105,9 @@ export class App {
     private serverOptions: typeof Koa.arguments = {
         proxy: true,
     };
+
+    // Define the database
+    private database: DataSource;
 
     // BullMQ Queues and Workers and Class
     private bullMQ: BullMQ;
@@ -204,14 +221,15 @@ export class App {
         await this.setupBullMQProcessor();
         this.setupBullBoard();
 
-        // test
+        const GitHub = await getGitHubProvider();
+        const Credentials = await getCredentialsProvider();
+
+        console.log(await entities.UserEntity.findOne({ where: { username: "admin" } }));
         const { KoaAuth, getSession } = await import("@wizarrrrr/authjs-koa");
-        const GitHub = await import("@auth/core/providers/github");
-        const Credentials = await import("@auth/core/providers/credentials");
 
         const config: KoaAuthConfig = {
             providers: [
-                Credentials.default({
+                Credentials({
                     credentials: {
                         username: {
                             label: "Username",
@@ -222,18 +240,31 @@ export class App {
                             type: "password",
                         },
                     },
-                    authorize: async (credentials) => {
-                        console.log("AUTHORIZE", credentials);
-                        return null;
+                    authorize: async (credentials: any) => {
+                        consola.log(credentials);
+                        return { id: "1", name: "Test", email: "test@test.com", image: "" };
+                        // return await entities.UserEntity.findOne({ where: { username: credentials.username as string } });
                     },
                 }),
-                GitHub.default({
+                GitHub({
                     clientId: "Ov23liVHSi07wDX27lNv",
                     clientSecret: "0929e1c31723e771f17145a5aa17ee2e3386262b",
                 }),
             ],
+            callbacks: {
+                async session({ session, token, user }) {
+                    session.user = user;
+                    console.log(session, token, user);
+                    return session;
+                },
+            },
             secret: "secret",
+            adapter: TypeORMAdapter(this.database, {
+                entities: entities,
+            }),
             trustHost: true,
+            // @ts-expect-error skipCSRFCheck does not have a default value
+            skipCSRFCheck: true,
             experimental: {
                 enableWebAuthn: true,
             },
@@ -244,7 +275,11 @@ export class App {
         this.app.use(
             mount("/api/test", async (ctx, next) => {
                 const session = await getSession(ctx, config);
-                ctx.body = session;
+                console.log(session);
+                ctx.body = {
+                    test: "THIS IS A TEST",
+                    session,
+                };
                 next();
             }),
         );
@@ -375,7 +410,7 @@ export class App {
      * Create the TypeORM connection
      */
     private async createTypeORMConnection() {
-        await connection.initialize().catch((err) => {
+        this.database = await connection.initialize().catch((err) => {
             this.log.fatal("Could not connect to database");
             process.exit(1);
         });

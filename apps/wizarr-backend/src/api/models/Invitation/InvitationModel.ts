@@ -2,7 +2,7 @@ import { BeforeUpdate, Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, 
 import { User } from "../User/UserModel";
 import { DateTimeNow, DateTimeType } from "../../../config/connection";
 import { ServerLibrary } from "../Server/ServerLibraryModel";
-import { Admin } from "../Account/AdminModel";
+import { UserEntity } from "../Account/UserEntity";
 import { Server } from "../Server/ServerModel";
 
 @Entity("invitations")
@@ -28,8 +28,8 @@ export class Invitation {
     @ManyToMany(() => ServerLibrary, (library) => library.invitations)
     libraries: ServerLibrary[];
 
-    @ManyToOne(() => Admin, (admin) => admin.invitations)
-    admin: Admin;
+    @ManyToOne(() => UserEntity, (admin) => admin.invitations)
+    admin: UserEntity;
 
     @Column({ type: DateTimeType, nullable: true })
     durationAt: Date;

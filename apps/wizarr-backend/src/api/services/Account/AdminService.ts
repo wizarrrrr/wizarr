@@ -1,5 +1,5 @@
 import { UserNotFoundException } from "../../exceptions/UserNotFoundException";
-import { Admin } from "../../models/Account/AdminModel";
+import { UserEntity } from "../../models/Account/UserEntity";
 import { AdminRepository } from "../../repositories/Account/AdminRepository";
 import { InjectRepository } from "../../../decorators/InjectRepository";
 import { StripPassword } from "../../../decorators/StripPasswordDecorator";
@@ -17,10 +17,10 @@ export class AdminService {
     /**
      * Gets all admins.
      * @param {object} resourceOptions
-     * @returns {Promise<{ total_data: number, rows: Admin[] }>}
+     * @returns {Promise<{ total_data: number, rows: UserEntity[] }>}
      */
     @StripPassword()
-    public async getAll(resourceOptions?: object): Promise<{ total_data: number; rows: Admin[] }> {
+    public async getAll(resourceOptions?: object): Promise<{ total_data: number; rows: UserEntity[] }> {
         return await this.adminRepository.getManyAndCount(resourceOptions);
     }
 
@@ -28,10 +28,10 @@ export class AdminService {
      * Gets one admin.
      * @param {string} id
      * @param {object} resourceOptions
-     * @returns {Promise<Admin>}
+     * @returns {Promise<UserEntity>}
      */
     @StripPassword()
-    public async findOneById(id: string, resourceOptions?: object): Promise<Admin> {
+    public async findOneById(id: string, resourceOptions?: object): Promise<UserEntity> {
         return await this.getRequestdUserOrFail(id, resourceOptions);
     }
 

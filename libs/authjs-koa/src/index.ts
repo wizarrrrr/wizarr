@@ -1,12 +1,18 @@
-import { Auth, type AuthConfig, setEnvDefaults, createActionURL, customFetch, skipCSRFCheck } from "@auth/core";
+import type { AuthConfig } from "@auth/core";
 import type { Session } from "@auth/core/types";
 import * as k from "koa";
 import { toWebRequest, toKoaResponse as toKoaResponse } from "./lib/index.js";
 import bodyParser from "koa-bodyparser";
 
-export { customFetch, skipCSRFCheck };
-export { AuthError, CredentialsSignin } from "@auth/core/errors";
-export type { Account, DefaultSession, Profile, Session, User } from "@auth/core/types";
+export async function getAuthProvider() {
+    return await Function('return import("@auth/core")')();
+}
+
+// Object.defineProperty(exports, "AuthError", { enumerable: true, get: async function () { return errors_1.AuthError; } });
+// Object.defineProperty(exports, "CredentialsSignin", { enumerable: true, get: function () { return errors_1.CredentialsSignin; } });
+
+// export { AuthError, CredentialsSignin } from "@auth/core/errors";
+// export type { Account, DefaultSession, Profile, Session, User } from "@auth/core/types";
 
 export type KoaAuthConfig = Omit<AuthConfig, "raw">;
 
@@ -28,7 +34,8 @@ export function KoaAuth(config: KoaAuthConfig) {
     return async (ctx: k.ParameterizedContext<k.DefaultState, k.DefaultContext>, next: k.Next) => {
         // Parse JSON and URL-encoded bodies using koa-bodyparser
         await bodyParser(bodyParserOptions)(ctx, async () => {
-            console.log("STARTED", ctx.href, ctx.method);
+            const { Auth, setEnvDefaults } = await getAuthProvider();
+
             // Set base path and environment defaults
             config.basePath = getBasePath(ctx);
             setEnvDefaults(process.env, config);
@@ -44,8 +51,6 @@ export function KoaAuth(config: KoaAuthConfig) {
             if (!ctx.headerSent) {
                 await next();
             }
-
-            console.log("FINISHED", ctx.href, ctx.method);
         });
     };
 }
@@ -53,6 +58,8 @@ export function KoaAuth(config: KoaAuthConfig) {
 export type GetSessionResult = Promise<Session | null>;
 
 export async function getSession(ctx: k.ParameterizedContext<k.DefaultState, k.DefaultContext>, config: KoaAuthConfig): Promise<GetSessionResult> {
+    const { Auth, setEnvDefaults, createActionURL } = await getAuthProvider();
+
     setEnvDefaults(process.env, config);
 
     const action = "session";
@@ -63,6 +70,7 @@ export async function getSession(ctx: k.ParameterizedContext<k.DefaultState, k.D
 
     headers.set("x-forwarded-proto", _protocol);
 
+    console.log(ctx.headers);
     const url = createActionURL(action, _protocol, headers, env, config);
     const request = new Request(url, {
         headers: {
@@ -73,6 +81,8 @@ export async function getSession(ctx: k.ParameterizedContext<k.DefaultState, k.D
     const response = await Auth(request, config);
     const data = await response.json();
     const status = response.status ?? 200;
+
+    console.log(response, data);
 
     if (!data || !Object.keys(data).length) return null;
     if (status === 200) return data;

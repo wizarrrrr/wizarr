@@ -1,5 +1,5 @@
 import { RoleNotFoundException } from "../../../api/exceptions/RoleNotFoundException";
-import { Role } from "../../../api/models/Account/RoleModel";
+import { RoleEntity } from "../../models/Account/RoleEntity";
 import { RoleRepository } from "../../../api/repositories/Account/RoleRepository";
 import { InjectRepository } from "../../../decorators/InjectRepository";
 import { Service } from "typedi";
@@ -16,9 +16,9 @@ export class RoleService {
     /**
      * Gets all roles.
      * @param {object} resourceOptions
-     * @returns {Promise<{ total_data: number, rows: Role[] }>}
+     * @returns {Promise<{ total_data: number, rows: RoleEntity[] }>}
      */
-    public async getAll(resourceOptions?: object): Promise<{ total_data: number; rows: Role[] }> {
+    public async getAll(resourceOptions?: object): Promise<{ total_data: number; rows: RoleEntity[] }> {
         return await this.roleRepository.getManyAndCount(resourceOptions);
     }
 
@@ -26,9 +26,9 @@ export class RoleService {
      * Gets one role.
      * @param {string} id
      * @param {object} resourceOptions
-     * @returns {Promise<Role>}
+     * @returns {Promise<RoleEntity>}
      */
-    public async findOneById(id: string, resourceOptions?: object): Promise<Role> {
+    public async findOneById(id: string, resourceOptions?: object): Promise<RoleEntity> {
         return await this.getRequestdRoleOrFail(id, resourceOptions);
     }
 

@@ -4,7 +4,7 @@ import { ControllerBase } from "../BaseController";
 import { Authorized, Body, CurrentUser, Delete, Get, JsonController, Param, Post, Put, QueryParams } from "routing-controllers";
 import { InvitationService } from "../../../services/Invitation/InvitationService";
 import { RequestQueryParser } from "@wizarrrrr/typeorm-simple-query-parser";
-import { Admin } from "../../../models/Account/AdminModel";
+import { UserEntity } from "../../../models/Account/UserEntity";
 import { InvitationRequest } from "../../../requests/Invitation/InvitationRequest";
 
 @Service()
@@ -15,7 +15,7 @@ export class InvitationController extends ControllerBase {
     /**
      * Creates an instance of InvitationController.
      */
-    constructor(@Inject() private invitationService: InvitationService) {
+    constructor(private invitationService: InvitationService) {
         super();
     }
 
@@ -27,7 +27,7 @@ export class InvitationController extends ControllerBase {
     @Get()
     @OpenAPI({ summary: "Get all invitations" })
     @Authorized()
-    public async getAll(@QueryParams() parseResourceOptions: RequestQueryParser, @CurrentUser() currentUser: Admin) {
+    public async getAll(@QueryParams() parseResourceOptions: RequestQueryParser, @CurrentUser() currentUser: UserEntity) {
         const resourceOptions = parseResourceOptions.getAll();
         return this.invitationService.getAll(resourceOptions, currentUser);
     }
@@ -40,7 +40,7 @@ export class InvitationController extends ControllerBase {
     @Get("/:id([A-Za-z0-9-]+)")
     @OpenAPI({ summary: "Get one invitation" })
     @Authorized()
-    public async getOne(@Param("id") id: string, @QueryParams() parseResourceOptions: RequestQueryParser, @CurrentUser() currentUser: Admin) {
+    public async getOne(@Param("id") id: string, @QueryParams() parseResourceOptions: RequestQueryParser, @CurrentUser() currentUser: UserEntity) {
         const resourceOptions = parseResourceOptions.getAll();
         return this.invitationService.findOneById(id, resourceOptions, currentUser);
     }
@@ -53,7 +53,7 @@ export class InvitationController extends ControllerBase {
     @Put("/:id([A-Za-z0-9-]+)")
     @OpenAPI({ summary: "Update an invitation" })
     @Authorized(["admin"])
-    public async update(@Param("id") id: string, @Body() invitation: InvitationRequest, @CurrentUser() currentUser: Admin) {
+    public async update(@Param("id") id: string, @Body() invitation: InvitationRequest, @CurrentUser() currentUser: UserEntity) {
         return this.invitationService.update(id, invitation, currentUser);
     }
 
@@ -65,7 +65,7 @@ export class InvitationController extends ControllerBase {
     @Post()
     @OpenAPI({ summary: "Create a new invitation" })
     @Authorized(["admin"])
-    public async create(@Body() invitation: InvitationRequest, @CurrentUser() currentUser: Admin) {
+    public async create(@Body() invitation: InvitationRequest, @CurrentUser() currentUser: UserEntity) {
         return this.invitationService.create(invitation, currentUser);
     }
 
@@ -77,7 +77,7 @@ export class InvitationController extends ControllerBase {
     @Delete("/:id([A-Za-z0-9-]+)")
     @OpenAPI({ summary: "Delete an invitation" })
     @Authorized(["admin"])
-    public async delete(@Param("id") id: string, @CurrentUser() currentUser: Admin) {
+    public async delete(@Param("id") id: string, @CurrentUser() currentUser: UserEntity) {
         return this.invitationService.delete(id, currentUser);
     }
 

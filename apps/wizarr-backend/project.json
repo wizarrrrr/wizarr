@@ -9,19 +9,14 @@
             "outputs": ["{options.outputPath}"],
             "defaultConfiguration": "production",
             "options": {
-                "target": "esnext",
                 "platform": "node",
-                "minify": false,
                 "outputPath": "dist/apps/wizarr-backend",
-                "metafile": true,
+                "format": ["cjs"],
                 "bundle": false,
-                "inspect": false,
-                "port": 0,
                 "main": "apps/wizarr-backend/src/main.ts",
                 "tsConfig": "apps/wizarr-backend/tsconfig.app.json",
+                "assets": ["apps/wizarr-backend/src/assets"],
                 "generatePackageJson": true,
-                "generateLockfile": true,
-                "external": "none",
                 "esbuildOptions": {
                     "sourcemap": true,
                     "outExtension": {

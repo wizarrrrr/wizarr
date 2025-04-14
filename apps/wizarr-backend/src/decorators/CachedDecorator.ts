@@ -1,5 +1,5 @@
 import consola from "consola";
-import { memcached } from "src/config/memcached";
+import { memcached } from "../config/memcached";
 
 /**
  * Caches the result of a method using Memcached.

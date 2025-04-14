@@ -13,15 +13,15 @@ export class NotificationController {
      */
     constructor(@InjectWorker("notification") private notificationsWorker: BullMQ["workers"]["notification"]) {}
 
-    @OnConnect()
-    public connection(@ConnectedSocket() socket: Socket, @SocketId() id: string) {
-        // Listen for the completed event from the notification worker.
-        this.notificationsWorker.on("completed", (job) => {
-            socket.emit("notification", {
-                ...job.data,
-            });
-        });
-        // Log the connection.
-        console.log(`Client connected: ${id}`);
-    }
+    // @OnConnect()
+    // public connection(@ConnectedSocket() socket: Socket, @SocketId() id: string) {
+    //     // Listen for the completed event from the notification worker.
+    //     this.notificationsWorker.on("completed", (job) => {
+    //         socket.emit("notification", {
+    //             ...job.data,
+    //         });
+    //     });
+    //     // Log the connection.
+    //     console.log(`Client connected: ${id}`);
+    // }
 }

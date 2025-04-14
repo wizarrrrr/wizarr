@@ -1,0 +1,19 @@
+{
+    "name": "@wizarrrrr/typeorm-adapter",
+    "version": "0.0.1",
+    "dependencies": {
+        "tslib": "^2.3.0",
+        "@auth/core": "0.38.0"
+    },
+    "devDependencies": {
+        "libsql": "^0.3.18",
+        "mssql": "^7.2.1",
+        "mysql": "^2.18.1",
+        "pg": "^8.7.3",
+        "typeorm": "^0.3.21",
+        "typeorm-naming-strategies": "^4.1.0"
+    },
+    "type": "module",
+    "main": "./src/index.js",
+    "typings": "./src/index.d.ts"
+}

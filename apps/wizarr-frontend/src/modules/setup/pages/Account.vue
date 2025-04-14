@@ -61,7 +61,7 @@ export default defineComponent({
             };
 
             // Create the account
-            const response = await this.$axios.post("/api/auth/register", account).catch((err) => {
+            const response = await this.$axios.post("/api/oldauth/register", account).catch((err) => {
                 // Display a generic error
                 this.$toast.error("Failed to create account");
                 return null;

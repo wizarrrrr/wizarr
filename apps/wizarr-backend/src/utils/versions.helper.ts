@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { getLatestStableVersion as getLatestStableVersionGithub, getLatestBetaVersion as getLatestBetaVersionGithub } from "./github.helper";
 import { tryCatchAsync } from "./catch.helper";
-import { memcached } from "src/config/memcached";
+import { memcached } from "../config/memcached";
 import consola from "consola";
 
 const ONE_HOUR = 3600; // Memcached TTL in seconds

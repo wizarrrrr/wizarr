@@ -1,7 +1,7 @@
 import { BeforeInsert, BeforeUpdate, Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { EntityBase } from "../BaseModel";
 import { ServerLibrary } from "./ServerLibraryModel";
-import { Admin } from "../Account/AdminModel";
+import { UserEntity } from "../Account/UserEntity";
 
 import type { Server as IServer } from "@wizarrrrr/wizarr-sdk";
 import { DateTimeNow } from "../../../config/connection";
@@ -40,8 +40,8 @@ export class Server extends EntityBase implements IServer {
     @OneToMany(() => Invitation, (invitation) => invitation.server, { nullable: true })
     invitations: Invitation[];
 
-    @ManyToOne(() => Admin, (admin) => admin.servers)
-    admin: Admin;
+    @ManyToOne(() => UserEntity, (admin) => admin.servers)
+    admin: UserEntity;
 
     @CreateDateColumn(DateTimeNow)
     createdAt: Date;

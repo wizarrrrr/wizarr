@@ -5,35 +5,35 @@
 name: wizarr-dev
 
 services:
-    wizarr:
-        container_name: wizarr_server
-        image: ghcr.io/wizarrrrr/base-server-dev:main
-        build:
-            context: ../
-            dockerfile: apps/wizarr-backend/Dockerfile
-            target: dev
-        restart: always
-        user: "1000:1000"
-        network_mode: host
-        environment:
-            STORAGE_DIR: /usr/wizarr/data/storage
-            DB_DIR: /usr/wizarr/data/database
-            DB_TYPE: postgres
-            WIZARR_IMAGE_VERSION: beta
-            DB_PASSWORD: postgres
-            DB_USERNAME: postgres
-            DB_HOST: 127.0.0.1
-            DB_NAME: wizarr
-            REDIS_HOST: 127.0.0.1
-            REDIS_PORT: 6379
-            MEMCACHED_HOST: 127.0.0.1
-            MEMCACHED_PORT: 11211
-        volumes:
-            - ../:/usr/wizarr
-            - /etc/localtime:/etc/localtime:ro
-        depends_on:
-            - redis
-            - postgres
+    # wizarr:
+    # container_name: wizarr_server
+    # image: ghcr.io/wizarrrrr/base-server-dev:main
+    # build:
+    #     context: ../
+    #     dockerfile: apps/wizarr-backend/Dockerfile
+    #     target: dev
+    # restart: always
+    # user: "1000:1000"
+    # network_mode: host
+    # environment:
+    #     STORAGE_DIR: /usr/wizarr/data/storage
+    #     DB_DIR: /usr/wizarr/data/database
+    #     DB_TYPE: postgres
+    #     WIZARR_IMAGE_VERSION: beta
+    #     DB_PASSWORD: postgres
+    #     DB_USERNAME: postgres
+    #     DB_HOST: 127.0.0.1
+    #     DB_NAME: wizarr
+    #     REDIS_HOST: 127.0.0.1
+    #     REDIS_PORT: 6379
+    #     MEMCACHED_HOST: 127.0.0.1
+    #     MEMCACHED_PORT: 11211
+    # volumes:
+    #     - ../:/usr/wizarr
+    #     - /etc/localtime:/etc/localtime:ro
+    # depends_on:
+    #     - redis
+    #     - postgres
 
     redis:
         container_name: wizarr_redis

@@ -106,7 +106,7 @@ class Auth {
      */
     async getCurrentUser() {
         // Send the request to the server to get the current user
-        const response = await this.axios.get("/api/auth/me");
+        const response = await this.axios.get("/api/oldauth/me");
 
         // Check if the response is successful
         if (response.status != 200) {
@@ -148,7 +148,7 @@ class Auth {
         if (!authStore.token || authStore.token === null) return false;
 
         // Send the request to the server to refresh the JWT token
-        const response = await this.axios.get("/api/auth/refresh", { disableErrorToast: true, refresh_header: true }).catch(() => null);
+        const response = await this.axios.get("/api/oldauth/refresh", { disableErrorToast: true, refresh_header: true }).catch(() => null);
 
         // Check if the response is null
         if (response == null || response.status != 200) {
@@ -193,7 +193,7 @@ class Auth {
         }
 
         // Send the request to the server
-        const response = await this.axios.post("/api/auth/login", {
+        const response = await this.axios.post("/api/oldauth/login", {
             username: this.username,
             password: this.password,
         });
@@ -223,7 +223,7 @@ class Auth {
         const username = userStore.user?.name ?? userStore.user?.username;
 
         // Send the request to the server to logout the user
-        await this.axios.get("/api/auth/logout", { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
+        await this.axios.get("/api/oldauth/logout", { disableErrorToast: true }).catch(() => console.log("Failed to logout backend"));
 
         // Remove the auth token and refresh token
         authStore.removeAccessToken();

@@ -1,4 +1,4 @@
-import { Admin } from "../../models/Account/AdminModel";
+import { UserEntity } from "../../models/Account/UserEntity";
 import { User } from "../../models/User/UserModel";
 import { UserRepository } from "../../repositories/User/UserRepository";
 import { BullMQ } from "../../../bull";
@@ -24,7 +24,7 @@ export class UserService {
      * @param {object} resourceOptions
      * @returns {Promise<{ total_data: number, rows: User[] }>}
      */
-    public async getAll(resourceOptions?: any, currentUser?: Admin): Promise<{ total_data: number; rows: User[] }> {
+    public async getAll(resourceOptions?: any, currentUser?: UserEntity): Promise<{ total_data: number; rows: User[] }> {
         return await this.userRepository.getManyAndCount(resourceOptions, {
             where: "server.admin.id = :adminId",
             parameters: {

@@ -2,6 +2,7 @@
     "name": "@wizarrrrr/source",
     "version": "3.5.5",
     "license": "MIT",
+    "type": "commonjs",
     "scripts": {
         "start": "nx run-many --parallel --target=serve --projects=wizarr-frontend,wizarr-backend",
         "build": "nx run-many --parallel --target=build --projects=wizarr-frontend,wizarr-backend",
@@ -97,6 +98,7 @@
         "@wizarrrrr/async": "file:libs/async",
         "@wizarrrrr/authjs-koa": "file:libs/authjs-koa",
         "@wizarrrrr/plex-sdk": "file:libs/plex-sdk",
+        "@wizarrrrr/typeorm-adapter": "file:libs/typeorm-adapter",
         "@wizarrrrr/typeorm-simple-query-parser": "file:libs/typeorm-simple-query-parser",
         "@wizarrrrr/wizarr-sdk": "file:libs/wizarr-sdk",
         "@xterm/addon-fit": "^0.10.0",
@@ -193,6 +195,7 @@
         "tslib": "^2.3.0",
         "typedi": "^0.10.0",
         "typeorm": "^0.3.21",
+        "typeorm-naming-strategies": "^4.1.0",
         "typeorm-typedi-extensions": "^0.4.1",
         "uuid": "^7.0.3",
         "v-offline": "^3.4.0",

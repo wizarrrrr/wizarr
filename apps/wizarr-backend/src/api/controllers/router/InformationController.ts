@@ -2,14 +2,14 @@ import "reflect-metadata";
 import semver from "semver";
 
 import { Authorized, Body, Get, JsonController, Put } from "routing-controllers";
-import { Inject, Service } from "typedi";
+import Container, { Inject, Service } from "typedi";
 import { ControllerBase } from "./BaseController";
 import { OpenAPI } from "routing-controllers-openapi";
 import { InformationService } from "../../services/InformationService";
 import { InformationPUT } from "../../requests/InformationRequest";
 import { LoggerInterface } from "../../../decorators/LoggerDecorator";
 import { cachedGetCurrentVersion, getCurrentVersion, getLatestBetaVersion, getLatestStableVersion, getLatestVersion, isBeta, isLatest } from "../../../utils/versions.helper";
-import { Cached } from "src/decorators/CachedDecorator";
+import { Cached } from "../../../decorators/CachedDecorator";
 
 import type { Version as IVersion, Health as IHealth, Information as IInformation } from "@wizarrrrr/wizarr-sdk";
 
@@ -19,11 +19,12 @@ export class InformationController extends ControllerBase {
     /**
      * Creates an instance of InformationService.
      */
-    constructor(private informationService: InformationService) {
+    constructor(public informationService: InformationService) {
+        informationService = Container.get(InformationService);
         super();
     }
 
-    @Inject("Logger") private logger: LoggerInterface;
+    // @Inject("Logger") private logger: LoggerInterface;
 
     /**
      * @api {get} /server Server Information
@@ -48,7 +49,7 @@ export class InformationController extends ControllerBase {
     @OpenAPI({ tags: ["General"] })
     @Authorized(["admin"])
     public async updateInformation(@Body() body: InformationPUT): Promise<Partial<IInformation>> {
-        this.logger.info("Updating server information");
+        // this.logger.info("Updating server information");
         return this.informationService.update(body);
     }
 

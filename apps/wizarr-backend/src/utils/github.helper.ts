@@ -3,9 +3,7 @@ import { sortSemverTags, versionBetaRegex } from "./versions.helper";
 import { ONE_DAY, cache, githubCache } from "./cache.helper";
 import { RestEndpointMethodTypes } from "@octokit/plugin-rest-endpoint-methods";
 
-
-const auth = env("GITHUB_TOKEN");
-const octokit = new Octokit({ auth: auth });
+const octokit = new Octokit();
 
 const repo = "wizarr";
 const owner = "wizarrrrr";
