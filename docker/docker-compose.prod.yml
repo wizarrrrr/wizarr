@@ -1,0 +1,106 @@
+# See:
+# - https://wizarr.org/developer/setup
+# - https://wizarr.org/developer/troubleshooting
+
+name: wizarr
+
+services:
+    wizarr-nginx:
+        restart: on-failure
+        image: nginx:1.24.0-alpine
+        depends_on:
+            wizarr-frontend:
+                condition: service_started
+            wizarr-backend:
+                condition: service_started
+        ports:
+            - ${PORT:-5690}:5690
+        environment:
+            - PORT=5690
+            - FRONT_URL=http://wizarr-frontend:5173
+            - SERVER_URL=http://wizarr-backend:5001
+        volumes:
+            - ./nginx.conf.template:/etc/nginx/templates/wizarr.conf.template:ro
+
+    wizarr-frontend:
+        container_name: wizarr_frontend
+        build:
+            context: ../
+            dockerfile: apps/wizarr-frontend/Dockerfile
+            target: frontend-prod
+        restart: always
+        volumes:
+            - /etc/localtime:/etc/localtime:ro
+
+    wizarr-backend:
+        container_name: wizarr_backend
+        build:
+            context: ../
+            dockerfile: apps/wizarr-backend/Dockerfile
+            target: backend-prod
+        restart: always
+        environment:
+            STORAGE_DIR: /usr/wizarr/data/storage
+            DB_DIR: /usr/wizarr/data/database
+            DB_TYPE: postgres
+            WIZARR_IMAGE_VERSION: beta
+            DB_PASSWORD: postgres
+            DB_USERNAME: postgres
+            DB_HOST: postgres
+            DB_NAME: wizarr
+            REDIS_HOST: redis
+            REDIS_PORT: 6379
+            MEMCACHED_HOST: memcached
+            MEMCACHED_PORT: 11211
+        volumes:
+            - ../data/database:/usr/wizarr/data/database
+            - ../data/storage:/usr/wizarr/data/storage
+            - /etc/localtime:/etc/localtime:ro
+        depends_on:
+            - redis
+            - postgres
+
+    redis:
+        container_name: wizarr_redis
+        image: redis:alpine
+
+    postgres:
+        container_name: wizarr_postgres
+        image: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
+        user: "1000:1000"
+        environment:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_USER: postgres
+            POSTGRES_DB: wizarr
+            POSTGRES_INITDB_ARGS: "--data-checksums"
+        volumes:
+            - ../data/database:/var/lib/postgresql/data
+        command: >-
+            postgres
+            -c shared_preload_libraries=vectors.so
+            -c 'search_path="$$user", public, vectors'
+            -c logging_collector=on
+            -c max_wal_size=2GB
+            -c shared_buffers=512MB
+            -c wal_compression=on
+
+    memcached:
+        container_name: wizarr_memcached
+        restart: always
+        image: "memcached:alpine"
+        command:
+            - --conn-limit=1024
+            - --memory-limit=64
+            - --threads=4
+
+    s3:
+        container_name: wizarr_s3
+        restart: always
+        image: zenko/cloudserver:latest
+        environment:
+            S3METADATAPATH: /var/lib/s3/meta
+            S3DATAPATH: /var/lib/s3/data
+            REMOTE_MANAGEMENT_DISABLE: true
+        volumes:
+            - ../data/storage/meta:/var/lib/s3/meta
+            - ../data/storage/data:/var/lib/s3/data

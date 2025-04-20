@@ -10,29 +10,30 @@ COPY . /usr/src/
 # # Set a custom npm cache directory
 RUN npm config set cache /tmp/.npm-cache --global
 
-# Perform clean installation with elevated permissions
+# # Perform clean installation with elevated permissions
 RUN rm -rf node_modules
 RUN npm ci
 
-# Build the application using npm
+# # Build the application using npm
 RUN npm run build
 
-# Use a specific base image from GitHub container registry for production environment
-FROM ghcr.io/wizarrrrr/base-server-prod:main AS backend-prod
+# # Use a specific base image from GitHub container registry for production environment
+FROM ghcr.io/wizarrrrr/base-server-prod:main AS frontend-prod
 
-# Set the working directory inside the container
+# # Set the working directory inside the container
 WORKDIR /usr/wizarr/
 
-# Copy the start script and make it executable
-COPY ./docker/scripts/start-backend.sh /usr/local/bin/start-backend.sh
-RUN chmod +x /usr/local/bin/start-backend.sh
+# # Copy the start script and make it executable
+COPY ./docker/scripts/start-frontend.sh /usr/local/bin/start-frontend.sh
+RUN chmod +x /usr/local/bin/start-frontend.sh
 
-# Copy the built application from the build stage
-COPY --from=build /usr/src/node_modules /usr/wizarr/node_modules
-COPY --from=build /usr/src/dist/apps/wizarr-backend /usr/wizarr/apps/server
-COPY --from=build /usr/src/dist/libs /usr/wizarr/apps/libs
-COPY --from=build /usr/src/modules /usr/wizarr/modules
+# Move the frontend to appropriate locations in the container
+COPY --from=build /usr/src/dist/apps/wizarr-frontend /usr/wizarr/apps/web
 COPY --from=build /usr/src/*.json /usr/wizarr/
+
+# Copy the nginx configuration file and remove the default configuration
+COPY ./docker/nginx-frontend.conf /etc/nginx/conf.d/wizarr.conf
+RUN rm -f /etc/nginx/conf.d/default.conf /etc/nginx/sites-enabled/default
 
 # Extract the version from package.json and set it as an environment variable
 ARG PACKAGE_VERSION
@@ -62,12 +63,12 @@ ENV WIZARR_PACKAGE_VERSION=$PACKAGE_VERSION
 ENTRYPOINT ["tini", "--", "/bin/sh"]
 
 # Default command to run when the container starts
-CMD ["/usr/local/bin/start-backend.sh", "--prod"]
+CMD ["/usr/local/bin/start-frontend.sh", "--prod"]
 
 
 
 # Use a specific base image from GitHub container registry for development environments
-FROM ghcr.io/wizarrrrr/base-server-dev:main AS backend-dev
+FROM ghcr.io/wizarrrrr/base-server-dev:main AS frontend-dev
 
 # Set the working directory inside the container
 WORKDIR /usr/wizarr/
@@ -93,4 +94,4 @@ ENV WIZARR_SOURCE_URL=https://github.com/wizarrrrr/wizarr/commit/${BUILD_SOURCE_
 ENTRYPOINT ["tini", "--", "/bin/sh"]
 
 # Default command to run when the container starts
-CMD ["/usr/local/bin/start-backend.sh", "--dev"]
+CMD ["/usr/local/bin/start-frontend.sh", "--dev"]

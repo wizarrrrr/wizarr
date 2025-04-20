@@ -9,23 +9,44 @@
 name: wizarr
 
 services:
-    wizarr:
-        container_name: wizarr_server
-        image: ghcr.io/wizarrrrr/wizarr:${WIZARR_IMAGE_VERSION:-release}
+    wizarr-nginx:
+        restart: on-failure
+        image: nginx:1.24.0-alpine
+        depends_on:
+            wizarr-frontend:
+                condition: service_started
+            wizarr-backend:
+                condition: service_started
+        ports:
+            - ${PORT:-5690}:5690
+        environment:
+            - PORT=5690
+            - FRONT_URL=http://wizarr-frontend:5173
+            - SERVER_URL=http://wizarr-backend:5001
+        volumes:
+            - ./nginx.conf.template:/etc/nginx/templates/wizarr.conf.template:ro
+
+    wizarr-frontend:
+        container_name: wizarr_frontend
+        image: ghcr.io/wizarrrrr/wizarr-frontend:${WIZARR_IMAGE_VERSION:-release}
+        restart: always
+
+    wizarr-backend:
+        container_name: wizarr_backend
+        image: ghcr.io/wizarrrrr/wizarr-backend:${WIZARR_IMAGE_VERSION:-release}
         volumes:
             # Do not edit the next line. If you want to change the storage location on your system, edit the value of STORAGE_DIR in the .env file
             - ${DB_DIR}:/usr/wizarr/data/database
+            - ${STORAGE_DIR}:/usr/wizarr/data/storage
             - /etc/localtime:/etc/localtime:ro
         env_file:
             - .env
-        ports:
-            - "5690:5690"
         depends_on:
             - redis
             - postgres
         restart: always
         healthcheck:
-            test: ["CMD", "curl", "-f", "http://localhost:5690/api/health"]
+            test: ["CMD", "curl", "-f", "http://localhost:5001/api/health"]
             interval: 30s
             timeout: 10s
             retries: 5
@@ -48,16 +69,6 @@ services:
         volumes:
             # Do not edit the next line. If you want to change the database storage location on your system, edit the value of DB_DIR in the .env file
             - ${DB_DIR}:/var/lib/postgresql/data
-        healthcheck:
-            test: >-
-                pg_isready --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" || exit 1;
-                Chksum="$$(psql --dbname="$${POSTGRES_DB}" --username="$${POSTGRES_USER}" --tuples-only --no-align
-                --command='SELECT COALESCE(SUM(checksum_failures), 0) FROM pg_stat_database')";
-                echo "checksum failure count is $$Chksum";
-                [ "$$Chksum" = '0' ] || exit 1
-            interval: 5m
-            start_interval: 30s
-            start_period: 5m
         command: >-
             postgres
             -c shared_preload_libraries=vectors.so

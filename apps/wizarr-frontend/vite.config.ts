@@ -30,17 +30,19 @@ export default defineConfig({
         }),
     ],
     build: {
-        target: process.env.TAURI_ENV_PLATFORM == 'windows' ? 'chrome105' : 'safari13',
-        minify: !process.env.TAURI_ENV_DEBUG ? 'esbuild' : false,
+        target: process.env.TAURI_ENV_PLATFORM == "windows" ? "chrome105" : "safari13",
+        minify: !process.env.TAURI_ENV_DEBUG ? "esbuild" : false,
         sourcemap: !!process.env.TAURI_ENV_DEBUG,
     },
-    envPrefix: ['VITE_', 'TAURI_ENV_*'],
+    envPrefix: ["VITE_", "TAURI_ENV_*"],
     resolve: {
         alias: {
             "@": fileURLToPath(new URL("./src", import.meta.url)),
         },
     },
     server: {
+        port: 5173,
+        host: "0.0.0.0",
         fs: {
             allow: [
                 "../../node_modules/.vite/wizarr", // Allow Vite Cache
@@ -53,8 +55,8 @@ export default defineConfig({
             ],
         },
         watch: {
-            usePolling: true
-        }
+            usePolling: true,
+        },
     },
     preview: {
         port: 4300,
@@ -71,8 +73,8 @@ export default defineConfig({
     css: {
         preprocessorOptions: {
             scss: {
-                api: "modern-compiler"
-            }
+                api: "modern-compiler",
+            },
         },
         postcss: {
             plugins: [
