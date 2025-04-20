@@ -30,11 +30,11 @@ jobs:
               with:
                   filters: |
                       backend:
-                          - 'apps/wizarr-backend/**'
-                          - 'apps/wizarr-backend'
+                        - 'apps/wizarr-backend/**'
+                        - 'apps/wizarr-backend'
                       frontend:
-                          - 'apps/wizarr-frontend/**'
-                          - 'apps/wizarr-frontend'
+                        - 'apps/wizarr-frontend/**'
+                        - 'apps/wizarr-frontend'
             - name: Check if we should force jobs to run
               id: should_force
               run: echo "should_force=${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' }}" >> "$GITHUB_OUTPUT"
@@ -42,11 +42,7 @@ jobs:
     retag:
         name: Re-Tag ${{ matrix.app }}
         needs: pre-job
-        if: |
-            ${{ 
-                (needs.pre-job.outputs.should_run_backend == 'false' && matrix.app == 'backend') || 
-                (needs.pre-job.outputs.should_run_frontend == 'false' && matrix.app == 'frontend') 
-            }} && ${{ !github.event.pull_request.head.repo.fork }}
+        if: ${{ !github.event.pull_request.head.repo.fork }}
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -58,13 +54,25 @@ jobs:
                     - app: frontend
                       repository: wizarr-frontend
         steps:
+            - name: Check if we should run for this app
+              id: check_run
+              run: |
+                  if [[ (${{ needs.pre-job.outputs.should_run_backend }} == 'false' && "${{ matrix.app }}" == "backend") || (${{ needs.pre-job.outputs.should_run_frontend }} == 'false' && "${{ matrix.app }}" == "frontend") ]]; then
+                    echo "should_run=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "should_run=false" >> $GITHUB_OUTPUT
+                  fi
+
             - name: Login to GitHub Container Registry
+              if: steps.check_run.outputs.should_run == 'true'
               uses: docker/login-action@v3
               with:
                   registry: ghcr.io
                   username: ${{ github.repository_owner }}
                   password: ${{ secrets.GITHUB_TOKEN }}
+
             - name: Re-tag image
+              if: steps.check_run.outputs.should_run == 'true'
               run: |
                   REGISTRY_NAME="ghcr.io"
                   REPOSITORY=${{ github.repository_owner }}/${{ matrix.repository }}
@@ -76,11 +84,6 @@ jobs:
         name: Build and Push ${{ matrix.app }}
         runs-on: ubuntu-latest
         needs: pre-job
-        if: |
-            ${{ 
-                (needs.pre-job.outputs.should_run_backend == 'true' && matrix.app == 'backend') || 
-                (needs.pre-job.outputs.should_run_frontend == 'true' && matrix.app == 'frontend') 
-            }}
         strategy:
             fail-fast: false
             matrix:
@@ -99,24 +102,36 @@ jobs:
         env:
             context: .
         steps:
+            - name: Check if we should run for this app
+              id: check_run
+              run: |
+                  if [[ (${{ needs.pre-job.outputs.should_run_backend }} == 'true' && "${{ matrix.app }}" == "backend") || (${{ needs.pre-job.outputs.should_run_frontend }} == 'true' && "${{ matrix.app }}" == "frontend") ]]; then
+                    echo "should_run=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "should_run=false" >> $GITHUB_OUTPUT
+                  fi
+
             - name: Checkout
+              if: steps.check_run.outputs.should_run == 'true'
               uses: actions/checkout@v4
 
             - name: Set up QEMU
+              if: steps.check_run.outputs.should_run == 'true'
               uses: docker/setup-qemu-action@v3.2.0
 
             - name: Set up Docker Buildx
+              if: steps.check_run.outputs.should_run == 'true'
               uses: docker/setup-buildx-action@v3.8.0
 
             - name: Login to Docker Hub
-              if: ${{ github.event_name == 'release' }}
+              if: steps.check_run.outputs.should_run == 'true' && github.event_name == 'release'
               uses: docker/login-action@v3
               with:
                   username: ${{ secrets.DOCKERHUB_USERNAME }}
                   password: ${{ secrets.DOCKERHUB_TOKEN }}
 
             - name: Login to GitHub Container Registry
-              if: ${{ !github.event.pull_request.head.repo.fork }}
+              if: steps.check_run.outputs.should_run == 'true' && !github.event.pull_request.head.repo.fork
               uses: docker/login-action@v3
               with:
                   registry: ghcr.io
@@ -124,6 +139,7 @@ jobs:
                   password: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Generate docker image tags
+              if: steps.check_run.outputs.should_run == 'true'
               id: metadata
               uses: docker/metadata-action@v5
               with:
@@ -138,6 +154,7 @@ jobs:
                       type=raw,value=release,enable=${{ github.event_name == 'release' }}
 
             - name: Determine build cache output
+              if: steps.check_run.outputs.should_run == 'true'
               id: cache-target
               run: |
                   if [[ "${{ github.event_name }}" == "pull_request" ]]; then
@@ -147,6 +164,7 @@ jobs:
                   fi
 
             - name: Build and push image
+              if: steps.check_run.outputs.should_run == 'true'
               uses: docker/build-push-action@v6.10.0
               with:
                   context: ${{ env.context }}
