@@ -51,8 +51,10 @@ jobs:
                 include:
                     - app: backend
                       repository: wizarr-backend
+                      platforms: linux/amd64,linux/arm64
                     - app: frontend
                       repository: wizarr-frontend
+                      platforms: linux/amd64,linux/arm64
         steps:
             - name: Check if we should run for this app
               id: check_run
@@ -71,14 +73,24 @@ jobs:
                   username: ${{ github.repository_owner }}
                   password: ${{ secrets.GITHUB_TOKEN }}
 
-            - name: Re-tag image
+            - name: Set up Docker Buildx
+              if: steps.check_run.outputs.should_run == 'true'
+              uses: docker/setup-buildx-action@v3.8.0
+
+            - name: Re-tag image (if source exists)
               if: steps.check_run.outputs.should_run == 'true'
               run: |
                   REGISTRY_NAME="ghcr.io"
                   REPOSITORY=${{ github.repository_owner }}/${{ matrix.repository }}
                   TAG_OLD=master${{ matrix.suffix }}
                   TAG_NEW=${{ github.event.number == 0 && github.ref_name || format('pr-{0}', github.event.number) }}${{ matrix.suffix }}
-                  docker buildx imagetools create -t $REGISTRY_NAME/$REPOSITORY:$TAG_NEW $REGISTRY_NAME/$REPOSITORY:$TAG_OLD
+
+                  if docker buildx imagetools inspect $REGISTRY_NAME/$REPOSITORY:$TAG_OLD > /dev/null 2>&1; then
+                    echo "Retagging $REGISTRY_NAME/$REPOSITORY:$TAG_OLD to $TAG_NEW"
+                    docker buildx imagetools create -t $REGISTRY_NAME/$REPOSITORY:$TAG_NEW $REGISTRY_NAME/$REPOSITORY:$TAG_OLD
+                  else
+                    echo "Source image $REGISTRY_NAME/$REPOSITORY:$TAG_OLD not found, skipping retag"
+                  fi
 
     build_and_push:
         name: Build and Push ${{ matrix.app }}
