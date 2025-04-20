@@ -1,74 +1,209 @@
-name: Prepare new release
+name: Docker
 
 on:
-  workflow_dispatch:
-    inputs:
-      serverBump:
-        description: 'Bump server version'
-        required: true
-        default: 'false'
-        type: choice
-        options:
-          - 'false'
-          - minor
-          - patch
+    workflow_dispatch:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+    release:
+        types: [published]
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-root
-  cancel-in-progress: true
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    packages: write
 
 jobs:
-  bump_version:
-    runs-on: ubuntu-latest
+    pre-job:
+        runs-on: ubuntu-latest
+        outputs:
+            should_run_backend: ${{ steps.found_paths.outputs.backend == 'true' || steps.should_force.outputs.should_force == 'true' }}
+            should_run_frontend: ${{ steps.found_paths.outputs.frontend == 'true' || steps.should_force.outputs.should_force == 'true' }}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - id: found_paths
+              uses: dorny/paths-filter@v3
+              with:
+                  filters: |
+                      backend:
+                        - 'apps/wizarr-backend/**'
+                        - 'apps/wizarr-backend'
+                      frontend:
+                        - 'apps/wizarr-frontend/**'
+                        - 'apps/wizarr-frontend'
+            - name: Check if we should force jobs to run
+              id: should_force
+              run: echo "should_force=${{ github.event_name == 'workflow_dispatch' || github.event_name == 'release' }}" >> "$GITHUB_OUTPUT"
 
-    outputs:
-      ref: ${{ steps.push-tag.outputs.commit_long_sha }}
+    retag:
+        name: Re-Tag ${{ matrix.app }}
+        needs: pre-job
+        if: ${{ !github.event.pull_request.head.repo.fork }}
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                app: [backend, frontend]
+                suffix: [""]
+                include:
+                    - app: backend
+                      repository: wizarr-backend
+                      platforms: linux/amd64,linux/arm64
+                    - app: frontend
+                      repository: wizarr-frontend
+                      platforms: linux/amd64,linux/arm64
+        steps:
+            - name: Check if we should run for this app
+              id: check_run
+              run: |
+                  if [[ (${{ needs.pre-job.outputs.should_run_backend }} == 'false' && "${{ matrix.app }}" == "backend") || (${{ needs.pre-job.outputs.should_run_frontend }} == 'false' && "${{ matrix.app }}" == "frontend") ]]; then
+                    echo "should_run=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "should_run=false" >> $GITHUB_OUTPUT
+                  fi
 
-    steps:
-      - name: Generate a token
-        id: generate-token
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.PUSH_O_MATIC_APP_ID }}
-          private-key: ${{ secrets.PUSH_O_MATIC_APP_KEY }}
+            - name: Login to GitHub Container Registry
+              if: steps.check_run.outputs.should_run == 'true'
+              uses: docker/login-action@v3
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.repository_owner }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ steps.generate-token.outputs.token }}
+            - name: Set up Docker Buildx
+              if: steps.check_run.outputs.should_run == 'true'
+              uses: docker/setup-buildx-action@v3.8.0
 
-      - name: Install Poetry
-        run: pipx install poetry
+            - name: Re-tag image (if source exists)
+              if: steps.check_run.outputs.should_run == 'true'
+              run: |
+                  REGISTRY_NAME="ghcr.io"
+                  REPOSITORY=${{ github.repository_owner }}/${{ matrix.repository }}
+                  TAG_OLD=master${{ matrix.suffix }}
+                  TAG_NEW=${{ github.event.number == 0 && github.ref_name || format('pr-{0}', github.event.number) }}${{ matrix.suffix }}
 
-      - name: Bump version
-        run: misc/release/pump-version.sh -s "${{ inputs.serverBump }}"
+                  if docker buildx imagetools inspect $REGISTRY_NAME/$REPOSITORY:$TAG_OLD > /dev/null 2>&1; then
+                    echo "Retagging $REGISTRY_NAME/$REPOSITORY:$TAG_OLD to $TAG_NEW"
+                    docker buildx imagetools create -t $REGISTRY_NAME/$REPOSITORY:$TAG_NEW $REGISTRY_NAME/$REPOSITORY:$TAG_OLD
+                  else
+                    echo "Source image $REGISTRY_NAME/$REPOSITORY:$TAG_OLD not found, skipping retag"
+                  fi
 
-      - name: Commit and tag
-        id: push-tag
-        uses: EndBug/add-and-commit@v9
-        with:
-          default_author: github_actions
-          message: 'chore: version ${{ env.WIZARR_VERSION }}'
-          tag: ${{ env.WIZARR_VERSION }}
-          push: true
+    build_and_push:
+        name: Build and Push ${{ matrix.app }}
+        runs-on: ubuntu-latest
+        needs: pre-job
+        strategy:
+            fail-fast: false
+            matrix:
+                app: [backend, frontend]
+                include:
+                    - app: backend
+                      image: wizarr-backend
+                      file: apps/wizarr-backend/Dockerfile
+                      platforms: linux/amd64,linux/arm64
+                      device: cpu
+                    - app: frontend
+                      image: wizarr-frontend
+                      file: apps/wizarr-frontend/Dockerfile
+                      platforms: linux/amd64,linux/arm64
+                      device: cpu
+        env:
+            context: .
+        steps:
+            - name: Check if we should run for this app
+              id: check_run
+              run: |
+                  if [[ (${{ needs.pre-job.outputs.should_run_backend }} == 'true' && "${{ matrix.app }}" == "backend") || (${{ needs.pre-job.outputs.should_run_frontend }} == 'true' && "${{ matrix.app }}" == "frontend") ]]; then
+                    echo "should_run=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "should_run=false" >> $GITHUB_OUTPUT
+                  fi
 
+            - name: Checkout
+              if: steps.check_run.outputs.should_run == 'true'
+              uses: actions/checkout@v4
 
-  prepare_release:
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+            - name: Set up QEMU
+              if: steps.check_run.outputs.should_run == 'true'
+              uses: docker/setup-qemu-action@v3.2.0
 
-      - name: Create draft release
-        uses: softprops/action-gh-release@v2
-        with:
-          draft: true
-          tag_name: ${{ env.WIZARR_VERSION }}
-          generate_release_notes: true
-          body_path: misc/release/notes.tmpl
-          files: |
-            docker/docker-compose.yml
-            docker/example.env
-            docker/prometheus.yml
+            - name: Set up Docker Buildx
+              if: steps.check_run.outputs.should_run == 'true'
+              uses: docker/setup-buildx-action@v3.8.0
+
+            - name: Login to Docker Hub
+              if: steps.check_run.outputs.should_run == 'true' && github.event_name == 'release'
+              uses: docker/login-action@v3
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Login to GitHub Container Registry
+              if: steps.check_run.outputs.should_run == 'true' && !github.event.pull_request.head.repo.fork
+              uses: docker/login-action@v3
+              with:
+                  registry: ghcr.io
+                  username: ${{ github.repository_owner }}
+                  password: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Generate docker image tags
+              if: steps.check_run.outputs.should_run == 'true'
+              id: metadata
+              uses: docker/metadata-action@v5
+              with:
+                  flavor: |
+                      latest=false
+                  images: |
+                      name=ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}
+                  tags: |
+                      type=ref,event=branch
+                      type=ref,event=pr
+                      type=ref,event=tag
+                      type=raw,value=release,enable=${{ github.event_name == 'release' }}
+
+            - name: Determine build cache output
+              if: steps.check_run.outputs.should_run == 'true'
+              id: cache-target
+              run: |
+                  if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+                    echo "cache-to=type=local,dest=/tmp/discard,ignore-error=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "cache-to=type=registry,mode=max,ref=ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}-build-cache" >> $GITHUB_OUTPUT
+                  fi
+
+            - name: Build and push image
+              if: steps.check_run.outputs.should_run == 'true'
+              uses: docker/build-push-action@v6.10.0
+              with:
+                  context: ${{ env.context }}
+                  file: ${{ matrix.file }}
+                  platforms: ${{ matrix.platforms }}
+                  push: ${{ !github.event.pull_request.head.repo.fork }}
+                  cache-from: type=registry,ref=ghcr.io/${{ github.repository_owner }}/${{ matrix.image }}-build-cache
+                  cache-to: ${{ steps.cache-target.outputs.cache-to }}
+                  tags: ${{ steps.metadata.outputs.tags }}
+                  labels: ${{ steps.metadata.outputs.labels }}
+                  build-args: |
+                      DEVICE=${{ matrix.device }}
+                      BUILD_ID=${{ github.run_id }}
+                      BUILD_IMAGE=${{ github.event_name == 'release' && github.ref_name || steps.metadata.outputs.tags }}
+                      BUILD_SOURCE_REF=${{ github.ref_name }}
+                      BUILD_SOURCE_COMMIT=${{ github.sha }}
+                  target: prod
+
+    success-check:
+        name: Docker Build & Push Success
+        needs: [build_and_push, retag]
+        runs-on: ubuntu-latest
+        if: always()
+        steps:
+            - name: Any jobs failed?
+              if: ${{ contains(needs.*.result, 'failure') }}
+              run: exit 1
+            - name: All jobs passed or skipped
+              if: ${{ !(contains(needs.*.result, 'failure')) }}
+              run: echo "All jobs passed or skipped" && echo "${{ toJSON(needs.*.result) }}"
