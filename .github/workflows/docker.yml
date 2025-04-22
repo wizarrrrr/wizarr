@@ -12,25 +12,17 @@ jobs:
     extract-version:
         runs-on: ubuntu-latest
         outputs:
-            version: ${{ steps.version.outputs.version }}
+            version: ${{ steps.get-version.outputs.version }}
         steps:
-            - name: Extract version from repository dispatch
-              if: github.event_name == 'repository_dispatch'
-              id: version
-              run: |
-                  echo "version=${{ github.event.client_payload.version }}" >> $GITHUB_OUTPUT
+            - name: Checkout repository
+              uses: actions/checkout@v4
 
-            - name: Extract version from release
-              if: github.event_name == 'workflow_run'
-              id: version
+            - name: Get version from package.json
+              id: get-version
               run: |
-                  # Get the release tag from the triggering workflow
-                  TAG=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-                    "https://api.github.com/repos/${{ github.repository }}/releases/latest" | \
-                    jq -r '.tag_name')
-                  # Remove 'v' prefix if present
-                  VERSION=${TAG#v}
+                  VERSION=$(jq -r '.version' package.json)
                   echo "version=${VERSION}" >> $GITHUB_OUTPUT
+                  echo "Extracted version: ${VERSION}"
 
     build-frontend:
         needs: extract-version
