@@ -28,12 +28,12 @@ services:
 
     wizarr-frontend:
         container_name: wizarr_frontend
-        image: ghcr.io/wizarrrrr/wizarr-frontend:${WIZARR_IMAGE_VERSION:-release}
+        image: ghcr.io/wizarrrrr/wizarr-frontend:${WIZARR_IMAGE_VERSION:-latest}
         restart: always
 
     wizarr-backend:
         container_name: wizarr_backend
-        image: ghcr.io/wizarrrrr/wizarr-backend:${WIZARR_IMAGE_VERSION:-release}
+        image: ghcr.io/wizarrrrr/wizarr-backend:${WIZARR_IMAGE_VERSION:-latest}
         volumes:
             # Do not edit the next line. If you want to change the storage location on your system, edit the value of STORAGE_DIR in the .env file
             - ${DB_DIR}:/usr/wizarr/data/database

@@ -5,8 +5,6 @@ on:
         workflows: ["Prepare new release"]
         types:
             - completed
-    repository_dispatch:
-        types: [trigger-docker-builds]
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.ref }}

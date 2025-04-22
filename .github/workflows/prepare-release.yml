@@ -75,15 +75,4 @@ jobs:
                   files: |
                       docker/docker-compose.yml
                       docker/example.env
-                      docker/prometheus.yml
-
-    trigger_docker_builds:
-        needs: [bump_version, prepare_release]
-        runs-on: ubuntu-latest
-        steps:
-            - name: Trigger Docker builds
-              uses: peter-evans/repository-dispatch@v2
-              with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
-                  event-type: trigger-docker-builds
-                  client-payload: '{"version": "${{ needs.bump_version.outputs.version }}"}'
+                      docker/nginx.conf.template
