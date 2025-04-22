@@ -40,13 +40,6 @@ jobs:
         runs-on: ubuntu-latest
         env:
             image: wizarr-frontend
-            version: ${{ needs.pre-job.outputs.version }}
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - platforms: linux/amd64,linux/arm64
-                      device: cpu
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -65,9 +58,6 @@ jobs:
                   tags: |
                       type=raw,value=latest
                       type=raw,value=${{ needs.pre-job.outputs.version }}
-                  flavor: |
-                      latest=false
-                  default: latest
 
             - name: Determine build cache output
               id: cache-target
@@ -81,9 +71,9 @@ jobs:
             - name: Build and push frontend image
               uses: docker/build-push-action@v6.10.0
               with:
-                  context: apps/wizarr-frontend
-                  file: Dockerfile
-                  platforms: ${{ matrix.platforms }}
+                  context: .
+                  file: apps/wizarr-frontend/Dockerfile
+                  platforms: linux/amd64,linux/arm64
                   cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/wizarr-build-cache:${{ env.image }}
                   cache-to: ${{ steps.cache-target.outputs.cache-to }}
                   tags: ${{ steps.metadata.outputs.tags }}
@@ -99,13 +89,6 @@ jobs:
         runs-on: ubuntu-latest
         env:
             image: wizarr-backend
-            version: ${{ needs.pre-job.outputs.version }}
-        strategy:
-            fail-fast: false
-            matrix:
-                include:
-                    - platforms: linux/amd64,linux/arm64
-                      device: cpu
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
@@ -124,9 +107,6 @@ jobs:
                   tags: |
                       type=raw,value=latest
                       type=raw,value=${{ needs.pre-job.outputs.version }}
-                  flavor: |
-                      latest=false
-                  default: latest
 
             - name: Determine build cache output
               id: cache-target
@@ -140,9 +120,9 @@ jobs:
             - name: Build and push backend image
               uses: docker/build-push-action@v6.10.0
               with:
-                  context: apps/wizarr-backend
-                  file: Dockerfile
-                  platforms: ${{ matrix.platforms }}
+                  context: .
+                  file: apps/wizarr-backend/Dockerfile
+                  platforms: linux/amd64,linux/arm64
                   cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/wizarr-build-cache:${{ env.image }}
                   cache-to: ${{ steps.cache-target.outputs.cache-to }}
                   tags: ${{ steps.metadata.outputs.tags }}
