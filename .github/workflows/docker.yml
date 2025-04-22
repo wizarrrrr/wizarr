@@ -31,7 +31,7 @@ jobs:
             - name: Get version from package.json
               id: get-version
               run: |
-                  VERSION=$(jq -r '.version' apps/wizarr-frontend/package.json)
+                  VERSION=$(jq -r '.version' package.json)
                   echo "version=${VERSION}" >> $GITHUB_OUTPUT
                   echo "Extracted version: ${VERSION}"
 
@@ -41,8 +41,6 @@ jobs:
         env:
             image: wizarr-frontend
             version: ${{ needs.pre-job.outputs.version }}
-            context: apps/wizarr-frontend
-            file: Dockerfile
         strategy:
             fail-fast: false
             matrix:
@@ -83,8 +81,8 @@ jobs:
             - name: Build and push frontend image
               uses: docker/build-push-action@v6.10.0
               with:
-                  context: ${{ env.context }}
-                  file: ${{ env.file }}
+                  context: apps/wizarr-frontend
+                  file: Dockerfile
                   platforms: ${{ matrix.platforms }}
                   cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/wizarr-build-cache:${{ env.image }}
                   cache-to: ${{ steps.cache-target.outputs.cache-to }}
@@ -102,8 +100,6 @@ jobs:
         env:
             image: wizarr-backend
             version: ${{ needs.pre-job.outputs.version }}
-            context: apps/wizarr-backend
-            file: Dockerfile
         strategy:
             fail-fast: false
             matrix:
@@ -144,8 +140,8 @@ jobs:
             - name: Build and push backend image
               uses: docker/build-push-action@v6.10.0
               with:
-                  context: ${{ env.context }}
-                  file: ${{ env.file }}
+                  context: apps/wizarr-backend
+                  file: Dockerfile
                   platforms: ${{ matrix.platforms }}
                   cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.OWNER }}/wizarr-build-cache:${{ env.image }}
                   cache-to: ${{ steps.cache-target.outputs.cache-to }}
