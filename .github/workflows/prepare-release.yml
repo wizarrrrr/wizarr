@@ -23,6 +23,7 @@ jobs:
 
         outputs:
             ref: ${{ steps.push-tag.outputs.commit_long_sha }}
+            version: ${{ env.WIZARR_VERSION }}
 
         steps:
             - name: Generate a token
@@ -42,6 +43,8 @@ jobs:
 
             - name: Bump version
               run: misc/release/pump-version.sh -s "${{ inputs.serverBump }}"
+              env:
+                  GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
 
             - name: Commit and tag
               id: push-tag
@@ -53,12 +56,14 @@ jobs:
                   push: true
 
     prepare_release:
+        needs: bump_version
         runs-on: ubuntu-latest
         steps:
             - name: Checkout
               uses: actions/checkout@v4
               with:
                   token: ${{ secrets.GITHUB_TOKEN }}
+                  ref: ${{ needs.bump_version.outputs.ref }}
 
             - name: Create draft release
               uses: softprops/action-gh-release@v2
@@ -71,3 +76,14 @@ jobs:
                       docker/docker-compose.yml
                       docker/example.env
                       docker/prometheus.yml
+
+    trigger_docker_builds:
+        needs: [bump_version, prepare_release]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Trigger Docker builds
+              uses: peter-evans/repository-dispatch@v2
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
+                  event-type: trigger-docker-builds
+                  client-payload: '{"version": "${{ needs.bump_version.outputs.version }}"}'
