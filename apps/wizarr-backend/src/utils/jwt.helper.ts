@@ -1,5 +1,4 @@
 import { SignOptions, decode, sign } from "jsonwebtoken";
-import { privateKey } from "./secret.helper";
 import { randomBytes } from "crypto";
 
 /**
@@ -9,14 +8,13 @@ import { randomBytes } from "crypto";
  */
 export const createAccessToken = async (identity: string) => {
     // Get the private key for signing the JWT Token
-    const key = await privateKey();
+    const key = env("JWT_SECRET", "secret");
 
     // Create a JWT options object
     const options: SignOptions = {
         expiresIn: "10m",
         issuer: "wizarr",
         jwtid: randomBytes(16).toString("hex"),
-        algorithm: "RS256",
     };
 
     // Create a JWT payload object
@@ -37,14 +35,13 @@ export const createAccessToken = async (identity: string) => {
  */
 export const createRefreshToken = async (identity: string) => {
     // Get the private key for signing the JWT Token
-    const key = await privateKey();
+    const key = env("JWT_SECRET", "secret");
 
     // Create a JWT options object
     const options: SignOptions = {
         expiresIn: "7d",
         issuer: "wizarr",
         jwtid: randomBytes(16).toString("hex"),
-        algorithm: "RS256",
     };
 
     // Create a JWT payload object

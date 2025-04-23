@@ -33,9 +33,6 @@ import { getCurrentVersion, isBeta } from "./utils/versions.helper";
 import { controllerAuthorizationCheck } from "./middlewares/router/Authentication/AuthenticationCheck"; // Middleware for route-level and app-level auth checks
 import { currentUser } from "./middlewares/router/Authentication/CurrentUser"; // Middleware to fetch and attach the current user context
 
-// OpenAPI types for defining schema objects
-import { SchemaObject } from "openapi3-ts";
-
 // Error tracking and monitoring using Sentry
 import { init as useSentry, autoDiscoverNodePerformanceMonitoringIntegrations, withScope, captureException } from "@sentry/node"; // Sentry initialization and event tracking
 import { addRequestDataToEvent } from "@sentry/utils"; // Helper to attach request data to Sentry events
@@ -56,7 +53,6 @@ import { createBullBoard } from "@bull-board/api"; // BullBoard for job queue mo
 import { Queue, Worker } from "bullmq"; // BullMQ's Queue and Worker classes
 import { BullMQAdapter } from "@bull-board/api/bullMQAdapter"; // Adapter to integrate BullMQ with BullBoard
 import { BullMQ } from "./bull/index"; // BullMQ instance for managing queues
-import { createKeyPair, existsKeyPair } from "./utils/secret.helper"; // Utility to manage encryption keys
 import Redis, { RedisOptions } from "ioredis"; // Redis client for BullMQ
 
 // BullBoard UI configuration types
@@ -81,12 +77,12 @@ import { DataSource } from "typeorm";
  */
 export class App {
     // Define the Koa app and port
-    private app: Koa = new Koa();
-    private httpServer: HTTPServer = createServer(this.app.callback());
-    private port: number = 5001;
+    private readonly app: Koa = new Koa();
+    private readonly httpServer: HTTPServer = createServer(this.app.callback());
+    private readonly port: number = 5001;
 
     // Define the server options for Koa
-    private serverOptions: typeof Koa.arguments = {
+    private readonly serverOptions: typeof Koa.arguments = {
         // Default options
     };
 
@@ -96,7 +92,7 @@ export class App {
     private bullMQWorkers: Worker[];
 
     // BullBoard Options for the applications
-    private boardOptions: BoardOptions = {
+    private readonly boardOptions: BoardOptions = {
         uiConfig: {
             boardTitle: "Wizarr BullMQ",
             boardLogo: {
@@ -114,7 +110,7 @@ export class App {
     };
 
     // Define the logger options for the application
-    private pinoOptions: Options & { transport: { targets: (TransportTargetOptions | { options: { prettyOptions: PrettyOptions } })[] } } = {
+    private readonly pinoOptions: Options & { transport: { targets: (TransportTargetOptions | { options: { prettyOptions: PrettyOptions } })[] } } = {
         timestamp: () => `,"time":"${new Date().toLocaleTimeString()}"`,
         transport: {
             targets: [
@@ -122,7 +118,7 @@ export class App {
                     level: "warn",
                     target: "pino/file",
                     options: {
-                        destination: env("LOG_FILE", path.join(env("DB_DIR"), "/logs/warn.log")),
+                        destination: env("LOG_FILE", path.join(String(env("DB_DIR") ?? ""), "/logs/warn.log")),
                         mkdir: true,
                     },
                 },
@@ -142,13 +138,13 @@ export class App {
     };
 
     // Define the cors options for the application
-    private corsOptions: cors.Options & CorsOptions = {
+    private readonly corsOptions: cors.Options & CorsOptions = {
         // Default options
         origin: "*",
     };
 
     // Define the routing controller options
-    private routingControllerOptions: RoutingControllersOptions = {
+    private readonly routingControllerOptions: RoutingControllersOptions = {
         validation: { stopAtFirstError: true },
         authorizationChecker: controllerAuthorizationCheck,
         currentUserChecker: currentUser,
@@ -161,13 +157,13 @@ export class App {
     };
 
     // Define the socket.io options
-    private socketIOOptions: Partial<ServerOptions> = {
+    private readonly socketIOOptions: Partial<ServerOptions> = {
         // Default options
         cors: this.corsOptions,
     };
 
     // Define the logger for the application
-    private logger = createConsola({ fancy: true });
+    private readonly logger = createConsola({ fancy: true });
     public log = this.logger;
 
     /**
@@ -177,7 +173,7 @@ export class App {
     constructor(options?: typeof Koa.arguments) {
         // Merge the default options with the options passed in
         this.serverOptions = { ...this.serverOptions, ...options };
-        this.initialize();
+        // Initialization will be called outside the constructor
     }
 
     /**
@@ -186,9 +182,6 @@ export class App {
     public async initialize() {
         // Check connections to services required in the application
         await this.checkRedisConnection();
-
-        // Create a KeyPair for the server if one does not exist
-        if (!existsKeyPair()) await createKeyPair();
 
         // Initialize the server dependencies
         this.addProcessListeners();
@@ -226,16 +219,18 @@ export class App {
         const redis = new Redis({
             host: env("REDIS_HOST", "localhost"),
             port: env("REDIS_PORT", 6379),
-            username: env("REDIS_USERNAME", undefined),
-            password: env("REDIS_PASSWORD", undefined),
+            username: env("REDIS_USERNAME"),
+            password: env("REDIS_PASSWORD"),
             maxRetriesPerRequest: 3,
             enableReadyCheck: false,
         } as RedisOptions);
 
+        const redisAddress = `${redis.options.host}:${redis.options.port}`;
+
         redis.on("error", (err) => {
             this.log.box({
                 title: colors.bold.red(" Failed to connect to Redis "),
-                message: colors.red(`Failed to connect to Redis at:\n${colors.bold(`${redis.options.host}:${redis.options.port}`)}\n\nPlease check the connection and try again`),
+                message: colors.red(`Failed to connect to Redis at:\n${colors.bold(redisAddress)}\n\nPlease check the connection and try again`),
                 style: { borderColor: "red", borderStyle: "double-single-rounded" },
             });
             process.exit(0);
@@ -278,7 +273,7 @@ export class App {
         // Fetch server information
         const webAddress = colors.bold.blue.underline(`http://${ip.address()}:5173`);
         const apiAddress = colors.bold.blue.underline(`http://${ip.address()}:${this.port}/api`);
-        const dbAddress = env("DB_TYPE", "postgres") === "postgres" ? colors.bold.blue.underline(`postgres://${env("DB_USERNAME", "postgres")}:${"".padEnd(env("DB_PASSWORD", "postgres").length, "*")}@${env("DB_HOST", "localhost")}:${env("DB_PORT", "5432")}/${env("DB_NAME", "postgres")}`) : colors.blue.bold.underline(`${env("DB_DIR")}/wizarr.db`);
+        const dbAddress = env("DB_TYPE", "postgres") === "postgres" ? colors.bold.blue.underline(`postgres://${env("DB_USERNAME", "postgres")}:${"".padEnd(env("DB_PASSWORD", "postgres").length, "*")}@${env("DB_HOST", "localhost")}:${env("DB_PORT", "5432")}/${env("DB_NAME", "postgres")}`) : colors.blue.bold.underline(`${String(env("DB_DIR"))}/wizarr.db`);
         const redisAddress = colors.bold.blue.underline(`redis://${env("REDIS_HOST", "localhost")}:${env("REDIS_PORT", 6379)}`);
         const memcachedAddress = colors.bold.blue.underline(`memcached://${env("MEMCACHED_HOST", "localhost")}:${env("MEMCACHED_PORT", 11211)}`);
 
@@ -359,7 +354,10 @@ export class App {
     private registerSocketControllers() {
         const io = new SocketIOServer(this.httpServer, this.socketIOOptions);
 
-        this.app.use((ctx, next) => ((ctx.io = io), next()));
+        this.app.use((ctx, next) => {
+            ctx.io = io;
+            return next();
+        });
 
         return new SocketControllers({
             io: io,
@@ -416,7 +414,7 @@ export class App {
 
         // Parse routing-controllers classes into OpenAPI spec:
         const storage = getMetadataArgsStorage();
-        const config = await swaggerConfig(schemas as Record<string, SchemaObject>);
+        const config = await swaggerConfig(schemas);
         const spec = routingControllersToSpec(storage, { routePrefix }, config as any);
 
         // Render spec on route
@@ -512,5 +510,13 @@ export class App {
     }
 }
 
+// Create a new instance of the App class
 const app = new App();
+
+// Initialize the application
+app.initialize().catch((err) => {
+    app.log.error("Failed to initialize the application:", err);
+    process.exit(1);
+});
+
 export default app;

@@ -1,4 +1,3 @@
-import { privateKey } from "../../../utils/secret.helper";
 import { verify } from "jsonwebtoken";
 import { Action, BadRequestError } from "routing-controllers";
 import { Context, Middleware, ParameterizedContext, DefaultState, DefaultContext } from "koa";
@@ -71,10 +70,10 @@ export const localAuthorizationCheck = async <T>(authorization: string): Promise
 
     if (!token) throw new InvalidCredentials("Missing authorization token, please login");
 
-    const key = await privateKey(); // Await the privateKey here
+    const key = env("JWT_SECRET", "secret");
 
     const payload = await new Promise<IJwtPayload | string>((resolve, reject) => {
-        verify(token, key, { algorithms: ["RS256"] }, (err, decoded) => {
+        verify(token, key, (err, decoded) => {
             if (err) return reject(new InvalidCredentials("Invalid authorization token, try clearing your cache"));
             resolve(decoded);
         });

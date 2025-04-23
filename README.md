@@ -28,59 +28,78 @@ Wizarr is an open-source software designed to simplify the management of media s
 
 > **⚠️ Warning!**  
 > Wizarr originally was located at wizarrrr/wizarr
-> however it was stolen, to continue using Wizarr effectivly
+> however it was stolen, to continue using Wizarr effectivly in the future
 > please migrate over to this repository.
 
 ## Features
 
--   Create User Invitations for Plex, Jellyfin & Emby
--   Multi-language support with quick switching
--   Passkey Authentication for admins
--   Advanced configuration options for Invitations
--   Auto-add users to systems like **Ombi**, **Jellyseerr**, and **Overseerr**
--   Discord Intergration
--   Custom On-Boarding Screens for new users
--   Live Log output in Web Panel
--   Session Management to Logout Remote Computers
--   Live Notification System
--   Swagger API Documentation
--   Light/Dark Mode
--   Postgres/Sqlite Supported
--   Supports Unlimited Servers
+-   **Multi-Server Management**:
+
+    -   Manage multiple servers from a single interface
+    -   Add, remove, and configure servers easily
+
+-   **Invitations**:
+
+    -   Create and manage user invitations for Plex, Jellyfin, and Emby
+    -   Customize invitation settings and templates
+
+-   **Multiple Languages**:
+
+    -   Wizarr supports multiple languages, making it accessible to a global audience
+
+-   **Live Notifications**:
+
+    -   Receive real-time notifications for server events and updates
+    -   Stay informed about server status and user activity
+
+-   **Swagger API**:
+
+    -   Access a powerful API for developers to integrate Wizarr with other applications
+
+-   **Dark Mode**:
+
+    -   Enjoy a sleek dark mode interface for comfortable usage in low-light environments
+
+-   **PostgreSQL Database**:
+    -   Wizarr uses PostgreSQL for efficient data storage and management
+    -   Support for SQLite too, but not recommended for production use
 
 ---
 
 ## Getting Started
 
-> **Maintenance**  
-> Currently your not able to Download Wizarr and run it without compiling the Docker yourself,
-> this can be done using the following instructions, but as of the 13/01/2025 this version is still
-> incomplete and not ready for Live Production use.
+> **ALPHA STAGE**  
+> Wizarr is currently in the alpha stage of development. While it is functional, many features are still in the works or missing.
+> We are actively working on improving the software and appreciate your feedback. Please report any bugs or issues you encounter.
 
 **JUST FOR TESTERS**
 
-1. Clone the repo to your local computer & then enter the root directory for Wizarr:<br>
-   `git clone https://github.com/wizarrrrr/wizarr`<br>
-   `cd ./wizarr/`<br>
-2. If you would like to run Wizarr in Developer mode please skip this step, otherwise you can build Wizarr's Docker image:<br>
-   `docker compose -f docker/docker-compose.dev.yml build`<br>
-   `docker compose -f docker/docker-compose.dev.yml up`<br>
-   **Your done, you can reach the test version of Wizarr @ http://localhost:5690**<br>
+You can follow the instructions on our [Website](https://wizarr.org/docs/install/docker-compose) to get Wizarr up and running in no time.
+<br>
 
 **JUST FOR DEVELOPERS**:<br>
 
-1. Using **Node** Version **22.11.0** & **NPM** Version **10.9.0** install the dependencies required:<br>
-   `npm install`<br>
-2. Build Wizarr by running the following:<br>
-   `npm run build`<br>
-3. Install Redis to your computer and begin a Redis-Server instance:<br>
-   [https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/)<br>
-4. Now you are ready to start Wizarr's Frontend & Backend:<br>
-    - You can do this together by running:<br>
-      `npm run start`<br>
-    - or whats better for debugging is to run both Backend & Frontend in two different terminals:<br>
-      **Terminal #1:** `npm run start:backend`<br>
-      **Terminal #2:** `npm run start:frontend`<br>
+**Note:** Make sure that you have Docker installed on your system. You can find the installation instructions for Docker on the [official Docker website](https://docs.docker.com/get-docker/).
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/wizarrrrr/wizarr.git
+    ```
+
+2. Change to the project directory:
+
+    ```bash
+    cd wizarr
+    ```
+
+3. You can now start Wizarr in development mode using Docker Compose:
+
+    ```bash
+    docker compose -f ./docker/docker-compose.dev.yml up
+    ```
+
+4. Open your web browser and navigate to `http://localhost:5690` to access the Wizarr web interface.
 
 ## Repository activity
 

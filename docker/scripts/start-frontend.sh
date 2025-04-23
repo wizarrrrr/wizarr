@@ -19,6 +19,12 @@ has_prod() {
     return 1
 }
 
+if has_dev "$@"; then
+    echo "Development mode enabled"
+elif has_prod "$@"; then
+    echo "Development mode disabled"
+fi
+
 # Install node_modules if --dev
 if [ ! -d "node_modules" ] && has_dev "$@"; then
     echo "node_modules not found. Running npm install..."
@@ -51,6 +57,7 @@ if has_dev "$@"; then
         printf '.'
         sleep 5
     done
+
     echo "Frontend Server started successfully"
     wait
 fi
