@@ -1,6 +1,6 @@
 import { Repository, TreeRepository, MongoRepository, EntityTarget, ObjectType, getMetadataArgsStorage, ObjectLiteral } from "typeorm";
 import { Constructable, Container } from "typedi";
-import { connection } from "../config/connection";
+import { connection } from "../main";
 
 /**
  * Custom repository fetcher, because TypeORM deprecated the old way of doing it.

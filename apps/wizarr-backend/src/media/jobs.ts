@@ -1,10 +1,9 @@
 import { BullMQ } from "../bull";
 import { Server } from "../api/models/Server/ServerModel";
 import { UserWorkerData } from "../bull/workers/UserWorker";
-import { connection } from "../config/connection";
-import { LoggerInterface } from "../decorators/LoggerDecorator";
+import { connection } from "../main";
 import { BulkJobOptions, Job, JobsOptions, Queue } from "bullmq";
-import Container from "typedi";
+
 import consola from "consola";
 
 type ServerInput = Server | Server[] | string | string[];

@@ -6,7 +6,9 @@
     "targets": {
         "build": {
             "executor": "@nx/js:tsc",
-            "outputs": ["{options.outputPath}"],
+            "outputs": [
+                "{options.outputPath}"
+            ],
             "defaultConfiguration": "production",
             "options": {
                 "target": "esnext",
@@ -45,7 +47,9 @@
             "executor": "@nx/js:node",
             "defaultConfiguration": "development",
             "options": {
-                "inspect": "inspect"
+                "inspect": false,
+                "watch": true,
+                "debounce": 131
             },
             "configurations": {
                 "development": {

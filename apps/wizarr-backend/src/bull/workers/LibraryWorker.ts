@@ -5,7 +5,7 @@ import { Job, Worker } from "bullmq";
 import { AxiosProgressEvent } from "axios";
 import { nanoid } from "nanoid";
 import { getLibraries } from "../../media/index";
-import { connection } from "../../config/connection";
+import { connection } from "../../main";
 import NotificationQueue from "../queues/NotificationQueue";
 
 export interface LibraryWorkerData {

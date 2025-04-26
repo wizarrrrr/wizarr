@@ -15,7 +15,7 @@ export class InvitationController extends ControllerBase {
     /**
      * Creates an instance of InvitationController.
      */
-    constructor(@Inject() private invitationService: InvitationService) {
+    constructor(@Inject() private readonly invitationService: InvitationService) {
         super();
     }
 

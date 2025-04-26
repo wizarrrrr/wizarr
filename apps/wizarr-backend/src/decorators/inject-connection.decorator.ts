@@ -1,5 +1,5 @@
 import consola from "consola";
-import { connection } from "../config/connection";
+import { connection } from "../main";
 import { Container, Constructable, ContainerInstance } from "typedi";
 
 /**

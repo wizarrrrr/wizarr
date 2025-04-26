@@ -1,29 +1,27 @@
 import "reflect-metadata";
 import semver from "semver";
 
-import { Authorized, Body, Get, JsonController, Put } from "routing-controllers";
+import { Get, JsonController } from "routing-controllers";
 import { Inject, Service } from "typedi";
 import { ControllerBase } from "./BaseController";
 import { OpenAPI } from "routing-controllers-openapi";
-import { InformationService } from "../../services/InformationService";
-import { InformationPUT } from "../../requests/InformationRequest";
-import { LoggerInterface } from "../../../decorators/LoggerDecorator";
 import { cachedGetCurrentVersion, getCurrentVersion, getLatestBetaVersion, getLatestStableVersion, getLatestVersion, isBeta, isLatest } from "../../../utils/versions.helper";
 import { Cached } from "src/decorators/CachedDecorator";
 
 import type { Version as IVersion, Health as IHealth, Information as IInformation } from "@wizarrrrr/wizarr-sdk";
+import { Connection } from "src/config/models/ConnectionModel";
+import { DataSource } from "typeorm";
 
 @Service()
 @JsonController()
 export class InformationController extends ControllerBase {
     /**
-     * Creates an instance of InformationService.
+     * Injects the config connection.
+     * @param configConnection - The config connection.
      */
-    constructor(private informationService: InformationService) {
+    constructor(@Inject("configConnection") private readonly configConnection: DataSource) {
         super();
     }
-
-    @Inject("Logger") private logger: LoggerInterface;
 
     /**
      * @api {get} /server Server Information
@@ -33,23 +31,13 @@ export class InformationController extends ControllerBase {
     @OpenAPI({ tags: ["General"] })
     public async server(): Promise<Partial<IInformation>> {
         return {
-            ...(await this.informationService.getAll()),
+            name: "Wizarr",
+            description: "Wizarr is a server management tool for Plex and Jellyfin.",
             version: await getCurrentVersion(),
-            updateAvailable: (await isLatest()) ? false : true,
+            setupRequired: (await this.configConnection.getRepository(Connection).count()) === 0,
+            updateAvailable: !(await isLatest()),
             debug: process.env.NODE_ENV !== "production",
         };
-    }
-
-    /**
-     * @api {put} /server Server Information
-     * @apiName Server Information
-     */
-    @Put("/information")
-    @OpenAPI({ tags: ["General"] })
-    @Authorized(["admin"])
-    public async updateInformation(@Body() body: InformationPUT): Promise<Partial<IInformation>> {
-        this.logger.info("Updating server information");
-        return this.informationService.update(body);
     }
 
     /**

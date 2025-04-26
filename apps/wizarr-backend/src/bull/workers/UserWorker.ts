@@ -1,7 +1,7 @@
 import { Server } from "../../api/models/Server/ServerModel";
 import { User } from "../../api/models/User/UserModel";
 import { redis } from "../../config/redis";
-import { connection } from "../../config/connection";
+import { connection } from "../../main";
 import { getUsers } from "../../media/index";
 import { AxiosProgressEvent } from "axios";
 import { Job, Worker } from "bullmq";

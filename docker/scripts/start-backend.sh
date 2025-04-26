@@ -3,6 +3,14 @@
 PROJECT_DIR="/usr/wizarr"
 cd "$PROJECT_DIR" || exit
 
+# Install SQLite package using npm
+if [ ! -d "node_modules/sqlite3" ]; then
+    echo "Installing SQLite package..."
+    npm install sqlite3
+else
+    echo "SQLite package already installed."
+fi
+
 # Check for --dev in arguments
 has_dev() {
     for arg in "$@"; do

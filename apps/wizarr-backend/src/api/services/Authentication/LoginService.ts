@@ -17,7 +17,7 @@ export class LoginService {
      * @param adminRepository
      * @returns
      */
-    constructor(@InjectRepository() private adminRepository: AdminRepository) {}
+    constructor(@InjectRepository() private readonly adminRepository: AdminRepository) {}
 
     /**
      * Login to the server with your username and password

@@ -21,7 +21,7 @@ import { swaggerConfig } from "./config/swagger";
 import { koaSwagger } from "koa2-swagger-ui"; // Middleware for serving Swagger UI
 
 // Database and data-source configuration
-import { connection } from "./config/connection";
+import { configSQLite } from "./config/connection";
 
 // Utility for pretty-printing tables in the console
 import { Table } from "console-table-printer";
@@ -71,6 +71,8 @@ import { PrettyOptions } from "pino-pretty";
 import { release } from "os";
 import { memcached } from "./config/memcached";
 import { DataSource } from "typeorm";
+import { database } from "./config/database";
+import { Connection } from "./config/models/ConnectionModel";
 
 /**
  * The main application class for setting up and running the Koa server.
@@ -80,6 +82,10 @@ export class App {
     private readonly app: Koa = new Koa();
     private readonly httpServer: HTTPServer = createServer(this.app.callback());
     private readonly port: number = 5001;
+
+    // Define database connection
+    public connection: DataSource;
+    public configConnection: DataSource;
 
     // Define the server options for Koa
     private readonly serverOptions: typeof Koa.arguments = {
@@ -323,10 +329,47 @@ export class App {
      * Create the TypeORM connection
      */
     private async createTypeORMConnection() {
-        await connection.initialize().catch((err) => {
+        // Create the SQLite configuration database
+        this.configConnection = new DataSource(configSQLite);
+
+        // Create the configuration database if it doesn't exist
+        await this.configConnection.initialize().catch((err) => {
+            this.log.fatal("Could not connect to configuration database", err);
+            process.exit(1);
+        });
+
+        // Push the configuration connection to the container
+        Container.set("configConnection", this.configConnection);
+
+        // Retrieve the database configuration from the configuration database
+        const configuration = await this.configConnection.getRepository(Connection).findOne({ where: { id: 1 } });
+
+        if (!configuration) {
+            return this.log.fatal("No database configuration found");
+        }
+
+        const isPostgres = configuration.type === "postgres";
+        const isSQLite = configuration.type === "sqlite";
+
+        // Create the main database configuration
+        const config = database((configuration.type as "sqlite") || "postgres", {
+            host: isPostgres ? configuration.host || env("DB_HOST", "localhost") : undefined,
+            port: isPostgres ? Number(configuration.port) || env("DB_PORT", 5432) : undefined,
+            username: isPostgres ? configuration.username || env("DB_USERNAME", "postgres") : undefined,
+            password: isPostgres ? configuration.password || env("DB_PASSWORD", "postgres") : undefined,
+            ssl: isPostgres ? configuration.ssl || env("DB_SSL", false) : undefined,
+        });
+
+        // Create the main database connection
+        this.connection = new DataSource(config);
+
+        // Connect to the database and log the connection details
+        await connection.initialize().catch(() => {
             this.log.fatal("Could not connect to database");
             process.exit(1);
         });
+
+        // Set the connection to the container
         Container.set(DataSource, connection);
     }
 
@@ -518,5 +561,9 @@ app.initialize().catch((err) => {
     app.log.error("Failed to initialize the application:", err);
     process.exit(1);
 });
+
+// Export instances for external use
+export const connection = app.connection;
+export const configConnection = app.configConnection;
 
 export default app;
