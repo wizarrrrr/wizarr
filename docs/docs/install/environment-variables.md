@@ -85,7 +85,7 @@ When `DB_URL` is defined, the `DB_HOSTNAME`, `DB_PORT`, `DB_USERNAME`, `DB_PASSW
 | :--------------- | :------------- | :-----: | :--------- |
 | `REDIS_URL`      | Redis URL      |         | server     |
 | `REDIS_SOCKET`   | Redis Socket   |         | server     |
-| `REDIS_HOSTNAME` | Redis Host     | `redis` | server     |
+| `REDIS_HOST`     | Redis Host     | `redis` | server     |
 | `REDIS_PORT`     | Redis Port     | `6379`  | server     |
 | `REDIS_USERNAME` | Redis Username |         | server     |
 | `REDIS_PASSWORD` | Redis Password |         | server     |
@@ -97,7 +97,7 @@ All `REDIS_` variables must be provided to all Wizarr workers, including `api` a
 `REDIS_URL` must start with `ioredis://` and then include a `base64` encoded JSON string for the configuration.
 More info can be found in the upstream [ioredis] documentation.
 
-When `REDIS_URL` or `REDIS_SOCKET` are defined, the `REDIS_HOSTNAME`, `REDIS_PORT`, `REDIS_USERNAME`, `REDIS_PASSWORD`, and `REDIS_DBINDEX` variables are ignored.
+When `REDIS_URL` or `REDIS_SOCKET` are defined, the `REDIS_HOST`, `REDIS_PORT`, `REDIS_USERNAME`, `REDIS_PASSWORD`, and `REDIS_DBINDEX` variables are ignored.
 :::
 
 Redis (Sentinel) URL example JSON before encoding:
