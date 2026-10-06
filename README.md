@@ -1,3 +1,5 @@
+<h1>Developer has no plans to work on this project until late 2027, this is due to personal circumstances. Please go and support its predecessor alternative https://github.com/wizarr</h1>
+
 <p align="center"> 
   <a href="https://opensource.org/license/gpl-2.0"><img src="https://img.shields.io/badge/License-GPL_2.0-blue.svg?color=3F51B5&style=for-the-badge&label=License&logoColor=000000&labelColor=ececec" alt="License: GPL 2.0"></a>
   <a href="https://discord.gg/XXCz7aM3ak"><img src="https://img.shields.io/discord/1020742926856372224.svg?label=Discord&logo=Discord&style=for-the-badge&logoColor=000000&labelColor=ececec" alt="Chat on Discord"></a>
